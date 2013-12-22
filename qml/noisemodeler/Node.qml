@@ -5,10 +5,11 @@ Rectangle {
     property alias nodeName: nodeLabel.text
     property alias hover: nodeMouseArea.containsMouse
     property real minWidth: Math.max(50, nodeContents.minWidth)
-    property real minHeight: Math.max(nodeContents.minHeight, header.height*2)
+    property real minHeight: header.height + nodeContents.minHeight
     width: minWidth
     height: minHeight
     border.color: mystyle.borderColor
+    color:mystyle.node.bgColor
     border.width: 1
     radius: 3
     smooth: true
@@ -33,7 +34,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        height: 14
+        height: 13
         border.width: 1
         border.color: mystyle.borderColor
         color: mystyle.bgColor
@@ -43,15 +44,21 @@ Rectangle {
             text: 'Perlin'
             font.pointSize: 8
             color: mystyle.textColor
+            anchors.verticalCenter: parent.Center
         }
     }
     Rectangle{
         id: nodeContents
         property int minWidth:100
         property int minHeight:100
-        color:"blue"
+        color:"white"
         anchors.top: header.bottom
         anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.topMargin: 6
+        anchors.bottomMargin: 6
+        anchors.leftMargin: 2
+        anchors.rightMargin: 2
     }
 }
