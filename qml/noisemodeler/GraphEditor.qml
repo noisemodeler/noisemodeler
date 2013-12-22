@@ -7,6 +7,8 @@ Rectangle {
     anchors.left: parent.left
     anchors.bottom: parent.bottom
 
+    color: mystyle.bgColor
+
     Node{nodeName: "Add"}
     Node{nodeName: "Subtract"}
     Node{}

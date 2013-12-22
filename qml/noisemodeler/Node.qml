@@ -4,19 +4,23 @@ Rectangle {
     id: node
     property alias nodeName: nodeLabel.text
     property alias hover: nodeMouseArea.containsMouse
-    property real connectorSpacing: 8
-    property real padding: 5
-    width: 80
-    height: 80
-    color: hover ? Qt.lighter(mystyle.bgColor, 1.7) : Qt.lighter(mystyle.bgColor, 1.4)
+    property real minWidth: Math.max(50, nodeContents.minWidth)
+    property real minHeight: Math.max(nodeContents.minHeight, header.height*2)
+    width: minWidth
+    height: minHeight
     border.color: mystyle.borderColor
     border.width: 1
     radius: 3
     smooth: true
     MouseArea {
         id: nodeMouseArea
-        anchors.fill: parent
-        onClicked: buttonClick()
+
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+
+        onClicked: console.log("Hello world!")
         hoverEnabled: true
         drag.target: parent
         drag.minimumY: 0
@@ -41,42 +45,13 @@ Rectangle {
             color: mystyle.textColor
         }
     }
-    Item {
-        anchors.left: parent.left
-        anchors.right: parent.right
+    Rectangle{
+        id: nodeContents
+        property int minWidth:100
+        property int minHeight:100
+        color:"blue"
         anchors.top: header.bottom
         anchors.bottom: parent.bottom
-        Column {
-            id: inputsColumn
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            spacing:node.connectorSpacing
-            //InputNodeConnector{}
-            //InputNodeConnector{}
-//            InputNodeConnector{}
-//            InputNodeConnector{}
-        }
-        Item {
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: inputsColumn.right
-            anchors.right: outputsColumn.left
-            Rectangle {
-                id:nodePreview
-                width: height
-                height: parent.height - 4
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: parent.top
-                anchors.topMargin: 1
-            }
-        }
-        Column {
-            id: outputsColumn
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            spacing:node.connectorSpacing
-//            OutputNodeConnector{}
-//            OutputNodeConnector{}
-        }
+        anchors.horizontalCenter: parent.horizontalCenter
     }
 }
