@@ -3,7 +3,7 @@ import QtQuick 2.0
 Item {
     property alias labelText: connectorDescription.text
     height: 30
-    width: childrenRect.width
+    width: connector.width + connectorDescription.width
 
     Connector {
         id: connector
