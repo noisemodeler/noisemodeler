@@ -72,7 +72,7 @@ Rectangle {
         Column{
             Repeater{
                 model: ['value', 'test']
-                NodeInput{labelText:modelData}
+                NodeOutput{labelText:modelData}
             }
         }
     }
