@@ -6,6 +6,7 @@ Rectangle {
     property alias hover: nodeMouseArea.containsMouse
     property real minWidth: Math.max(50, nodeContents.minWidth)
     property real minHeight: header.height + nodeContents.minHeight
+    property bool maximized: true
     width: minWidth
     height: minHeight
     border.color: mystyle.borderColor
@@ -21,7 +22,9 @@ Rectangle {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
 
-        onClicked: console.log("Hello world!")
+        onClicked: {
+            maximized = !maximized;
+        }
         hoverEnabled: true
         drag.target: parent
         drag.minimumY: 0
