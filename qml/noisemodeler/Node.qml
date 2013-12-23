@@ -51,7 +51,7 @@ Rectangle {
         id: nodeContents
         property int minWidth: childrenRect.width + 2 * horizontalMargins
         property int minHeight: childrenRect.height + 2 * verticalMargins
-        property int horizontalMargins: 2
+        property int horizontalMargins: 0
         property int verticalMargins: 6
         //color:"white"
         anchors.top: header.bottom
@@ -71,8 +71,8 @@ Rectangle {
         }
         Column{
             Repeater{
-                model: 2
-                NodeInput{}
+                model: ['value', 'test']
+                NodeInput{labelText:modelData}
             }
         }
     }

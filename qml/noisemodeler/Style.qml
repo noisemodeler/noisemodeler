@@ -11,5 +11,6 @@ QtObject {
 
     property QtObject node: QtObject {
         property color bgColor: Qt.lighter(style.bgColor, 1.5)
+        property color connectorColor: '#88FF88'
     }
 }
