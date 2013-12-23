@@ -47,18 +47,33 @@ Rectangle {
             anchors.verticalCenter: parent.Center
         }
     }
-    Rectangle{
+    Row{
         id: nodeContents
-        property int minWidth:100
-        property int minHeight:100
-        color:"white"
+        property int minWidth: childrenRect.width + 2 * horizontalMargins
+        property int minHeight: childrenRect.height + 2 * verticalMargins
+        property int horizontalMargins: 2
+        property int verticalMargins: 6
+        //color:"white"
         anchors.top: header.bottom
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.topMargin: 6
-        anchors.bottomMargin: 6
-        anchors.leftMargin: 2
-        anchors.rightMargin: 2
+        anchors.topMargin: verticalMargins
+        anchors.bottomMargin: verticalMargins
+        anchors.leftMargin: horizontalMargins
+        anchors.rightMargin: horizontalMargins
+        spacing: 5
+        Column{
+            Repeater{
+                model: ['position','lacunarity','gain']
+                NodeInput{labelText:modelData}
+            }
+        }
+        Column{
+            Repeater{
+                model: 2
+                NodeInput{}
+            }
+        }
     }
 }
