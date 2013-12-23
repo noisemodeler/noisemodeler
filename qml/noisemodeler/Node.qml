@@ -42,7 +42,7 @@ Rectangle {
             x: 3
             id: nodeLabel
             text: 'Perlin'
-            font.pointSize: 8
+            font.pointSize: mystyle.smallTextSize
             color: mystyle.textColor
             anchors.verticalCenter: parent.Center
         }
@@ -53,7 +53,7 @@ Rectangle {
         property int minHeight: childrenRect.height + 2 * verticalMargins
         property int horizontalMargins: 0
         property int verticalMargins: 6
-        //color:"white"
+
         anchors.top: header.bottom
         anchors.bottom: parent.bottom
         anchors.left: parent.left

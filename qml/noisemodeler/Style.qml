@@ -2,6 +2,7 @@ import QtQuick 2.2
 QtObject {
     id:style
     property int textSize: 20
+    property int smallTextSize: 8
 
     property color bgColor: "#444444"
     property color fgColor: "powderBlue"
@@ -10,7 +11,7 @@ QtObject {
     property color borderColor: "black"
 
     property QtObject node: QtObject {
-        property color bgColor: Qt.lighter(style.bgColor, 1.5)
+        property color bgColor: Qt.lighter(style.bgColor, 1.8)
         property color connectorColor: '#88FF88'
     }
 }
