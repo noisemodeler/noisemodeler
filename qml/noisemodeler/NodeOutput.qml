@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Item {
     property alias labelText: connectorDescription.text
-    height: 30
+    height: mystyle.node.connectorHeight
     width: connector.width + connectorDescription.width
     anchors.right: parent.right
 

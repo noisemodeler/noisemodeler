@@ -44,7 +44,7 @@ Rectangle {
         Text {
             x: 3
             id: nodeLabel
-            text: 'Perlin'
+            text: 'fbm'
             font.pointSize: mystyle.smallTextSize
             color: mystyle.textColor
             anchors.verticalCenter: parent.Center
