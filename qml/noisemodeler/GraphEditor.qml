@@ -15,7 +15,8 @@ Rectangle {
 
     color: mystyle.bgColor
 
-    Node{module:dummyModules[0]}
-    Node{module:dummyModules[1]}
-    Node{module:dummyModules[2]}
+    Repeater{
+        model:dummyModules
+        Node{module:modelData}
+    }
 }
