@@ -1,7 +1,9 @@
 import QtQuick 2.2
+import NoiseModeler 1.0
 
 Rectangle {
     id: node
+    property Module module
     property alias nodeName: nodeLabel.text
     property alias hover: nodeMouseArea.containsMouse
     property real minWidth: Math.max(50, nodeContents.minWidth)
@@ -44,7 +46,7 @@ Rectangle {
         Text {
             x: 3
             id: nodeLabel
-            text: 'fbm'
+            text: module.name
             font.pointSize: mystyle.smallTextSize
             color: mystyle.textColor
             anchors.verticalCenter: parent.Center
