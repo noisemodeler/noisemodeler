@@ -12,8 +12,20 @@ Rectangle {
                 ModuleInput{name:'lacunarity'}
             ]
         },
-        Module{name:"Add"},
-        Module{name:"Subtract"}
+        Module{
+            name:"Add"
+            inputs:[
+                ModuleInput{name:'A'},
+                ModuleInput{name:'B'}
+            ]
+        },
+        Module{
+            name:"Sub"
+            inputs:[
+                ModuleInput{name:'lhs'},
+                ModuleInput{name:'rhs'}
+            ]
+        }
     ]
     anchors.top: parent.top
     anchors.right: parent.right
