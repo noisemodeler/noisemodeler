@@ -1,7 +1,8 @@
 import QtQuick 2.0
+import NoiseModeler 1.0
 
 Item {
-    property alias labelText: connectorDescription.text
+    property ModuleOutput model
     height: mystyle.node.connectorHeight
     width: connector.width + connectorDescription.width
     anchors.right: parent.right
@@ -15,5 +16,6 @@ Item {
         id: connectorDescription
         anchors.right: connector.left
         horizontalAlignment: Text.AlignRight
+        text: model.name
     }
 }

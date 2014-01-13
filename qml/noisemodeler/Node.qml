@@ -71,13 +71,13 @@ Rectangle {
         Column{
             Repeater{
                 model: module.inputs
-                NodeInput{labelText:modelData.name}
+                NodeInput{model:modelData}
             }
         }
         Column{
             Repeater{
                 model: module.outputs
-                NodeOutput{labelText:modelData.name}
+                NodeOutput{model:modelData}
             }
         }
     }
