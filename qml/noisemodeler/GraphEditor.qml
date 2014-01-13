@@ -4,7 +4,10 @@ import NoiseModeler 1.0
 Rectangle {
     id:graphEditor
     property list<Module> dummyModules: [
-        Module{name:"fbm"},
+        Module{
+            name:"fbm"
+            inputs:[ModuleInput{name:'test'}]
+        },
         Module{name:"Add"},
         Module{name:"Subtract"}
     ]

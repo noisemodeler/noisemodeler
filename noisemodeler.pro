@@ -8,7 +8,8 @@ QML_IMPORT_PATH =
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    module.cpp
+    module.cpp \
+    moduleinput.cpp
 
 # Installation path
 # target.path =
@@ -18,4 +19,5 @@ include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
 HEADERS += \
-    module.h
+    module.h \
+    moduleinput.h

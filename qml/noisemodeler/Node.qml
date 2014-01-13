@@ -70,8 +70,8 @@ Rectangle {
         spacing: 5
         Column{
             Repeater{
-                model: ['position','lacunarity','gain']
-                NodeInput{labelText:modelData}
+                model: module.inputs
+                NodeInput{labelText:modelData.name}
             }
         }
         Column{
