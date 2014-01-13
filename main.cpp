@@ -1,5 +1,6 @@
 #include "module.h"
 #include "moduleinput.h"
+#include "moduleoutput.h"
 
 #include <QtGui/QGuiApplication>
 #include "qtquick2applicationviewer.h"
@@ -14,6 +15,7 @@ int main(int argc, char *argv[])
     //register types
     qmlRegisterType<nmgui::Module>("NoiseModeler", 1, 0, "Module");
     qmlRegisterType<nmgui::ModuleInput>("NoiseModeler", 1, 0, "ModuleInput");
+    qmlRegisterType<nmgui::ModuleOutput>("NoiseModeler", 1, 0, "ModuleOutput");
 
     QtQuick2ApplicationViewer viewer;
     viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));

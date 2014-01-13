@@ -64,4 +64,48 @@ void Module::clearInputs(QQmlListProperty<ModuleInput> *list)
     }
 }
 
+QQmlListProperty<ModuleOutput> Module::outputs()
+{
+    return QQmlListProperty<ModuleOutput>(this, 0, &Module::append_output, &Module::outputsCount, &Module::outputAt, &Module::clearOutputs);
+}
+
+void Module::append_output(QQmlListProperty<ModuleOutput> *list, ModuleOutput *output)
+{
+    Module *module = qobject_cast<Module *>(list->object);
+    if(module){
+        module->m_outputs.append(output);
+        emit module->outputsChanged();
+    }
+}
+
+ModuleOutput* Module::outputAt(QQmlListProperty<ModuleOutput> *list, int index)
+{
+    Module *module = qobject_cast<Module *>(list->object);
+    if(module){
+        return module->m_outputs.at(index);
+    } else {
+        return NULL;
+    }
+}
+
+int Module::outputsCount(QQmlListProperty<ModuleOutput> *list)
+{
+    Module *module = qobject_cast<Module *>(list->object);
+    if(module){
+        return module->m_outputs.count();
+    } else {
+        return 0;
+    }
+}
+
+void Module::clearOutputs(QQmlListProperty<ModuleOutput> *list)
+{
+    Module *module = qobject_cast<Module *>(list->object);
+    if(module){
+        module->m_outputs.clear();
+    }
+}
+
+
+
 } // namespace nmgui

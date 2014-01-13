@@ -11,19 +11,28 @@ Rectangle {
                 ModuleInput{name:'gain'},
                 ModuleInput{name:'lacunarity'}
             ]
+            outputs:[
+                ModuleOutput{name:'out'}
+            ]
         },
         Module{
-            name:"Add"
+            name:"add"
             inputs:[
                 ModuleInput{name:'A'},
                 ModuleInput{name:'B'}
             ]
+            outputs:[
+                ModuleOutput{name:'out'}
+            ]
         },
         Module{
-            name:"Sub"
+            name:"sub"
             inputs:[
                 ModuleInput{name:'lhs'},
                 ModuleInput{name:'rhs'}
+            ]
+            outputs:[
+                ModuleOutput{name:'out'}
             ]
         }
     ]

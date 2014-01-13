@@ -76,8 +76,8 @@ Rectangle {
         }
         Column{
             Repeater{
-                model: ['value', 'test']
-                NodeOutput{labelText:modelData}
+                model: module.outputs
+                NodeOutput{labelText:modelData.name}
             }
         }
     }
