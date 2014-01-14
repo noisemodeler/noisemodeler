@@ -10,6 +10,26 @@ Item {
     Connector {
         id: connector
         anchors.right: parent.right
+        MouseArea {
+            id:dragArea
+            anchors.fill: parent
+            drag.target: dragDummy
+            onReleased: {
+                drag.target.Drag.drop();
+                drag.target.x=drag.target.y=0;
+            }
+            drag.threshold: 0
+        }
+        Rectangle{
+            id:dragDummy
+            color:parent.color
+            visible: Drag.active
+            width:parent.width-2
+            height:parent.height-2
+            Drag.active: dragArea.drag.active
+            Drag.hotSpot.x: width/2
+            Drag.hotSpot.y: height/2
+        }
     }
 
     ConnectorDescription {

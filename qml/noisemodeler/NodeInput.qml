@@ -8,6 +8,21 @@ Item {
     Connector {
         id: connector
         anchors.left: parent.left
+        DropArea{
+            id:dropArea
+            anchors.fill: parent
+            anchors.margins: -4
+            Rectangle{
+                anchors.fill: parent
+                anchors.margins: 4+1
+                color: "blue"
+                visible: dropArea.containsDrag
+            }
+            onDropped: {
+                console.log("Dropped");
+                model.name = "GRAAAWL";
+            }
+        }
     }
 
     ConnectorDescription {
@@ -15,4 +30,5 @@ Item {
         anchors.left: connector.right
         text:model.name
     }
+
 }
