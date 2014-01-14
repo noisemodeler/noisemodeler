@@ -20,7 +20,6 @@ Item {
                 visible: dropArea.containsDrag
             }
             onDropped: {
-                console.log("Dropped");
                 model.source = drag.source.parent.parent.model;
             }
         }
