@@ -8,6 +8,7 @@ Item {
     Connector {
         id: connector
         anchors.left: parent.left
+        color: model.source ? mystyle.node.connectorColor : Qt.darker(mystyle.node.connectorColor, 2)
         DropArea{
             id:dropArea
             anchors.fill: parent
@@ -20,7 +21,7 @@ Item {
             }
             onDropped: {
                 console.log("Dropped");
-                model.name = "GRAAAWL";
+                model.source = drag.source.parent.parent.model;
             }
         }
     }
