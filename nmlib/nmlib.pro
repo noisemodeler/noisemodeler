@@ -1,5 +1,7 @@
 INCLUDEPATH += . ..
 TEMPLATE = lib
 CONFIG = staticlib
-SOURCES = nmlib.cpp
-HEADERS = nmlib.h
+SOURCES = nmlib.cpp \
+    module.cpp
+HEADERS = nmlib.h \
+    module.h
