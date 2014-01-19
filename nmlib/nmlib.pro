@@ -3,5 +3,6 @@ TEMPLATE = lib
 CONFIG = staticlib
 SOURCES = nmlib.cpp \
     module.cpp
-HEADERS = nmlib.h \
-    module.h
+HEADERS = \
+    nmlib.hpp \
+    module.hpp

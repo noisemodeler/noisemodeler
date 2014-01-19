@@ -1,4 +1,4 @@
-#include "moduleoutput.h"
+#include "moduleoutput.hpp"
 
 namespace nmgui {
 

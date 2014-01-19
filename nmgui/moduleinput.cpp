@@ -1,4 +1,4 @@
-#include "moduleinput.h"
+#include "moduleinput.hpp"
 
 namespace nmgui {
 

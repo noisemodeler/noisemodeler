@@ -1,5 +1,5 @@
-#ifndef NMGUI_MODULEOUTPUT_H
-#define NMGUI_MODULEOUTPUT_H
+#ifndef NMGUI_MODULEOUTPUT_HPP
+#define NMGUI_MODULEOUTPUT_HPP
 
 #include <QObject>
 
@@ -25,4 +25,4 @@ private:
 
 } // namespace nmgui
 
-#endif // NMGUI_MODULEOUTPUT_H
+#endif // NMGUI_MODULEOUTPUT_HPP

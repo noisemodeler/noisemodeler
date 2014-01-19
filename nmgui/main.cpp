@@ -1,6 +1,6 @@
-#include "module.h"
-#include "moduleinput.h"
-#include "moduleoutput.h"
+#include "module.hpp"
+#include "moduleinput.hpp"
+#include "moduleoutput.hpp"
 
 #include <QtGui/QGuiApplication>
 #include "qtquick2applicationviewer.h"

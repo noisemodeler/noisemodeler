@@ -16,9 +16,9 @@ SOURCES += main.cpp \
     moduleoutput.cpp
 
 HEADERS += \
-    module.h \
-    moduleinput.h \
-    moduleoutput.h
+    moduleoutput.hpp \
+    moduleinput.hpp \
+    module.hpp
 
 # Installation path
 # target.path =

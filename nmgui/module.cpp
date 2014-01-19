@@ -1,6 +1,6 @@
-#include "module.h"
+#include "module.hpp"
 
-#include "moduleinput.h"
+#include "moduleinput.hpp"
 
 namespace nmgui {
 
