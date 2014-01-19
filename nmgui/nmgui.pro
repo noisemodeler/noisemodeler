@@ -23,7 +23,7 @@ HEADERS += \
 # Installation path
 # target.path =
 
-INCLUDEPATH = . ../nmlib
+INCLUDEPATH = . ..
 
 LIBS += -L../nmlib -lnmlib
 
