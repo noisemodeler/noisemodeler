@@ -1,9 +1,9 @@
-#include "module.h"
+#include "module.hpp"
 
-namespace nm {
+namespace nmlib {
 
 Module::Module()
 {
 }
 
-} // namespace nm
+} // namespace nmlib
