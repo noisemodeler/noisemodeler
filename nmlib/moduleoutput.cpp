@@ -1,4 +1,4 @@
-#include "moduleoutput.hpp"
+#include <nmlib/moduleoutput.hpp>
 
 namespace nm {
 

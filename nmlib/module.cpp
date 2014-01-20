@@ -1,4 +1,4 @@
-#include "module.hpp"
+#include <nmlib/module.hpp>
 
 namespace nmlib {
 

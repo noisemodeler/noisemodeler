@@ -1,4 +1,4 @@
-#include "moduleinput.hpp"
+#include <nmlib/moduleinput.hpp>
 
 namespace nm {
 

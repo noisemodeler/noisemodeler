@@ -1,4 +1,4 @@
-#include "outputlink.hpp"
+#include <nmlib/outputlink.hpp>
 
 namespace nm {
 
