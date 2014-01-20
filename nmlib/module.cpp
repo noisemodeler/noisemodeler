@@ -1,6 +1,6 @@
 #include <nmlib/module.hpp>
 
-namespace nmlib {
+namespace nm {
 
 Module::Module()
 {
