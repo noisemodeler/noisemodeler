@@ -6,8 +6,10 @@ namespace nm {
 class SignalType
 {
 public:
+    const int dimensionality;
     SignalType(int dimensionality);
-    int dimensionality;
+    bool operator==(const SignalType& rhs) const;
+    bool isConvertibleTo(const SignalType &rhs) const;
 };
 
 } // namespace nm

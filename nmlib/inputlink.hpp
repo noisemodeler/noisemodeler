@@ -10,7 +10,10 @@ class OutputLink;
 class InputLink
 {
 public:
-    InputLink(Module* owner, const ModuleInput* type):p_owner(owner), p_type(type), p_outputLink(nullptr){}
+    InputLink(Module *owner, const ModuleInput *type):p_owner(owner), p_type(type), p_outputLink(nullptr){}
+    bool link(OutputLink *output);
+    void unlink();
+
     const ModuleInput* const p_type;
     Module* const p_owner;
 private:
