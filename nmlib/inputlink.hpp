@@ -6,7 +6,11 @@ namespace nm {
 class InputLink
 {
 public:
-    InputLink();
+    InputLink(Module* owner, const ModuleInput* type):p_owner(owner), p_type(type), p_outputLink(nullptr){}
+private:
+    const ModuleInput* const p_type;
+    Module* const p_owner;
+    OutputLink* p_outputLink;
 };
 
 } // namespace nm
