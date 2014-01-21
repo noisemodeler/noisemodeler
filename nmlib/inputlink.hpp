@@ -11,9 +11,9 @@ class InputLink
 {
 public:
     InputLink(Module* owner, const ModuleInput* type):p_owner(owner), p_type(type), p_outputLink(nullptr){}
-private:
     const ModuleInput* const p_type;
     Module* const p_owner;
+private:
     OutputLink* p_outputLink;
 };
 
