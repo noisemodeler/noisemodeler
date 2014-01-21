@@ -3,6 +3,10 @@
 
 namespace nm {
 
+class Module;
+class ModuleInput;
+class OutputLink;
+
 class InputLink
 {
 public:
