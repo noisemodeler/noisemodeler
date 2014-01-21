@@ -6,7 +6,8 @@ namespace nm {
 class SignalType
 {
 public:
-    SignalType();
+    SignalType(int dimensionality);
+    int dimensionality;
 };
 
 } // namespace nm

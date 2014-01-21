@@ -2,8 +2,4 @@
 
 namespace nm {
 
-Module::Module()
-{
-}
-
 } // namespace nmlib
