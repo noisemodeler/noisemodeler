@@ -17,4 +17,5 @@ HEADERS = \
     model/moduleoutput.hpp \
     model/moduletype.hpp \
     model/outputlink.hpp \
-    model/signaltype.hpp
+    model/signaltype.hpp \
+    model.hpp
