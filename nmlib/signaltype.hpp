@@ -6,7 +6,7 @@ namespace nm {
 /**
  * @brief Describes a the dimensionality of a signal
  *
- * Can be extended to include other types such as distinctions between doubles, flots and ints as well.
+ * Can be extended to include other type information such as distinctions between doubles, flots and ints as well.
  */
 class SignalType
 {

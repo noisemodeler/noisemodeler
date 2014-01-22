@@ -2,6 +2,7 @@
 #define NM_MODULETYPE_HPP
 
 #include <vector>
+#include <string>
 
 namespace nm {
 
