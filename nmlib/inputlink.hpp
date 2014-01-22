@@ -7,6 +7,9 @@ class Module;
 class ModuleInput;
 class OutputLink;
 
+/**
+ * @brief Describes which output of which node a ModuleInput of a specific Module is connected to.
+ */
 class InputLink
 {
 public:
