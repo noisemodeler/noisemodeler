@@ -1,4 +1,4 @@
-#include <nmlib/signaltype.hpp>
+#include <nmlib/model/signaltype.hpp>
 
 namespace nm {
 

@@ -1,8 +1,8 @@
 #ifndef NM_MODULE_H
 #define NM_MODULE_H
 
-#include <nmlib/inputlink.hpp>
-#include <nmlib/outputlink.hpp>
+#include <nmlib/model/inputlink.hpp>
+#include <nmlib/model/outputlink.hpp>
 
 #include <map>
 

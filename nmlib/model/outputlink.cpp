@@ -1,9 +1,9 @@
-#include <nmlib/outputlink.hpp>
+#include <nmlib/model/outputlink.hpp>
 
-#include <nmlib/inputlink.hpp>
-#include <nmlib/moduleinput.hpp>
-#include <nmlib/moduleoutput.hpp>
-#include <nmlib/signaltype.hpp>
+#include <nmlib/model/inputlink.hpp>
+#include <nmlib/model/moduleinput.hpp>
+#include <nmlib/model/moduleoutput.hpp>
+#include <nmlib/model/signaltype.hpp>
 
 namespace nm {
 

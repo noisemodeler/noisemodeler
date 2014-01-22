@@ -1,4 +1,4 @@
-#include <nmlib/module.hpp>
+#include <nmlib/model/module.hpp>
 
 namespace nm {
 
