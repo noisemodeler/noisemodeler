@@ -5,3 +5,9 @@
 #include <nmlib/model/moduletype.hpp>
 
 #endif // MODEL_HPP
+
+/**
+ * @defgroup model model module
+ *
+ * Graph representation of a procedural generator
+ */
