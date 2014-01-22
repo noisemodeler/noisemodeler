@@ -7,6 +7,9 @@ namespace nm {
 
 class SignalType;
 
+/**
+ * @brief Describes one of a ModuleType's outputs
+ */
 class ModuleOutput
 {
 public:
