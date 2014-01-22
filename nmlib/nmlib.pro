@@ -3,18 +3,18 @@ TEMPLATE = lib
 CONFIG = staticlib
 QMAKE_CXXFLAGS += -std=c++11
 SOURCES = \
-    module.cpp \
-    signaltype.cpp \
-    moduletype.cpp \
-    inputlink.cpp \
-    outputlink.cpp \
-    moduleinput.cpp \
-    moduleoutput.cpp
+    model/inputlink.cpp \
+    model/module.cpp \
+    model/moduleinput.cpp \
+    model/moduleoutput.cpp \
+    model/moduletype.cpp \
+    model/outputlink.cpp \
+    model/signaltype.cpp
 HEADERS = \
-    module.hpp \
-    signaltype.hpp \
-    moduletype.hpp \
-    inputlink.hpp \
-    outputlink.hpp \
-    moduleinput.hpp \
-    moduleoutput.hpp
+    model/module.hpp \
+    model/inputlink.hpp \
+    model/moduleinput.hpp \
+    model/moduleoutput.hpp \
+    model/moduletype.hpp \
+    model/outputlink.hpp \
+    model/signaltype.hpp
