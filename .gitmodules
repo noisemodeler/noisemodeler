@@ -1,0 +1,3 @@
+[submodule "dependencies/rapidsjon"]
+	path = dependencies/rapidsjon
+	url = https://github.com/Kanma/rapidjson
