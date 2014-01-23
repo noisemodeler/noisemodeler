@@ -17,8 +17,8 @@ public:
     bool link(OutputLink *output);
     void unlink();
 
-    const ModuleInput* const p_type;
     Module* const p_owner;
+    const ModuleInput* const p_type;
 private:
     OutputLink* p_outputLink;
 };

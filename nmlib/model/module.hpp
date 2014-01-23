@@ -18,10 +18,10 @@ class ModuleOutput;
 class Module
 {
 public:
-    Module(const ModuleType* type):p_type(type){}
-    const ModuleType* const type(){return p_type;}
+    explicit Module(const ModuleType& type):m_type(type){}
+    const ModuleType& type(){return m_type;}
 private:
-    const ModuleType* const p_type;
+    const ModuleType& m_type;
     std::map<const ModuleInput*, InputLink> m_inputs;
     std::map<const ModuleOutput*, OutputLink> m_outputs;
 };

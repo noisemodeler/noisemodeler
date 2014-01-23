@@ -35,8 +35,8 @@ public:
      */
     void unlinkAll();
 
-    const ModuleOutput * const p_type;
     Module * const p_owner;
+    const ModuleOutput * const p_type;
 private:
     std::set<InputLink *> m_inputLinks;
 };
