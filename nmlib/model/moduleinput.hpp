@@ -15,7 +15,7 @@ class ModuleInput
 public:
     const std::string m_name;
     const SignalType * const p_type;
-    ModuleInput(std::string name, SignalType *type): m_name(name), p_type(type){}
+    explicit ModuleInput(std::string name, SignalType *type): m_name(name), p_type(type){}
 };
 
 } // namespace nm

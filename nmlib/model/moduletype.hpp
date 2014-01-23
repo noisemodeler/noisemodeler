@@ -15,11 +15,12 @@ class ModuleInput;
 class ModuleType
 {
 public:
-    ModuleType();
+    explicit ModuleType();
     const ModuleInput* getInput(std::string name) const;
     const ModuleOutput* getOutput(std::string name) const;
-    std::vector<ModuleOutput*> outputs() const;
-    std::vector<ModuleInput*> inputs() const;
+//    std::vector<ModuleOutput*> outputs() const;
+//    std::vector<ModuleInput*> inputs() const;
+private:
 
 };
 

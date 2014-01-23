@@ -12,7 +12,7 @@ class SignalType
 {
 public:
     const int dimensionality;
-    SignalType(int dimensionality);
+    explicit SignalType(int dimensionality);
     bool operator==(const SignalType& rhs) const;
 
     /**

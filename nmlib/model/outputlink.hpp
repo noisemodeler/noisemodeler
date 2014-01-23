@@ -12,7 +12,7 @@ class InputLink;
 class OutputLink
 {
 public:
-    OutputLink(Module *owner, const ModuleOutput *type):p_owner(owner), p_type(type){}
+    explicit OutputLink(Module *owner, const ModuleOutput *type):p_owner(owner), p_type(type){}
 
     /**
      * @brief Add a connection from this OutputLink to the specified InputLink

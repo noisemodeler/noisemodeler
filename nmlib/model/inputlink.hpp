@@ -13,7 +13,7 @@ class OutputLink;
 class InputLink
 {
 public:
-    InputLink(Module *owner, const ModuleInput *type):p_owner(owner), p_type(type), p_outputLink(nullptr){}
+    explicit InputLink(Module *owner, const ModuleInput *type):p_owner(owner), p_type(type), p_outputLink(nullptr){}
     bool link(OutputLink *output);
     void unlink();
 
