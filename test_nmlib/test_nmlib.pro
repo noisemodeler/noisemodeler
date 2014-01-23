@@ -5,7 +5,7 @@ QT -= gui core
 QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += \
-    test_serialization.cpp
+    test_parser.cpp
 
 HEADERS +=
 
