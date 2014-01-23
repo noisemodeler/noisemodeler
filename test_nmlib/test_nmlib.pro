@@ -2,13 +2,14 @@ TEMPLATE = app
 TARGET = test_nmlib
 QT -= gui core
 
-SOURCES += main.cpp \
+QMAKE_CXXFLAGS += -std=c++11
+
+SOURCES += \
     test_serialization.cpp
 
-HEADERS += \
-    test_serialization.hpp
+HEADERS +=
 
 INCLUDEPATH = . ..
 
-LIBS += -L../nmlib -lnmlib
+LIBS += -L../nmlib -lnmlib -lgtest -lgtest_main
 

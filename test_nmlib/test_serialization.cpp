@@ -1,5 +1,9 @@
-#include "test_serialization.hpp"
+#include <nmlib/parser.hpp>
 
-bool test_serialization(){
-    return true;
+#include <gtest/gtest.h>
+
+TEST(ParserTest, Constructor) {
+    nm::Parser* parser = new nm::Parser();
+    delete parser;
+    SUCCEED();
 }
