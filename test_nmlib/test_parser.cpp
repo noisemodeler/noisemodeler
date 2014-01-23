@@ -7,3 +7,10 @@ TEST(ParserTest, Constructor) {
     delete parser;
     SUCCEED();
 }
+
+
+TEST(ParserTest, GracefulFailure){
+    nm::Parser parser;
+    auto modules = parser.parse("Malformed");
+    EXPECT_FALSE(modules);
+}
