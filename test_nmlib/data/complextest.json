@@ -1,0 +1,110 @@
+{
+	"moduleTypes": [
+		{
+			"name": "terrainHeight",
+			"description":"determines elevation based on position",
+			"inputs": [
+				{
+					"name": "pos",
+					"type": "2f"
+				}
+			],
+			"outputs": [
+				{
+					"name": "height",
+					"source": "add1.out"
+				}
+			],
+			"modules": [
+				{
+					"name": "fbm1",
+					"type": "fbm",
+					"inputs": {
+						"pos": "inputs.pos"
+					}
+				},
+				{
+					"name": "add1",
+					"type": "add",
+					"inputs": {
+						"lhs": "fbm1.out",
+						"rhs": "-3"
+					}
+				}
+			]
+		},
+		{
+			"name": "groundColor",
+			"description":"determines ground color based on elevation",
+			"inputs": [
+				{
+					"name": "height",
+					"type": "1f"
+				}
+			],
+			"outputs": [
+				{
+					"name": "color",
+					"source": "mux31.out"
+				}
+			],
+			"modules": [
+				{
+					"name": "mul1",
+					"type": "mul",
+					"inputs": {
+						"lhs": "inputs.height",
+						"rhs": "2"
+					}
+				},
+				{
+					"name": "mux31",
+					"type": "mux3",
+					"inputs": {
+						"x": "0.5",
+						"y": "mul1.out",
+						"z": "mul1.out"
+					}
+				}
+			]
+		},
+		{
+			"name": "terrain",
+			"description":"determines terrain color and elevation based on position",
+			"inputs": [
+				{
+					"name": "pos",
+					"type": "2f"
+				}
+			],
+			"outputs": [
+				{
+					"name": "color",
+					"source": "terrainColor1.color"
+				},
+				{
+					"name": "height",
+					"source": "terrainHeight1.height"
+				}
+
+			],
+			"modules": [
+				{
+					"name": "terrainHeight1",
+					"type": "terrainHeight",
+					"inputs": {
+						"pos": "inputs.pos"
+					}
+				},
+				{
+					"name": "terrainColor1",
+					"type": "terrainColor",
+					"inputs": {
+						"height": "terrainHeight1.height"
+					}
+				}
+			]
+		}
+	]
+}
+
