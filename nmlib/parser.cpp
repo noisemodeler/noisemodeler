@@ -21,6 +21,17 @@ optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &t
 
 optional<std::map<std::string, std::unique_ptr<ModuleType> > > parseModuleTypeArray(const rapidjson::Value &array)
 {
+    if(!array.IsArray()){
+        std::cerr << "Tried to parse an array that wasn't an array";
+        return {};
+    }
+    std::map <std::string, std::unique_ptr<ModuleType>> moduleTypes{};
+    for(rapidjson::SizeType i = 0; i < array.Size(); i++){
+        //TODO: this
+//        moduleTypes["temp"] = parseModuleType(array[i]);
+        auto moduleType = parseModuleType(array[i]);
+//        moduleTypes.insert(std::make_pair(std::string("test"), std::move(moduleType)));
+    }
     return std::map<std::string, std::unique_ptr<ModuleType>>();
 }
 

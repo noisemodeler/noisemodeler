@@ -47,11 +47,18 @@ TEST(ParserTest, OneModuleType){
     if(!input){
         FAIL() << "Couldn't read file";
     }
-    std::cerr << *input;
 
-    auto modules = parser.parse(*input);
-    if(!modules){
-        FAIL();
+    auto maybeModules = parser.parse(*input);
+    if(!maybeModules){
+        FAIL() << "Parser didn't return a list of modules";
     }
-    EXPECT_EQ(1, (*modules).size());
+    auto &modules = *maybeModules;
+    ASSERT_EQ(1, modules.size());
+
+    auto it = modules.find("terrainHeight");
+    ASSERT_NE(modules.end(), it) << "Couldn't fint ModuleType terrainHeight";
+    std::unique_ptr<nm::ModuleType> &terrainModuleTypePtr = (it->second);
+
+    EXPECT_EQ("terrainHeight", terrainModuleTypePtr->getName());
+    EXPECT_EQ("determines elevation based on position", terrainModuleTypePtr->getDescription());
 }
