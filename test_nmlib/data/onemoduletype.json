@@ -1,0 +1,30 @@
+{
+	"moduleTypes": [
+		{
+			"name": "terrainHeight",
+			"description":"determines elevation based on position",
+			"inputs": [
+				{
+					"name": "pos",
+					"type": "2f"
+				}
+			],
+			"outputs": [
+				{
+					"name": "height",
+					"source": "fbm1.out"
+				}
+			],
+			"modules": [
+				{
+					"name": "fbm1",
+					"type": "fbm",
+					"inputs": {
+						"pos": "inputs.pos"
+					}
+				}
+			]
+		}
+	]
+}
+
