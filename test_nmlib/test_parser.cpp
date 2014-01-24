@@ -14,3 +14,12 @@ TEST(ParserTest, GracefulFailure){
     auto modules = parser.parse("Malformed");
     EXPECT_FALSE(modules);
 }
+
+TEST(ParserTest, BlankDocument){
+    nm::Parser parser;
+    auto modules = parser.parse("{\"moduleTypes\":[]}");
+    if(!modules){
+        FAIL();
+    }
+    EXPECT_EQ((*modules).size(), 0);
+}

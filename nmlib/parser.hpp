@@ -15,7 +15,7 @@ class Parser
 {
 public:
     explicit Parser();
-    nm::optional<std::map<std::string, std::unique_ptr<ModuleType>>> parse(std::string input);
+    optional<std::map<std::string, std::unique_ptr<ModuleType>>> parse(std::string input);
 };
 
 } // namespace nm
