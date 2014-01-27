@@ -11,12 +11,18 @@ namespace {
 optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &type)
 {
     auto &nameValue = type["name"];
-    if(nameValue.IsNull()){
+    if(!nameValue.IsString()){
         std::cerr << "Module missing required field \"name\"\n";
         return {};
     }
+    std::string name = nameValue.GetString();
+    std::string description;
+    auto &descriptionValue = type["description"];
+    if(descriptionValue.IsString()){
+        description = descriptionValue.GetString();
+    }
 
-    return {{}};
+    return {std::unique_ptr<ModuleType>{new ModuleType(name, description)}};
 }
 
 optional<std::map<std::string, std::unique_ptr<ModuleType> > > parseModuleTypeArray(const rapidjson::Value &array)
@@ -27,12 +33,16 @@ optional<std::map<std::string, std::unique_ptr<ModuleType> > > parseModuleTypeAr
     }
     std::map <std::string, std::unique_ptr<ModuleType>> moduleTypes{};
     for(rapidjson::SizeType i = 0; i < array.Size(); i++){
-        //TODO: this
-//        moduleTypes["temp"] = parseModuleType(array[i]);
-        auto moduleType = parseModuleType(array[i]);
-//        moduleTypes.insert(std::make_pair(std::string("test"), std::move(moduleType)));
+        auto maybeModuleType = parseModuleType(array[i]);
+        if(!maybeModuleType){
+            return {};
+        }
+        auto &moduleTypePtr = *maybeModuleType;
+        auto &moduleType = *moduleTypePtr; //std::string moduleId = *moduleType;
+        auto moduleId = moduleType.getName();
+        moduleTypes.insert(std::make_pair(moduleId, std::move(moduleTypePtr)));
     }
-    return std::map<std::string, std::unique_ptr<ModuleType>>();
+    return {std::move(moduleTypes)};
 }
 
 } // namespace
