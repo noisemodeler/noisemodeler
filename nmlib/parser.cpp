@@ -38,8 +38,7 @@ optional<std::map<std::string, std::unique_ptr<ModuleType> > > parseModuleTypeAr
             return {};
         }
         auto &moduleTypePtr = *maybeModuleType;
-        auto &moduleType = *moduleTypePtr; //std::string moduleId = *moduleType;
-        auto moduleId = moduleType.getName();
+        auto moduleId = moduleTypePtr->getName();
         moduleTypes.insert(std::make_pair(moduleId, std::move(moduleTypePtr)));
     }
     return {std::move(moduleTypes)};
