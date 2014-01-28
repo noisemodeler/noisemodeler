@@ -28,17 +28,17 @@ TEST(ParserTest, Constructor) {
 
 TEST(ParserTest, GracefulFailure){
     nm::Parser parser;
-    auto modules = parser.parse("Malformed");
+    auto modules = parser.parseDocument("Malformed");
     EXPECT_FALSE(modules);
 }
 
 TEST(ParserTest, BlankDocument){
     nm::Parser parser;
-    auto modules = parser.parse(R"( {"moduleTypes":[]} )");
+    auto modules = parser.parseDocument(R"( {"moduleTypes":[]} )");
     if(!modules){
         FAIL();
     }
-    EXPECT_EQ(0, (*modules).size());
+    //TODO assert user modules == 0
 }
 
 TEST(ParserTest, OneModuleType){
@@ -48,22 +48,21 @@ TEST(ParserTest, OneModuleType){
         FAIL() << "Couldn't read file";
     }
 
-    auto maybeModules = parser.parse(*input);
-    if(!maybeModules){
-        FAIL() << "Parser didn't return a list of modules";
+    auto maybeTypeManager = parser.parseDocument(*input);
+    if(!maybeTypeManager){
+        FAIL() << "Parser didn't return a type manager";
     }
-    auto &modules = *maybeModules;
-    ASSERT_EQ(1, modules.size());
+    auto &typeManager = *maybeTypeManager;
+    //TODO assert user modules == 1
 
-    auto it = modules.find("terrainHeight");
-    ASSERT_NE(modules.end(), it) << "Couldn't find ModuleType terrainHeight";
-    std::unique_ptr<nm::ModuleType> &terrainModuleTypePtr = (it->second);
+    auto terrainModuleType = typeManager->getType("terrainHeight");
+    ASSERT_NE(terrainModuleType, nullptr) << "Couldn't find ModuleType terrainHeight";
 
-    EXPECT_EQ("terrainHeight", terrainModuleTypePtr->getName());
-    EXPECT_EQ("determines elevation based on position", terrainModuleTypePtr->getDescription());
+    EXPECT_EQ("terrainHeight", terrainModuleType->getName());
+    EXPECT_EQ("determines elevation based on position", terrainModuleType->getDescription());
 
-    auto *inputPosition = terrainModuleTypePtr->getInput("pos");
-    ASSERT_NE(nullptr, inputPosition);
+    auto *inputPosition = terrainModuleType->getInput("pos");
+    ASSERT_NE(nullptr, inputPosition) << "Couldn't find a ModuleInput named \"pos\"";
     EXPECT_EQ("pos", inputPosition->m_name);
     auto *posType = inputPosition->p_type;
     ASSERT_NE(nullptr, posType);
