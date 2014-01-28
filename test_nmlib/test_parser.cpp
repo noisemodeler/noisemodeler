@@ -1,4 +1,4 @@
-#include <nmlib/parser.hpp>
+#include "nmlib/parser.hpp"
 
 #include <gtest/gtest.h>
 
@@ -56,9 +56,16 @@ TEST(ParserTest, OneModuleType){
     ASSERT_EQ(1, modules.size());
 
     auto it = modules.find("terrainHeight");
-    ASSERT_NE(modules.end(), it) << "Couldn't fint ModuleType terrainHeight";
+    ASSERT_NE(modules.end(), it) << "Couldn't find ModuleType terrainHeight";
     std::unique_ptr<nm::ModuleType> &terrainModuleTypePtr = (it->second);
 
     EXPECT_EQ("terrainHeight", terrainModuleTypePtr->getName());
     EXPECT_EQ("determines elevation based on position", terrainModuleTypePtr->getDescription());
+
+    auto *inputPosition = terrainModuleTypePtr->getInput("pos");
+    ASSERT_NE(nullptr, inputPosition);
+    EXPECT_EQ("pos", inputPosition->m_name);
+    auto *posType = inputPosition->p_type;
+    ASSERT_NE(nullptr, posType);
+    EXPECT_EQ(2, posType->dimensionality);
 }

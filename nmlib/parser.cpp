@@ -8,6 +8,10 @@ namespace nm {
 
 namespace {
 
+optional<std::unique_ptr<ModuleType> > parseModule(const rapidjson::Value &moduleValue)
+{
+}
+
 optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &type)
 {
     auto &nameValue = type["name"];
@@ -22,10 +26,13 @@ optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &t
         description = descriptionValue.GetString();
     }
 
+    //parse submodules
+    //Parse Inputs and outputs
+
     return {std::unique_ptr<ModuleType>{new ModuleType(name, description)}};
 }
 
-optional<std::map<std::string, std::unique_ptr<ModuleType> > > parseModuleTypeArray(const rapidjson::Value &array)
+optional<std::map<std::string, std::unique_ptr<ModuleType>>> parseModuleTypeArray(const rapidjson::Value &array)
 {
     if(!array.IsArray()){
         std::cerr << "Tried to parse an array that wasn't an array";

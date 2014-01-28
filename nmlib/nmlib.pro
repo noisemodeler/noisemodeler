@@ -10,7 +10,8 @@ SOURCES = \
     model/moduletype.cpp \
     model/outputlink.cpp \
     model/signaltype.cpp \
-    parser.cpp
+    parser.cpp \
+    model/typemanager.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -20,4 +21,5 @@ HEADERS = \
     model/outputlink.hpp \
     model/signaltype.hpp \
     model.hpp \
-    parser.hpp
+    parser.hpp \
+    model/typemanager.hpp
