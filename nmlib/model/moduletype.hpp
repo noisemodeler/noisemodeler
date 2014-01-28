@@ -20,6 +20,8 @@ public:
     std::string getDescription() const {return m_description;}
     const ModuleInput *getInput(std::string name) const;
     const ModuleOutput *getOutput(std::string name) const;
+    bool addInput(const ModuleInput &input);
+    bool addOutput(const ModuleOutput &output);
     std::vector<ModuleOutput*> outputs() const;
     std::vector<ModuleInput*> inputs() const;
 private:

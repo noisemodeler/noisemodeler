@@ -8,6 +8,16 @@ namespace nm {
 
 namespace {
 
+
+
+optional<std::unique_ptr<ModuleInput> > parseModuleInput(const rapidjson::Value &inputValue, const ModuleType &moduleType)
+{
+    using namespace std;
+    string name = inputValue["name"].GetString();
+    string signalType = inputValue["type"].GetString();
+    ModuleInput moduleInput{name, };
+}
+
 optional<std::unique_ptr<ModuleType> > parseModule(const rapidjson::Value &moduleValue)
 {
 }
@@ -26,10 +36,30 @@ optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &t
         description = descriptionValue.GetString();
     }
 
-    //parse submodules
-    //Parse Inputs and outputs
+    auto moduleType = std::unique_ptr<ModuleType>{new ModuleType(name, description)};
 
-    return {std::unique_ptr<ModuleType>{new ModuleType(name, description)}};
+    //parse Inputs
+    std::vector<ModuleInput> inputs;
+    auto &inputsValue = type["inputs"];
+    if(!inputsValue.IsNull()){
+        if(!inputsValue.IsArray()){
+            return {};
+        }
+        for(rapidjson::SizeType i = 0; i < inputsValue.Size(); i++){
+            auto maybeInput = parseModuleInput(inputsValue[i]);
+            if(!maybeInput){
+                return {};
+            }
+            inputs.push_back(*maybeInput);
+        }
+    }
+    for(auto input : inputs){
+        moduleType.addInput(input);
+    }
+
+    //parse submodules
+
+    return {std::move(moduleType)};
 }
 
 bool parseModuleTypeArray(const rapidjson::Value &array, TypeManager &typeManager)
@@ -79,7 +109,7 @@ optional<std::unique_ptr<TypeManager> > Parser::parseDocument(std::string input)
     std::unique_ptr<TypeManager> typeManager{new TypeManager()};
     if(!parseModuleTypeArray(moduleTypes, *(typeManager.get()))){
         return {};
-     }
+    }
     return {std::move(typeManager)};
 }
 
