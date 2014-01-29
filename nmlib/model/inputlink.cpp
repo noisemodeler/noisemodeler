@@ -9,7 +9,8 @@ namespace nm {
 
 bool InputLink::link(OutputLink *output)
 {
-    if(output == nullptr || output == p_outputLink || p_type->p_type == output->p_type->p_type){
+    if(output == nullptr || output == p_outputLink ||
+            c_moduleInput.getSignalType() == output->getModuleOutput().getSignalType()){
         return false;
     }
     if(p_outputLink != nullptr){

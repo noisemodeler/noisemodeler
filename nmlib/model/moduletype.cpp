@@ -18,7 +18,7 @@ const ModuleInput *ModuleType::getInput(std::string name) const
 {
     using namespace std;
     auto it = find_if(begin(m_inputs), end(m_inputs),
-                      [&](const ModuleInput& input){return input.m_name==name;});
+                      [&](const ModuleInput& input){return input.getName()==name;});
     if(it != end(m_inputs)){
         return &(*it);
     } else {
@@ -30,7 +30,7 @@ const ModuleOutput *ModuleType::getOutput(std::string name) const
 {
     using namespace std;
     auto it = find_if(begin(m_outputs), end(m_outputs),
-                      [&](const ModuleOutput& output){return output.m_name==name;});
+                      [&](const ModuleOutput& output){return output.getName()==name;});
     if(it != end(m_outputs)){
         return &(*it);
     } else {
@@ -40,7 +40,7 @@ const ModuleOutput *ModuleType::getOutput(std::string name) const
 
 bool ModuleType::addInput(const ModuleInput &input)
 {
-    if(getInput(input.m_name) != nullptr){
+    if(getInput(input.getName()) != nullptr){
         return false;
     }
     m_inputs.push_back(input);

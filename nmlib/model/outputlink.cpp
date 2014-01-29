@@ -9,7 +9,7 @@ namespace nm {
 
 bool OutputLink::addLink(InputLink *input)
 {
-    if(input == nullptr || input->p_type->p_type->isConvertibleTo(*(p_type->p_type))){
+    if(input == nullptr || input->getModuleInput().getSignalType().isConvertibleTo(c_moduleOutput.getSignalType())){
         return false;
     }
     input->link(this);

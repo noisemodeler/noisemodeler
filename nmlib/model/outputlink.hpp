@@ -12,7 +12,7 @@ class InputLink;
 class OutputLink
 {
 public:
-    explicit OutputLink(Module *owner, const ModuleOutput *type):p_owner(owner), p_type(type){}
+    explicit OutputLink(const Module &owner, const ModuleOutput &type):c_owner(owner), c_moduleOutput(type){}
 
     /**
      * @brief Add a connection from this OutputLink to the specified InputLink
@@ -35,9 +35,12 @@ public:
      */
     void unlinkAll();
 
-    Module * const p_owner;
-    const ModuleOutput * const p_type;
+    const Module &getOwner() const {return c_owner;}
+    const ModuleOutput &getModuleOutput() const {return c_moduleOutput;}
+
 private:
+    const Module &c_owner;
+    const ModuleOutput &c_moduleOutput;
     std::set<InputLink *> m_inputLinks;
 };
 

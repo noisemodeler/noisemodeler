@@ -8,14 +8,21 @@ namespace nm {
 
 namespace {
 
+//std::vector<std::string> split(const std::string& input, const std::string& regex) {
+//    // passing -1 as the submatch index parameter performs splitting
+//    std::sregex_token_iterator
+//        first{input.begin(), input.end(), regex, -1},
+//        last;
+//    return {first, last};
+//}
 
-
-optional<std::unique_ptr<ModuleInput> > parseModuleInput(const rapidjson::Value &inputValue, const ModuleType &moduleType)
+optional<ModuleInput> parseModuleInput(const rapidjson::Value &inputValue, const ModuleType &moduleType)
 {
     using namespace std;
     string name = inputValue["name"].GetString();
-    string signalType = inputValue["type"].GetString();
-    ModuleInput moduleInput{name, };
+    string signalTypeString = inputValue["type"].GetString();
+    SignalType signalType{2};
+    return {ModuleInput {name, signalType}};
 }
 
 optional<std::unique_ptr<ModuleType> > parseModule(const rapidjson::Value &moduleValue)

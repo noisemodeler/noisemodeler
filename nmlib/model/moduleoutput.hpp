@@ -13,9 +13,13 @@ class SignalType;
 class ModuleOutput
 {
 public:
-    const std::string m_name;
-    const SignalType * const p_type;
-    explicit ModuleOutput(std::string name, SignalType *type): m_name(name), p_type(type){}
+    explicit ModuleOutput(std::string name, const SignalType &type): c_name(name), c_type(type){}
+
+    std::string getName() const {return c_name;}
+    const SignalType &getSignalType() const {return c_type;}
+private:
+    const std::string c_name;
+    const SignalType &c_type;
 };
 
 } // namespace nm
