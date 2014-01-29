@@ -11,7 +11,8 @@ SOURCES = \
     model/outputlink.cpp \
     model/signaltype.cpp \
     parser.cpp \
-    model/typemanager.cpp
+    model/typemanager.cpp \
+    model/noncopyable.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -22,4 +23,5 @@ HEADERS = \
     model/signaltype.hpp \
     model.hpp \
     parser.hpp \
-    model/typemanager.hpp
+    model/typemanager.hpp \
+    model/noncopyable.hpp
