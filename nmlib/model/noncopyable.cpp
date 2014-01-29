@@ -1,9 +1,4 @@
-#include "noncopyable.h"
+#include "noncopyable.hpp"
 
 namespace nm {
-
-NonCopyable::NonCopyable()
-{
-}
-
 } // namespace nm

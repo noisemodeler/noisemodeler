@@ -63,8 +63,7 @@ TEST(ParserTest, OneModuleType){
 
     auto *inputPosition = terrainModuleType->getInput("pos");
     ASSERT_NE(nullptr, inputPosition) << "Couldn't find a ModuleInput named \"pos\"";
-    EXPECT_EQ("pos", inputPosition->m_name);
-    auto *posType = inputPosition->p_type;
-    ASSERT_NE(nullptr, posType);
-    EXPECT_EQ(2, posType->dimensionality);
+    EXPECT_EQ("pos", inputPosition->getName());
+    auto &posType = inputPosition->getSignalType();
+    EXPECT_EQ(2, posType.dimensionality);
 }

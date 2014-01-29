@@ -1,6 +1,8 @@
 #ifndef NM_SIGNALTYPE_HPP
 #define NM_SIGNALTYPE_HPP
 
+#include <nmlib/model/noncopyable.hpp>
+
 namespace nm {
 
 /**
@@ -8,7 +10,7 @@ namespace nm {
  *
  * Can be extended to include other type information such as distinctions between doubles, flots and ints as well.
  */
-class SignalType
+class SignalType : NonCopyable
 {
 public:
     const int dimensionality;

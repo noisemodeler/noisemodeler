@@ -5,8 +5,11 @@ namespace nm {
 
 class NonCopyable
 {
-public:
-    NonCopyable();
+protected:
+    NonCopyable() = default;
+private:
+    NonCopyable( const NonCopyable& other ) = delete; // non construction-copyable
+    NonCopyable& operator=( const NonCopyable& ) = delete; // non copyable;
 };
 
 } // namespace nm

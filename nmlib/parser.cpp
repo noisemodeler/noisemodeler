@@ -3,6 +3,7 @@
 #include <rapidsjon/document.h>
 
 #include <iostream>
+#include <cstdio>
 
 namespace nm {
 
@@ -21,7 +22,11 @@ optional<ModuleInput> parseModuleInput(const rapidjson::Value &inputValue, const
     using namespace std;
     string name = inputValue["name"].GetString();
     string signalTypeString = inputValue["type"].GetString();
-    SignalType signalType{2};
+    int dimensionality{-1};
+    if(sscanf(signalTypeString.c_str(), "%df", &dimensionality) == EOF){
+        return {};
+    }
+    SignalType signalType{dimensionality};
     return {ModuleInput {name, signalType}};
 }
 
@@ -53,7 +58,7 @@ optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &t
             return {};
         }
         for(rapidjson::SizeType i = 0; i < inputsValue.Size(); i++){
-            auto maybeInput = parseModuleInput(inputsValue[i]);
+            auto maybeInput = parseModuleInput(inputsValue[i], *moduleType);
             if(!maybeInput){
                 return {};
             }
@@ -61,7 +66,7 @@ optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &t
         }
     }
     for(auto input : inputs){
-        moduleType.addInput(input);
+        moduleType->addInput(input);
     }
 
     //parse submodules
