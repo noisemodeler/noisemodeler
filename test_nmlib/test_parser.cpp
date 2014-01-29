@@ -61,9 +61,21 @@ TEST(ParserTest, OneModuleType){
     EXPECT_EQ("terrainHeight", terrainModuleType->getName());
     EXPECT_EQ("determines elevation based on position", terrainModuleType->getDescription());
 
-    auto *inputPosition = terrainModuleType->getInput("pos");
-    ASSERT_NE(nullptr, inputPosition) << "Couldn't find a ModuleInput named \"pos\"";
-    EXPECT_EQ("pos", inputPosition->getName());
-    auto &posType = inputPosition->getSignalType();
-    EXPECT_EQ(2, posType.dimensionality);
+    //verify input
+    {
+        auto *inputPosition = terrainModuleType->getInput("pos");
+        ASSERT_NE(nullptr, inputPosition) << "Couldn't find a ModuleInput named \"pos\"";
+        EXPECT_EQ("pos", inputPosition->getName());
+        auto &posType = inputPosition->getSignalType();
+        EXPECT_EQ(2, posType.dimensionality);
+    }
+
+    //verify output
+    {
+        auto *height = terrainModuleType->getInput("height");
+        ASSERT_NE(nullptr, height) << "Couldn't find a ModuleOutput named \"height\"";
+        EXPECT_EQ("height", height->getName());
+        auto &heightSignalType = height->getSignalType();
+        EXPECT_EQ(1, heightSignalType.dimensionality);
+    }
 }

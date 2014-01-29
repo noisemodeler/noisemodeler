@@ -27,7 +27,7 @@ optional<ModuleInput> parseModuleInput(const rapidjson::Value &inputValue, const
         return {};
     }
     SignalType signalType{dimensionality};
-    return {ModuleInput {name, signalType}};
+    return {ModuleInput {name, signalType, moduleType}};
 }
 
 optional<std::unique_ptr<ModuleType> > parseModule(const rapidjson::Value &moduleValue)
@@ -48,7 +48,7 @@ optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &t
         description = descriptionValue.GetString();
     }
 
-    auto moduleType = std::unique_ptr<ModuleType>{new ModuleType(name, description)};
+    auto moduleType = std::unique_ptr<CompositeModuleType>{new CompositeModuleType(name, description)};
 
     //parse Inputs
     std::vector<ModuleInput> inputs;

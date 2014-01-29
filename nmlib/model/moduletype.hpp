@@ -10,25 +10,18 @@ class ModuleOutput;
 class ModuleInput;
 
 /**
- * @brief Describes a module and its inputs and outputs.
+ * @brief Interface for describing a module and its inputs and outputs.
  */
 class ModuleType
 {
 public:
-    explicit ModuleType(const std::string &name, const std::string &description);
-    std::string getName() const {return m_name;}
-    std::string getDescription() const {return m_description;}
-    const ModuleInput *getInput(std::string name) const;
-    const ModuleOutput *getOutput(std::string name) const;
-    bool addInput(const ModuleInput &input);
-    bool addOutput(const ModuleOutput &output);
-    std::vector<ModuleOutput*> outputs() const;
-    std::vector<ModuleInput*> inputs() const;
-private:
-    const std::string m_name;
-    const std::string m_description;
-    std::vector<ModuleInput> m_inputs;
-    std::vector<ModuleOutput> m_outputs;
+    virtual ~ModuleType(){}
+    virtual std::string getName() const = 0;
+    virtual std::string getDescription() const = 0;
+    virtual const ModuleInput *getInput(std::string name) const = 0;
+    virtual const ModuleOutput *getOutput(std::string name) const = 0;
+//    virtual std::vector<ModuleOutput*> outputs() const;
+//    virtual std::vector<ModuleInput*> inputs() const;
 };
 
 } // namespace nm
