@@ -52,10 +52,10 @@ TEST(ParserTest, OneModuleType){
     if(!maybeTypeManager){
         FAIL() << "Parser didn't return a type manager";
     }
-    auto &typeManager = *maybeTypeManager;
+    nm::TypeManager &typeManager = *(*maybeTypeManager);
     //TODO assert user modules == 1
 
-    auto terrainModuleType = typeManager->getType("terrainHeight");
+    nm::ModuleType* terrainModuleType = typeManager.getType("terrainHeight");
     ASSERT_NE(terrainModuleType, nullptr) << "Couldn't find ModuleType terrainHeight";
 
     EXPECT_EQ("terrainHeight", terrainModuleType->getName());
