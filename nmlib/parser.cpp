@@ -16,14 +16,23 @@ namespace {
 //        last;
 //    return {first, last};
 //}
-//    int dimensionality{-1};
-//    if(sscanf(signalTypeString.c_str(), "%df", &dimensionality) == EOF){
-//        std::cerr << "Couldn't parse signal type";
-//        return {};
-//    }
-
-optional<std::unique_ptr<ModuleType> > parseModule(const rapidjson::Value &moduleValue)
+optional<SignalType> parseSignalType(const rapidjson::Value &signalTypeValue)
 {
+    if(!signalTypeValue.IsString()){
+        return{};
+    }
+    int dimensionality{-1};
+    if(sscanf(signalTypeValue.GetString(), "%df", &dimensionality) == EOF){
+        std::cerr << "Couldn't parse signal type";
+        return {};
+    }
+    return {SignalType{dimensionality}};
+}
+
+optional<std::unique_ptr<ModuleType> > parseModule(const rapidjson::Value &/*moduleValue*/)
+{
+    //TODO
+    return {};
 }
 
 optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &type)
@@ -43,24 +52,20 @@ optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &t
     auto moduleType = std::unique_ptr<CompositeModuleType>{new CompositeModuleType(name, description)};
 
     //parse Inputs
-    std::vector<ModuleInput> inputs;
     auto &inputsValue = type["inputs"];
     if(!inputsValue.IsNull()){
         if(!inputsValue.IsArray()){
             return {};
         }
         for(rapidjson::SizeType i = 0; i < inputsValue.Size(); i++){
-                string name = inputValue["name"].GetString();
-                string source = inputValue["source"].GetString();
-                auto maybeInput = parseModuleInput(inputsValue[i], *moduleType);
-            if(!maybeInput){
+            auto &inputValue = inputsValue[i];
+            std::string name = inputValue["name"].GetString();
+            auto maybeSignalType = parseSignalType(inputValue["type"]);
+            if(!maybeSignalType){
                 return {};
             }
-            inputs.push_back(*maybeInput);
+            moduleType->addInput(name, *maybeSignalType);
         }
-    }
-    for(auto input : inputs){
-        moduleType->addInput(input);
     }
 
     //parse submodules

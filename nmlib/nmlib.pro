@@ -13,7 +13,8 @@ SOURCES = \
     parser.cpp \
     model/typemanager.cpp \
     model/noncopyable.cpp \
-    model/compositemoduletype.cpp
+    model/compositemoduletype.cpp \
+    model/inputmoduletype.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -26,4 +27,5 @@ HEADERS = \
     parser.hpp \
     model/typemanager.hpp \
     model/noncopyable.hpp \
-    model/compositemoduletype.hpp
+    model/compositemoduletype.hpp \
+    model/inputmoduletype.hpp

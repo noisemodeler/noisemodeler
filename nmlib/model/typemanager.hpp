@@ -5,6 +5,7 @@
 
 #include <map>
 #include <memory>
+#include <vector>
 
 namespace nm {
 
@@ -13,7 +14,7 @@ class TypeManager
 public:
     TypeManager();
     bool addType(std::unique_ptr<ModuleType> type);
-    ModuleType *getType(std::string name);
+    ModuleType *getType(std::string name) const;
     void initBuiltinTypes();
 private:
     std::map<std::string, std::unique_ptr<ModuleType>> m_userTypes;

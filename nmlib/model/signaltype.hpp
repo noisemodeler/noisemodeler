@@ -10,7 +10,7 @@ namespace nm {
  *
  * Can be extended to include other type information such as distinctions between doubles, flots and ints as well.
  */
-class SignalType : NonCopyable
+class SignalType
 {
 public:
     const int dimensionality;

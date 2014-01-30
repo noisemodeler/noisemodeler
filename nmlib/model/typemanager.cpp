@@ -3,6 +3,7 @@
 #include <nmlib/model/moduleoutput.hpp>
 
 #include <iostream>
+#include <algorithm>
 
 namespace nm {
 
@@ -20,7 +21,7 @@ bool TypeManager::addType(std::unique_ptr<ModuleType> type)
     return true;
 }
 
-ModuleType *TypeManager::getType(std::string name)
+ModuleType *TypeManager::getType(std::string name) const
 {
     auto it = m_userTypes.find(name);
     if(it == end(m_userTypes)){

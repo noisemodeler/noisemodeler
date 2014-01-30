@@ -5,29 +5,36 @@
 
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
+#include <nmlib/model/inputmoduletype.hpp>
+
+#include <memory>
+#include <vector>
 
 namespace nm {
 
 class InputLink;
 class OutputLink;
+class Module;
 
 class CompositeModuleType : public ModuleType
 {
 public:
     explicit CompositeModuleType(const std::string &name, const std::string &description);
 
-    virtual std::string getName() const override {return m_name;}
-    virtual std::string getDescription() const override {return m_description;}
+    virtual std::string getName() const override {return c_name;}
+    virtual std::string getDescription() const override {return c_description;}
     virtual const ModuleInput *getInput(std::string name) const override;
     virtual const ModuleOutput *getOutput(std::string name) const override;
 
-    bool exportInput(const InputLink &inputLink, std::string externalName);
+    bool addInput(std::string name, SignalType signalType);
     bool exportOutput(const OutputLink &outputLink, std::string externalName);
 private:
-    const std::string m_name;
-    const std::string m_description;
-    std::vector<std::pair<ModuleInput, InputLink&>> m_inputs;
-    std::vector<std::pair<ModuleOutput, OutputLink&>> m_outputs;
+    const std::string c_name;
+    const std::string c_description;
+    std::unique_ptr<Module> p_inputModule;
+    InputModuleType m_inputModuleType;
+    std::vector<std::unique_ptr<ModuleInput>> m_inputs;
+    std::vector<std::pair<std::unique_ptr<ModuleOutput>, OutputLink&>> m_outputs;
 };
 
 } // namespace nm
