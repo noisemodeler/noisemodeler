@@ -55,7 +55,7 @@ TEST(ParserTest, OneModuleType){
     nm::TypeManager &typeManager = *(*maybeTypeManager);
     //TODO assert user modules == 1
 
-    nm::ModuleType* terrainModuleType = typeManager.getType("terrainHeight");
+    nm::CompositeModuleType* terrainModuleType = typeManager.getUserType("terrainHeight");
     ASSERT_NE(terrainModuleType, nullptr) << "Couldn't find ModuleType terrainHeight";
 
     EXPECT_EQ("terrainHeight", terrainModuleType->getName());
@@ -68,6 +68,13 @@ TEST(ParserTest, OneModuleType){
         EXPECT_EQ("pos", inputPosition->getName());
         auto &posType = inputPosition->getSignalType();
         EXPECT_EQ(2, posType.dimensionality);
+    }
+
+    //check that the submodule is there
+    {
+        auto fbmmodule = terrainModuleType->getModule("fbm1");
+        ASSERT_NE(nullptr, fbmmodule);
+        EXPECT_EQ("fbm", fbmmodule->getType().getName());
     }
 
     //verify output

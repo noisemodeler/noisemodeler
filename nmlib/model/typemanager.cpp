@@ -1,6 +1,7 @@
 #include <nmlib/model/typemanager.hpp>
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
+#include <nmlib/model/module.hpp>
 
 #include <iostream>
 #include <algorithm>
@@ -11,7 +12,7 @@ TypeManager::TypeManager()
 {
 }
 
-bool TypeManager::addType(std::unique_ptr<ModuleType> type)
+bool TypeManager::addUserType(std::unique_ptr<CompositeModuleType> type)
 {
     if(getType(type->getName()) != nullptr){
         std::cerr << "Type already exists\n";
@@ -24,12 +25,13 @@ bool TypeManager::addType(std::unique_ptr<ModuleType> type)
 ModuleType *TypeManager::getType(std::string name) const
 {
     auto it = m_userTypes.find(name);
-    if(it == end(m_userTypes)){
-        return nullptr;
-    } else {
-        ModuleType* type = it->second.get();
-        return type;
-    }
+    return it != end(m_userTypes) ? it->second.get() : nullptr;
+}
+
+CompositeModuleType *TypeManager::getUserType(std::string name) const
+{
+    auto it = m_userTypes.find(name);
+    return it != end(m_userTypes) ? it->second.get() : nullptr;
 }
 
 } // namespace nm

@@ -35,7 +35,7 @@ optional<std::unique_ptr<ModuleType> > parseModule(const rapidjson::Value &/*mod
     return {};
 }
 
-optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &type)
+optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson::Value &type)
 {
     auto &nameValue = type["name"];
     if(!nameValue.IsString()){
@@ -86,7 +86,7 @@ bool parseModuleTypeArray(const rapidjson::Value &array, TypeManager &typeManage
             return false;
         }
         auto &moduleTypePtr = *maybeModuleType;
-        if(!typeManager.addType(std::move(moduleTypePtr))){
+        if(!typeManager.addUserType(std::move(moduleTypePtr))){
             std::cerr << "Couldn't add type to typeManager.\n";
             return false;
         }

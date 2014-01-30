@@ -2,6 +2,7 @@
 #define NM_TYPEMANAGER_HPP
 
 #include <nmlib/model/moduletype.hpp>
+#include <nmlib/model/compositemoduletype.hpp>
 
 #include <map>
 #include <memory>
@@ -13,11 +14,12 @@ class TypeManager
 {
 public:
     TypeManager();
-    bool addType(std::unique_ptr<ModuleType> type);
+    bool addUserType(std::unique_ptr<CompositeModuleType> type);
     ModuleType *getType(std::string name) const;
+    CompositeModuleType *getUserType(std::string name) const;
     void initBuiltinTypes();
 private:
-    std::map<std::string, std::unique_ptr<ModuleType>> m_userTypes;
+    std::map<std::string, std::unique_ptr<CompositeModuleType>> m_userTypes;
 };
 
 } // namespace nm
