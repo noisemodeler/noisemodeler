@@ -1,9 +1,8 @@
-#include "compositemoduletype.hpp"
+#include <nmlib/model/compositemoduletype.hpp>
 
 #include <nmlib/model/moduletype.hpp>
-
-#include <nmlib/model/moduleinput.hpp>
-#include <nmlib/model/moduleoutput.hpp>
+#include <nmlib/model/inputlink.hpp>
+#include <nmlib/model/outputlink.hpp>
 
 #include <algorithm>
 
@@ -21,9 +20,9 @@ const ModuleInput *CompositeModuleType::getInput(std::string name) const
 {
     using namespace std;
     auto it = find_if(begin(m_inputs), end(m_inputs),
-                      [&](const ModuleInput& input){return input.getName()==name;});
+                      [&](const std::pair<ModuleInput, InputLink&> &entry){return entry.first.getName()==name;});
     if(it != end(m_inputs)){
-        return &(*it);
+        return &(it->first);
     } else {
         return nullptr;
     }
@@ -33,20 +32,21 @@ const ModuleOutput *CompositeModuleType::getOutput(std::string name) const
 {
     using namespace std;
     auto it = find_if(begin(m_outputs), end(m_outputs),
-                      [&](const ModuleOutput& output){return output.getName()==name;});
+                      [&](const std::pair<ModuleOutput, OutputLink&> &entry){return entry.first.getName()==name;});
     if(it != end(m_outputs)){
-        return &(*it);
+        return &(it->first);
     } else {
         return nullptr;
     }
 }
 
-bool CompositeModuleType::addInput(const ModuleInput &input)
+bool CompositeModuleType::exportInput(const InputLink &inputLink, std::string externalName)
 {
-    if(getInput(input.getName()) != nullptr){
+    if(getInput(externalName) != nullptr){
         return false;
     }
-    m_inputs.push_back(input);
+    //TODO
+    //create a moduleinput and add it to the vector (m_inputs)
     return true;
 }
 

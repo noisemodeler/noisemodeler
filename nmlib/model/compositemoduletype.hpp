@@ -3,7 +3,13 @@
 
 #include <nmlib/model/moduletype.hpp>
 
+#include <nmlib/model/moduleinput.hpp>
+#include <nmlib/model/moduleoutput.hpp>
+
 namespace nm {
+
+class InputLink;
+class OutputLink;
 
 class CompositeModuleType : public ModuleType
 {
@@ -15,13 +21,13 @@ public:
     virtual const ModuleInput *getInput(std::string name) const override;
     virtual const ModuleOutput *getOutput(std::string name) const override;
 
-    bool addInput(const ModuleInput &input);
-    bool addOutput(const ModuleOutput &output);
+    bool exportInput(const InputLink &inputLink, std::string externalName);
+    bool exportOutput(const OutputLink &outputLink, std::string externalName);
 private:
     const std::string m_name;
     const std::string m_description;
-    std::vector<ModuleInput> m_inputs;
-    std::vector<ModuleOutput> m_outputs;
+    std::vector<std::pair<ModuleInput, InputLink&>> m_inputs;
+    std::vector<std::pair<ModuleOutput, OutputLink&>> m_outputs;
 };
 
 } // namespace nm

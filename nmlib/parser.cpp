@@ -16,19 +16,11 @@ namespace {
 //        last;
 //    return {first, last};
 //}
-
-optional<ModuleInput> parseModuleInput(const rapidjson::Value &inputValue, const ModuleType &moduleType)
-{
-    using namespace std;
-    string name = inputValue["name"].GetString();
-    string signalTypeString = inputValue["type"].GetString();
-    int dimensionality{-1};
-    if(sscanf(signalTypeString.c_str(), "%df", &dimensionality) == EOF){
-        return {};
-    }
-    SignalType signalType{dimensionality};
-    return {ModuleInput {name, signalType, moduleType}};
-}
+//    int dimensionality{-1};
+//    if(sscanf(signalTypeString.c_str(), "%df", &dimensionality) == EOF){
+//        std::cerr << "Couldn't parse signal type";
+//        return {};
+//    }
 
 optional<std::unique_ptr<ModuleType> > parseModule(const rapidjson::Value &moduleValue)
 {
@@ -58,7 +50,9 @@ optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &t
             return {};
         }
         for(rapidjson::SizeType i = 0; i < inputsValue.Size(); i++){
-            auto maybeInput = parseModuleInput(inputsValue[i], *moduleType);
+                string name = inputValue["name"].GetString();
+                string source = inputValue["source"].GetString();
+                auto maybeInput = parseModuleInput(inputsValue[i], *moduleType);
             if(!maybeInput){
                 return {};
             }
