@@ -34,7 +34,7 @@ private:
     std::unique_ptr<Module> p_inputModule;
     InputModuleType m_inputModuleType;
     std::vector<std::unique_ptr<ModuleInput>> m_inputs;
-    std::vector<std::pair<std::unique_ptr<ModuleOutput>, OutputLink&>> m_outputs;
+    std::vector<std::pair<std::unique_ptr<ModuleOutput>, const OutputLink&>> m_outputs;
 };
 
 } // namespace nm

@@ -35,7 +35,7 @@ const ModuleOutput *CompositeModuleType::getOutput(std::string name) const
 {
     using namespace std;
     auto it = find_if(begin(m_outputs), end(m_outputs),
-                      [&](const std::pair<std::unique_ptr<ModuleOutput>, OutputLink&> &entry){return entry.first->getName()==name;});
+                      [&](const std::pair<std::unique_ptr<ModuleOutput>, const OutputLink&> &entry){return entry.first->getName()==name;});
     if(it != end(m_outputs)){
         return it->first.get();
     } else {
@@ -55,7 +55,14 @@ bool CompositeModuleType::addInput(std::string name, SignalType signalType)
 
 bool CompositeModuleType::exportOutput(const OutputLink &outputLink, std::string externalName)
 {
-    return false;
+    if(getOutput(externalName) != nullptr){
+        return false;
+    }
+    //TODO verify that OutputLink is actually a part of the composite
+    m_outputs.emplace_back(
+                std::unique_ptr<ModuleOutput>(new ModuleOutput(externalName, outputLink.getModuleOutput().getSignalType(), *this)),
+                outputLink);
+    return true;
 }
 
 } // namespace nm
