@@ -30,6 +30,8 @@ public:
 
     bool addInput(std::string name, SignalType signalType);
     bool exportOutput(const OutputLink &outputLink, std::string externalName);
+    bool addModule(std::unique_ptr<Module> module);
+    Module* getModule(const std::string &name);
 private:
     const std::string c_name;
     const std::string c_description;
@@ -37,6 +39,7 @@ private:
     InputModuleType m_inputModuleType;
     std::vector<std::unique_ptr<ModuleInput>> m_inputs;
     std::vector<std::pair<std::unique_ptr<ModuleOutput>, const OutputLink&>> m_outputs;
+    std::vector<std::unique_ptr<Module>> m_modules;
 };
 
 } // namespace nm

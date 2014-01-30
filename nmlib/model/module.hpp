@@ -19,11 +19,11 @@ class ModuleOutput;
 class Module
 {
 public:
-    explicit Module(const ModuleType& type, std::string name);
-    const ModuleType& type(){return c_type;}
-    const std::string name(){return c_name;}
-    InputLink *getInput(std::string name);
-    OutputLink *getOutput(std::string name);
+    explicit Module(const ModuleType& getType, std::string getName);
+    const ModuleType& getType(){return c_type;}
+    const std::string getName(){return c_name;}
+    InputLink *getInput(std::string getName);
+    OutputLink *getOutput(std::string getName);
 
 private:
     const ModuleType& c_type;

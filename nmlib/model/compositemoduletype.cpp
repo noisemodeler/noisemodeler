@@ -85,4 +85,18 @@ bool CompositeModuleType::exportOutput(const OutputLink &outputLink, std::string
     return true;
 }
 
+bool CompositeModuleType::addModule(std::unique_ptr<Module> module)
+{
+    m_modules.push_back(std::move(module));
+    return true;
+}
+
+Module *CompositeModuleType::getModule(const std::string &name)
+{
+    using namespace std;
+    auto it = find_if(begin(m_modules), end(m_modules),
+            [&](const std::unique_ptr<Module> &module){return module->getName() == name;});
+    return it != end(m_modules) ? it->get() : nullptr;
+}
+
 } // namespace nm
