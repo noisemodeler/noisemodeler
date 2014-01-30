@@ -29,13 +29,26 @@ optional<SignalType> parseSignalType(const rapidjson::Value &signalTypeValue)
     return {SignalType{dimensionality}};
 }
 
-optional<std::unique_ptr<ModuleType> > parseModule(const rapidjson::Value &/*moduleValue*/)
+optional<std::unique_ptr<Module> > parseModule(const rapidjson::Value &moduleValue, const nm::TypeManager &typeManager)
 {
-    //TODO
-    return {};
+    if(!moduleValue["name"].IsString()){
+        return {};
+    }
+    if(!moduleValue["type"].IsString()){
+        return {};
+    }
+    std::string typeString = moduleValue["type"].GetString();
+    std::string nameString = moduleValue["name"].GetString();
+    auto type = typeManager.getType(typeString);
+    if(type == nullptr){
+        std::cerr << "Unknown type: " <<  typeString << std::endl;
+        return {};
+    }
+    std::unique_ptr<Module> module = std::unique_ptr<Module>(new Module(*type, nameString));
+    return {std::move(module)};
 }
 
-optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson::Value &type)
+optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson::Value &type, const TypeManager& typeManager)
 {
     auto &nameValue = type["name"];
     if(!nameValue.IsString()){
@@ -55,6 +68,7 @@ optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson:
     auto &inputsValue = type["inputs"];
     if(!inputsValue.IsNull()){
         if(!inputsValue.IsArray()){
+            std::cerr << "inputs is not an array\n";
             return {};
         }
         for(rapidjson::SizeType i = 0; i < inputsValue.Size(); i++){
@@ -69,6 +83,22 @@ optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson:
     }
 
     //parse submodules
+    auto &modulesValue = type["modules"];
+    if(!modulesValue.IsNull()){
+        if(!modulesValue.IsArray()){
+            std::cerr << "modules is not an array\n";
+            return {};
+        }
+        for(rapidjson::SizeType i = 0; i<modulesValue.Size(); i++){
+            auto maybeModule = parseModule(modulesValue[i], typeManager);
+            if(!maybeModule){
+                std::cerr << "Couldn't parse Module\n";
+                return {};
+            }
+            moduleType->addModule(std::move(*maybeModule));
+        }
+    }
+
 
     return {std::move(moduleType)};
 }
@@ -81,11 +111,11 @@ bool parseModuleTypeArray(const rapidjson::Value &array, TypeManager &typeManage
     }
     std::map <std::string, std::unique_ptr<ModuleType>> moduleTypes{};
     for(rapidjson::SizeType i = 0; i < array.Size(); i++){
-        auto maybeModuleType = parseModuleType(array[i]);
+        auto maybeModuleType = parseModuleType(array[i], typeManager);
         if(!maybeModuleType){
             return false;
         }
-        auto &moduleTypePtr = *maybeModuleType;
+        std::unique_ptr<CompositeModuleType> &moduleTypePtr = *maybeModuleType;
         if(!typeManager.addUserType(std::move(moduleTypePtr))){
             std::cerr << "Couldn't add type to typeManager.\n";
             return false;
@@ -117,7 +147,8 @@ optional<std::unique_ptr<TypeManager> > Parser::parseDocument(std::string input)
         return {};
     }
 
-    std::unique_ptr<TypeManager> typeManager{new TypeManager()};
+    std::unique_ptr<TypeManager> typeManager{new TypeManager{}};
+    typeManager->initBuiltinTypes();
     if(!parseModuleTypeArray(moduleTypes, *(typeManager.get()))){
         return {};
     }

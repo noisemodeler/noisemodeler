@@ -34,4 +34,9 @@ CompositeModuleType *TypeManager::getUserType(std::string name) const
     return it != end(m_userTypes) ? it->second.get() : nullptr;
 }
 
+void TypeManager::initBuiltinTypes()
+{
+    //TODO
+}
+
 } // namespace nm
