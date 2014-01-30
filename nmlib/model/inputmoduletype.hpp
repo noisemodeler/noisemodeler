@@ -15,6 +15,8 @@ public:
     virtual std::string getDescription() const override;
     virtual const ModuleInput *getInput(std::string name) const override;
     virtual const ModuleOutput *getOutput(std::string name) const override;
+    virtual std::vector<const ModuleOutput*> outputs() const override;
+    virtual std::vector<const ModuleInput*> inputs() const override;
 
     bool addInput(std::string name, SignalType signalType);
 

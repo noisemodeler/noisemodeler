@@ -16,7 +16,7 @@ CompositeModuleType::CompositeModuleType(const std::string& name, const std::str
     m_outputs()
 {
     //create inputmoduletype and inputmodule
-    p_inputModule.reset(new Module(m_inputModuleType));
+    p_inputModule.reset(new Module(m_inputModuleType, "inputs"));
 }
 
 const ModuleInput *CompositeModuleType::getInput(std::string name) const
@@ -41,6 +41,26 @@ const ModuleOutput *CompositeModuleType::getOutput(std::string name) const
     } else {
         return nullptr;
     }
+}
+
+std::vector<const ModuleOutput *> CompositeModuleType::outputs() const
+{
+    std::vector<const ModuleOutput*> ret{};
+    ret.reserve(m_inputs.size());
+    for(auto &i : m_outputs){
+        ret.emplace_back(i.first.get());
+    }
+    return ret;
+}
+
+std::vector<const ModuleInput *> CompositeModuleType::inputs() const
+{
+    std::vector<const ModuleInput*> ret{};
+    ret.reserve(m_inputs.size());
+    for(auto &i : m_inputs){
+        ret.emplace_back(i.get());
+    }
+    return ret;
 }
 
 bool CompositeModuleType::addInput(std::string name, SignalType signalType)

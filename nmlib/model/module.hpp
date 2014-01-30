@@ -4,7 +4,8 @@
 #include <nmlib/model/inputlink.hpp>
 #include <nmlib/model/outputlink.hpp>
 
-#include <map>
+#include <vector>
+#include <string>
 
 namespace nm {
 
@@ -18,12 +19,17 @@ class ModuleOutput;
 class Module
 {
 public:
-    explicit Module(const ModuleType& type):m_type(type){}
-    const ModuleType& type(){return m_type;}
+    explicit Module(const ModuleType& type, std::string name);
+    const ModuleType& type(){return c_type;}
+    const std::string name(){return c_name;}
+    InputLink *getInput(std::string name);
+    OutputLink *getOutput(std::string name);
+
 private:
-    const ModuleType& m_type;
-    std::map<const ModuleInput*, InputLink> m_inputs;
-    std::map<const ModuleOutput*, OutputLink> m_outputs;
+    const ModuleType& c_type;
+    const std::string c_name;
+    std::vector<InputLink> m_inputs;
+    std::vector<OutputLink> m_outputs;
 };
 
 } // namespace nm

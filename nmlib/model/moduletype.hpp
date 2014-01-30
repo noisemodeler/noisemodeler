@@ -20,8 +20,8 @@ public:
     virtual std::string getDescription() const = 0;
     virtual const ModuleInput *getInput(std::string name) const = 0;
     virtual const ModuleOutput *getOutput(std::string name) const = 0;
-//    virtual std::vector<ModuleOutput*> outputs() const;
-//    virtual std::vector<ModuleInput*> inputs() const;
+    virtual std::vector<const ModuleOutput*> outputs() const = 0;
+    virtual std::vector<const ModuleInput*> inputs() const = 0;
 };
 
 } // namespace nm

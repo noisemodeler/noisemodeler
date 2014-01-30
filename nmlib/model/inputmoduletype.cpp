@@ -44,7 +44,22 @@ const ModuleOutput *InputModuleType::getOutput(std::string name) const
 //        return nullptr;
 //    } else {
 //        return &(it->second);
-//    }
+    //    }
+}
+
+std::vector<const ModuleOutput *> InputModuleType::outputs() const
+{
+    std::vector<const ModuleOutput*> ret;
+    ret.reserve(m_inputs.size());
+    for(auto &p : m_inputs){
+        ret.push_back(&(p.second));
+    }
+    return ret;
+}
+
+std::vector<const ModuleInput *> InputModuleType::inputs() const
+{
+    return std::vector<const ModuleInput*>();
 }
 
 bool InputModuleType::addInput(std::string name, SignalType signalType)
@@ -60,5 +75,3 @@ bool InputModuleType::addInput(std::string name, SignalType signalType)
 }
 
 } // namespace nm
-
-
