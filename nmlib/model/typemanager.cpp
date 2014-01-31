@@ -1,4 +1,5 @@
 #include <nmlib/model/typemanager.hpp>
+#include <nmlib/model/builtinmoduletype.hpp>
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
 #include <nmlib/model/module.hpp>
@@ -22,21 +23,40 @@ bool TypeManager::addUserType(std::unique_ptr<CompositeModuleType> type)
     return true;
 }
 
-ModuleType *TypeManager::getType(std::string name) const
+const ModuleType *TypeManager::getType(std::string name) const
+{
+    auto it1 = m_primitiveBuiltinTypes.find(name);
+    if(it1 != end(m_primitiveBuiltinTypes)){
+        return it1->second.get();
+    }
+    auto it = m_userTypes.find(name);
+    return it != end(m_userTypes) ? it->second.get() : nullptr;
+}
+
+CompositeModuleType *TypeManager::getUserType(std::string name)
 {
     auto it = m_userTypes.find(name);
     return it != end(m_userTypes) ? it->second.get() : nullptr;
 }
 
-CompositeModuleType *TypeManager::getUserType(std::string name) const
-{
-    auto it = m_userTypes.find(name);
-    return it != end(m_userTypes) ? it->second.get() : nullptr;
+namespace {
+
+std::unique_ptr<const BuiltinModuleType> createFBM(){
+    std::unique_ptr<BuiltinModuleType> moduleType{new BuiltinModuleType{"fbm", "fractional brownian motion"}};
+    return std::move(moduleType);
+}
+
 }
 
 void TypeManager::initBuiltinTypes()
 {
+    addBuiltinType(createFBM());
     //TODO
+}
+
+void TypeManager::addBuiltinType(std::unique_ptr<const BuiltinModuleType> moduleType)
+{
+    m_primitiveBuiltinTypes[moduleType->getName()] = std::move(moduleType);
 }
 
 } // namespace nm

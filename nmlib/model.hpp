@@ -7,6 +7,7 @@
 #include <nmlib/model/moduleoutput.hpp>
 #include <nmlib/model/signaltype.hpp>
 #include <nmlib/model/compositemoduletype.hpp>
+#include <nmlib/model/builtinmoduletype.hpp>
 #include <nmlib/model/typemanager.hpp>
 
 #endif // MODEL_HPP

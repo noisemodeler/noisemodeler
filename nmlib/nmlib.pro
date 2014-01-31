@@ -14,7 +14,8 @@ SOURCES = \
     model/typemanager.cpp \
     model/noncopyable.cpp \
     model/compositemoduletype.cpp \
-    model/inputmoduletype.cpp
+    model/inputmoduletype.cpp \
+    model/builtinmoduletype.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -28,4 +29,5 @@ HEADERS = \
     model/typemanager.hpp \
     model/noncopyable.hpp \
     model/compositemoduletype.hpp \
-    model/inputmoduletype.hpp
+    model/inputmoduletype.hpp \
+    model/builtinmoduletype.hpp
