@@ -1,5 +1,9 @@
 #include "parser.hpp"
 
+//TODO get rapidjson to fix these warnings
+#pragma GCC diagnostic ignored "-Wold-style-cast"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+#pragma GCC diagnostic ignored "-Wsign-conversion"
 #include <rapidsjon/document.h>
 
 #include <iostream>
