@@ -50,13 +50,15 @@ std::vector<const ModuleInput *> BuiltinModuleType::inputs() const
 
 bool BuiltinModuleType::addInput(std::string name, SignalType signalType)
 {
-    //TODO
-    return false;
+    if(getInput(name) != nullptr)return false;
+    m_inputs.emplace_back(new ModuleInput(name, signalType, *this));
+    return true;
 }
 
 bool BuiltinModuleType::addOutput(std::string name, SignalType signalType)
 {
-    //TODO
+    if(getOutput(name) != nullptr)return false;
+    m_outputs.emplace_back(new ModuleOutput(name, signalType, *this));
     return false;
 }
 
