@@ -33,7 +33,7 @@ const ModuleInput *InputModuleType::getInput(std::string name) const
     }
 }
 
-const ModuleOutput *InputModuleType::getOutput(std::string name) const
+const ModuleOutput *InputModuleType::getOutput(std::string /*name*/) const
 {
     return nullptr;
 
