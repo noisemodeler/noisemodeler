@@ -81,7 +81,10 @@ bool CompositeModuleType::exportOutput(const OutputLink &outputLink, std::string
     if(getOutput(externalName) != nullptr){
         return false;
     }
-    //TODO verify that OutputLink is actually a part of the composite
+    //verify that OutputLink is actually a part of the composite
+    if(getModule(outputLink.getOwner().getName()) != &(outputLink.getOwner())){
+        return false;
+    }
     m_outputs.emplace_back(
                 std::unique_ptr<ModuleOutput>(new ModuleOutput(externalName, outputLink.getModuleOutput().getSignalType(), *this)),
                 outputLink);

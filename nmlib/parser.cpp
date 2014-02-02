@@ -112,7 +112,10 @@ optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson:
         }
         for(rapidjson::SizeType i = 0; i < outputsValue.Size(); i++){
             auto &outputValue = outputsValue[i];
-            //TODO check that it is string values first
+            if(!outputValue["name"].IsString() || !outputValue["source"].IsString()){
+                std::cerr << "Missing required field name or string";
+                return {};
+            }
             std::string externalName = outputValue["name"].GetString();
             std::string sourceString = outputValue["source"].GetString();
             auto dotPos = sourceString.find(".");
