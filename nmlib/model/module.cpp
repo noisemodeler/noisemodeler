@@ -31,7 +31,11 @@ InputLink *Module::getInput(std::string name)
 
 OutputLink *Module::getOutput(std::string name)
 {
-
+    using namespace std;
+    auto it = find_if(begin(m_outputs), end(m_outputs),
+                      [&](const OutputLink &outputLink){return outputLink.getModuleOutput().getName() == name;}
+    );
+    return it != end(m_outputs) ? &(*it) : nullptr;
 }
 
 } // namespace nmlib
