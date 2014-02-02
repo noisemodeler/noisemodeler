@@ -68,7 +68,7 @@ optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson:
 
     auto moduleType = std::unique_ptr<CompositeModuleType>{new CompositeModuleType(moduleTypeName, description)};
 
-    //parse Inputs
+    //parse inputs
     auto &inputsValue = type["inputs"];
     if(!inputsValue.IsNull()){
         if(!inputsValue.IsArray()){
@@ -103,6 +103,34 @@ optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson:
         }
     }
 
+    //parse outputs
+    auto &outputsValue = type["outputs"];
+    if(!outputsValue.IsNull()){
+        if(!outputsValue.IsArray()){
+            std::cerr << "outputs is not an array\n";
+            return {};
+        }
+        for(rapidjson::SizeType i = 0; i < outputsValue.Size(); i++){
+            auto &outputValue = outputsValue[i];
+            //TODO check that it is string values first
+            std::string externalName = outputValue["name"].GetString();
+            std::string sourceString = outputValue["source"].GetString();
+            auto dotPos = sourceString.find(".");
+            auto sourceModuleString = sourceString.substr(0, dotPos);
+            auto outputLinkString = sourceString.substr(dotPos+1);
+            Module* module = moduleType->getModule(sourceModuleString);
+            if(module==nullptr){
+                std::cerr << "Couldn't find the output node for: " << sourceString << "\n";
+                return {};
+            }
+            OutputLink* outputLink = module->getOutput(outputLinkString);
+            if(outputLink==nullptr){
+                std::cerr << "Couldn't find an output named: " << outputLinkString << "\n";
+                return{};
+            }
+            moduleType->exportOutput(*outputLink, externalName);
+        }
+    }
 
     return {std::move(moduleType)};
 }

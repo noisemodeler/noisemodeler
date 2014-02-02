@@ -79,7 +79,7 @@ TEST(ParserTest, OneModuleType){
 
     //verify output
     {
-        auto *height = terrainModuleType->getInput("height");
+        auto *height = terrainModuleType->getOutput("height");
         ASSERT_NE(nullptr, height) << "Couldn't find a ModuleOutput named \"height\"";
         EXPECT_EQ("height", height->getName());
         auto &heightSignalType = height->getSignalType();

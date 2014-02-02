@@ -1,4 +1,5 @@
 #include <nmlib/model/typemanager.hpp>
+
 #include <nmlib/model/builtinmoduletype.hpp>
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
@@ -45,6 +46,8 @@ namespace {
 
 std::unique_ptr<const BuiltinModuleType> createFBM(){
     std::unique_ptr<BuiltinModuleType> moduleType{new BuiltinModuleType{"fbm", "fractional brownian motion"}};
+    moduleType->addInput("pos", SignalType{2});
+    moduleType->addOutput("out", SignalType{1});
     return std::move(moduleType);
 }
 
