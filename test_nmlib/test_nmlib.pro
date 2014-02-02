@@ -9,7 +9,11 @@ TEMPLATE = app
 TARGET = test_nmlib
 QT -= gui core
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++11 \
+    -pedantic-errors -Wshadow -Wwrite-strings -fshort-enums \
+    -Wctor-dtor-privacy -Wzero-as-null-pointer-constant -Wuseless-cast \
+    -Woverloaded-virtual -Wredundant-decls -Wsign-conversion -Weffc++ \
+    -Wold-style-cast
 
 SOURCES += \
     test_parser.cpp
