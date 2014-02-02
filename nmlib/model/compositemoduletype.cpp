@@ -13,7 +13,10 @@ CompositeModuleType::CompositeModuleType(const std::string& name, const std::str
     c_name(name),
     c_description(description),
     m_inputModuleType(*this),
-    m_outputs()
+    p_inputModule(new Module(m_inputModuleType, "input")),
+    m_inputs(),
+    m_outputs(),
+    m_modules() //TODO maybe add m_inputModule
 {
     //create inputmoduletype and inputmodule
     p_inputModule.reset(new Module(m_inputModuleType, "inputs"));

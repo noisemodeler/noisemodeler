@@ -55,14 +55,14 @@ optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson:
         std::cerr << "Module missing required field \"name\"\n";
         return {};
     }
-    std::string name = nameValue.GetString();
+    std::string moduleTypeName = nameValue.GetString();
     std::string description;
     auto &descriptionValue = type["description"];
     if(descriptionValue.IsString()){
         description = descriptionValue.GetString();
     }
 
-    auto moduleType = std::unique_ptr<CompositeModuleType>{new CompositeModuleType(name, description)};
+    auto moduleType = std::unique_ptr<CompositeModuleType>{new CompositeModuleType(moduleTypeName, description)};
 
     //parse Inputs
     auto &inputsValue = type["inputs"];

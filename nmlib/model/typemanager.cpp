@@ -9,7 +9,9 @@
 
 namespace nm {
 
-TypeManager::TypeManager()
+TypeManager::TypeManager():
+    m_userTypes(),
+    m_primitiveBuiltinTypes()
 {
 }
 

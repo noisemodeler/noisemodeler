@@ -10,7 +10,9 @@ namespace nm {
 
 Module::Module(const ModuleType &type, std::string name):
     c_type(type),
-    c_name(name)
+    c_name(name),
+    m_inputs(),
+    m_outputs()
 {
     for(auto &moduleInput : c_type.inputs()){
         m_inputs.push_back(InputLink(*this, *moduleInput));

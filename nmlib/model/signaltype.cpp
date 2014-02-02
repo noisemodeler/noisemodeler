@@ -2,7 +2,7 @@
 
 namespace nm {
 
-SignalType::SignalType(int dimensionality):dimensionality(dimensionality)
+SignalType::SignalType(int dimensions):dimensionality(dimensions)
 {
 }
 

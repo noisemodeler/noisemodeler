@@ -8,7 +8,8 @@
 namespace nm {
 
 InputModuleType::InputModuleType(const ModuleType &parentType):
-    c_parentType(parentType)
+    c_parentType(parentType),
+    m_inputs()
 {}
 
 std::string InputModuleType::getName() const

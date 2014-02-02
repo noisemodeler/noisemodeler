@@ -10,6 +10,8 @@
 # ifndef ___OPTIONAL_HPP___
 # define ___OPTIONAL_HPP___
 
+#pragma GCC diagnostic ignored "-Weffc++"
+
 # include <utility>
 # include <type_traits>
 # include <initializer_list>

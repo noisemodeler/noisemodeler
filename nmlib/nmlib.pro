@@ -1,7 +1,11 @@
 INCLUDEPATH += . .. ../dependencies
 TEMPLATE = lib
 CONFIG += staticlib
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++11 -Wall -Werror -Wextra \
+    -pedantic-errors -Wshadow -Wwrite-strings -fshort-enums \
+    -Wctor-dtor-privacy -Wzero-as-null-pointer-constant -Wuseless-cast \
+    -Woverloaded-virtual -Wredundant-decls -Wsign-conversion -Weffc++ \
+    -Wold-style-cast
 SOURCES = \
     model/inputlink.cpp \
     model/module.cpp \
