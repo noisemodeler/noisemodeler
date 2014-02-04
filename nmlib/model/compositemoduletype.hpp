@@ -20,7 +20,7 @@ class CompositeModuleType : public ModuleType
 {
 public:
     explicit CompositeModuleType(const std::string &name, const std::string &description);
-    ~CompositeModuleType();
+    virtual ~CompositeModuleType();
 
     virtual std::string getName() const override {return c_name;}
     virtual std::string getDescription() const override {return c_description;}
