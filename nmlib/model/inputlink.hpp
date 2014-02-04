@@ -13,11 +13,16 @@ class OutputLink;
 class InputLink
 {
 public:
-    explicit InputLink(const Module &owner, const ModuleInput &type):c_owner(owner), c_moduleInput(type), p_outputLink(nullptr){}
+    explicit InputLink(const Module &owner, const ModuleInput &type):
+        c_owner(owner),
+        c_moduleInput(type),
+        p_outputLink(nullptr)
+    {}
     bool link(OutputLink *output);
     void unlink();
     const Module& getOwner() const {return c_owner;}
     const ModuleInput& getModuleInput() const {return c_moduleInput;}
+    const OutputLink* getOutputLink() const {return p_outputLink;}
 
 private:
     const Module& c_owner;

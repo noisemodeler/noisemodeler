@@ -17,6 +17,8 @@ public:
     virtual const ModuleOutput *getOutput(std::string) const override;
     virtual std::vector<const ModuleOutput*> outputs() const override;
     virtual std::vector<const ModuleInput*> inputs() const override;
+    virtual void onCreatedModule(Module &/*module*/) override {}
+    virtual void onDestroyingModule(Module */*module*/) override {}
 
     bool addInput(std::string name, SignalType signalType);
 

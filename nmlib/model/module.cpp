@@ -22,6 +22,23 @@ Module::Module(const ModuleType &type, std::string name):
     }
 }
 
+Module::~Module()
+{
+    //again total badasses to const_casts
+    //might eventually solve this by making some methods private, and make moduletype and module friends
+    auto &mutableType = const_cast<ModuleType &>(c_type);
+    mutableType.onDestroyingModule(this);
+}
+
+std::unique_ptr<Module> Module::create(const ModuleType &type, std::string name)
+{
+    //We're gonna be total badasses and cast away the constness of the type
+    auto &mutableType = const_cast<ModuleType &>(type);
+    std::unique_ptr<Module> module{new Module{type, name}};
+    mutableType.onCreatedModule(*module);
+    return std::move(module);
+}
+
 InputLink *Module::getInput(std::string name)
 {
     using namespace std;

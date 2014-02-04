@@ -48,7 +48,7 @@ optional<std::unique_ptr<Module> > parseModule(const rapidjson::Value &moduleVal
         std::cerr << "Unknown type: " <<  typeString << std::endl;
         return {};
     }
-    std::unique_ptr<Module> module = std::unique_ptr<Module>(new Module(*type, nameString));
+    std::unique_ptr<Module> module = Module::create(*type, nameString);
     return {std::move(module)};
 }
 

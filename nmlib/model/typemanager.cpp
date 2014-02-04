@@ -16,6 +16,13 @@ TypeManager::TypeManager():
 {
 }
 
+TypeManager::~TypeManager()
+{
+    for(auto &compositeType : m_userTypes){
+        compositeType.second->clearModules();
+    }
+}
+
 bool TypeManager::addUserType(std::unique_ptr<CompositeModuleType> type)
 {
     if(getType(type->getName()) != nullptr){

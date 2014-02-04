@@ -75,6 +75,15 @@ TEST(ParserTest, OneModuleType){
         auto fbmmodule = terrainModuleType->getModule("fbm1");
         ASSERT_NE(nullptr, fbmmodule);
         EXPECT_EQ("fbm", fbmmodule->getType().getName());
+
+        //check that it's connected to the input
+        auto posInputLink = fbmmodule->getInput("pos");
+        ASSERT_NE(nullptr, posInputLink);
+        //TODO uncomment this part of the test
+        //check that fbm.pos is connected to input
+//        auto outputLink = posInputLink->getOutputLink();
+//        ASSERT_NE(nullptr, outputLink);
+//        EXPECT_EQ(terrainModuleType->getModule("input"), &(outputLink->getOwner()));
     }
 
     //verify output

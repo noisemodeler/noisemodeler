@@ -16,6 +16,7 @@ class TypeManager
 {
 public:
     TypeManager();
+    ~TypeManager();
     bool addUserType(std::unique_ptr<CompositeModuleType> type);
     const ModuleType *getType(std::string name) const;
     CompositeModuleType *getUserType(std::string name);

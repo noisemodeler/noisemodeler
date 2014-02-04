@@ -6,6 +6,7 @@
 #include <nmlib/model/module.hpp>
 
 #include <algorithm>
+#include <cassert>
 
 namespace nm {
 
@@ -13,13 +14,17 @@ CompositeModuleType::CompositeModuleType(const std::string& name, const std::str
     c_name(name),
     c_description(description),
     m_inputModuleType(*this),
-    p_inputModule(new Module(m_inputModuleType, "input")),
+    p_inputModule(Module::create(m_inputModuleType, "input")),
     m_inputs(),
     m_outputs(),
-    m_modules() //TODO maybe add m_inputModule
+    m_internalModules(),
+    m_modulesOfThisType()
 {
-    //create inputmoduletype and inputmodule
-    p_inputModule.reset(new Module(m_inputModuleType, "inputs"));
+}
+
+CompositeModuleType::~CompositeModuleType()
+{
+    assert(m_modulesOfThisType.empty());
 }
 
 const ModuleInput *CompositeModuleType::getInput(std::string name) const
@@ -66,6 +71,11 @@ std::vector<const ModuleInput *> CompositeModuleType::inputs() const
     return ret;
 }
 
+void CompositeModuleType::onDestroyingModule(Module *module)
+{
+    std::remove(std::begin(m_modulesOfThisType), std::end(m_modulesOfThisType), module);
+}
+
 bool CompositeModuleType::addInput(std::string name, SignalType signalType)
 {
     if(getInput(name) != nullptr){
@@ -93,16 +103,21 @@ bool CompositeModuleType::exportOutput(const OutputLink &outputLink, std::string
 
 bool CompositeModuleType::addModule(std::unique_ptr<Module> module)
 {
-    m_modules.push_back(std::move(module));
+    m_internalModules.push_back(std::move(module));
     return true;
+}
+
+void CompositeModuleType::clearModules()
+{
+    m_internalModules.clear();
 }
 
 Module *CompositeModuleType::getModule(const std::string &name)
 {
     using namespace std;
-    auto it = find_if(begin(m_modules), end(m_modules),
+    auto it = find_if(begin(m_internalModules), end(m_internalModules),
             [&](const std::unique_ptr<Module> &module){return module->getName() == name;});
-    return it != end(m_modules) ? it->get() : nullptr;
+    return it != end(m_internalModules) ? it->get() : nullptr;
 }
 
 } // namespace nm

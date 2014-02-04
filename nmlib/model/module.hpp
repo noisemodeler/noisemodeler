@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 namespace nm {
 
@@ -19,13 +20,15 @@ class ModuleOutput;
 class Module
 {
 public:
-    explicit Module(const ModuleType& getType, std::string getName);
+    ~Module();
+    static std::unique_ptr<Module> create(const ModuleType &type, std::string name);
     const ModuleType& getType() const {return c_type;}
     const std::string getName() const {return c_name;}
     InputLink *getInput(std::string getName);
     OutputLink *getOutput(std::string getName);
 
 private:
+    explicit Module(const ModuleType& getType, std::string getName);
     const ModuleType& c_type;
     const std::string c_name;
     std::vector<InputLink> m_inputs;
