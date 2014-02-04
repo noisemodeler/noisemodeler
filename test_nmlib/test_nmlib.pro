@@ -17,7 +17,8 @@ QMAKE_CXXFLAGS += -std=c++11 \
     -Wold-style-cast
 
 SOURCES += \
-    test_parser.cpp
+    test_parser.cpp \
+    test_model.cpp
 
 HEADERS +=
 
