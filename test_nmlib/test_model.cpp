@@ -30,4 +30,12 @@ TEST(ModelTest, BuiltinModuleType){
     EXPECT_EQ("testoutput", output->getName());
     EXPECT_EQ(3, output->getSignalType().dimensionality);
 }
+
+TEST(ModelTest, CompositeModuleTypeBasic){
+    //TODO why doesn't it work with a simple stack allocation?
+    std::unique_ptr<nm::CompositeModuleType> moduleType{new nm::CompositeModuleType("test", "testdescription")};
+    EXPECT_EQ("test", moduleType->getName());
+    EXPECT_EQ("testdescription", moduleType->getDescription());
+}
+
 }
