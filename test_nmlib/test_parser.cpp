@@ -81,8 +81,8 @@ TEST(ParserTest, OneModuleType){
         ASSERT_NE(nullptr, posInputLink);
         //TODO uncomment this part of the test
         //check that fbm.pos is connected to input
-//        auto outputLink = posInputLink->getOutputLink();
-//        ASSERT_NE(nullptr, outputLink);
+        auto outputLink = posInputLink->getOutputLink();
+        ASSERT_NE(nullptr, outputLink);
 //        EXPECT_EQ(terrainModuleType->getModule("input"), &(outputLink->getOwner()));
     }
 
