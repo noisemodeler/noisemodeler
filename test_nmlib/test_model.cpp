@@ -12,7 +12,7 @@ TEST(ModelTest, SignalType){
 }
 
 TEST(ModelTest, BuiltinModuleType){
-    auto moduleType = nm::BuiltinModuleType("test", "testdescription");
+    nm::BuiltinModuleType moduleType{"test", "testdescription"};
     EXPECT_EQ("test", moduleType.getName());
     EXPECT_EQ("testdescription", moduleType.getDescription());
 

@@ -7,13 +7,13 @@
 
 namespace nm {
 
-bool OutputLink::addLink(InputLink *input)
+bool OutputLink::addLink(InputLink &input)
 {
-    if(input == nullptr || input->getModuleInput().getSignalType().isConvertibleTo(c_moduleOutput.getSignalType())){
+    if(input.getModuleInput().getSignalType().isConvertibleTo(c_moduleOutput.getSignalType())){
         return false;
     }
-    input->link(this);
-    return m_inputLinks.insert(input).second;
+    input.link(*this);
+    return m_inputLinks.insert(&input).second;
 }
 
 bool OutputLink::unlink(InputLink *input)

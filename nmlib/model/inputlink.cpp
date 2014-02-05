@@ -7,17 +7,17 @@
 
 namespace nm {
 
-bool InputLink::link(OutputLink *output)
+bool InputLink::link(OutputLink &output)
 {
-    if(output == nullptr || output == p_outputLink ||
-            c_moduleInput.getSignalType() == output->getModuleOutput().getSignalType()){
+    if(&output == p_outputLink ||
+            c_moduleInput.getSignalType() != output.getModuleOutput().getSignalType()){
         return false;
     }
     if(p_outputLink != nullptr){
         unlink();
     }
-    p_outputLink = output;
-    output->addLink(this);
+    p_outputLink = &output;
+    output.addLink(*this);
     return true;
 }
 

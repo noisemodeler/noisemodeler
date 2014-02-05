@@ -2,14 +2,18 @@
 
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
+#include <nmlib/model/module.hpp>
 
 #include <algorithm>
+
+#include <cassert>
 
 namespace nm {
 
 InputModuleType::InputModuleType(const ModuleType &parentType):
     c_parentType(parentType),
-    m_inputs()
+    m_inputs(),
+    p_inputModule(nullptr)
 {}
 
 std::string InputModuleType::getName() const
@@ -63,6 +67,12 @@ std::vector<const ModuleInput *> InputModuleType::inputs() const
     return std::vector<const ModuleInput*>();
 }
 
+void InputModuleType::onCreatedModule(Module &module)
+{
+    assert(p_inputModule==nullptr);
+    p_inputModule = &module;
+}
+
 bool InputModuleType::addInput(std::string name, SignalType signalType)
 {
     if(getInput(name) != nullptr){
@@ -72,6 +82,9 @@ bool InputModuleType::addInput(std::string name, SignalType signalType)
     ModuleOutput output(name, signalType, *this);
     //TODO this doesn't really move! why?
     m_inputs.emplace_back(std::move(input), std::move(output));
+    if(p_inputModule!=nullptr){
+        p_inputModule->onAddedModuleOutput(m_inputs.back().second);
+    }
     return true;
 }
 

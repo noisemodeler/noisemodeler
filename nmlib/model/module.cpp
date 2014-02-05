@@ -57,4 +57,13 @@ OutputLink *Module::getOutput(std::string name)
     return it != end(m_outputs) ? &(*it) : nullptr;
 }
 
+void Module::onAddedModuleInput(const ModuleInput &moduleInput)
+{
+    m_inputs.push_back(InputLink(*this, moduleInput));
+}
+
+void Module::onAddedModuleOutput(const ModuleOutput &moduleOutput)
+{
+    m_outputs.push_back(OutputLink(*this, moduleOutput));
+}
 } // namespace nmlib

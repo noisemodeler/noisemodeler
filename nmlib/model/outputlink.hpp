@@ -23,7 +23,7 @@ public:
      * @param input
      * @return Whether a new link was added.
      */
-    bool addLink(InputLink *input);
+    bool addLink(InputLink &input);
 
     /**
      * @brief Remove the link an InputLink if it exists

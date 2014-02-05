@@ -36,11 +36,11 @@ public:
     bool addModule(std::unique_ptr<Module> module);
     void clearModules();
     Module* getModule(const std::string &name);
+    const Module* getModule(const std::string &name) const;
 private:
     const std::string c_name;
     const std::string c_description;
     InputModuleType m_inputModuleType;
-    std::unique_ptr<Module> p_inputModule;
     std::vector<std::unique_ptr<ModuleInput>> m_inputs;
     std::vector<std::pair<std::unique_ptr<ModuleOutput>, const OutputLink&>> m_outputs;
     std::vector<std::unique_ptr<Module>> m_internalModules;

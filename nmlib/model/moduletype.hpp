@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include <nmlib/model/noncopyable.hpp>
+
 namespace nm {
 
 class Module;
@@ -13,7 +15,7 @@ class ModuleInput;
 /**
  * @brief Interface for describing a module and its inputs and outputs.
  */
-class ModuleType
+class ModuleType : NonCopyable
 {
 public:
     virtual ~ModuleType(){}

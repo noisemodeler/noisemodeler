@@ -7,6 +7,7 @@ class NonCopyable
 {
 protected:
     NonCopyable() = default;
+    virtual ~NonCopyable() = default;
 private:
     NonCopyable( const NonCopyable& other ) = delete; // non construction-copyable
     NonCopyable& operator=( const NonCopyable& ) = delete; // non copyable;

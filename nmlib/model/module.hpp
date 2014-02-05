@@ -26,6 +26,8 @@ public:
     const std::string getName() const {return c_name;}
     InputLink *getInput(std::string getName);
     OutputLink *getOutput(std::string getName);
+    void onAddedModuleInput(const ModuleInput &moduleInput);
+    void onAddedModuleOutput(const ModuleOutput &moduleOutput);
 
 private:
     explicit Module(const ModuleType& getType, std::string getName);

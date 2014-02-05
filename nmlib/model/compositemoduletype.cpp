@@ -14,12 +14,13 @@ CompositeModuleType::CompositeModuleType(const std::string& name, const std::str
     c_name(name),
     c_description(description),
     m_inputModuleType(*this),
-    p_inputModule(Module::create(m_inputModuleType, "input")),
     m_inputs(),
     m_outputs(),
     m_internalModules(),
     m_modulesOfThisType()
 {
+    auto inputModule = Module::create(m_inputModuleType, "inputs");
+    m_internalModules.emplace_back(std::move(inputModule));
 }
 
 CompositeModuleType::~CompositeModuleType()
@@ -118,6 +119,11 @@ Module *CompositeModuleType::getModule(const std::string &name)
     auto it = find_if(begin(m_internalModules), end(m_internalModules),
             [&](const std::unique_ptr<Module> &module){return module->getName() == name;});
     return it != end(m_internalModules) ? it->get() : nullptr;
+}
+
+const Module *CompositeModuleType::getModule(const std::string &name) const
+{
+    return (const_cast<CompositeModuleType*>(this)->getModule(name));
 }
 
 } // namespace nm

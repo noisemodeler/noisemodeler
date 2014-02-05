@@ -18,7 +18,7 @@ public:
         c_moduleInput(type),
         p_outputLink(nullptr)
     {}
-    bool link(OutputLink *output);
+    bool link(OutputLink &output);
     void unlink();
     const Module& getOwner() const {return c_owner;}
     const ModuleInput& getModuleInput() const {return c_moduleInput;}

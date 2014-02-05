@@ -13,6 +13,14 @@ namespace nm {
 
 namespace {
 
+optional<std::pair<std::string, std::string> > parseDotPair(const std::string &sourceString){
+    //TODO error checking
+    auto dotPos = sourceString.find(".");
+    auto sourceModuleString = sourceString.substr(0, dotPos);
+    auto outputLinkString = sourceString.substr(dotPos+1);
+    return {{sourceModuleString, outputLinkString}};
+}
+
 //std::vector<std::string> split(const std::string& input, const std::string& regex) {
 //    // passing -1 as the submatch index parameter performs splitting
 //    std::sregex_token_iterator
@@ -33,7 +41,7 @@ optional<SignalType> parseSignalType(const rapidjson::Value &signalTypeValue)
     return {SignalType{dimensionality}};
 }
 
-optional<std::unique_ptr<Module> > parseModule(const rapidjson::Value &moduleValue, const nm::TypeManager &typeManager)
+optional<std::unique_ptr<Module> > parseModule(const rapidjson::Value &moduleValue, const nm::TypeManager &typeManager, CompositeModuleType &owner)
 {
     if(!moduleValue["name"].IsString()){
         return {};
@@ -49,6 +57,49 @@ optional<std::unique_ptr<Module> > parseModule(const rapidjson::Value &moduleVal
         return {};
     }
     std::unique_ptr<Module> module = Module::create(*type, nameString);
+    //TODO parse inputs
+    auto &inputsValue = moduleValue["inputs"];
+    if(!inputsValue.IsNull()){
+        if(!inputsValue.IsObject()){
+            std::cerr << "Invalid input\n";
+            return {};
+        }
+        for(auto it = inputsValue.MemberBegin(); it != inputsValue.MemberEnd(); ++it){
+            if(!it->name.IsString() || !it->value.IsString()){
+                std::cerr << "Invalid member in inputs\n";
+                return {};
+            }
+
+            //find out which input to connect
+            auto inputName = it->name.GetString();
+            auto inputLink = module->getInput(inputName);
+            if(inputLink==nullptr){
+                std::cerr << "ModuleType \"" << module->getName() << "\" has no input named \"" << inputName << "\"\n";
+                return {};
+            }
+
+            //find out which outputlink to connect to
+            auto sourceString = it->value.GetString();
+            auto sourcePair = parseDotPair(sourceString);
+            if(!sourcePair){
+                std::cerr << "Couldn't parse input string\n";
+                return {};
+            }
+            auto sourceModule = owner.getModule(sourcePair->first);
+            if(sourceModule==nullptr){
+                std::cerr << "No module named \"" << sourcePair->first << "\" in ModuleType \"" << owner.getName() << "\"\n";
+                return {};
+            }
+
+            auto sourceOutputLink = sourceModule->getOutput(sourcePair->second);
+            if(sourceOutputLink==nullptr){
+                std::cerr << "No output named \"" << sourcePair->second << "\" in module \"" << sourceModule->getName() << "\"\n";
+                return {};
+            }
+            inputLink->link(*sourceOutputLink);
+        }
+
+    }
     return {std::move(module)};
 }
 
@@ -94,7 +145,7 @@ optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson:
             return {};
         }
         for(rapidjson::SizeType i = 0; i<modulesValue.Size(); i++){
-            auto maybeModule = parseModule(modulesValue[i], typeManager);
+            auto maybeModule = parseModule(modulesValue[i], typeManager, *moduleType);
             if(!maybeModule){
                 std::cerr << "Couldn't parse Module\n";
                 return {};
@@ -118,17 +169,20 @@ optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson:
             }
             std::string externalName = outputValue["name"].GetString();
             std::string sourceString = outputValue["source"].GetString();
-            auto dotPos = sourceString.find(".");
-            auto sourceModuleString = sourceString.substr(0, dotPos);
-            auto outputLinkString = sourceString.substr(dotPos+1);
-            Module* module = moduleType->getModule(sourceModuleString);
+            //dotpos stufff
+            auto sourcePair = parseDotPair(sourceString);
+            if(!sourcePair){
+                std::cerr << "Couldn't parse source string: " << sourceString << "\n";
+                return {};
+            }
+            Module* module = moduleType->getModule(sourcePair->first);
             if(module==nullptr){
                 std::cerr << "Couldn't find the output node for: " << sourceString << "\n";
                 return {};
             }
-            OutputLink* outputLink = module->getOutput(outputLinkString);
+            OutputLink* outputLink = module->getOutput(sourcePair->second);
             if(outputLink==nullptr){
-                std::cerr << "Couldn't find an output named: " << outputLinkString << "\n";
+                std::cerr << "Couldn't find an output named: " << sourcePair->second << "\n";
                 return{};
             }
             moduleType->exportOutput(*outputLink, externalName);
