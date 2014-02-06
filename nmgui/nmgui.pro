@@ -9,16 +9,27 @@ QML_IMPORT_PATH =
 TARGET = nmgui
 QT += qml
 
+QMAKE_CXXFLAGS += -std=c++11 \
+    -Wall -Werror -Wextra \
+    -pedantic-errors -Wshadow -Wwrite-strings -fshort-enums \
+    -Woverloaded-virtual -Wredundant-decls \
+    -Wold-style-cast
+
+# Qt doesn't like these warnings
+#QMAKE_CXXFLAGS += -Weffc++ -Wuseless-cast -Wzero-as-null-pointer-constant -Wsign-conversion -Wctor-dtor-privacy
+
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
     module.cpp \
     moduleinput.cpp \
-    moduleoutput.cpp
+    moduleoutput.cpp \
+    texturerenderer.cpp
 
 HEADERS += \
     moduleoutput.hpp \
     moduleinput.hpp \
-    module.hpp
+    module.hpp \
+    texturerenderer.hpp
 
 # Installation path
 # target.path =

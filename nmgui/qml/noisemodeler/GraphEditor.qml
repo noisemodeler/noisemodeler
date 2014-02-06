@@ -47,4 +47,5 @@ Rectangle {
         model:dummyModules
         Node{module:modelData}
     }
+    TexturePreview{}
 }
