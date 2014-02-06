@@ -42,3 +42,6 @@ LIBS += -L../nmlib -lnmlib
 include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
+OTHER_FILES += \
+    qml/noisemodeler/SubWindow.qml
+

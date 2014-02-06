@@ -1,84 +1,40 @@
 import QtQuick 2.2
 import NoiseModeler 1.0
 
-Rectangle {
+SubWindow {
     id: node
     property Module module
-    property alias nodeName: nodeLabel.text
-    property alias hover: nodeMouseArea.containsMouse
-    property real minWidth: Math.max(50, nodeContents.minWidth)
-    property real minHeight: header.height + nodeContents.minHeight
     property bool maximized: true
-    width: minWidth
-    height: minHeight
-    border.color: mystyle.borderColor
-    color:mystyle.node.bgColor
-    border.width: 1
-    radius: 3
-    smooth: true
-    MouseArea {
-        id: nodeMouseArea
+    windowTitle: module.name
 
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-
-        onClicked: {
+    mouseArea.onClicked: {
             maximized = !maximized;
-        }
-        hoverEnabled: true
-        drag.target: parent
-        drag.minimumY: 0
-        drag.minimumX: 0
-        drag.maximumX: graphEditor.width - node.width
-        drag.maximumY: graphEditor.height - node.height
     }
-    Rectangle{
-        id:header
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        height: 13
-        border.width: 1
-        border.color: mystyle.borderColor
-        color: mystyle.bgColor
-        Text {
-            x: 3
-            id: nodeLabel
-            text: module.name
-            font.pointSize: mystyle.smallTextSize
-            color: mystyle.textColor
-            anchors.verticalCenter: parent.Center
-        }
-    }
-    Row{
-        id: nodeContents
-        property int minWidth: childrenRect.width + 2 * horizontalMargins
-        property int minHeight: childrenRect.height + 2 * verticalMargins
-        property int horizontalMargins: 0
-        property int verticalMargins: 6
 
-        anchors.top: header.bottom
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.topMargin: verticalMargins
-        anchors.bottomMargin: verticalMargins
-        anchors.leftMargin: horizontalMargins
-        anchors.rightMargin: horizontalMargins
-        spacing: 5
-        Column{
-            Repeater{
-                model: module.inputs
-                NodeInput{model:modelData}
+    contents.width: nodeContents.width
+    contents.height: nodeContents.height
+    contents.children: [
+        Row{
+            id: nodeContents
+            property int minWidth: childrenRect.width// + 2 * horizontalMargins
+            property int minHeight: childrenRect.height// + 2 * verticalMargins
+            width: childrenRect.width
+            height: childrenRect.height
+
+            spacing: 10
+            Column{
+                Repeater{
+                    model: module.inputs
+                    NodeInput{model:modelData}
+                }
+            }
+
+            Column{
+                Repeater{
+                    model: module.outputs
+                    NodeOutput{model:modelData}
+                }
             }
         }
-        Column{
-            Repeater{
-                model: module.outputs
-                NodeOutput{model:modelData}
-            }
-        }
-    }
+    ]
 }

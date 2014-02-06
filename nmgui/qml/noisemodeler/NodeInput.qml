@@ -12,10 +12,11 @@ Item {
         DropArea{
             id:dropArea
             anchors.fill: parent
-            anchors.margins: -4
+            anchors.margins: -connector.width/2
             Rectangle{
-                anchors.fill: parent
-                anchors.margins: 4+1
+                anchors.centerIn: parent
+                width: connector.width
+                height: connector.height
                 color: "blue"
                 visible: dropArea.containsDrag
             }
