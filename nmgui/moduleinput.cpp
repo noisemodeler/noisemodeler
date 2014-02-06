@@ -2,8 +2,8 @@
 
 namespace nmgui {
 
-ModuleInput::ModuleInput(QObject *parent) :
-    QObject(parent), m_source(NULL)
+ModuleInput::ModuleInput(QObject *p) :
+    QObject(p), m_source(NULL)
 {
 }
 

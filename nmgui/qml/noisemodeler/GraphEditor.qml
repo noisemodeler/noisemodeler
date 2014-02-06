@@ -48,13 +48,5 @@ Rectangle {
         Node{module:modelData}
     }
     TexturePreview{}
-    SubWindow{
-        contents.children: [
-            Item {
-                width: 100
-                height:100
-            }
 
-        ]
-    }
 }

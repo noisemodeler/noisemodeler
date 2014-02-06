@@ -20,7 +20,8 @@ SOURCES = \
     model/noncopyable.cpp \
     model/compositemoduletype.cpp \
     model/inputmoduletype.cpp \
-    model/builtinmoduletype.cpp
+    model/builtinmoduletype.cpp \
+    glcompiler.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -35,4 +36,5 @@ HEADERS = \
     model/noncopyable.hpp \
     model/compositemoduletype.hpp \
     model/inputmoduletype.hpp \
-    model/builtinmoduletype.hpp
+    model/builtinmoduletype.hpp \
+    glcompiler.hpp

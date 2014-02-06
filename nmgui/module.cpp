@@ -4,8 +4,8 @@
 
 namespace nmgui {
 
-Module::Module(QObject *parent) :
-    QObject(parent)
+Module::Module(QObject *p) :
+    QObject(p)
 {
 }
 

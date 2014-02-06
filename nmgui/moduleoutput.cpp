@@ -2,8 +2,8 @@
 
 namespace nmgui {
 
-ModuleOutput::ModuleOutput(QObject *parent) :
-    QObject(parent)
+ModuleOutput::ModuleOutput(QObject *theParent) :
+    QObject(theParent)
 {
 }
 
