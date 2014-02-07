@@ -5,6 +5,7 @@
 #include <string>
 
 #include <nmlib/model/noncopyable.hpp>
+#include <nmlib/model/userdataprovider.hpp>
 
 namespace nm {
 
@@ -15,7 +16,7 @@ class ModuleInput;
 /**
  * @brief Interface for describing a module and its inputs and outputs.
  */
-class ModuleType : NonCopyable
+class ModuleType : NonCopyable, public UserDataProvider
 {
 public:
     virtual ~ModuleType(){}

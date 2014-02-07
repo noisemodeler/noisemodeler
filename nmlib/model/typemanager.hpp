@@ -12,7 +12,7 @@ namespace nm {
 
 class BuiltinModuleType;
 
-class TypeManager
+class TypeManager : public UserDataProvider
 {
 public:
     TypeManager();

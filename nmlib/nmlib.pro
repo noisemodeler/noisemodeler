@@ -5,8 +5,11 @@ QMAKE_CXXFLAGS += -std=c++11 \
     -Wall -Werror -Wextra \
     -pedantic-errors -Wshadow -Wwrite-strings -fshort-enums \
     -Wctor-dtor-privacy -Wzero-as-null-pointer-constant -Wuseless-cast \
-    -Woverloaded-virtual -Wredundant-decls -Wsign-conversion -Weffc++ \
+    -Woverloaded-virtual -Wredundant-decls -Wsign-conversion \
     -Wold-style-cast
+#flags that should probably be added again later:
+#CMAKE_CXXFLAGS += -Weffc++
+
 SOURCES = \
     model/inputlink.cpp \
     model/module.cpp \
@@ -21,7 +24,8 @@ SOURCES = \
     model/compositemoduletype.cpp \
     model/inputmoduletype.cpp \
     model/builtinmoduletype.cpp \
-    glcompiler.cpp
+    glcompiler.cpp \
+    model/userdataprovider.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -37,4 +41,5 @@ HEADERS = \
     model/compositemoduletype.hpp \
     model/inputmoduletype.hpp \
     model/builtinmoduletype.hpp \
-    glcompiler.hpp
+    glcompiler.hpp \
+    model/userdataprovider.hpp

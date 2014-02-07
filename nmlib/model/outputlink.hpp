@@ -1,6 +1,8 @@
 #ifndef NM_OUTPUTLINK_HPP
 #define NM_OUTPUTLINK_HPP
 
+#include <nmlib/model/userdataprovider.hpp>
+
 #include <set>
 
 namespace nm {
@@ -9,7 +11,7 @@ class Module;
 class ModuleOutput;
 class InputLink;
 
-class OutputLink
+class OutputLink : public UserDataProvider
 {
 public:
     explicit OutputLink(const Module &owner, const ModuleOutput &type):

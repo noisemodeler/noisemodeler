@@ -2,6 +2,7 @@
 #define NM_MODULEINPUT_HPP
 
 #include <nmlib/model/signaltype.hpp>
+#include <nmlib/model/userdataprovider.hpp>
 
 #include <string>
 
@@ -13,7 +14,7 @@ class ModuleType;
 /**
  * @brief Describes one of a ModuleType's inputs.
  */
-class ModuleInput
+class ModuleInput : public UserDataProvider
 {
 public:
     explicit ModuleInput(std::string name, SignalType signalType, const ModuleType &moduleType):

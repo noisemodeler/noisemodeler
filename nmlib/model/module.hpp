@@ -17,7 +17,7 @@ class ModuleOutput;
 /**
  * @brief A node in an expression tree.
  */
-class Module
+class Module : public UserDataProvider
 {
 public:
     ~Module();

@@ -3,6 +3,7 @@
 
 #include<nmlib/model/moduletype.hpp>
 #include<nmlib/model/signaltype.hpp>
+#include <nmlib/model/userdataprovider.hpp>
 
 namespace nm {
 
@@ -18,7 +19,7 @@ public:
     virtual std::vector<const ModuleOutput*> outputs() const override;
     virtual std::vector<const ModuleInput*> inputs() const override;
     virtual void onCreatedModule(Module &module) override;
-    virtual void onDestroyingModule(Module */*module*/) override{};
+    virtual void onDestroyingModule(Module */*module*/) override{}
 
     bool addInput(std::string name, SignalType signalType);
 

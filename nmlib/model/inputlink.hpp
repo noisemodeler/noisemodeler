@@ -1,6 +1,8 @@
 #ifndef NM_INPUTLINK_HPP
 #define NM_INPUTLINK_HPP
 
+#include <nmlib/model/userdataprovider.hpp>
+
 namespace nm {
 
 class Module;
@@ -10,7 +12,7 @@ class OutputLink;
 /**
  * @brief Describes which output of which node a ModuleInput of a specific Module is connected to.
  */
-class InputLink
+class InputLink : public UserDataProvider
 {
 public:
     explicit InputLink(const Module &owner, const ModuleInput &type):

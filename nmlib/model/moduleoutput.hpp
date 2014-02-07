@@ -2,6 +2,7 @@
 #define NM_MODULEOUTPUT_HPP
 
 #include <nmlib/model/signaltype.hpp>
+#include <nmlib/model/userdataprovider.hpp>
 
 #include <string>
 
@@ -12,7 +13,7 @@ class ModuleType;
 /**
  * @brief Describes one of a ModuleType's outputs
  */
-class ModuleOutput
+class ModuleOutput : public UserDataProvider
 {
 public:
     explicit ModuleOutput(std::string name, SignalType signalType, const ModuleType& moduleType):
