@@ -5,12 +5,12 @@
 
 namespace nmgui {
 
-class ModuleOutputQ : public QObject
+class OutputLinkQ : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
 public:
-    explicit ModuleOutputQ(QObject *parent = 0);
+    explicit OutputLinkQ(QObject *parent = 0);
     QString name() const;
     void setName(const QString &value);
 

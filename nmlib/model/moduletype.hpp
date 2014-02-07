@@ -4,8 +4,8 @@
 #include <vector>
 #include <string>
 
-#include <nmlib/model/noncopyable.hpp>
-#include <nmlib/model/userdataprovider.hpp>
+#include <nmlib/util/noncopyable.hpp>
+#include <nmlib/util/userdataprovider.hpp>
 
 namespace nm {
 

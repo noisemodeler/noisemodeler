@@ -4,6 +4,7 @@
 #include <nmlib/model/inputlink.hpp>
 #include <nmlib/model/outputlink.hpp>
 
+
 #include <vector>
 #include <string>
 #include <memory>
@@ -29,6 +30,8 @@ public:
     OutputLink *getOutput(std::string getName);
     void onAddedModuleInput(const ModuleInput &moduleInput);
     void onAddedModuleOutput(const ModuleOutput &moduleOutput);
+
+    //signals
 
 private:
     explicit Module(const ModuleType& getType, std::string getName);

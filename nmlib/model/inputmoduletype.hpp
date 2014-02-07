@@ -1,9 +1,9 @@
 #ifndef NM_INPUTMODULETYPE_HPP
 #define NM_INPUTMODULETYPE_HPP
 
-#include<nmlib/model/moduletype.hpp>
-#include<nmlib/model/signaltype.hpp>
-#include <nmlib/model/userdataprovider.hpp>
+#include <nmlib/model/moduletype.hpp>
+#include <nmlib/model/signaltype.hpp>
+#include <nmlib/util/userdataprovider.hpp>
 
 namespace nm {
 

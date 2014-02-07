@@ -1,7 +1,7 @@
 #ifndef NM_OUTPUTLINK_HPP
 #define NM_OUTPUTLINK_HPP
 
-#include <nmlib/model/userdataprovider.hpp>
+#include <nmlib/util/userdataprovider.hpp>
 
 #include <set>
 

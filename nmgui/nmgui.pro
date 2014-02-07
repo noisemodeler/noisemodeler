@@ -26,10 +26,10 @@ SOURCES += main.cpp \
     texturerenderer.cpp
 
 HEADERS += \
-    moduleoutput.hpp \
-    moduleinput.hpp \
-    module.hpp \
-    texturerenderer.hpp
+    texturerenderer.hpp \
+    moduleq.hpp \
+    outputlinkq.hpp \
+    inputlinkq.hpp
 
 # Installation path
 # target.path =

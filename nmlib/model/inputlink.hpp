@@ -1,7 +1,7 @@
 #ifndef NM_INPUTLINK_HPP
 #define NM_INPUTLINK_HPP
 
-#include <nmlib/model/userdataprovider.hpp>
+#include <nmlib/util/userdataprovider.hpp>
 
 namespace nm {
 

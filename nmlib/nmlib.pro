@@ -20,12 +20,12 @@ SOURCES = \
     model/signaltype.cpp \
     parser.cpp \
     model/typemanager.cpp \
-    model/noncopyable.cpp \
     model/compositemoduletype.cpp \
     model/inputmoduletype.cpp \
     model/builtinmoduletype.cpp \
     glcompiler.cpp \
-    model/userdataprovider.cpp
+    util/userdataprovider.cpp \
+    util/noncopyable.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -37,9 +37,10 @@ HEADERS = \
     model.hpp \
     parser.hpp \
     model/typemanager.hpp \
-    model/noncopyable.hpp \
     model/compositemoduletype.hpp \
     model/inputmoduletype.hpp \
     model/builtinmoduletype.hpp \
     glcompiler.hpp \
-    model/userdataprovider.hpp
+    util/userdataprovider.hpp \
+    util/noncopyable.hpp \
+    util/signals.hpp

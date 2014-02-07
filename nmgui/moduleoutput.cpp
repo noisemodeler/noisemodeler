@@ -1,18 +1,18 @@
-#include "moduleoutput.hpp"
+#include "outputlinkq.hpp"
 
 namespace nmgui {
 
-ModuleOutputQ::ModuleOutputQ(QObject *theParent) :
+OutputLinkQ::OutputLinkQ(QObject *theParent) :
     QObject(theParent)
 {
 }
 
-QString ModuleOutputQ::name() const
+QString OutputLinkQ::name() const
 {
     return m_name;
 }
 
-void ModuleOutputQ::setName(const QString &value)
+void OutputLinkQ::setName(const QString &value)
 {
     if(value != m_name){
         m_name = value;

@@ -1,7 +1,7 @@
 #ifndef NM_SIGNALTYPE_HPP
 #define NM_SIGNALTYPE_HPP
 
-#include <nmlib/model/noncopyable.hpp>
+#include <nmlib/util/noncopyable.hpp>
 
 namespace nm {
 

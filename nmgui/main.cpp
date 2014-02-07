@@ -1,6 +1,6 @@
-#include "module.hpp"
-#include "moduleinput.hpp"
-#include "moduleoutput.hpp"
+#include "moduleq.hpp"
+#include "inputlinkq.hpp"
+#include "outputlinkq.hpp"
 #include "texturerenderer.hpp"
 
 #include <QtGui/QGuiApplication>
@@ -17,16 +17,16 @@ int main(int argc, char *argv[])
 
     //register types
     qmlRegisterType<nmgui::TextureRenderer>("NoiseModeler", 1, 0, "TextureRenderer");
-    qmlRegisterType<nmgui::Module>("NoiseModeler", 1, 0, "Module");
-    qmlRegisterType<nmgui::ModuleInputQ>("NoiseModeler", 1, 0, "ModuleInput");
-    qmlRegisterType<nmgui::ModuleOutputQ>("NoiseModeler", 1, 0, "ModuleOutput");
+    qmlRegisterType<nmgui::ModuleQ>("NoiseModeler", 1, 0, "Module");
+    qmlRegisterType<nmgui::InputLinkQ>("NoiseModeler", 1, 0, "ModuleInput");
+    qmlRegisterType<nmgui::OutputLinkQ>("NoiseModeler", 1, 0, "ModuleOutput");
 
     //create mockup data
     nm::TypeManager typeManager;
     typeManager.initBuiltinTypes();
     auto fbmModuleType = typeManager.getType("fbm");
     auto fbmModule = nm::Module::create(*fbmModuleType, "myfbm");
-    nmgui::Module mockModule(fbmModule.get());
+    nmgui::ModuleQ mockModule(fbmModule.get());
 //    mockModule.setName("TestName");
 
     QtQuick2ApplicationViewer viewer;

@@ -1,31 +1,24 @@
-#include "moduleinput.hpp"
+#include "inputlinkq.hpp"
 
 namespace nmgui {
 
-ModuleInputQ::ModuleInputQ(QObject *p) :
-    QObject(p), m_source(NULL)
+InputLinkQ::InputLinkQ(nm::InputLink *inputLink, QObject *p) :
+    QObject(p), m_source(NULL), m_inputLink(inputLink)
 {
 }
 
-QString ModuleInputQ::name() const
+QString InputLinkQ::name() const
 {
-    return m_name;
+    auto str = m_inputLink->getModuleInput().getName();
+    return QString::fromUtf8(str.data(), str.size());
 }
 
-void ModuleInputQ::setName(const QString &value)
-{
-    if(value != m_name){
-        m_name = value;
-        emit nameChanged();
-    }
-}
-
-ModuleOutputQ *ModuleInputQ::source()
+OutputLinkQ *InputLinkQ::source()
 {
     return m_source;
 }
 
-void ModuleInputQ::setSource(ModuleOutputQ *value)
+void InputLinkQ::setSource(OutputLinkQ *value)
 {
     if(value != m_source){
         m_source = value;

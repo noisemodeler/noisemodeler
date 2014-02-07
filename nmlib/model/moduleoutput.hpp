@@ -2,7 +2,7 @@
 #define NM_MODULEOUTPUT_HPP
 
 #include <nmlib/model/signaltype.hpp>
-#include <nmlib/model/userdataprovider.hpp>
+#include <nmlib/util/userdataprovider.hpp>
 
 #include <string>
 
