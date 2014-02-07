@@ -10,7 +10,7 @@ namespace nm {
 
 Module::Module(const ModuleType &type, std::string name):
     c_type(type),
-    c_name(name),
+    m_name(name),
     m_inputs(),
     m_outputs()
 {
