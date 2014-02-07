@@ -3,7 +3,7 @@
 
 #include <nmlib/model/inputlink.hpp>
 #include <nmlib/model/outputlink.hpp>
-
+//#include <nmlib/util/signals.hpp>
 
 #include <vector>
 #include <string>
@@ -25,13 +25,15 @@ public:
     static std::unique_ptr<Module> create(const ModuleType &type, std::string name);
     const ModuleType& getType() const {return c_type;}
     const std::string getName() const {return m_name;}
-    void setName(std::string name){m_name=name;}
+    void setName(std::string name){m_name=name; /*nameChanged(*this, m_name)*/;}
     InputLink *getInput(std::string getName);
     OutputLink *getOutput(std::string getName);
     void onAddedModuleInput(const ModuleInput &moduleInput);
     void onAddedModuleOutput(const ModuleOutput &moduleOutput);
 
     //signals
+//    signal<void (Module&, const std::string&)> nameChanged;
+//    signal<void (Module&, const std::string&)> destroying;
 
 private:
     explicit Module(const ModuleType& getType, std::string getName);
