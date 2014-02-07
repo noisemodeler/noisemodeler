@@ -9,6 +9,8 @@
 #include <QQmlContext>
 #include <QtQml>
 
+#include <nmlib/model.hpp>
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
@@ -16,17 +18,21 @@ int main(int argc, char *argv[])
     //register types
     qmlRegisterType<nmgui::TextureRenderer>("NoiseModeler", 1, 0, "TextureRenderer");
     qmlRegisterType<nmgui::Module>("NoiseModeler", 1, 0, "Module");
-    qmlRegisterType<nmgui::ModuleInput>("NoiseModeler", 1, 0, "ModuleInput");
-    qmlRegisterType<nmgui::ModuleOutput>("NoiseModeler", 1, 0, "ModuleOutput");
-
-    QtQuick2ApplicationViewer viewer;
-    viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));
-    viewer.showExpanded();
+    qmlRegisterType<nmgui::ModuleInputQ>("NoiseModeler", 1, 0, "ModuleInput");
+    qmlRegisterType<nmgui::ModuleOutputQ>("NoiseModeler", 1, 0, "ModuleOutput");
 
     //create mockup data
-    nmgui::Module mockModule;
-    mockModule.setName("TestName");
+    nm::TypeManager typeManager;
+    typeManager.initBuiltinTypes();
+    auto fbmModuleType = typeManager.getType("fbm");
+    auto fbmModule = nm::Module::create(*fbmModuleType, "myfbm");
+    nmgui::Module mockModule(fbmModule.get());
+//    mockModule.setName("TestName");
+
+    QtQuick2ApplicationViewer viewer;
     viewer.rootContext()->setContextProperty("mockModule", &mockModule);
+    viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));
+    viewer.showExpanded();
 
     return app.exec();
 }

@@ -2,17 +2,17 @@
 
 namespace nmgui {
 
-ModuleInput::ModuleInput(QObject *p) :
+ModuleInputQ::ModuleInputQ(QObject *p) :
     QObject(p), m_source(NULL)
 {
 }
 
-QString ModuleInput::name() const
+QString ModuleInputQ::name() const
 {
     return m_name;
 }
 
-void ModuleInput::setName(const QString &value)
+void ModuleInputQ::setName(const QString &value)
 {
     if(value != m_name){
         m_name = value;
@@ -20,12 +20,12 @@ void ModuleInput::setName(const QString &value)
     }
 }
 
-ModuleOutput *ModuleInput::source()
+ModuleOutputQ *ModuleInputQ::source()
 {
     return m_source;
 }
 
-void ModuleInput::setSource(ModuleOutput *value)
+void ModuleInputQ::setSource(ModuleOutputQ *value)
 {
     if(value != m_source){
         m_source = value;

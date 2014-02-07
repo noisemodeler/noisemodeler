@@ -4,30 +4,30 @@
 
 namespace nmgui {
 
-Module::Module(QObject *p) :
-    QObject(p)
+Module::Module(nm::Module *module, QObject *p) :
+    QObject(p),
+    p_module(module)
 {
 }
 
 void Module::setName(const QString &value)
 {
-    if(value != m_name){
-        m_name = value;
-        emit nameChanged();
-    }
+    if(value == name())return;
+    p_module->setName(value.toUtf8().constData());
 }
 
 QString Module::name() const
 {
-    return m_name;
+    auto ss = p_module->getName();
+    return QString::fromUtf8(ss.data(), ss.size());
 }
 
-QQmlListProperty<ModuleInput> Module::inputs()
+QQmlListProperty<ModuleInputQ> Module::inputs()
 {
-    return QQmlListProperty<ModuleInput>(this, 0, &Module::append_input, &Module::inputsCount, &Module::inputAt, &Module::clearInputs);
+    return QQmlListProperty<ModuleInputQ>(this, 0, &Module::append_input, &Module::inputsCount, &Module::inputAt, &Module::clearInputs);
 }
 
-void Module::append_input(QQmlListProperty<ModuleInput> *list, ModuleInput *input)
+void Module::append_input(QQmlListProperty<ModuleInputQ> *list, ModuleInputQ *input)
 {
     Module *module = qobject_cast<Module *>(list->object);
     if(module){
@@ -36,7 +36,7 @@ void Module::append_input(QQmlListProperty<ModuleInput> *list, ModuleInput *inpu
     }
 }
 
-ModuleInput* Module::inputAt(QQmlListProperty<ModuleInput> *list, int index)
+ModuleInputQ* Module::inputAt(QQmlListProperty<ModuleInputQ> *list, int index)
 {
     Module *module = qobject_cast<Module *>(list->object);
     if(module){
@@ -46,7 +46,7 @@ ModuleInput* Module::inputAt(QQmlListProperty<ModuleInput> *list, int index)
     }
 }
 
-int Module::inputsCount(QQmlListProperty<ModuleInput> *list)
+int Module::inputsCount(QQmlListProperty<ModuleInputQ> *list)
 {
     Module *module = qobject_cast<Module *>(list->object);
     if(module){
@@ -56,7 +56,7 @@ int Module::inputsCount(QQmlListProperty<ModuleInput> *list)
     }
 }
 
-void Module::clearInputs(QQmlListProperty<ModuleInput> *list)
+void Module::clearInputs(QQmlListProperty<ModuleInputQ> *list)
 {
     Module *module = qobject_cast<Module *>(list->object);
     if(module){
@@ -64,12 +64,12 @@ void Module::clearInputs(QQmlListProperty<ModuleInput> *list)
     }
 }
 
-QQmlListProperty<ModuleOutput> Module::outputs()
+QQmlListProperty<ModuleOutputQ> Module::outputs()
 {
-    return QQmlListProperty<ModuleOutput>(this, 0, &Module::append_output, &Module::outputsCount, &Module::outputAt, &Module::clearOutputs);
+    return QQmlListProperty<ModuleOutputQ>(this, 0, &Module::append_output, &Module::outputsCount, &Module::outputAt, &Module::clearOutputs);
 }
 
-void Module::append_output(QQmlListProperty<ModuleOutput> *list, ModuleOutput *output)
+void Module::append_output(QQmlListProperty<ModuleOutputQ> *list, ModuleOutputQ *output)
 {
     Module *module = qobject_cast<Module *>(list->object);
     if(module){
@@ -78,7 +78,7 @@ void Module::append_output(QQmlListProperty<ModuleOutput> *list, ModuleOutput *o
     }
 }
 
-ModuleOutput* Module::outputAt(QQmlListProperty<ModuleOutput> *list, int index)
+ModuleOutputQ* Module::outputAt(QQmlListProperty<ModuleOutputQ> *list, int index)
 {
     Module *module = qobject_cast<Module *>(list->object);
     if(module){
@@ -88,7 +88,7 @@ ModuleOutput* Module::outputAt(QQmlListProperty<ModuleOutput> *list, int index)
     }
 }
 
-int Module::outputsCount(QQmlListProperty<ModuleOutput> *list)
+int Module::outputsCount(QQmlListProperty<ModuleOutputQ> *list)
 {
     Module *module = qobject_cast<Module *>(list->object);
     if(module){
@@ -98,7 +98,7 @@ int Module::outputsCount(QQmlListProperty<ModuleOutput> *list)
     }
 }
 
-void Module::clearOutputs(QQmlListProperty<ModuleOutput> *list)
+void Module::clearOutputs(QQmlListProperty<ModuleOutputQ> *list)
 {
     Module *module = qobject_cast<Module *>(list->object);
     if(module){

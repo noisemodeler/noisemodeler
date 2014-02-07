@@ -5,19 +5,19 @@
 
 namespace nmgui {
 
-class ModuleOutput;
+class ModuleOutputQ;
 
-class ModuleInput : public QObject
+class ModuleInputQ : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(nmgui::ModuleOutput* source READ source WRITE setSource NOTIFY sourceChanged)
+    Q_PROPERTY(nmgui::ModuleOutputQ* source READ source WRITE setSource NOTIFY sourceChanged)
 public:
-    explicit ModuleInput(QObject *parent = 0);
+    explicit ModuleInputQ(QObject *parent = 0);
     QString name() const;
     void setName(const QString &value);
-    ModuleOutput* source();
-    void setSource(ModuleOutput *value);
+    ModuleOutputQ* source();
+    void setSource(ModuleOutputQ *value);
 
 signals:
     void nameChanged();
@@ -27,7 +27,7 @@ public slots:
 
 private:
     QString m_name;
-    ModuleOutput* m_source;
+    ModuleOutputQ* m_source;
 };
 
 } // namespace nmgui

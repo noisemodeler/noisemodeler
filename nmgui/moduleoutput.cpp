@@ -2,17 +2,17 @@
 
 namespace nmgui {
 
-ModuleOutput::ModuleOutput(QObject *theParent) :
+ModuleOutputQ::ModuleOutputQ(QObject *theParent) :
     QObject(theParent)
 {
 }
 
-QString ModuleOutput::name() const
+QString ModuleOutputQ::name() const
 {
     return m_name;
 }
 
-void ModuleOutput::setName(const QString &value)
+void ModuleOutputQ::setName(const QString &value)
 {
     if(value != m_name){
         m_name = value;
