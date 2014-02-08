@@ -87,24 +87,24 @@ void TextureRenderer::compileProgram()
     m_program = new QOpenGLShaderProgram();
     m_program->addShaderFromSourceCode(QOpenGLShader::Vertex,
                                        "#version 130\n"
-                                       "attribute highp vec4 vertices;"
-                                       "varying highp vec2 coords;"
-                                       "void main() {"
-                                       "    gl_Position = vertices;"
-                                       "    coords = vertices.xy;"
-                                       "}");
+                                       "attribute highp vec4 vertices;\n"
+                                       "varying highp vec2 coords;\n"
+                                       "void main() {\n"
+                                       "    gl_Position = vertices;\n"
+                                       "    coords = vertices.xy;\n"
+                                       "}\n");
     std::stringstream fs;
     fs << "#version 130\n";
 
 //    fs << "float test(vec2 coords){return 0.5*coords.x;}";
     fs << m_thread_generatorFunctionSource;
 
-    fs << "uniform lowp float t;"
-          "varying highp vec2 coords;"
-          "void main() {"
-          "    float height = test(coords);"
-          "    gl_FragColor = vec4(height, height, height, 1);"
-          "}";
+    fs << "uniform lowp float t;\n"
+          "varying highp vec2 coords;\n"
+          "void main() {\n"
+          "    float height = test(coords);\n"
+          "    gl_FragColor = vec4(height, height, height, 1);\n"
+          "}\n";
     m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fs.str().c_str());
 
     m_program->bindAttributeLocation("vertices", 0);
