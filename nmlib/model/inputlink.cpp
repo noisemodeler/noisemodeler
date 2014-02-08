@@ -7,6 +7,11 @@
 
 namespace nm {
 
+InputLink::~InputLink()
+{
+    destroying(*this);
+}
+
 bool InputLink::link(OutputLink &output)
 {
     if(&output == p_outputLink ||

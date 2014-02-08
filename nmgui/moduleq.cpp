@@ -11,7 +11,15 @@ ModuleQ::ModuleQ(nm::Module *module, QObject *p) :
     p_module(module)
 {
     Q_ASSERT(p_module!=nullptr);
-    module->setUserData(this);
+    p_module->setUserData(this);
+    moduleDestroyedConnection = module->destroying.connect([&](nm::Module&){
+        deleteLater();
+});
+}
+
+ModuleQ::~ModuleQ()
+{
+    p_module->setUserData(nullptr);
 }
 
 void ModuleQ::setName(const QString &value)

@@ -23,7 +23,7 @@ class ModuleOutput;
 class Module : public UserDataProvider
 {
 public:
-    ~Module();
+    virtual ~Module();
     static std::unique_ptr<Module> create(const ModuleType &type, std::string name);
     const ModuleType& getType() const {return c_type;}
     const std::string getName() const {return m_name;}

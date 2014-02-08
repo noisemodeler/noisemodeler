@@ -21,6 +21,7 @@ public:
         c_moduleInput(type),
         p_outputLink(nullptr)
     {}
+    virtual ~InputLink();
     bool link(OutputLink &output);
     void unlink();
     const Module& getOwner() const {return c_owner;}
@@ -30,6 +31,7 @@ public:
 
     //signals
     signal<void (InputLink&)> linkChanged;
+    signal<void (InputLink&)> destroying;
 
 private:
     const Module& c_owner;

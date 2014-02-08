@@ -20,6 +20,7 @@ public:
         c_moduleOutput(type),
         m_inputLinks()
     {}
+    virtual ~OutputLink();
 
     /**
      * @brief Add a connection from this OutputLink to the specified InputLink
@@ -47,6 +48,7 @@ public:
 
     //signals
     signal<void (OutputLink&)> linksChanged;
+    signal<void (OutputLink&)> destroying;
 
 private:
     const Module &c_owner;

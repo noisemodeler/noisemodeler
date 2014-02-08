@@ -7,6 +7,11 @@
 
 namespace nm {
 
+OutputLink::~OutputLink()
+{
+    destroying(*this);
+}
+
 bool OutputLink::addLink(InputLink &input)
 {
     if(input.getModuleInput().getSignalType().isConvertibleTo(c_moduleOutput.getSignalType())){

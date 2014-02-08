@@ -1,6 +1,8 @@
 #ifndef NMGUI_MODULEINPUT_H
 #define NMGUI_MODULEINPUT_H
 
+#include <nmlib/util/signals.hpp>
+
 #include <QObject>
 
 namespace nm {
@@ -18,6 +20,7 @@ class InputLinkQ : public QObject
     Q_PROPERTY(nmgui::OutputLinkQ* outputLink READ outputLink WRITE outputLink NOTIFY sourceChanged)
 public:
     explicit InputLinkQ(nm::InputLink* inputLink = nullptr, QObject *parent = nullptr);
+    virtual ~InputLinkQ();
     static InputLinkQ *fromInputLink(nm::InputLink& outputLink);
 
     QString name() const;
@@ -32,6 +35,7 @@ public slots:
 private:
     OutputLinkQ* m_source;
     nm::InputLink *m_inputLink;
+    boost::signals2::scoped_connection m_inputLinkDestroyingConnection;
 };
 
 } // namespace nmgui

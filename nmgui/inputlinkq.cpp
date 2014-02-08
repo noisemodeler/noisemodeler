@@ -10,6 +10,14 @@ InputLinkQ::InputLinkQ(nm::InputLink *inputLink, QObject *p) :
     QObject(p), m_source(NULL), m_inputLink(inputLink)
 {
     m_inputLink->setUserData(this);
+    m_inputLinkDestroyingConnection = m_inputLink->destroying.connect([&](nm::InputLink&){
+        deleteLater();
+});
+}
+
+InputLinkQ::~InputLinkQ()
+{
+    m_inputLink->setUserData(nullptr);
 }
 
 InputLinkQ *InputLinkQ::fromInputLink(nm::InputLink &outputLink)

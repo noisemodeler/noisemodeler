@@ -10,7 +10,15 @@ OutputLinkQ::OutputLinkQ(nm::OutputLink* outputLink, QObject *theParent) :
     m_outputLink(outputLink)
 {
 //    QASSERT(outputLink!=nullptr);
-    outputLink->setUserData(this);
+    m_outputLink->setUserData(this);
+    m_outputLinkDestroyingConnection = m_outputLink->destroying.connect([&](nm::OutputLink&){
+        deleteLater();
+    });
+}
+
+OutputLinkQ::~OutputLinkQ()
+{
+    m_outputLink->setUserData(nullptr);
 }
 
 OutputLinkQ *OutputLinkQ::fromOutputLink(nm::OutputLink &outputLink)

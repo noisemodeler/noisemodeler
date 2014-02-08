@@ -1,8 +1,9 @@
 #ifndef NMGUI_MODULE_H
 #define NMGUI_MODULE_H
 
-#include <QObject>
 #include <QQmlListProperty>
+
+#include <nmlib/util/signals.hpp>
 
 namespace nm {
 class Module;
@@ -21,6 +22,7 @@ class ModuleQ : public QObject
     Q_PROPERTY(QQmlListProperty<nmgui::OutputLinkQ> outputs READ outputs NOTIFY outputsChanged)
 public:
     explicit ModuleQ(nm::Module* module = nullptr, QObject *parent = 0);
+    virtual ~ModuleQ();
 
     QString name() const;
     void setName(const QString &value);
@@ -41,6 +43,8 @@ private:
 
     static OutputLinkQ* outputAt(QQmlListProperty<OutputLinkQ> *list, int index);
     static int outputsCount(QQmlListProperty<OutputLinkQ> *list);
+
+    boost::signals2::scoped_connection moduleDestroyedConnection;
 
     nm::Module *p_module;
 };

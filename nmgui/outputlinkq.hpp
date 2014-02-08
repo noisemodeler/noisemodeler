@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include <nmlib/util/signals.hpp>
+
 namespace nm{
 class OutputLink;
 }
@@ -15,12 +17,14 @@ class OutputLinkQ : public QObject
     Q_PROPERTY(QString name READ name CONSTANT)
 public:
     explicit OutputLinkQ(nm::OutputLink* outputLink = nullptr, QObject *parent = 0);
+    virtual ~OutputLinkQ();
     static OutputLinkQ *fromOutputLink(nm::OutputLink &outputLink);
 
     QString name() const;
 
 private:
     nm::OutputLink *m_outputLink;
+    boost::signals2::scoped_connection m_outputLinkDestroyingConnection;
 };
 
 } // namespace nmgui
