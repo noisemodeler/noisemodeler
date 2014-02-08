@@ -12,7 +12,7 @@ namespace nmgui {
 class OutputLinkQ : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name)
+    Q_PROPERTY(QString name READ name CONSTANT)
 public:
     explicit OutputLinkQ(nm::OutputLink* outputLink = nullptr, QObject *parent = 0);
     static OutputLinkQ *fromOutputLink(nm::OutputLink &outputLink);

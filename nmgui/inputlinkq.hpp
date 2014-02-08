@@ -14,7 +14,7 @@ class OutputLinkQ;
 class InputLinkQ : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name)
+    Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(nmgui::OutputLinkQ* outputLink READ outputLink WRITE outputLink NOTIFY sourceChanged)
 public:
     explicit InputLinkQ(nm::InputLink* inputLink = nullptr, QObject *parent = nullptr);
