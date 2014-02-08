@@ -56,5 +56,6 @@ Rectangle {
 //        Node{module:modelData}
 //    }
     Node{module:mockModule}
+    Node{module:mockModule2}
     TexturePreview{}
 }

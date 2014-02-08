@@ -23,6 +23,7 @@ class ModuleQ : public QObject
 public:
     explicit ModuleQ(nm::Module* module = nullptr, QObject *parent = 0);
     virtual ~ModuleQ();
+    static ModuleQ* fromModule(nm::Module&module);
 
     QString name() const;
     void setName(const QString &value);

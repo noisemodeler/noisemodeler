@@ -22,6 +22,12 @@ ModuleQ::~ModuleQ()
     p_module->setUserData(nullptr);
 }
 
+ModuleQ *ModuleQ::fromModule(nm::Module &module)
+{
+    auto userData = static_cast<ModuleQ*>(module.getUserData());
+    return userData != nullptr ? userData : new ModuleQ(&module);
+}
+
 void ModuleQ::setName(const QString &value)
 {
     if(value == name())return;
