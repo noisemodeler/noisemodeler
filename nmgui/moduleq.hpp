@@ -36,15 +36,11 @@ signals:
 public slots:
 
 private:
-    static void append_input(QQmlListProperty<InputLinkQ> *list, InputLinkQ *input);
     static InputLinkQ* inputAt(QQmlListProperty<InputLinkQ> *list, int index);
     static int inputsCount(QQmlListProperty<InputLinkQ> *list);
-    static void clearInputs(QQmlListProperty<InputLinkQ> *list);
 
-    static void append_output(QQmlListProperty<OutputLinkQ> *list, OutputLinkQ *output);
     static OutputLinkQ* outputAt(QQmlListProperty<OutputLinkQ> *list, int index);
     static int outputsCount(QQmlListProperty<OutputLinkQ> *list);
-    static void clearOutputs(QQmlListProperty<OutputLinkQ> *list);
 
     nm::Module *p_module;
 };

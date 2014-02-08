@@ -28,12 +28,7 @@ QString ModuleQ::name() const
 
 QQmlListProperty<InputLinkQ> ModuleQ::inputs()
 {
-    return QQmlListProperty<InputLinkQ>(this, 0, &ModuleQ::append_input, &ModuleQ::inputsCount, &ModuleQ::inputAt, &ModuleQ::clearInputs);
-}
-
-void ModuleQ::append_input(QQmlListProperty<InputLinkQ> */*list*/, InputLinkQ */*input*/)
-{
-    //TODO remove
+    return QQmlListProperty<InputLinkQ>(this, 0, nullptr, &ModuleQ::inputsCount, &ModuleQ::inputAt, nullptr);
 }
 
 InputLinkQ* ModuleQ::inputAt(QQmlListProperty<InputLinkQ> *list, int index)
@@ -58,20 +53,9 @@ int ModuleQ::inputsCount(QQmlListProperty<InputLinkQ> *list)
     }
 }
 
-void ModuleQ::clearInputs(QQmlListProperty<InputLinkQ> */*list*/)
-{
-    //TODO remove
-}
-
-
 QQmlListProperty<OutputLinkQ> ModuleQ::outputs()
 {
-    return QQmlListProperty<OutputLinkQ>(this, 0, &ModuleQ::append_output, &ModuleQ::outputsCount, &ModuleQ::outputAt, &ModuleQ::clearOutputs);
-}
-
-void ModuleQ::append_output(QQmlListProperty<OutputLinkQ> */*list*/, OutputLinkQ */*output*/)
-{
-    //TODO remove
+    return QQmlListProperty<OutputLinkQ>(this, 0, nullptr, &ModuleQ::outputsCount, &ModuleQ::outputAt, nullptr);
 }
 
 OutputLinkQ* ModuleQ::outputAt(QQmlListProperty<OutputLinkQ> *list, int index)
@@ -94,12 +78,5 @@ int ModuleQ::outputsCount(QQmlListProperty<OutputLinkQ> *list)
         return 0;
     }
 }
-
-void ModuleQ::clearOutputs(QQmlListProperty<OutputLinkQ> */*list*/)
-{
-    //todo remvoe
-}
-
-
 
 } // namespace nmgui
