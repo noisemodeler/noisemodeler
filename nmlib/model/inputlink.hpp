@@ -2,6 +2,7 @@
 #define NM_INPUTLINK_HPP
 
 #include <nmlib/util/userdataprovider.hpp>
+#include <nmlib/util/signals.hpp>
 
 namespace nm {
 
@@ -25,6 +26,10 @@ public:
     const Module& getOwner() const {return c_owner;}
     const ModuleInput& getModuleInput() const {return c_moduleInput;}
     const OutputLink* getOutputLink() const {return p_outputLink;}
+    OutputLink* getOutputLink() {return p_outputLink;}
+
+    //signals
+    signal<void (InputLink&)> linkChanged;
 
 private:
     const Module& c_owner;

@@ -18,6 +18,7 @@ bool InputLink::link(OutputLink &output)
     }
     p_outputLink = &output;
     output.addLink(*this);
+    linkChanged(*this);
     return true;
 }
 
@@ -32,6 +33,7 @@ void InputLink::unlink()
     if(tmp != nullptr){
         tmp->unlink(this);
     }
+    linkChanged(*this);
 }
 
 } // namespace nm

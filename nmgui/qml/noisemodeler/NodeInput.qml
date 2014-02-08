@@ -21,7 +21,7 @@ Item {
                 visible: dropArea.containsDrag
             }
             onDropped: {
-                model.source = drag.source.parent.parent.model;
+                model.outputLink = drag.source.parent.parent.model;
             }
         }
     }

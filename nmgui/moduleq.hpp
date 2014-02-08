@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QQmlListProperty>
 
-#include <nmlib/model.hpp>
+namespace nm {
+class Module;
+}
 
 namespace nmgui {
 
@@ -43,10 +45,6 @@ private:
     static OutputLinkQ* outputAt(QQmlListProperty<OutputLinkQ> *list, int index);
     static int outputsCount(QQmlListProperty<OutputLinkQ> *list);
     static void clearOutputs(QQmlListProperty<OutputLinkQ> *list);
-
-    QString m_name;
-    QList<InputLinkQ *> m_inputs;
-    QList<OutputLinkQ *> m_outputs;
 
     nm::Module *p_module;
 };

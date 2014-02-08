@@ -1,5 +1,8 @@
 #include "moduleq.hpp"
 #include "inputlinkq.hpp"
+#include "outputlinkq.hpp"
+
+#include <nmlib/model/module.hpp>
 
 namespace nmgui {
 
@@ -7,6 +10,8 @@ ModuleQ::ModuleQ(nm::Module *module, QObject *p) :
     QObject(p),
     p_module(module)
 {
+    Q_ASSERT(p_module!=nullptr);
+    module->setUserData(this);
 }
 
 void ModuleQ::setName(const QString &value)
@@ -26,22 +31,20 @@ QQmlListProperty<InputLinkQ> ModuleQ::inputs()
     return QQmlListProperty<InputLinkQ>(this, 0, &ModuleQ::append_input, &ModuleQ::inputsCount, &ModuleQ::inputAt, &ModuleQ::clearInputs);
 }
 
-void ModuleQ::append_input(QQmlListProperty<InputLinkQ> *list, InputLinkQ *input)
+void ModuleQ::append_input(QQmlListProperty<InputLinkQ> */*list*/, InputLinkQ */*input*/)
 {
-    ModuleQ *module = qobject_cast<ModuleQ *>(list->object);
-    if(module){
-        module->m_inputs.append(input);
-        emit module->inputsChanged();
-    }
+    //TODO remove
 }
 
 InputLinkQ* ModuleQ::inputAt(QQmlListProperty<InputLinkQ> *list, int index)
 {
     ModuleQ *module = qobject_cast<ModuleQ *>(list->object);
     if(module){
-        return module->m_inputs.at(index);
+        auto inputLink = module->p_module->getInput(index);
+        Q_ASSERT(inputLink!=nullptr);
+        return InputLinkQ::fromInputLink(*inputLink);
     } else {
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -49,41 +52,36 @@ int ModuleQ::inputsCount(QQmlListProperty<InputLinkQ> *list)
 {
     ModuleQ *module = qobject_cast<ModuleQ *>(list->object);
     if(module){
-        return module->m_inputs.count();
+        return module->p_module->getInputSize();
     } else {
         return 0;
     }
 }
 
-void ModuleQ::clearInputs(QQmlListProperty<InputLinkQ> *list)
+void ModuleQ::clearInputs(QQmlListProperty<InputLinkQ> */*list*/)
 {
-    ModuleQ *module = qobject_cast<ModuleQ *>(list->object);
-    if(module){
-        module->m_inputs.clear();
-    }
+    //TODO remove
 }
+
 
 QQmlListProperty<OutputLinkQ> ModuleQ::outputs()
 {
     return QQmlListProperty<OutputLinkQ>(this, 0, &ModuleQ::append_output, &ModuleQ::outputsCount, &ModuleQ::outputAt, &ModuleQ::clearOutputs);
 }
 
-void ModuleQ::append_output(QQmlListProperty<OutputLinkQ> *list, OutputLinkQ *output)
+void ModuleQ::append_output(QQmlListProperty<OutputLinkQ> */*list*/, OutputLinkQ */*output*/)
 {
-    ModuleQ *module = qobject_cast<ModuleQ *>(list->object);
-    if(module){
-        module->m_outputs.append(output);
-        emit module->outputsChanged();
-    }
+    //TODO remove
 }
 
 OutputLinkQ* ModuleQ::outputAt(QQmlListProperty<OutputLinkQ> *list, int index)
 {
     ModuleQ *module = qobject_cast<ModuleQ *>(list->object);
     if(module){
-        return module->m_outputs.at(index);
+        auto outputLink = module->p_module->getOutput(index);
+        return outputLink != nullptr ? OutputLinkQ::fromOutputLink(*outputLink) : nullptr;
     } else {
-        return NULL;
+        return nullptr;
     }
 }
 
@@ -91,18 +89,15 @@ int ModuleQ::outputsCount(QQmlListProperty<OutputLinkQ> *list)
 {
     ModuleQ *module = qobject_cast<ModuleQ *>(list->object);
     if(module){
-        return module->m_outputs.count();
+        return module->p_module->getOutputSize();
     } else {
         return 0;
     }
 }
 
-void ModuleQ::clearOutputs(QQmlListProperty<OutputLinkQ> *list)
+void ModuleQ::clearOutputs(QQmlListProperty<OutputLinkQ> */*list*/)
 {
-    ModuleQ *module = qobject_cast<ModuleQ *>(list->object);
-    if(module){
-        module->m_outputs.clear();
-    }
+    //todo remvoe
 }
 
 

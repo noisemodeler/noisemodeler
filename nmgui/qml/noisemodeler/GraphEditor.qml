@@ -3,15 +3,15 @@ import NoiseModeler 1.0
 
 Rectangle {
     id:graphEditor
-    property list<Module> dummyModules: [
-        Module{
-            Component.onCompleted: {
-                console.log("GRAWRLBOOOOOO!");
+    property list<Module> dummyModules
+//        Module{
+//            Component.onCompleted: {
+//                console.log("GRAWRLBOOOOOO!");
 //                initjjjjjjjjjjjjjjjj
-            }
+//            }
 
-        }
-    ]
+//        }
+//    ]
 //        Module{
 //            name:"fBm"
 //            inputs:[

@@ -3,24 +3,24 @@
 
 #include <QObject>
 
+namespace nm{
+class OutputLink;
+}
+
 namespace nmgui {
 
 class OutputLinkQ : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QString name READ name)
 public:
-    explicit OutputLinkQ(QObject *parent = 0);
+    explicit OutputLinkQ(nm::OutputLink* outputLink = nullptr, QObject *parent = 0);
+    static OutputLinkQ *fromOutputLink(nm::OutputLink &outputLink);
+
     QString name() const;
-    void setName(const QString &value);
-
-signals:
-    void nameChanged();
-
-public slots:
 
 private:
-    QString m_name;
+    nm::OutputLink *m_outputLink;
 };
 
 } // namespace nmgui

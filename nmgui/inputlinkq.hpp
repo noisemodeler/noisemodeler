@@ -3,7 +3,9 @@
 
 #include <QObject>
 
-#include <nmlib/model.hpp>
+namespace nm {
+class InputLink;
+}
 
 namespace nmgui {
 
@@ -13,12 +15,14 @@ class InputLinkQ : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name)
-    Q_PROPERTY(nmgui::OutputLinkQ* source READ source WRITE setSource NOTIFY sourceChanged)
+    Q_PROPERTY(nmgui::OutputLinkQ* outputLink READ outputLink WRITE outputLink NOTIFY sourceChanged)
 public:
     explicit InputLinkQ(nm::InputLink* inputLink = nullptr, QObject *parent = nullptr);
+    static InputLinkQ *fromInputLink(nm::InputLink& outputLink);
+
     QString name() const;
-    OutputLinkQ* source();
-    void setSource(OutputLinkQ *value);
+    OutputLinkQ* outputLink();
+    void outputLink(OutputLinkQ *value);
 
 signals:
     void sourceChanged();

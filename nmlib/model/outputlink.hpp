@@ -2,6 +2,7 @@
 #define NM_OUTPUTLINK_HPP
 
 #include <nmlib/util/userdataprovider.hpp>
+#include <nmlib/util/signals.hpp>
 
 #include <set>
 
@@ -43,6 +44,9 @@ public:
 
     const Module &getOwner() const {return c_owner;}
     const ModuleOutput &getModuleOutput() const {return c_moduleOutput;}
+
+    //signals
+    signal<void (OutputLink&)> linksChanged;
 
 private:
     const Module &c_owner;
