@@ -31,7 +31,7 @@ void TextureRenderer::setT(qreal new_t)
         window()->update();
 }
 
-void TextureRenderer::setInputLink(nm::InputLink *newLink)
+void TextureRenderer::setInputLink(InputLinkQ *newLink)
 {
     if(newLink==m_inputLink){
         return;
@@ -43,7 +43,7 @@ void TextureRenderer::setInputLink(nm::InputLink *newLink)
     }
 }
 
-void TextureRenderer::setOutputLink(nm::OutputLink *newLink)
+void TextureRenderer::setOutputLink(OutputLinkQ *newLink)
 {
     if(newLink==m_outputLink){
         return;
@@ -162,7 +162,7 @@ void TextureRenderer::sync()
     m_thread_t = m_t;
     if(m_generatorDirty){
         if(m_inputLink == nullptr || m_outputLink == nullptr){return;}
-        auto source = nm::GLCompiler::compileToGlslFunction(*m_inputLink, *m_outputLink, "test");
+        auto source = nm::GLCompiler::compileToGlslFunction(m_inputLink->inputLink(), m_outputLink->outputLink(), "test");
 //        m_thread_generatorFunctionSource = QString::fromUtf8(source.data(), source.size());
         m_thread_generatorFunctionSource = source;
         m_generatorDirty = false;

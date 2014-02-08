@@ -22,6 +22,7 @@ public:
     explicit InputLinkQ(nm::InputLink* inputLink = nullptr, QObject *parent = nullptr);
     virtual ~InputLinkQ();
     static InputLinkQ *fromInputLink(nm::InputLink& outputLink);
+    nm::InputLink &inputLink();
 
     QString name() const;
     OutputLinkQ* outputLink();
@@ -33,7 +34,6 @@ signals:
 public slots:
 
 private:
-    OutputLinkQ* m_source;
     nm::InputLink *m_inputLink;
     boost::signals2::scoped_connection m_inputLinkDestroyingConnection;
 };

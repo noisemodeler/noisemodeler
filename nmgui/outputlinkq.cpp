@@ -31,6 +31,11 @@ OutputLinkQ *OutputLinkQ::fromOutputLink(nm::OutputLink &outputLink)
     }
 }
 
+nm::OutputLink &OutputLinkQ::outputLink()
+{
+    return *m_outputLink;
+}
+
 QString OutputLinkQ::name() const
 {
     auto name = m_outputLink->getModuleOutput().getName();

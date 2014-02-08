@@ -7,7 +7,8 @@
 namespace nmgui {
 
 InputLinkQ::InputLinkQ(nm::InputLink *inputLink, QObject *p) :
-    QObject(p), m_source(NULL), m_inputLink(inputLink)
+    QObject(p),
+    m_inputLink(inputLink)
 {
     m_inputLink->setUserData(this);
     m_inputLinkDestroyingConnection = m_inputLink->destroying.connect([&](nm::InputLink&){
@@ -30,6 +31,11 @@ InputLinkQ *InputLinkQ::fromInputLink(nm::InputLink &outputLink)
     }
 }
 
+nm::InputLink &InputLinkQ::inputLink()
+{
+    return *m_inputLink;
+}
+
 QString InputLinkQ::name() const
 {
     auto str = m_inputLink->getModuleInput().getName();
@@ -45,7 +51,7 @@ OutputLinkQ *InputLinkQ::outputLink()
 void InputLinkQ::outputLink(OutputLinkQ *value)
 {
     if(value == outputLink())return;
-    m_source = value;
+    m_inputLink->link(value->outputLink());
     emit sourceChanged();
 }
 
