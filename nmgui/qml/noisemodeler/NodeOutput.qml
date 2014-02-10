@@ -27,6 +27,7 @@ Item {
                 to.x: dragDummy.x
                 to.y: dragDummy.y + dragDummy.height/2
                 visible: dragArea.drag.active
+                strokeColor: mystyle.linkStrokeColor
             }
 
             drag.threshold: 0

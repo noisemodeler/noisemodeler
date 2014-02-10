@@ -9,7 +9,7 @@ QtObject {
     property color textColor: "#cccccc"
     property color textOnFgColor: "#000000"
     property color borderColor: "black"
-    property color linkStrokeColor: "#0000ff"
+    property color linkStrokeColor: fgColor
 
     property QtObject node: QtObject {
         property color bgColor: Qt.lighter(style.bgColor, 1.8)
