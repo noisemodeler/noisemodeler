@@ -43,7 +43,6 @@
 
 #include <QtQuick/qsgnode.h>
 #include <QtQuick/qsgflatcolormaterial.h>
-#include <QTransform>
 
 BezierCurve::BezierCurve(QQuickItem *parent)
     : QQuickItem(parent)
@@ -152,7 +151,7 @@ QSGNode *BezierCurve::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *)
     auto material = new QSGFlatColorMaterial;
     material->setColor(m_strokeColor);
     node->setMaterial(material);
-    // in case the flag has changed (I'm not sure if this is really needed?)
+    // in case the flag has changed (I'm not sure if this is really needed?) TODO
     node->setFlag(QSGNode::OwnsMaterial);
 
     QRectF bounds = boundingRect();
@@ -166,8 +165,8 @@ QSGNode *BezierCurve::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *)
                     + 3 * invt * t * t * m_p3
                     + t * t * t * m_p4;
 
-        float x = bounds.x() + pos.x() * bounds.width();
-        float y = bounds.y() + pos.y() * bounds.height();
+        float x = bounds.x() + pos.x();// * bounds.width();
+        float y = bounds.y() + pos.y();// * bounds.height();
 
         vertices[i].set(x, y);
     }

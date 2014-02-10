@@ -18,6 +18,16 @@ Item {
                 drag.target.Drag.drop();
                 drag.target.x=drag.target.y=0;
             }
+            onPressed: {
+                console.log("Starged dragging")
+            }
+            WeightedAngleCurve{
+                from: "0,0"
+                to.x: dragDummy.x
+                to.y: dragDummy.y
+                visible: dragArea.drag.active
+            }
+
             drag.threshold: 0
         }
         Rectangle{
