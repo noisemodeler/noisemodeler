@@ -36,7 +36,7 @@ Item {
             visible: model.outputLink
             function updateFrom(){
                 if(!otherConnector)return;
-                from.x = mapFromItem(otherConnector,0,0).x+otherConnector.width/2;
+                from.x = mapFromItem(otherConnector,0,0).x+otherConnector.width;
                 from.y = mapFromItem(otherConnector,0,0).y+otherConnector.height/2;
             }
             onOtherConnectorChanged: {
