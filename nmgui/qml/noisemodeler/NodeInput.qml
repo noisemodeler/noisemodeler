@@ -47,7 +47,7 @@ Item {
             }
             Component.onCompleted: {
                 nodeOutput.parent.parent.parent.parent.yChanged.connect(updateFrom);
-                nodeOutput.xChanged.connect(updateFrom);
+                nodeOutput.parent.parent.parent.parent.xChanged.connect(updateFrom);
             }
         }
     }
