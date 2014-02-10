@@ -59,4 +59,8 @@ Rectangle {
     Node{module:mockModule2}
     Node{module:mockModule3}
     TexturePreview{}
+    ToolTip{
+        x:100
+        y:100
+    }
 }
