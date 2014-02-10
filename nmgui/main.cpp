@@ -30,12 +30,13 @@ int main(int argc, char *argv[])
     nm::TypeManager typeManager;
     typeManager.initBuiltinTypes();
     auto fbmModuleType = typeManager.getType("fbm");
+    auto addModuleType = typeManager.getType("add");
     auto fbmModule = nm::Module::create(*fbmModuleType, "myfbm");
     auto fbmModule2 = nm::Module::create(*fbmModuleType, "myfbm2");
-    auto fbmModule3 = nm::Module::create(*fbmModuleType, "myfbm3");
+    auto AddModule = nm::Module::create(*addModuleType, "myAdd");
     auto mockModule = nmgui::ModuleQ::fromModule(*fbmModule);
     auto mockModule2 = nmgui::ModuleQ::fromModule(*fbmModule2);
-    auto mockModule3 = nmgui::ModuleQ::fromModule(*fbmModule3);
+    auto mockModule3 = nmgui::ModuleQ::fromModule(*AddModule);
 //    mockModule.setName("TestName");
 
     QtQuick2ApplicationViewer viewer;
