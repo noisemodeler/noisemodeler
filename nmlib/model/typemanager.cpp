@@ -54,6 +54,8 @@ namespace {
 std::unique_ptr<const BuiltinModuleType> createFBM(){
     std::unique_ptr<BuiltinModuleType> moduleType{new BuiltinModuleType{"fbm", "fractional brownian motion"}};
     moduleType->addInput("pos", SignalType{2});
+    moduleType->addInput("gain", SignalType{1});
+    moduleType->addInput("lacunarity", SignalType{1});
     moduleType->addOutput("out", SignalType{1});
     return std::move(moduleType);
 }

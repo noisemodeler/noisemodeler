@@ -53,7 +53,7 @@ void InputLinkQ::outputLink(OutputLinkQ *value)
 {
     if(value == outputLink())return;
     m_inputLink->link(value->outputLink());
-    emit sourceChanged();
+    emit outputLinkChanged();
 }
 
 } // namespace nmgui

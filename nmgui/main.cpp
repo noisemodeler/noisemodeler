@@ -32,13 +32,16 @@ int main(int argc, char *argv[])
     auto fbmModuleType = typeManager.getType("fbm");
     auto fbmModule = nm::Module::create(*fbmModuleType, "myfbm");
     auto fbmModule2 = nm::Module::create(*fbmModuleType, "myfbm2");
+    auto fbmModule3 = nm::Module::create(*fbmModuleType, "myfbm3");
     auto mockModule = nmgui::ModuleQ::fromModule(*fbmModule);
     auto mockModule2 = nmgui::ModuleQ::fromModule(*fbmModule2);
+    auto mockModule3 = nmgui::ModuleQ::fromModule(*fbmModule3);
 //    mockModule.setName("TestName");
 
     QtQuick2ApplicationViewer viewer;
     viewer.rootContext()->setContextProperty("mockModule", mockModule);
     viewer.rootContext()->setContextProperty("mockModule2", mockModule2);
+    viewer.rootContext()->setContextProperty("mockModule3", mockModule3);
     viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));
     viewer.showExpanded();
 

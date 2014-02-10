@@ -2,7 +2,9 @@ import QtQuick 2.0
 import NoiseModeler 1.0
 
 Item {
+    id:nodeOutput
     property ModuleOutput model
+    property alias connector: connector
     height: mystyle.node.connectorHeight
     width: connector.width + connectorDescription.width
     anchors.right: parent.right
@@ -18,9 +20,6 @@ Item {
                 drag.target.Drag.drop();
                 drag.target.x=drag.target.y=0;
             }
-            onPressed: {
-                console.log("Starged dragging")
-            }
             WeightedAngleCurve{
                 from.x: parent.width
                 from.y: parent.height/2
@@ -29,7 +28,6 @@ Item {
                 visible: dragArea.drag.active
                 strokeColor: mystyle.linkStrokeColor
             }
-
             drag.threshold: 0
         }
         Rectangle{

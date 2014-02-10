@@ -17,7 +17,7 @@ class InputLinkQ : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(nmgui::OutputLinkQ* outputLink READ outputLink WRITE outputLink NOTIFY sourceChanged)
+    Q_PROPERTY(nmgui::OutputLinkQ* outputLink READ outputLink WRITE outputLink NOTIFY outputLinkChanged)
 public:
     explicit InputLinkQ(nm::InputLink* inputLink = nullptr, QObject *parent = nullptr);
     virtual ~InputLinkQ();
@@ -29,7 +29,7 @@ public:
     void outputLink(OutputLinkQ *value);
 
 signals:
-    void sourceChanged();
+    void outputLinkChanged();
 
 public slots:
 
