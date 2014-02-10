@@ -22,9 +22,10 @@ Item {
                 console.log("Starged dragging")
             }
             WeightedAngleCurve{
-                from: "0,0"
+                from.x: parent.width
+                from.y: parent.height/2
                 to.x: dragDummy.x
-                to.y: dragDummy.y
+                to.y: dragDummy.y + dragDummy.height/2
                 visible: dragArea.drag.active
             }
 
