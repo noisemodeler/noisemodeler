@@ -11,7 +11,7 @@ TextureRenderer::TextureRenderer(QQuickItem *the_parent) :
     QQuickItem(the_parent),
     m_program(0),
     m_generatorDirty(true),
-    m_thread_generatorFunctionSource("float test(vec2 coords){return 0.5;}"),
+    m_thread_generatorFunctionSource("void test(in vec2 coords, out float height){height = 0.5;}"),
     m_thread_sourceDirty(true),
     m_inputLink(nullptr),
     m_outputLink(nullptr),
@@ -102,7 +102,8 @@ void TextureRenderer::compileProgram()
     fs << "uniform lowp float t;\n"
           "varying highp vec2 coords;\n"
           "void main() {\n"
-          "    float height = test(coords);\n"
+          "    float height;\n"
+          "    test(coords, height);\n"
           "    gl_FragColor = vec4(height, height, height, 1);\n"
           "}\n";
     m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fs.str().c_str());

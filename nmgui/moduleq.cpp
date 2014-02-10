@@ -14,16 +14,21 @@ ModuleQ::ModuleQ(nm::Module *module, QObject *p) :
     p_module->setUserData(this);
     moduleDestroyedConnection = module->destroying.connect([&](nm::Module&){
         deleteLater();
+        p_module->setUserData(nullptr);
+        p_module = nullptr;
 });
 }
 
 ModuleQ::~ModuleQ()
 {
-    p_module->setUserData(nullptr);
+    if(p_module!=nullptr){
+        p_module->setUserData(nullptr);
+    }
 }
 
 ModuleQ *ModuleQ::fromModule(nm::Module &module)
 {
+    //TODO switch to some Qt smart pointer instead of rawpointer?
     auto userData = static_cast<ModuleQ*>(module.getUserData());
     return userData != nullptr ? userData : new ModuleQ(&module);
 }

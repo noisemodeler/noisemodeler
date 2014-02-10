@@ -3,6 +3,8 @@
 #include "outputlinkq.hpp"
 #include "texturerenderer.hpp"
 
+#include "beziercurve.hpp"
+
 #include <QtGui/QGuiApplication>
 #include "qtquick2applicationviewer.h"
 
@@ -14,6 +16,9 @@
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+
+    //qt-licensed types
+    qmlRegisterType<BezierCurve>("CustomGeometry", 1, 0, "QtBezierCurve");
 
     //register types
     qmlRegisterType<nmgui::TextureRenderer>("NoiseModeler", 1, 0, "TextureRenderer");

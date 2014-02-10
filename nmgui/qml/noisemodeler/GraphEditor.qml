@@ -55,7 +55,8 @@ Rectangle {
 //        model:dummyModules
 //        Node{module:modelData}
 //    }
-    Node{module:mockModule}
-    Node{module:mockModule2}
-    TexturePreview{}
+//    Node{module:mockModule}
+//    Node{module:mockModule2}
+//    TexturePreview{}
+    BezierCurve{}
 }

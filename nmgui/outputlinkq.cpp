@@ -13,12 +13,13 @@ OutputLinkQ::OutputLinkQ(nm::OutputLink* outputLink, QObject *theParent) :
     m_outputLink->setUserData(this);
     m_outputLinkDestroyingConnection = m_outputLink->destroying.connect([&](nm::OutputLink&){
         deleteLater();
+        m_outputLink->setUserData(nullptr);
     });
 }
 
 OutputLinkQ::~OutputLinkQ()
 {
-    m_outputLink->setUserData(nullptr);
+    if(m_outputLink!=nullptr)m_outputLink->setUserData(nullptr);
 }
 
 OutputLinkQ *OutputLinkQ::fromOutputLink(nm::OutputLink &outputLink)
