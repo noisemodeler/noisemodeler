@@ -28,7 +28,15 @@ Rectangle {
         easing.type: Easing.InOutQuad
         from: 1
         to: 0
-        onStopped: tooltip.destroy();
+        onStopped: visible = false;
     }
-    Component.onCompleted: fadein.start();
+    onVisibleChanged: if(visible)fadein.start();
+    visible:false
+    function show(){
+        visible = true;
+        fadein.start();
+    }
+    function hide(){
+        fadeout.start();
+    }
 }
