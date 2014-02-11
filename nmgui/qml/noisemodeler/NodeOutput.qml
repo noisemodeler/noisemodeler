@@ -3,7 +3,7 @@ import NoiseModeler 1.0
 
 Item {
     id:nodeOutput
-    property ModuleOutput model
+    property OutputLink model
     property alias connector: connector
     height: mystyle.connector.height
     width: connector.width + connectorDescription.width
@@ -12,6 +12,7 @@ Item {
     Connector {
         id: connector
         connected: model.links.length > 0
+        dimensionality: model.dimensionality
         anchors.right: parent.right
         MouseArea {
             id:dragArea

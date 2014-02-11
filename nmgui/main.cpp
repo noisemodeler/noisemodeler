@@ -23,8 +23,8 @@ int main(int argc, char *argv[])
     //register types
     qmlRegisterType<nmgui::TextureRenderer>("NoiseModeler", 1, 0, "TextureRenderer");
     qmlRegisterType<nmgui::ModuleQ>("NoiseModeler", 1, 0, "Module");
-    qmlRegisterType<nmgui::InputLinkQ>("NoiseModeler", 1, 0, "ModuleInput");
-    qmlRegisterType<nmgui::OutputLinkQ>("NoiseModeler", 1, 0, "ModuleOutput");
+    qmlRegisterType<nmgui::InputLinkQ>("NoiseModeler", 1, 0, "InputLink");
+    qmlRegisterType<nmgui::OutputLinkQ>("NoiseModeler", 1, 0, "OutputLink");
 
     //create mockup data
     nm::TypeManager typeManager;

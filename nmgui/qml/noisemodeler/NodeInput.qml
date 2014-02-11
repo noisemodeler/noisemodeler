@@ -3,13 +3,14 @@ import NoiseModeler 1.0
 
 Item {
     id:nodeOutput
-    property ModuleInput model
+    property InputLink model
     height: mystyle.connector.height
     width: connector.width + connectorDescription.width
 
     Connector {
         id: connector
         connected: model.outputLink
+        dimensionality: model.dimensionality
         anchors.left: parent.left
         DropArea{
             id:dropArea

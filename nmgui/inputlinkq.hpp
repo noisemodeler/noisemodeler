@@ -17,6 +17,7 @@ class InputLinkQ : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(int dimensionality READ dimensionality CONSTANT)
     Q_PROPERTY(nmgui::OutputLinkQ* outputLink READ outputLink WRITE outputLink NOTIFY outputLinkChanged)
 public:
     explicit InputLinkQ(nm::InputLink* inputLink = nullptr, QObject *parent = nullptr);
@@ -25,6 +26,7 @@ public:
     nm::InputLink &inputLink();
 
     QString name() const;
+    int dimensionality() const;
     OutputLinkQ* outputLink();
     void outputLink(OutputLinkQ *value);
 

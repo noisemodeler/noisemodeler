@@ -43,6 +43,11 @@ QString InputLinkQ::name() const
     return QString::fromUtf8(str.data(), str.size());
 }
 
+int InputLinkQ::dimensionality() const
+{
+    return m_inputLink->getModuleInput().getSignalType().dimensionality;
+}
+
 OutputLinkQ *InputLinkQ::outputLink()
 {
     auto outputLink = m_inputLink->getOutputLink();

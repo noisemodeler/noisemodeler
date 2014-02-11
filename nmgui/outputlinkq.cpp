@@ -47,6 +47,11 @@ nm::OutputLink &OutputLinkQ::outputLink()
     return *m_outputLink;
 }
 
+int OutputLinkQ::dimensionality() const
+{
+    return m_outputLink->getModuleOutput().getSignalType().dimensionality;
+}
+
 QQmlListProperty<InputLinkQ> OutputLinkQ::links()
 {
     return QQmlListProperty<InputLinkQ>(this, 0, nullptr, &OutputLinkQ::linkCount, &OutputLinkQ::linkAt, nullptr);
