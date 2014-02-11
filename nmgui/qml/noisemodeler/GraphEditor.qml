@@ -60,11 +60,18 @@ Rectangle {
     Node{module:mockModule3}
     TexturePreview{}
     Rectangle{
-        x:100
-        y:100
-        width:100
-        height:100
-        color: "#ffffff"
-        ToolTipArea{}
+        id: test
+        x: 100
+        y: 100
+        width: 50
+        height: 50
+        color: "#ffaaaa"
+        ToolTipArea{
+            tip {
+                text:"1"
+                x: test.width + 10
+                y: test.height/2 - tip.height/2
+            }
+        }
     }
 }

@@ -1,7 +1,8 @@
 import QtQuick 2.0
 
 MouseArea {
-    property alias text: toolTip.text
+    property alias text: tip.text
+    property alias tip: tip
     property alias hideDelay: hideTimer.interval
     property alias showDelay: showTimer.interval
     id: mouseArea
@@ -10,16 +11,16 @@ MouseArea {
     Timer {
         id:showTimer
         interval: 1000
-        running: (mouseArea.containsMouse && !toolTip.visible)
-        onTriggered: toolTip.show();
+        running: (mouseArea.containsMouse && !tip.visible)
+        onTriggered: tip.show();
     }
     Timer {
         id:hideTimer
         interval: 100
-        running: !mouseArea.containsMouse && toolTip.visible
-        onTriggered: toolTip.hide();
+        running: !mouseArea.containsMouse && tip.visible
+        onTriggered: tip.hide();
     }
     ToolTip{
-        id:toolTip
+        id:tip
     }
 }
