@@ -43,6 +43,11 @@ public:
      */
     void unlinkAll();
 
+    int numLinks(){
+        return m_inputLinks.size();
+    }
+    InputLink* getLink(unsigned int index);
+
     const Module &getOwner() const {return c_owner;}
     const ModuleOutput &getModuleOutput() const {return c_moduleOutput;}
 
@@ -53,7 +58,7 @@ public:
 private:
     const Module &c_owner;
     const ModuleOutput &c_moduleOutput;
-    std::set<InputLink *> m_inputLinks;
+    std::vector<InputLink *> m_inputLinks;
 };
 
 } // namespace nm

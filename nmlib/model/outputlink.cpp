@@ -14,19 +14,19 @@ OutputLink::~OutputLink()
 
 bool OutputLink::addLink(InputLink &input)
 {
-    if(input.getModuleInput().getSignalType().isConvertibleTo(c_moduleOutput.getSignalType())){
+    if(!input.getModuleInput().getSignalType().isConvertibleTo(c_moduleOutput.getSignalType())){
         return false;
     }
     input.link(*this);
-    bool changed = m_inputLinks.insert(&input).second;
-    if(!changed)return false;
+    //TODO make sure there isn't already an input for this moduleinput
+    m_inputLinks.push_back(&input);
     linksChanged(*this);
     return true;
 }
 
 bool OutputLink::unlink(InputLink *input)
 {
-    std::set<InputLink*>::iterator it = m_inputLinks.find(input);
+    auto it = std::find(begin(m_inputLinks), end(m_inputLinks), input);
     if(it==m_inputLinks.end())return false;
     m_inputLinks.erase(it);
     linksChanged(*this);
@@ -38,6 +38,11 @@ void OutputLink::unlinkAll()
     if(m_inputLinks.empty())return;
     m_inputLinks.clear();
     linksChanged(*this);
+}
+
+InputLink *OutputLink::getLink(unsigned int index) {
+    if(index>=m_inputLinks.size())return nullptr;
+    return m_inputLinks[index];
 }
 
 } // namespace nm
