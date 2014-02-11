@@ -23,9 +23,11 @@ SOURCES = \
     model/compositemoduletype.cpp \
     model/inputmoduletype.cpp \
     model/builtinmoduletype.cpp \
-    glcompiler.cpp \
     util/userdataprovider.cpp \
-    util/noncopyable.cpp
+    util/noncopyable.cpp \
+    codegeneration/idgenerator.cpp \
+    codegeneration/inlinegenerator.cpp \
+    codegeneration/glslgenerator.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -40,7 +42,9 @@ HEADERS = \
     model/compositemoduletype.hpp \
     model/inputmoduletype.hpp \
     model/builtinmoduletype.hpp \
-    glcompiler.hpp \
     util/userdataprovider.hpp \
     util/noncopyable.hpp \
-    util/signals.hpp
+    util/signals.hpp \
+    codegeneration/idgenerator.hpp \
+    codegeneration/inlinegenerator.hpp \
+    codegeneration/glslgenerator.hpp

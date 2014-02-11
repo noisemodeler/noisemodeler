@@ -3,7 +3,7 @@
 #include <QtQuick/qquickwindow.h>
 #include <QtGui/QOpenGLContext>
 #include <sstream>
-#include <nmlib/glcompiler.hpp>
+#include <nmlib/codegeneration/glslgenerator.hpp>
 
 namespace nmgui {
 
@@ -163,7 +163,7 @@ void TextureRenderer::sync()
     m_thread_t = m_t;
     if(m_generatorDirty){
         if(m_inputLink == nullptr || m_outputLink == nullptr){return;}
-        auto source = nm::GLCompiler::compileToGlslFunction(m_inputLink->inputLink(), m_outputLink->outputLink(), "test");
+        auto source = nm::GlslGenerator::compileToGlslFunction(m_inputLink->inputLink(), m_outputLink->outputLink(), "test");
         m_thread_generatorFunctionSource = source;
         m_generatorDirty = false;
         m_thread_sourceDirty = true;
