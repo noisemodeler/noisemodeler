@@ -4,13 +4,13 @@ import NoiseModeler 1.0
 Item {
     id:nodeOutput
     property ModuleInput model
-    height: mystyle.node.connectorHeight
+    height: mystyle.connector.height
     width: connector.width + connectorDescription.width
 
     Connector {
         id: connector
+        connected: model.outputLink
         anchors.left: parent.left
-        color: model.outputLink ? mystyle.node.connectorColor : Qt.darker(mystyle.node.connectorColor, 2)
         DropArea{
             id:dropArea
             anchors.fill: parent

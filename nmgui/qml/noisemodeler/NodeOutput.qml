@@ -5,12 +5,13 @@ Item {
     id:nodeOutput
     property ModuleOutput model
     property alias connector: connector
-    height: mystyle.node.connectorHeight
+    height: mystyle.connector.height
     width: connector.width + connectorDescription.width
     anchors.right: parent.right
 
     Connector {
         id: connector
+        connected: model.links.length > 0
         anchors.right: parent.right
         MouseArea {
             id:dragArea

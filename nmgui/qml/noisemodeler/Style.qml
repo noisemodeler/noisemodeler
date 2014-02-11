@@ -14,7 +14,17 @@ QtObject {
 
     property QtObject node: QtObject {
         property color bgColor: Qt.lighter(style.bgColor, 1.8)
-        property color connectorColor: '#88FF88'
-        property real connectorHeight: 20
+    }
+
+    property QtObject connector: QtObject {
+        property variant connectedColors: [
+            '#88ff88', '#ff8888', '#8888ff',
+        ]
+        property variant disconnectedColors: [
+            Qt.darker(connectedColors[0], 1.8),
+            Qt.darker(connectedColors[1], 1.8),
+            Qt.darker(connectedColors[1], 1.8)
+        ]
+        property int height: 20
     }
 }
