@@ -16,6 +16,7 @@ Item {
             id:dropArea
             anchors.fill: parent
             anchors.margins: -connector.width/2
+            keys: [model.dimensionality]
             Rectangle{
                 anchors.centerIn: parent
                 width: connector.width

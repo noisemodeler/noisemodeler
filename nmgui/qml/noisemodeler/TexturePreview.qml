@@ -5,8 +5,8 @@ SubWindow {
     color:'black'
     windowTitle: "texture preview"
 
-    contents.width: 100
-    contents.height: 100
+    contents.width: 200
+    contents.height: 200
     contents.children: [
         TextureRenderer{
             inputLink: mockModule.inputs[0]
