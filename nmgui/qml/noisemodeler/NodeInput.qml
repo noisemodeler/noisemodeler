@@ -11,6 +11,7 @@ Item {
         id: connector
         connected: model.outputLink
         dimensionality: model.dimensionality
+        tipXdirection: -1
         anchors.left: parent.left
         DropArea{
             id:dropArea
