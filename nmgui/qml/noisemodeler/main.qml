@@ -4,20 +4,8 @@ Rectangle {
     Style { id:mystyle }
     width: 800
     height: 600
-    Rectangle {
-        id:menu
-        color: mystyle.topBar.bgColor
-        height: 40
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        Text {
-            color: "#cccccc"
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            text: "File"
-            verticalAlignment: Text.AlignVCenter
-        }
+    TopBar {
+        id: menu
     }
 
     GraphEditor{
@@ -25,5 +13,9 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        Node{module:mockModule}
+        Node{module:mockModule2}
+        Node{module:mockModule3}
+        TexturePreview{}
     }
 }

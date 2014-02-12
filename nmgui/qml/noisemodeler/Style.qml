@@ -56,6 +56,7 @@ QtObject {
 
     property QtObject topBar: QtObject {
         property color bgColor: style.bgColor2
+        property color textColor: style.textColor
     }
 
     property QtObject subWindow: QtObject {
@@ -71,9 +72,9 @@ QtObject {
             '#88ff88', '#ff8888', '#8888ff',
         ]
         property variant disconnectedColors: [
-            Qt.darker(connectedColors[0], 1.8),
-            Qt.darker(connectedColors[1], 1.8),
-            Qt.darker(connectedColors[1], 1.8)
+            Qt.darker(connectedColors[0], 2.8),
+            Qt.darker(connectedColors[1], 2.8),
+            Qt.darker(connectedColors[1], 2.8)
         ]
         property int height: 20
     }
