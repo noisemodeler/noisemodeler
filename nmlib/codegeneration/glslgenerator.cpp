@@ -31,7 +31,7 @@ std::string GlslGenerator::compileToGlslFunction(InputLink &inputLink, OutputLin
     InlineGenerator::OutputRemap outputRemap{heightId, &outputLink};
     std::vector<InputRemap> inputRemaps{inputRemap};
     std::vector<OutputRemap> outputRemaps{outputRemap};
-    generator.generateModule(inputRemaps, outputRemaps, sl);
+    generator.generateFromLinks(inputRemaps, outputRemaps, sl);
 //    InlineGenerator::compileInline(sl);
 
 

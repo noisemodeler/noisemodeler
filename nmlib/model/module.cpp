@@ -65,6 +65,16 @@ unsigned int Module::getInputSize() const
     return static_cast<unsigned int>(m_inputs.size());
 }
 
+std::vector<InputLink *> Module::getInputs()
+{
+    std::vector<InputLink *> inputs;
+    inputs.reserve(m_inputs.size());
+    for(auto &input : m_inputs){
+        inputs.push_back(input.get());
+    }
+    return inputs;
+}
+
 OutputLink *Module::getOutput(std::string name)
 {
     using namespace std;
@@ -85,6 +95,16 @@ unsigned int Module::getOutputSize() const
     return static_cast<unsigned int>(m_outputs.size());
 }
 
+std::vector<OutputLink *> Module::getOutputs()
+{
+    std::vector<OutputLink *> outputs;
+    outputs.reserve(m_outputs.size());
+    for(auto &output : m_outputs){
+        outputs.push_back(output.get());
+    }
+    return outputs;
+}
+
 void Module::onAddedModuleInput(const ModuleInput &moduleInput)
 {
     m_inputs.emplace_back(new InputLink(*this, moduleInput));
@@ -97,39 +117,15 @@ void Module::onAddedModuleOutput(const ModuleOutput &moduleOutput)
     addedOutputLink(*this, *m_outputs.back());
 }
 
-std::set<Module *> Module::getRequiredModules(const std::vector<OutputLink *> &outputs, const std::vector<InputLink *> &knownInputs)
+std::set<Module *> Module::getDependenciesSorted(const std::vector<OutputLink *> &outputs, const std::set<InputLink *> &ignoreInputs)
 {
-    //TODO create test for this function
-    std::set<InputLink *> knownInputsSet{knownInputs.begin(), knownInputs.end()};
-    std::set<Module *> requiredModules;
-    for(auto output : outputs){
-        requiredModules.insert(&output->getOwner());
-    }
-    std::vector<Module *> horizon{requiredModules.begin(), requiredModules.end()};
-    while(!horizon.empty()){
-        Module* module = horizon.back();
-        horizon.pop_back();
-        for(auto &inputLink : module->m_inputs){
-            auto outputLink = inputLink->getOutputLink();
-            if(outputLink==nullptr){
-                continue; //not connected, skip
-            }
-            if(knownInputsSet.find(inputLink.get())!=end(knownInputsSet)){
-                continue; //skip known inputs
-            }
-            Module &other_module = outputLink->getOwner();
-            //if it's a module we haven't seen before
-            if(requiredModules.find(&other_module) == end(requiredModules)){
-                //add it to the horizon
-                horizon.push_back(&other_module);
-            }
-        }
-        //when we have checked all inputs of a module, it is added to the required set
-        requiredModules.insert(module);
-    }
-    return requiredModules;
+    std::set<Module *> modules;
+    topologicallyTraverseDependencies(outputs, [&](Module& module){
+        modules.insert(&module);
+    }, ignoreInputs);
+    return modules;
 }
-
+//template?
 void Module::topologicallyTraverseDependencies(const std::vector<OutputLink *> &outputs, std::function<void (Module &)> visitor, const std::set<InputLink*> &ignoreInputs)
 {
     std::vector<Module *> remainingModules;

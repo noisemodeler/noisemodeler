@@ -13,23 +13,65 @@ InlineGenerator::InlineGenerator()
 
 void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
 {
-    //sort topologically
     std::vector<OutputLink*> outputs;
     outputs.reserve(outputRemaps.size());
     for(auto outputRemap : outputRemaps){
         outputs.push_back(outputRemap.outputLink);
     }
 
-    std::vector<InputLink*> inputs;
-    inputs.reserve(inputRemaps.size());
+    std::set<InputLink*> inputs;
     for(auto inputRemap : inputRemaps){
-        inputs.push_back(inputRemap.inputLink);
+        inputs.insert(inputRemap.inputLink);
     }
-    Module::getRequiredModules(outputs, inputs);
 
-    generatePreamble(inputRemaps, outputRemaps, out);
-    generateBody(out);
-    generatePostamble(outputRemaps, out);
+    std::vector<OutputRemap> internalOutputRemaps = outputRemaps;
+
+    auto dependencies = Module::getDependenciesSorted(outputs, inputs);
+
+    //generate code for all dependencies
+    for(auto module : dependencies){
+        //get existing remaps for inputs of this module
+        std::vector<InputRemap> moduleInputRemaps;
+        auto moduleInputLinks = module->getInputs();
+        for(auto inputLink : moduleInputLinks){
+            //is this the input we are going to export?
+            auto myMatch = std::find_if(inputRemaps.begin(), inputRemaps.end(), [&](const InputRemap& remap){
+                return remap.inputLink == inputLink;
+            });
+            if(myMatch!=inputRemaps.end()){
+                moduleInputRemaps.push_back(*myMatch);
+                continue;
+            }
+
+            auto outputLink = inputLink->getOutputLink();
+            if(outputLink==nullptr)continue;
+
+            auto match = std::find_if(internalOutputRemaps.begin(), internalOutputRemaps.end(), [=](OutputRemap& remap){
+                return remap.outputLink = outputLink;
+            });
+            if(match!=outputRemaps.end()){
+                //found matching outputlink in remaps
+                OutputRemap &remap = *match;
+                moduleInputRemaps.emplace_back(InputRemap{remap.externalName, inputLink}); //make the names match
+            }
+        }
+        //create uniqueid outputs of this module
+        std::vector<OutputRemap> moduleOutputRemaps;
+        auto moduleOutputLinks = module->getOutputs();
+        for(auto outputLink : moduleOutputLinks){
+            auto match = std::find_if(internalOutputRemaps.begin(), internalOutputRemaps.end(), [=](OutputRemap& remap){
+                return remap.outputLink == outputLink;
+            });
+            if(match!=outputRemaps.end()){
+                moduleOutputRemaps.push_back(*match);
+            } else {
+                OutputRemap remap{getUniqueId(), outputLink};
+                internalOutputRemaps.push_back(remap);
+                moduleOutputRemaps.push_back(std::move(remap));
+            }
+        }
+        generateModule(moduleInputRemaps, moduleOutputRemaps, out);
+    }
 }
 
 void InlineGenerator::generateModule(const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
@@ -46,6 +88,7 @@ std::string InlineGenerator::getUniqueId()
 
 void InlineGenerator::generatePreamble(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream& out)
 {
+    out << "\n//generating preamble\n";
     generateOutputDeclarations(outputRemaps, out);
     out << "{\n";
     generateInputDeclarations(inputRemaps, out);
@@ -62,12 +105,14 @@ void InlineGenerator::generateBody(std::ostream &out)
 
 void InlineGenerator::generatePostamble(std::vector<InlineGenerator::OutputRemap> remaps, std::ostream& out)
 {
+    out << "\n//generating postamble\n";
     generateOutputAssignments(remaps, out);
     out << "}\n";
 }
 
 void InlineGenerator::generateOutputDeclarations(const std::vector<InlineGenerator::OutputRemap> &remaps, std::ostream &out)
 {
+    out << "\n//generating output declarations\n";
     for(auto &remap : remaps){
         generateTypeKeyword(remap.outputLink->getModuleOutput().getSignalType(), out);
         out << " " << remap.externalName << ";\n";
@@ -76,6 +121,7 @@ void InlineGenerator::generateOutputDeclarations(const std::vector<InlineGenerat
 
 void InlineGenerator::generateInputDeclarations(const std::vector<InputRemap> &inputRemaps, std::ostream &out)
 {
+    out << "\n//generating input declarations\n";
     for(auto remap : inputRemaps){
         auto &moduleInput = remap.inputLink->getModuleInput();
         generateTypeKeyword(moduleInput.getSignalType(), out);
@@ -92,6 +138,7 @@ void InlineGenerator::generateInputAssignments(const std::vector<InlineGenerator
 
 void InlineGenerator::generateOutputAssignments(const std::vector<InlineGenerator::OutputRemap> &remaps, std::ostream &out)
 {
+    out << "\n//generating outputassignments\n";
     for(auto remap : remaps){
         out << remap.externalName << " = " << remap.outputLink->getModuleOutput().getName() << ";\n";
     }

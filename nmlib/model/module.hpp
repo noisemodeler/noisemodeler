@@ -34,11 +34,13 @@ public:
     InputLink *getInput(std::string getName);
     InputLink *getInput(unsigned int i);
     unsigned int getInputSize() const;
+    std::vector<InputLink*> getInputs();
 
     //outputs
     OutputLink *getOutput(std::string getName);
     OutputLink *getOutput(unsigned int i);
     unsigned int getOutputSize() const;
+    std::vector<OutputLink*> getOutputs();
 
     void onAddedModuleInput(const ModuleInput &moduleInput);
     void onAddedModuleOutput(const ModuleOutput &moduleOutput);
@@ -50,8 +52,8 @@ public:
     signal<void (Module&, OutputLink&)> addedOutputLink;
 
     //static methods
-    static std::set<Module *> getRequiredModules(const std::vector<OutputLink*> &outputs,
-                                                   const std::vector<InputLink*> &knownInputs = std::vector<InputLink*>());
+    static std::set<Module *> getDependenciesSorted(const std::vector<OutputLink*> &outputs,
+                                                    const std::set<InputLink *> &ignoreInputs = {});
     static void topologicallyTraverseDependencies(const std::vector<OutputLink*> &outputs, std::function<void(Module&)> visitor,
                                              const std::set<InputLink*> &ignoreInputs = {});
 
