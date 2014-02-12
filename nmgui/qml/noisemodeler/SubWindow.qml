@@ -26,7 +26,7 @@ Rectangle {
         height: titleHeight
 //        border.width: 0
 //        border.color: mystyle.borderColor
-        color: mystyle.bgColor
+        color: mystyle.subWindow.bgColor
         Text {
             x: 3
             id: nodeLabel
