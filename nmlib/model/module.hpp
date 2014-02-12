@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <functional>
 
 #include <nmlib/util/signals.hpp>
 
@@ -48,6 +49,11 @@ public:
     signal<void (Module&, InputLink&)> addedInputLink;
     signal<void (Module&, OutputLink&)> addedOutputLink;
 
+    //static methods
+    static std::set<Module *> getRequiredModules(const std::vector<OutputLink*> &outputs,
+                                                   const std::vector<InputLink*> &knownInputs = std::vector<InputLink*>());
+    static void topologicallyTraverseDependencies(const std::vector<OutputLink*> &outputs, std::function<void(Module&)> visitor,
+                                             const std::set<InputLink*> &ignoreInputs = {});
 
 private:
     explicit Module(const ModuleType& getType, std::string getName);

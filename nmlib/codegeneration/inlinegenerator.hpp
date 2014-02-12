@@ -20,17 +20,19 @@ public:
         OutputLink* outputLink;
     };
     explicit InlineGenerator();
-    void generateModule(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
+    virtual void generateFromLinks(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
+    virtual void generateModule(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
+    std::string getUniqueId();
 private:
-    void generatePreamble(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
-    void generateBody(std::ostream &out);
-    void generatePostamble(std::vector<OutputRemap> conversions, std::ostream &out);
+    virtual void generatePreamble(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
+    virtual void generateBody(std::ostream &out);
+    virtual void generatePostamble(std::vector<OutputRemap> conversions, std::ostream &out);
 
-    void generateOutputDeclarations(const std::vector<OutputRemap> &conversions, std::ostream& out);
-    void generateInputDeclarations(const std::vector<InputRemap> &inputRemaps, std::ostream& out);
-    void generateInputAssignments(const std::vector<InputRemap> &conversions, std::ostream& out);
-    void generateOutputAssignments(const std::vector<OutputRemap> &conversions, std::ostream& out);
-    void generateTypeKeyword(const SignalType &signalType, std::ostream& out);
+    virtual void generateOutputDeclarations(const std::vector<OutputRemap> &conversions, std::ostream& out);
+    virtual void generateInputDeclarations(const std::vector<InputRemap> &inputRemaps, std::ostream& out);
+    virtual void generateInputAssignments(const std::vector<InputRemap> &conversions, std::ostream& out);
+    virtual void generateOutputAssignments(const std::vector<OutputRemap> &conversions, std::ostream& out);
+    virtual void generateTypeKeyword(const SignalType &signalType, std::ostream& out);
 
     IdGenerator m_idGenerator;
 };

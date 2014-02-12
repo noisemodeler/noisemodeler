@@ -56,7 +56,7 @@ std::unique_ptr<const BuiltinModuleType> createFBM(){
     moduleType->addInput("pos", SignalType{2});
     moduleType->addInput("gain", SignalType{1});
     moduleType->addInput("lacunarity", SignalType{1});
-    moduleType->addOutput("out", SignalType{1});
+    moduleType->addOutput("result", SignalType{1});
     return std::move(moduleType);
 }
 
@@ -64,7 +64,7 @@ std::unique_ptr<const BuiltinModuleType> createAdd(){
     std::unique_ptr<BuiltinModuleType> moduleType{new BuiltinModuleType{"add", "out = lhs + rhs"}};
     moduleType->addInput("lhs", SignalType{1});
     moduleType->addInput("rhs", SignalType{1});
-    moduleType->addOutput("out", SignalType{1});
+    moduleType->addOutput("result", SignalType{1});
     return std::move(moduleType);
 }
 

@@ -96,4 +96,69 @@ void Module::onAddedModuleOutput(const ModuleOutput &moduleOutput)
     m_outputs.emplace_back(new OutputLink(*this, moduleOutput));
     addedOutputLink(*this, *m_outputs.back());
 }
+
+std::set<Module *> Module::getRequiredModules(const std::vector<OutputLink *> &outputs, const std::vector<InputLink *> &knownInputs)
+{
+    //TODO create test for this function
+    std::set<InputLink *> knownInputsSet{knownInputs.begin(), knownInputs.end()};
+    std::set<Module *> requiredModules;
+    for(auto output : outputs){
+        requiredModules.insert(&output->getOwner());
+    }
+    std::vector<Module *> horizon{requiredModules.begin(), requiredModules.end()};
+    while(!horizon.empty()){
+        Module* module = horizon.back();
+        horizon.pop_back();
+        for(auto &inputLink : module->m_inputs){
+            auto outputLink = inputLink->getOutputLink();
+            if(outputLink==nullptr){
+                continue; //not connected, skip
+            }
+            if(knownInputsSet.find(inputLink.get())!=end(knownInputsSet)){
+                continue; //skip known inputs
+            }
+            Module &other_module = outputLink->getOwner();
+            //if it's a module we haven't seen before
+            if(requiredModules.find(&other_module) == end(requiredModules)){
+                //add it to the horizon
+                horizon.push_back(&other_module);
+            }
+        }
+        //when we have checked all inputs of a module, it is added to the required set
+        requiredModules.insert(module);
+    }
+    return requiredModules;
+}
+
+void Module::topologicallyTraverseDependencies(const std::vector<OutputLink *> &outputs, std::function<void (Module &)> visitor, const std::set<InputLink*> &ignoreInputs)
+{
+    std::vector<Module *> remainingModules;
+    for(auto output : outputs){
+        remainingModules.push_back(&output->getOwner());
+    }
+    std::set<Module *> satisfiedModules;
+
+    //do a dfs-like traversal
+    while(!remainingModules.empty()){
+        auto current = remainingModules.back();
+        bool satisfied = true;
+        for(auto &inputLink : current->m_inputs){
+            if(find(ignoreInputs.begin(), ignoreInputs.end(), inputLink.get())!=ignoreInputs.end())continue; //skip input
+            auto outputLink = inputLink->getOutputLink();
+            if(outputLink==nullptr)continue; //skip disconnected inputs
+            Module& otherModule = outputLink->getOwner();
+            if(satisfiedModules.find(&otherModule)==satisfiedModules.end()){
+                //haven't seen this node before
+                remainingModules.push_back(&otherModule);
+                satisfied = false;
+            }
+        }
+        if(satisfied){
+            satisfiedModules.insert(current);
+            visitor(*current);
+            remainingModules.pop_back();
+        }
+    }
+}
+
 } // namespace nmlib

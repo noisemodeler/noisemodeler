@@ -15,8 +15,8 @@ class InputLink;
 class OutputLink : public UserDataProvider
 {
 public:
-    explicit OutputLink(const Module &owner, const ModuleOutput &type):
-        c_owner(owner),
+    explicit OutputLink(Module &owner, const ModuleOutput &type):
+        m_owner(owner),
         c_moduleOutput(type),
         m_inputLinks()
     {}
@@ -48,7 +48,8 @@ public:
     }
     InputLink* getLink(unsigned int index);
 
-    const Module &getOwner() const {return c_owner;}
+    const Module &getOwner() const {return m_owner;}
+    Module &getOwner() {return m_owner;}
     const ModuleOutput &getModuleOutput() const {return c_moduleOutput;}
 
     //signals
@@ -56,7 +57,7 @@ public:
     signal<void (OutputLink&)> destroying;
 
 private:
-    const Module &c_owner;
+    Module &m_owner;
     const ModuleOutput &c_moduleOutput;
     std::vector<InputLink *> m_inputLinks;
 };

@@ -12,7 +12,7 @@
 			"outputs": [
 				{
 					"name": "height",
-					"source": "fbm1.out"
+					"source": "fbm1.result"
 				}
 			],
 			"modules": [

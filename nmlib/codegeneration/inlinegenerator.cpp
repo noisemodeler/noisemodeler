@@ -2,14 +2,46 @@
 
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
+#include <nmlib/model/module.hpp>
 
 namespace nm {
+
+InlineGenerator::InlineGenerator()
+{
+
+}
+
+void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
+{
+    //sort topologically
+    std::vector<OutputLink*> outputs;
+    outputs.reserve(outputRemaps.size());
+    for(auto outputRemap : outputRemaps){
+        outputs.push_back(outputRemap.outputLink);
+    }
+
+    std::vector<InputLink*> inputs;
+    inputs.reserve(inputRemaps.size());
+    for(auto inputRemap : inputRemaps){
+        inputs.push_back(inputRemap.inputLink);
+    }
+    Module::getRequiredModules(outputs, inputs);
+
+    generatePreamble(inputRemaps, outputRemaps, out);
+    generateBody(out);
+    generatePostamble(outputRemaps, out);
+}
 
 void InlineGenerator::generateModule(const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
 {
     generatePreamble(inputRemaps, outputRemaps, out);
     generateBody(out);
     generatePostamble(outputRemaps, out);
+}
+
+std::string InlineGenerator::getUniqueId()
+{
+    return m_idGenerator.getUniqueId();
 }
 
 void InlineGenerator::generatePreamble(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream& out)
@@ -23,7 +55,9 @@ void InlineGenerator::generatePreamble(const std::vector<InputRemap> &inputRemap
 
 void InlineGenerator::generateBody(std::ostream &out)
 {
-    out << "//funtion body here!\n";
+    out << "\n//funtion body here!\n";
+    out << "float result = pos.x * pos.y;\n";
+    out << "\n";
 }
 
 void InlineGenerator::generatePostamble(std::vector<InlineGenerator::OutputRemap> remaps, std::ostream& out)
@@ -52,7 +86,7 @@ void InlineGenerator::generateInputDeclarations(const std::vector<InputRemap> &i
 void InlineGenerator::generateInputAssignments(const std::vector<InlineGenerator::InputRemap> &remaps, std::ostream &out)
 {
     for(auto remap : remaps){
-        out << remap.externalName << " = " << remap.inputLink->getModuleInput().getName() << ";\n";
+        out << remap.inputLink->getModuleInput().getName() << " = " << remap.externalName << ";\n";
     }
 }
 
