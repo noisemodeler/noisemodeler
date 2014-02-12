@@ -11,24 +11,25 @@ namespace nm {
 
 class InlineGenerator {
 public:
-    struct InputConversion {
-        std::string externalSymbol;
+    struct InputRemap {
+        std::string externalName;
         InputLink* inputLink;
     };
-    struct OutputConversion {
-        std::string externalSymbol;
+    struct OutputRemap {
+        std::string externalName;
         OutputLink* outputLink;
     };
     explicit InlineGenerator();
-    void generateModule(const std::vector<InputConversion> &inputConversions, const std::vector<OutputConversion> &outputConversions, std::ostream &out);
+    void generateModule(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
 private:
-    void generatePreamble(const std::vector<InputConversion> &inputConversions, const std::vector<OutputConversion> &outputConversions, std::ostream &out);
+    void generatePreamble(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
     void generateBody(std::ostream &out);
-    void generatePostamble(std::vector<OutputConversion> conversions, std::ostream &out);
+    void generatePostamble(std::vector<OutputRemap> conversions, std::ostream &out);
 
-    void generateOutputDeclarations(const std::vector<OutputConversion> &conversions, std::ostream& out);
-    void generateInputAssignments(const std::vector<InputConversion> &conversions, std::ostream& out);
-    void generateOutputAssignments(const std::vector<OutputConversion> &conversions, std::ostream& out);
+    void generateOutputDeclarations(const std::vector<OutputRemap> &conversions, std::ostream& out);
+    void generateInputDeclarations(const std::vector<InputRemap> &inputRemaps, std::ostream& out);
+    void generateInputAssignments(const std::vector<InputRemap> &conversions, std::ostream& out);
+    void generateOutputAssignments(const std::vector<OutputRemap> &conversions, std::ostream& out);
     void generateTypeKeyword(const SignalType &signalType, std::ostream& out);
 
     IdGenerator m_idGenerator;

@@ -5,20 +5,20 @@
 
 namespace nm {
 
-void InlineGenerator::generateModule(const std::vector<InlineGenerator::InputConversion> &inputConversions, const std::vector<InlineGenerator::OutputConversion> &outputConversions, std::ostream &out)
+void InlineGenerator::generateModule(const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
 {
-    generatePreamble(inputConversions, outputConversions, out);
+    generatePreamble(inputRemaps, outputRemaps, out);
     generateBody(out);
-    generatePostamble(outputConversions, out);
+    generatePostamble(outputRemaps, out);
 }
 
-void InlineGenerator::generatePreamble(const std::vector<InputConversion> &inputConversions, const std::vector<OutputConversion> &outputConversions, std::ostream& out)
+void InlineGenerator::generatePreamble(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream& out)
 {
-    generateOutputDeclarations(outputConversions, out);
+    generateOutputDeclarations(outputRemaps, out);
     out << "{\n";
-    for(auto &conversion : inputConversions){
-        out << conversion.inputLink;
-    }
+    generateInputDeclarations(inputRemaps, out);
+    //TODO defaults here!
+    generateInputAssignments(inputRemaps, out);
 }
 
 void InlineGenerator::generateBody(std::ostream &out)
@@ -26,31 +26,40 @@ void InlineGenerator::generateBody(std::ostream &out)
     out << "//funtion body here!\n";
 }
 
-void InlineGenerator::generatePostamble(std::vector<InlineGenerator::OutputConversion> conversions, std::ostream& out)
+void InlineGenerator::generatePostamble(std::vector<InlineGenerator::OutputRemap> remaps, std::ostream& out)
 {
-    generateOutputAssignments(conversions, out);
+    generateOutputAssignments(remaps, out);
     out << "}\n";
 }
 
-void InlineGenerator::generateOutputDeclarations(const std::vector<InlineGenerator::OutputConversion> &conversions, std::ostream &out)
+void InlineGenerator::generateOutputDeclarations(const std::vector<InlineGenerator::OutputRemap> &remaps, std::ostream &out)
 {
-    for(auto &conversion : conversions){
-        generateTypeKeyword(conversion.outputLink->getModuleOutput().getSignalType(), out);
-        out << " " << conversion.externalSymbol << ";\n";
+    for(auto &remap : remaps){
+        generateTypeKeyword(remap.outputLink->getModuleOutput().getSignalType(), out);
+        out << " " << remap.externalName << ";\n";
     }
 }
 
-void InlineGenerator::generateInputAssignments(const std::vector<InlineGenerator::InputConversion> &conversions, std::ostream &out)
+void InlineGenerator::generateInputDeclarations(const std::vector<InputRemap> &inputRemaps, std::ostream &out)
 {
-    for(auto conversion : conversions){
-        out << conversion.externalSymbol << " = " << conversion.inputLink->getModuleInput().getName() << ";\n";
+    for(auto remap : inputRemaps){
+        auto &moduleInput = remap.inputLink->getModuleInput();
+        generateTypeKeyword(moduleInput.getSignalType(), out);
+        out << " " << moduleInput.getName() << ";\n";
     }
 }
 
-void InlineGenerator::generateOutputAssignments(const std::vector<InlineGenerator::OutputConversion> &conversions, std::ostream &out)
+void InlineGenerator::generateInputAssignments(const std::vector<InlineGenerator::InputRemap> &remaps, std::ostream &out)
 {
-    for(auto conversion : conversions){
-        out << conversion.externalSymbol << " = " << conversion.outputLink->getModuleOutput().getName() << ";\n";
+    for(auto remap : remaps){
+        out << remap.externalName << " = " << remap.inputLink->getModuleInput().getName() << ";\n";
+    }
+}
+
+void InlineGenerator::generateOutputAssignments(const std::vector<InlineGenerator::OutputRemap> &remaps, std::ostream &out)
+{
+    for(auto remap : remaps){
+        out << remap.externalName << " = " << remap.outputLink->getModuleOutput().getName() << ";\n";
     }
 }
 

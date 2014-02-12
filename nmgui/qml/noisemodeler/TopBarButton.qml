@@ -7,6 +7,7 @@ Item {
     anchors.top: parent.top
     anchors.bottom: parent.bottom
     width: label.width + 20
+    state: "inactive"
     states: [
         State {
             name: "inactive"
