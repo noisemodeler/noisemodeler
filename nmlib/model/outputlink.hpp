@@ -43,7 +43,7 @@ public:
      */
     void unlinkAll();
 
-    int numLinks(){
+    unsigned int numLinks(){
         return m_inputLinks.size();
     }
     InputLink* getLink(unsigned int index);

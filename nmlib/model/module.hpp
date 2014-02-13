@@ -42,6 +42,13 @@ public:
     unsigned int getOutputSize() const;
     std::vector<OutputLink*> getOutputs();
 
+    //module graph convenience functions
+    void traverseChildren(std::function<void (Module &)> callback);
+    void traverseParents(std::function<void(Module&)> callback);
+    //for now, these two includes this node as well
+    void traverseDescendants(std::function<void(Module&)> callback);
+    void traverseAncestors(std::function<void(Module&)> callback);
+
     void onAddedModuleInput(const ModuleInput &moduleInput);
     void onAddedModuleOutput(const ModuleOutput &moduleOutput);
 
@@ -55,8 +62,7 @@ public:
     static std::set<Module *> getDependenciesSorted(const std::vector<OutputLink*> &outputs,
                                                     const std::set<InputLink *> &ignoreInputs = {});
     static void topologicallyTraverseDependencies(const std::vector<OutputLink*> &outputs, std::function<void(Module&)> visitor,
-                                             const std::set<InputLink*> &ignoreInputs = {});
-
+                                                  const std::set<InputLink*> &ignoreInputs = {});
 private:
     explicit Module(const ModuleType& getType, std::string getName);
     const ModuleType& c_type;

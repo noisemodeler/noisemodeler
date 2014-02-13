@@ -105,6 +105,54 @@ std::vector<OutputLink *> Module::getOutputs()
     return outputs;
 }
 
+void Module::traverseDescendants(std::function<void (Module &)> callback)
+{
+    //simple recursive dfs traversal, but keep track of visited ancestors and skip them
+    std::set<Module *> visited{this};
+    std::function<void(Module&)> helper = [&](Module& module) {
+        auto inserted = visited.insert(&module).second;
+        if(inserted){
+            module.traverseChildren(helper);
+            //postfix traversal
+            callback(module);
+        }
+    };
+    traverseChildren(helper);
+}
+
+void Module::traverseChildren(std::function<void (Module &)> callback)
+{
+    for(auto &outputLink : m_outputs){
+        for(unsigned int i=0; i<outputLink->numLinks(); ++i){
+            auto inputLink = outputLink->getLink(i);
+            callback(inputLink->getOwner());
+        }
+    }
+}
+
+void nm::Module::traverseParents(std::function<void (nm::Module &)> callback)
+{
+    for(auto &inputLink : m_inputs){
+        auto outputLink = inputLink->getOutputLink();
+        callback(outputLink->getOwner());
+    }
+}
+
+void nm::Module::traverseAncestors(std::function<void (nm::Module &)> callback)
+{
+    //simple recursive dfs traversal, but keep track of visited ancestors and skip them
+    std::set<Module *> visited{this};
+    std::function<void(Module&)> helper = [&](Module& module) {
+        auto inserted = visited.insert(&module).second;
+        if(inserted){
+            module.traverseParents(helper);
+            //postfix traversal
+            callback(module);
+        }
+    };
+    traverseParents(helper);
+}
+
 void Module::onAddedModuleInput(const ModuleInput &moduleInput)
 {
     m_inputs.emplace_back(new InputLink(*this, moduleInput));

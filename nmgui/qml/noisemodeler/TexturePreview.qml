@@ -9,8 +9,8 @@ SubWindow {
     contents.height: 200
     contents.children: [
         TextureRenderer{
-            inputLink: mockModule.inputs[0]
-            outputLink: mockModule.outputs[0]
+            inputLink: debugOutput.inputs[0]
+            outputLink: debugInput.outputs[0]
             anchors.fill: parent
             SequentialAnimation on t {
                 NumberAnimation { to: 1; duration: 2500; easing.type: Easing.InQuad }
