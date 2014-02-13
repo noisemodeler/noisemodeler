@@ -31,18 +31,29 @@ int main(int argc, char *argv[])
     typeManager.initBuiltinTypes();
     auto fbmModuleType = typeManager.getType("fbm");
     auto addModuleType = typeManager.getType("add");
+    auto demuxModuleType = typeManager.getType("demux2");
+    auto debugInputModuleType = typeManager.getType("debug_input");
+    auto debugOutputModuleType = typeManager.getType("debug_output");
+
     auto fbmModule = nm::Module::create(*fbmModuleType, "myfbm");
-    auto fbmModule2 = nm::Module::create(*fbmModuleType, "myfbm2");
+    auto fbmModule2 = nm::Module::create(*demuxModuleType, "demux2");
     auto AddModule = nm::Module::create(*addModuleType, "myAdd");
+    auto debugInputModule = nm::Module::create(*debugInputModuleType, "debugInput");
+    auto debugOutputModule = nm::Module::create(*debugOutputModuleType, "debugOutput");
+
     auto mockModule = nmgui::ModuleQ::fromModule(*fbmModule);
     auto mockModule2 = nmgui::ModuleQ::fromModule(*fbmModule2);
     auto mockModule3 = nmgui::ModuleQ::fromModule(*AddModule);
+    auto debugInputModuleQ = nmgui::ModuleQ::fromModule(*debugInputModule);
+    auto debugOutputModuleQ = nmgui::ModuleQ::fromModule(*debugOutputModule);
 //    mockModule.setName("TestName");
 
     QtQuick2ApplicationViewer viewer;
     viewer.rootContext()->setContextProperty("mockModule", mockModule);
     viewer.rootContext()->setContextProperty("mockModule2", mockModule2);
     viewer.rootContext()->setContextProperty("mockModule3", mockModule3);
+    viewer.rootContext()->setContextProperty("debugInput", debugInputModuleQ);
+    viewer.rootContext()->setContextProperty("debugOutput", debugOutputModuleQ);
     viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));
     viewer.showExpanded();
 
