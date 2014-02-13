@@ -5,7 +5,7 @@ Item {
     id:nodeOutput
     property InputLink model
     height: mystyle.connector.height
-    width: connector.width + connectorDescription.width
+    width: connector.width + connectorDescription.width + 5 //mystery magical number, added it because I couldn't figure out why stuff didn't align
 
     Connector {
         id: connector
@@ -58,7 +58,7 @@ Item {
     ConnectorDescription {
         id: connectorDescription
         anchors.left: connector.right
-        text:model.name
+        text: model.name
     }
 
 }

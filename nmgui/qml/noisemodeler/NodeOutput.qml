@@ -6,7 +6,7 @@ Item {
     property OutputLink model
     property alias connector: connector
     height: mystyle.connector.height
-    width: connector.width + connectorDescription.width
+    width: connector.width + connectorDescription.width + 5 //mystery magical number, added it because I couldn't figure out why stuff didn't align
     anchors.right: parent.right
 
     Connector {
