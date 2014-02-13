@@ -4,8 +4,21 @@
 #include <nmlib/model/signaltype.hpp>
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
+#include <nmlib/model/module.hpp>
 
 namespace nm {
+
+InputLink::InputLink(Module &owner, const ModuleInput &type):
+    m_owner(owner),
+    c_moduleInput(type),
+    p_outputLink(nullptr)
+{
+    linkChanged.connect([&](InputLink&){
+        m_owner.traverseDescendants([](Module& module){
+            module.dependenciesChanged(module);
+        });
+    });
+}
 
 InputLink::~InputLink()
 {

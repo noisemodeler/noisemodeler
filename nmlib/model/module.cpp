@@ -15,10 +15,10 @@ Module::Module(const ModuleType &type, std::string name):
     m_outputs()
 {
     for(auto &moduleInput : c_type.inputs()){
-        m_inputs.emplace_back(new InputLink(*this, *moduleInput));
+        createInputLink(*moduleInput);
     }
     for(auto &moduleOutput : c_type.outputs()){
-        m_outputs.emplace_back(new OutputLink(*this, *moduleOutput));
+        createOutputLink(*moduleOutput);
     }
 }
 
@@ -108,7 +108,7 @@ std::vector<OutputLink *> Module::getOutputs()
 void Module::traverseDescendants(std::function<void (Module &)> callback)
 {
     //simple recursive dfs traversal, but keep track of visited ancestors and skip them
-    std::set<Module *> visited{this};
+    std::set<Module *> visited;
     std::function<void(Module&)> helper = [&](Module& module) {
         auto inserted = visited.insert(&module).second;
         if(inserted){
@@ -117,15 +117,23 @@ void Module::traverseDescendants(std::function<void (Module &)> callback)
             callback(module);
         }
     };
-    traverseChildren(helper);
+//    traverseChildren(helper);
+    helper(*this);
 }
 
 void Module::traverseChildren(std::function<void (Module &)> callback)
 {
+    std::set<Module *> visited{this};
     for(auto &outputLink : m_outputs){
         for(unsigned int i=0; i<outputLink->numLinks(); ++i){
             auto inputLink = outputLink->getLink(i);
-            callback(inputLink->getOwner());
+            if(inputLink!=nullptr){
+                auto &module = inputLink->getOwner();
+                auto inserted = visited.insert(&module).second;
+                if(inserted){
+                    callback(module);
+                }
+            }
         }
     }
 }
@@ -155,14 +163,12 @@ void nm::Module::traverseAncestors(std::function<void (nm::Module &)> callback)
 
 void Module::onAddedModuleInput(const ModuleInput &moduleInput)
 {
-    m_inputs.emplace_back(new InputLink(*this, moduleInput));
-    addedInputLink(*this, *m_inputs.back());
+    createInputLink(moduleInput);
 }
 
 void Module::onAddedModuleOutput(const ModuleOutput &moduleOutput)
 {
-    m_outputs.emplace_back(new OutputLink(*this, moduleOutput));
-    addedOutputLink(*this, *m_outputs.back());
+    createOutputLink(moduleOutput);
 }
 
 std::set<Module *> Module::getDependenciesSorted(const std::vector<OutputLink *> &outputs, const std::set<InputLink *> &ignoreInputs)
@@ -203,6 +209,18 @@ void Module::topologicallyTraverseDependencies(const std::vector<OutputLink *> &
             remainingModules.pop_back();
         }
     }
+}
+
+void Module::createInputLink(const nm::ModuleInput &moduleInput)
+{
+    m_inputs.emplace_back(new InputLink(*this, moduleInput));
+    addedInputLink(*this, *m_inputs.back());
+}
+
+void Module::createOutputLink(const ModuleOutput &moduleOutput)
+{
+    m_outputs.emplace_back(new OutputLink(*this, moduleOutput));
+    addedOutputLink(*this, *m_outputs.back());
 }
 
 } // namespace nmlib

@@ -16,11 +16,7 @@ class OutputLink;
 class InputLink : public UserDataProvider
 {
 public:
-    explicit InputLink(Module &owner, const ModuleInput &type):
-        m_owner(owner),
-        c_moduleInput(type),
-        p_outputLink(nullptr)
-    {}
+    explicit InputLink(Module &owner, const ModuleInput &type);
     virtual ~InputLink();
     bool link(OutputLink &output);
     void unlink();
