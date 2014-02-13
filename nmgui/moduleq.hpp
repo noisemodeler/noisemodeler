@@ -23,7 +23,7 @@ class ModuleQ : public QObject
 public:
     explicit ModuleQ(nm::Module* module = nullptr, QObject *parent = 0);
     virtual ~ModuleQ();
-    static ModuleQ* fromModule(nm::Module&module);
+    static ModuleQ* fromModule(nm::Module &module);
 
     QString name() const;
     void setName(const QString &value);
@@ -35,6 +35,7 @@ signals:
     void nameChanged();
     void inputsChanged();
     void outputsChanged();
+    void dependenciesChanged();
 
 public slots:
 
@@ -46,6 +47,7 @@ private:
     static int outputsCount(QQmlListProperty<OutputLinkQ> *list);
 
     boost::signals2::scoped_connection moduleDestroyedConnection;
+    boost::signals2::scoped_connection dependenciesChangedConnection;
 
     nm::Module *p_module;
 };

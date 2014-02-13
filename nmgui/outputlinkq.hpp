@@ -13,11 +13,13 @@ class OutputLink;
 namespace nmgui {
 
 class InputLinkQ;
+class ModuleQ;
 
 class OutputLinkQ : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(nmgui::ModuleQ* owner READ owner CONSTANT)
     Q_PROPERTY(int dimensionality READ dimensionality CONSTANT)
     Q_PROPERTY(QQmlListProperty<nmgui::InputLinkQ> links READ links NOTIFY linksChanged)
 public:
@@ -29,6 +31,7 @@ public:
     int dimensionality() const;
     QQmlListProperty<InputLinkQ> links();
     QString name() const;
+    ModuleQ *owner();
 
 signals:
     void linksChanged();

@@ -1,9 +1,12 @@
 #include "texturerenderer.hpp"
 
+#include "moduleq.hpp"
+
+#include <nmlib/codegeneration/glslgenerator.hpp>
+
 #include <QtQuick/qquickwindow.h>
 #include <QtGui/QOpenGLContext>
 #include <sstream>
-#include <nmlib/codegeneration/glslgenerator.hpp>
 
 namespace nmgui {
 
@@ -36,7 +39,10 @@ void TextureRenderer::setInputLink(InputLinkQ *newLink)
     if(newLink==m_inputLink){
         return;
     }
+    //dicsonnect all signals, since we are about to forget about this input
+    disconnect(m_inputLink, 0, this, 0);
     m_inputLink = newLink;
+    connect(m_inputLink->owner(), SIGNAL(dependenciesChanged()), this, SLOT(handleModelChanged()));
     emit inputLinkChanged();
     if(window()){
         window()->update();
@@ -64,7 +70,6 @@ void TextureRenderer::handleWindowChanged(QQuickWindow *win)
         // a Qt::DirectConnection
         connect(win, SIGNAL(afterRendering()), this, SLOT(paint()), Qt::DirectConnection);
         connect(win, SIGNAL(beforeSynchronizing()), this, SLOT(sync()), Qt::DirectConnection);
-        connect(this, SIGNAL(inputLinkChanged()), this, SLOT(handleModelChanged()));
         win->setClearBeforeRendering(false);
     }
 }

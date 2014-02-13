@@ -1,5 +1,6 @@
 #include "inputlinkq.hpp"
 #include "outputlinkq.hpp"
+#include "moduleq.hpp"
 
 #include <nmlib/model/inputlink.hpp>
 #include <nmlib/model/moduleinput.hpp>
@@ -59,6 +60,11 @@ void InputLinkQ::outputLink(OutputLinkQ *value)
     if(value == outputLink())return;
     m_inputLink->link(value->outputLink());
     emit outputLinkChanged();
+}
+
+ModuleQ *InputLinkQ::owner()
+{
+    return ModuleQ::fromModule(m_inputLink->getOwner());
 }
 
 } // namespace nmgui

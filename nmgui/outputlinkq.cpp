@@ -1,5 +1,6 @@
 #include "outputlinkq.hpp"
 #include "inputlinkq.hpp"
+#include "moduleq.hpp"
 
 #include <nmlib/model/outputlink.hpp>
 #include <nmlib/model/moduleoutput.hpp>
@@ -61,6 +62,11 @@ QString OutputLinkQ::name() const
 {
     auto name = m_outputLink->getModuleOutput().getName();
     return QString::fromUtf8(name.data(), name.size());
+}
+
+ModuleQ *OutputLinkQ::owner()
+{
+    return ModuleQ::fromModule(m_outputLink->getOwner());
 }
 
 InputLinkQ *OutputLinkQ::linkAt(QQmlListProperty<InputLinkQ> *list, int index)
