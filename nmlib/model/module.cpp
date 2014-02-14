@@ -171,11 +171,11 @@ void Module::onAddedModuleOutput(const ModuleOutput &moduleOutput)
     createOutputLink(moduleOutput);
 }
 
-std::set<Module *> Module::getDependenciesSorted(const std::vector<OutputLink *> &outputs, const std::set<InputLink *> &ignoreInputs)
+std::vector<Module *> Module::getDependenciesSorted(const std::vector<OutputLink *> &outputs, const std::set<InputLink *> &ignoreInputs)
 {
-    std::set<Module *> modules;
+    std::vector<Module *> modules;
     topologicallyTraverseDependencies(outputs, [&](Module& module){
-        modules.insert(&module);
+        modules.push_back(&module);
     }, ignoreInputs);
     return modules;
 }
@@ -204,8 +204,10 @@ void Module::topologicallyTraverseDependencies(const std::vector<OutputLink *> &
             }
         }
         if(satisfied){
-            satisfiedModules.insert(current);
-            visitor(*current);
+            bool inserted = satisfiedModules.insert(current).second;
+            if(inserted){
+                visitor(*current);
+            }
             remainingModules.pop_back();
         }
     }

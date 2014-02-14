@@ -60,7 +60,7 @@ public:
     signal<void (Module&)> dependenciesChanged;
 
     //static methods
-    static std::set<Module *> getDependenciesSorted(const std::vector<OutputLink*> &outputs,
+    static std::vector<Module *> getDependenciesSorted(const std::vector<OutputLink*> &outputs,
                                                     const std::set<InputLink *> &ignoreInputs = {});
     static void topologicallyTraverseDependencies(const std::vector<OutputLink*> &outputs, std::function<void(Module&)> visitor,
                                                   const std::set<InputLink*> &ignoreInputs = {});

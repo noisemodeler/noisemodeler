@@ -4,6 +4,8 @@
 #include <nmlib/model/moduleoutput.hpp>
 #include <nmlib/model/module.hpp>
 
+#include <algorithm>
+
 namespace nm {
 
 InlineGenerator::InlineGenerator()
@@ -28,8 +30,20 @@ void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::Input
 
     auto dependencies = Module::getDependenciesSorted(outputs, inputs);
 
+//    std::remove_if(begin(dependencies), end(dependencies), [&](Module &module){
+//        return end(inputRemaps) != find_if(begin(inputRemaps), end(inputRemaps), [&](InputRemap& inputRemap){
+//            return &module == &inputRemap.inputLink->getOwner();
+//        });
+//    });
+
     //generate code for all dependencies
     for(auto module : dependencies){
+
+        out << "//////////////////////////////////////////\n";
+        out << "//Generating code for " <<  module->getName() << "\n";
+        out << "//////////////////////////////////////////\n";
+
+
         //get existing remaps for inputs of this module
         std::vector<InputRemap> moduleInputRemaps;
         auto moduleInputLinks = module->getInputs();
@@ -47,7 +61,7 @@ void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::Input
             if(outputLink==nullptr)continue;
 
             auto match = std::find_if(internalOutputRemaps.begin(), internalOutputRemaps.end(), [=](OutputRemap& remap){
-                return remap.outputLink = outputLink;
+                return remap.outputLink == outputLink;
             });
             if(match!=outputRemaps.end()){
                 //found matching outputlink in remaps
@@ -62,8 +76,9 @@ void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::Input
             auto match = std::find_if(internalOutputRemaps.begin(), internalOutputRemaps.end(), [=](OutputRemap& remap){
                 return remap.outputLink == outputLink;
             });
-            if(match!=outputRemaps.end()){
-                moduleOutputRemaps.push_back(*match);
+            if(match!=internalOutputRemaps.end()){
+                OutputRemap &remap = *match;
+                moduleOutputRemaps.push_back(remap);
             } else {
                 OutputRemap remap{getUniqueId(), outputLink};
                 internalOutputRemaps.push_back(remap);
@@ -77,7 +92,10 @@ void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::Input
 void InlineGenerator::generateModule(const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
 {
     generatePreamble(inputRemaps, outputRemaps, out);
-    generateBody(out);
+    Module &module = outputRemaps[0].outputLink->getOwner();
+    out << "\n//funtion body for module \"" << module.getName() << "\" of type \"" << module.getType().getName() << "\"\n";
+    generateBody(module, out);
+    out << "//end function body\n\n";
     generatePostamble(outputRemaps, out);
 }
 
@@ -93,14 +111,23 @@ void InlineGenerator::generatePreamble(const std::vector<InputRemap> &inputRemap
     out << "{\n";
     generateInputDeclarations(inputRemaps, out);
     //TODO defaults here!
+    generateModuleDefaultValues(outputRemaps[0].outputLink->getOwner(), out);
     generateInputAssignments(inputRemaps, out);
 }
 
-void InlineGenerator::generateBody(std::ostream &out)
+void InlineGenerator::generateModuleDefaultValues(Module &module, std::ostream &/*out*/)
 {
-    out << "\n//funtion body here!\n";
-    out << "float result = pos.x * pos.y;\n";
-    out << "\n";
+    //TODO move to subclass
+    auto moduleName = module.getType().getName();
+    if(moduleName == "add"){
+//        out << "lhs = 0; rhs = 0;";
+    }
+
+}
+
+void InlineGenerator::generateBody(Module& /*module*/, std::ostream &out)
+{
+    out << "Override me!;\n";
 }
 
 void InlineGenerator::generatePostamble(std::vector<InlineGenerator::OutputRemap> remaps, std::ostream& out)

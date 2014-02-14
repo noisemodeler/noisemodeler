@@ -39,10 +39,7 @@ void TextureRenderer::setInputLink(InputLinkQ *newLink)
     if(newLink==m_inputLink){
         return;
     }
-    //dicsonnect all signals, since we are about to forget about this input
-    disconnect(m_inputLink, 0, this, 0);
     m_inputLink = newLink;
-    connect(m_inputLink->owner(), SIGNAL(dependenciesChanged()), this, SLOT(handleModelChanged()));
     emit inputLinkChanged();
     if(window()){
         window()->update();
@@ -54,7 +51,10 @@ void TextureRenderer::setOutputLink(OutputLinkQ *newLink)
     if(newLink==m_outputLink){
         return;
     }
+    //dicsonnect all signals, since we are about to forget about this input
+    disconnect(m_outputLink, 0, this, 0);
     m_outputLink = newLink;
+    connect(m_outputLink->owner(), SIGNAL(dependenciesChanged()), this, SLOT(handleModelChanged()));
     emit outputLinkChanged();
     if(window()){
         window()->update();

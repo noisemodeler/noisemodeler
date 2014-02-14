@@ -10,8 +10,13 @@ class GlslGenerator : InlineGenerator
 {
 public:
     static std::string compileToGlslFunction(InputLink& inputLink, OutputLink &outputLink, std::string name);
+
 private:
     GlslGenerator();
+
+    // InlineGenerator interface
+private:
+    virtual void generateBody(Module &module, std::ostream &out) override;
 };
 
 } // namespace nm

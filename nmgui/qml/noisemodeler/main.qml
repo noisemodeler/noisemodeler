@@ -15,9 +15,9 @@ Rectangle {
         anchors.bottom: parent.bottom
         TexturePreview{}
         Node{module:mockModule}
-        Node{module:mockModule2}
+        Node{x: 300; y: 100; module:mockModule2}
         Node{module:mockModule3}
-        Node{module:debugInput}
-        Node{module:debugOutput}
+        Node{x: 100; y: 100; module:debugInput}
+        Node{x: 400; y: 100; module:debugOutput}
     }
 }

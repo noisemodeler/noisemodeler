@@ -25,7 +25,8 @@ public:
     std::string getUniqueId();
 private:
     virtual void generatePreamble(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
-    virtual void generateBody(std::ostream &out);
+    virtual void generateModuleDefaultValues(Module &module, std::ostream &out);
+    virtual void generateBody(Module &module, std::ostream &out);
     virtual void generatePostamble(std::vector<OutputRemap> conversions, std::ostream &out);
 
     virtual void generateOutputDeclarations(const std::vector<OutputRemap> &conversions, std::ostream& out);
