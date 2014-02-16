@@ -22,12 +22,12 @@ SOURCES = \
     model/typemanager.cpp \
     model/compositemoduletype.cpp \
     model/inputmoduletype.cpp \
-    model/builtinmoduletype.cpp \
     util/userdataprovider.cpp \
     util/noncopyable.cpp \
     codegeneration/idgenerator.cpp \
     codegeneration/inlinegenerator.cpp \
-    codegeneration/glslgenerator.cpp
+    codegeneration/glslgenerator.cpp \
+    model/primitivemoduletype.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -41,10 +41,10 @@ HEADERS = \
     model/typemanager.hpp \
     model/compositemoduletype.hpp \
     model/inputmoduletype.hpp \
-    model/builtinmoduletype.hpp \
     util/userdataprovider.hpp \
     util/noncopyable.hpp \
     util/signals.hpp \
     codegeneration/idgenerator.hpp \
     codegeneration/inlinegenerator.hpp \
-    codegeneration/glslgenerator.hpp
+    codegeneration/glslgenerator.hpp \
+    model/primitivemoduletype.hpp

@@ -1,6 +1,6 @@
 #include <nmlib/model/typemanager.hpp>
 
-#include <nmlib/model/builtinmoduletype.hpp>
+#include <nmlib/model/primitivemoduletype.hpp>
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
 #include <nmlib/model/module.hpp>
@@ -51,8 +51,8 @@ CompositeModuleType *TypeManager::getUserType(std::string name)
 
 namespace {
 
-std::unique_ptr<const BuiltinModuleType> createFBM(){
-    std::unique_ptr<BuiltinModuleType> moduleType{new BuiltinModuleType{"fbm", "fractional brownian motion"}};
+std::unique_ptr<const PrimitiveModuleType> createFBM(){
+    std::unique_ptr<PrimitiveModuleType> moduleType{new PrimitiveModuleType{"fbm", "fractional brownian motion"}};
     moduleType->addInput("pos", SignalType{2});
     moduleType->addInput("gain", SignalType{1});
     moduleType->addInput("lacunarity", SignalType{1});
@@ -60,30 +60,30 @@ std::unique_ptr<const BuiltinModuleType> createFBM(){
     return std::move(moduleType);
 }
 
-std::unique_ptr<const BuiltinModuleType> createAdd(){
-    std::unique_ptr<BuiltinModuleType> moduleType{new BuiltinModuleType{"add", "result = lhs + rhs"}};
+std::unique_ptr<const PrimitiveModuleType> createAdd(){
+    std::unique_ptr<PrimitiveModuleType> moduleType{new PrimitiveModuleType{"add", "result = lhs + rhs"}};
     moduleType->addInput("lhs", SignalType{1});
     moduleType->addInput("rhs", SignalType{1});
     moduleType->addOutput("result", SignalType{1});
     return std::move(moduleType);
 }
 
-std::unique_ptr<const BuiltinModuleType> createDebugInput(){
-    std::unique_ptr<BuiltinModuleType> moduleType{new BuiltinModuleType{"debug_input", "preview pixel coordinates"}};
+std::unique_ptr<const PrimitiveModuleType> createDebugInput(){
+    std::unique_ptr<PrimitiveModuleType> moduleType{new PrimitiveModuleType{"debug_input", "preview pixel coordinates"}};
     moduleType->addOutput("pos", SignalType{2});
     moduleType->addInput("pos", SignalType{2});
     return std::move(moduleType);
 }
 
-std::unique_ptr<const BuiltinModuleType> createDebugOutput(){
-    std::unique_ptr<BuiltinModuleType> moduleType{new BuiltinModuleType{"debug_output", "height value for the preview"}};
+std::unique_ptr<const PrimitiveModuleType> createDebugOutput(){
+    std::unique_ptr<PrimitiveModuleType> moduleType{new PrimitiveModuleType{"debug_output", "height value for the preview"}};
     moduleType->addInput("height", SignalType{1});
     moduleType->addOutput("height", SignalType{1});
     return std::move(moduleType);
 }
 
-std::unique_ptr<const BuiltinModuleType> createDemux2(){
-    std::unique_ptr<BuiltinModuleType> moduleType{new BuiltinModuleType{"demux2", "demultiplexes a 2D vector to two 1D vectors"}};
+std::unique_ptr<const PrimitiveModuleType> createDemux2(){
+    std::unique_ptr<PrimitiveModuleType> moduleType{new PrimitiveModuleType{"demux2", "demultiplexes a 2D vector to two 1D vectors"}};
     moduleType->addInput("m", SignalType{2});
     moduleType->addOutput("x", SignalType{1});
     moduleType->addOutput("y", SignalType{1});
@@ -102,7 +102,7 @@ void TypeManager::initBuiltinTypes()
     //TODO
 }
 
-void TypeManager::addBuiltinType(std::unique_ptr<const BuiltinModuleType> moduleType)
+void TypeManager::addBuiltinType(std::unique_ptr<const PrimitiveModuleType> moduleType)
 {
     m_primitiveBuiltinTypes[moduleType->getName()] = std::move(moduleType);
 }

@@ -10,7 +10,7 @@
 
 namespace nm {
 
-class BuiltinModuleType;
+class PrimitiveModuleType;
 
 class TypeManager : public UserDataProvider
 {
@@ -22,10 +22,17 @@ public:
     CompositeModuleType *getUserType(std::string name);
     void initBuiltinTypes();
 private:
-    void addBuiltinType(std::unique_ptr<const BuiltinModuleType> moduleType);
+    void addBuiltinType(std::unique_ptr<const PrimitiveModuleType> moduleType);
     std::map<std::string, std::unique_ptr<CompositeModuleType>> m_userTypes;
-    std::map<std::string, std::unique_ptr<const BuiltinModuleType>> m_primitiveBuiltinTypes;
+    std::map<std::string, std::unique_ptr<const PrimitiveModuleType>> m_primitiveBuiltinTypes;
 //    std::map<std::string, std::unique_ptr<CompositeModuleType>> m_compositeBuiltinTypes;
+    static const PrimitiveModuleType
+    //1D only types
+    mod,step,smoothStep,
+    //1D modules
+    add1,sub1,mul1,perlin1,fbm1,
+    //2D modules
+    add2,sub2,mul2,perlin2,fbm2,scale2;
 };
 
 } // namespace nm

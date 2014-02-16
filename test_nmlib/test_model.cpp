@@ -12,7 +12,7 @@ TEST(ModelTest, SignalType){
 }
 
 TEST(ModelTest, BuiltinModuleType){
-    nm::BuiltinModuleType moduleType{"test", "testdescription"};
+    nm::PrimitiveModuleType moduleType{"test", "testdescription"};
     EXPECT_EQ("test", moduleType.getName());
     EXPECT_EQ("testdescription", moduleType.getDescription());
 
@@ -40,7 +40,7 @@ TEST(ModelTest, CompositeModuleTypeBasic){
 
 TEST(ModelTest, TopologicalTraversal){
     //create a simple test module type
-    std::unique_ptr<nm::BuiltinModuleType> moduleType{new nm::BuiltinModuleType("test", "testdescription")};
+    std::unique_ptr<nm::PrimitiveModuleType> moduleType{new nm::PrimitiveModuleType("test", "testdescription")};
     moduleType->addInput("in1", nm::SignalType{1});
     moduleType->addInput("in2", nm::SignalType{1});
     moduleType->addOutput("result", nm::SignalType{1});

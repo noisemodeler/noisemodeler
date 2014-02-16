@@ -5,7 +5,7 @@
 
 #include <nmlib/model/inputlink.hpp>
 #include <nmlib/model/outputlink.hpp>
-#include <nmlib/model/builtinmoduletype.hpp>
+#include <nmlib/model/primitivemoduletype.hpp>
 
 namespace nm {
 
@@ -33,6 +33,8 @@ private:
     virtual void generateInputDeclarations(const std::vector<InputRemap> &inputRemaps, std::ostream& out);
     virtual void generateInputAssignments(const std::vector<InputRemap> &conversions, std::ostream& out);
     virtual void generateOutputAssignments(const std::vector<OutputRemap> &conversions, std::ostream& out);
+
+    //very low level helper functions
     virtual void generateTypeKeyword(const SignalType &signalType, std::ostream& out);
 
     IdGenerator m_idGenerator;

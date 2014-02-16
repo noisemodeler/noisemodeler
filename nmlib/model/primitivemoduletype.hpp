@@ -1,5 +1,5 @@
-#ifndef NM_BUILTINMODULETYPE_HPP
-#define NM_BUILTINMODULETYPE_HPP
+#ifndef NM_PRIMITIVEMODULETYPE_HPP
+#define NM_PRIMITIVEMODULETYPE_HPP
 
 #include <nmlib/model/moduletype.hpp>
 
@@ -10,10 +10,10 @@
 
 namespace nm {
 
-class BuiltinModuleType : public ModuleType
+class PrimitiveModuleType : public ModuleType
 {
 public:
-    explicit BuiltinModuleType(std::string name, std::string description);
+    explicit PrimitiveModuleType(std::string name, std::string description);
 
     // ModuleType interface
     virtual std::string getName() const override{return c_name;}
@@ -37,4 +37,4 @@ private:
 
 } // namespace nm
 
-#endif // NM_BUILTINMODULETYPE_HPP
+#endif // NM_PRIMITIVEMODULETYPE_HPP
