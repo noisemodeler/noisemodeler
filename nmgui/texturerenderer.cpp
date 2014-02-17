@@ -52,7 +52,7 @@ void TextureRenderer::setOutputLink(OutputLinkQ *newLink)
         return;
     }
     //dicsonnect all signals, since we are about to forget about this input
-    disconnect(m_outputLink, 0, this, 0);
+    if(m_outputLink!=nullptr)disconnect(m_outputLink, 0, this, 0);
     m_outputLink = newLink;
     connect(m_outputLink->owner(), SIGNAL(dependenciesChanged()), this, SLOT(handleModelChanged()));
     emit outputLinkChanged();
