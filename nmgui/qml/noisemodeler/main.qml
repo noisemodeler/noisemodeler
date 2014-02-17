@@ -6,11 +6,16 @@ Rectangle {
     height: 600
     TopBar {
         id: menu
+        z: 100
+    }
+
+    ModuleTypeBrowser {
+        id: moduleTypeBrowser
     }
 
     GraphEditor{
         anchors.top: menu.bottom
-        anchors.left: parent.left
+        anchors.left: moduleTypeBrowser.right
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         TexturePreview{}

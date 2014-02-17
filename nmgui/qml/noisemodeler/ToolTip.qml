@@ -1,12 +1,13 @@
 import QtQuick 2.0
 
 Rectangle {
-    id:tooltip
+    id: tooltip
     property alias text: textContainer.text
     property int padding: 3
     width: textContainer.width + padding * 2
     height: textContainer.height + padding * 2
     color: mystyle.toolTipBg
+    z: 200
     Text {
         anchors.centerIn: parent
         id:textContainer

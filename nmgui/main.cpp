@@ -22,6 +22,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<BezierCurve>("CustomGeometry", 1, 0, "QtBezierCurve");
 
     //register types
+    //could have used registeruncreatabletype instead, that would have allowed protected constructors,
+    //but that makes it impossible to have strong typing of qml members, we'd have to use
+    //variant instead. For that reason, we'll sacrifice the encapsulation in c++ for type safety in qml
     qmlRegisterType<nmgui::TextureRenderer>("NoiseModeler", 1, 0, "TextureRenderer");
     qmlRegisterType<nmgui::ModuleQ>("NoiseModeler", 1, 0, "Module");
     qmlRegisterType<nmgui::InputLinkQ>("NoiseModeler", 1, 0, "InputLink");
@@ -48,7 +51,6 @@ int main(int argc, char *argv[])
     auto mockModule3 = nmgui::ModuleQ::fromModule(*AddModule);
     auto debugInputModuleQ = nmgui::ModuleQ::fromModule(*debugInputModule);
     auto debugOutputModuleQ = nmgui::ModuleQ::fromModule(*debugOutputModule);
-//    mockModule.setName("TestName");
 
     QtQuick2ApplicationViewer viewer;
     viewer.rootContext()->setContextProperty("mockModule", mockModule);
@@ -56,6 +58,10 @@ int main(int argc, char *argv[])
     viewer.rootContext()->setContextProperty("mockModule3", mockModule3);
     viewer.rootContext()->setContextProperty("debugInput", debugInputModuleQ);
     viewer.rootContext()->setContextProperty("debugOutput", debugOutputModuleQ);
+
+    viewer.rootContext()->setContextProperty("addModuleType", nmgui::ModuleTypeQ::fromModuleType(*addModuleType));
+    viewer.rootContext()->setContextProperty("demuxModuleType", nmgui::ModuleTypeQ::fromModuleType(*demuxModuleType));
+
     viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));
     viewer.showExpanded();
 

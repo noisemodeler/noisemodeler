@@ -29,6 +29,11 @@ ModuleTypeQ *ModuleTypeQ::fromModuleType(nm::ModuleType &moduleType)
     return userData != nullptr ? userData : new ModuleTypeQ(&moduleType);
 }
 
+ModuleTypeQ *ModuleTypeQ::fromModuleType(const nm::ModuleType &moduleType)
+{
+    return fromModuleType(const_cast<nm::ModuleType&>(moduleType));
+}
+
 QString ModuleTypeQ::name() const
 {
     auto ss = m_moduleType->getName();
