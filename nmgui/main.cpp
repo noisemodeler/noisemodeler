@@ -1,6 +1,7 @@
 #include "moduleq.hpp"
 #include "inputlinkq.hpp"
 #include "outputlinkq.hpp"
+#include "moduletypeq.hpp"
 #include "texturerenderer.hpp"
 
 #include "beziercurve.hpp"
@@ -25,6 +26,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<nmgui::ModuleQ>("NoiseModeler", 1, 0, "Module");
     qmlRegisterType<nmgui::InputLinkQ>("NoiseModeler", 1, 0, "InputLink");
     qmlRegisterType<nmgui::OutputLinkQ>("NoiseModeler", 1, 0, "OutputLink");
+    qmlRegisterType<nmgui::ModuleTypeQ>("NoiseModeler", 1, 0, "ModuleType");
 
     //create mockup data
     nm::TypeManager typeManager;

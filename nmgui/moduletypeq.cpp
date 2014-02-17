@@ -22,7 +22,7 @@ ModuleTypeQ::ModuleTypeQ(nm::ModuleType *moduleType, QObject *parent) :
     //    });
 }
 
-ModuleTypeQ *ModuleTypeQ::fromModule(nm::ModuleType &moduleType)
+ModuleTypeQ *ModuleTypeQ::fromModuleType(nm::ModuleType &moduleType)
 {
     //TODO switch to some Qt smart pointer instead of rawpointer?
     auto userData = static_cast<ModuleTypeQ*>(moduleType.getUserData());

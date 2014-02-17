@@ -23,8 +23,8 @@ class ModuleTypeQ : public QObject
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleOutputQ> outputs READ outputs NOTIFY outputsChanged)
 public:
     //should have been protected, but not allowed by qt
-    explicit ModuleTypeQ(nm::ModuleType *moduleType, QObject *parent = 0);
-    static ModuleTypeQ* fromModule(nm::ModuleType &moduleType);
+    explicit ModuleTypeQ(nm::ModuleType *moduleType = nullptr, QObject *parent = 0);
+    static ModuleTypeQ* fromModuleType(nm::ModuleType &moduleType);
 
     QString name() const;
     QQmlListProperty<ModuleInputQ> inputs();

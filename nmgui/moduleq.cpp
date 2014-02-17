@@ -1,6 +1,7 @@
 #include "moduleq.hpp"
 #include "inputlinkq.hpp"
 #include "outputlinkq.hpp"
+#include "moduletypeq.hpp"
 
 #include <nmlib/model/module.hpp>
 
@@ -40,6 +41,11 @@ void ModuleQ::setName(const QString &value)
 {
     if(value == name())return;
     p_module->setName(value.toUtf8().constData());
+}
+
+ModuleTypeQ *ModuleQ::moduleType()
+{
+    return ModuleTypeQ::fromModuleType(p_module->getType());
 }
 
 QString ModuleQ::name() const

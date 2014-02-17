@@ -13,6 +13,7 @@ namespace nmgui {
 
 class InputLinkQ;
 class OutputLinkQ;
+class ModuleTypeQ;
 
 class ModuleQ : public QObject
 {
@@ -20,6 +21,7 @@ class ModuleQ : public QObject
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QQmlListProperty<nmgui::InputLinkQ> inputs READ inputs NOTIFY inputsChanged)
     Q_PROPERTY(QQmlListProperty<nmgui::OutputLinkQ> outputs READ outputs NOTIFY outputsChanged)
+    Q_PROPERTY(nmgui::ModuleTypeQ *moduleType READ moduleType CONSTANT)
 public:
     explicit ModuleQ(nm::Module* module = nullptr, QObject *parent = 0);
     virtual ~ModuleQ();
@@ -27,6 +29,7 @@ public:
 
     QString name() const;
     void setName(const QString &value);
+    ModuleTypeQ *moduleType();
 
     QQmlListProperty<InputLinkQ> inputs();
     QQmlListProperty<OutputLinkQ> outputs();

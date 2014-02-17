@@ -27,6 +27,7 @@ public:
     virtual ~Module();
     static std::unique_ptr<Module> create(const ModuleType &type, std::string name);
     const ModuleType& getType() const {return m_type;}
+    ModuleType& getType() {return m_type;}
     const std::string getName() const {return m_name;}
     void setName(std::string name);
 
