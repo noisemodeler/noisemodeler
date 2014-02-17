@@ -18,7 +18,7 @@ const ModuleInput *PrimitiveModuleType::getInput(std::string name) const
 {
     using namespace std;
     auto it = find_if(begin(m_inputs), end(m_inputs),
-                      [&](const std::unique_ptr<const ModuleInput> &input){return input->getName()==name;});
+                      [&](const std::unique_ptr<ModuleInput> &input){return input->getName()==name;});
     return it != end(m_inputs) ? it->get() : nullptr;
 }
 
@@ -26,22 +26,22 @@ const ModuleOutput *PrimitiveModuleType::getOutput(std::string name) const
 {
     using namespace std;
     auto it = find_if(begin(m_outputs), end(m_outputs),
-                      [&](const std::unique_ptr<const ModuleOutput> &output){return output->getName()==name;});
+                      [&](const std::unique_ptr<ModuleOutput> &output){return output->getName()==name;});
     return it != end(m_outputs) ? it->get() : nullptr;
 }
 
-std::vector<const ModuleOutput *> PrimitiveModuleType::outputs() const
+std::vector<ModuleOutput *> PrimitiveModuleType::outputs()
 {
-    std::vector<const ModuleOutput*> ret;
+    std::vector<ModuleOutput*> ret;
     for(auto &it:m_outputs){
         ret.push_back(it.get());
     }
     return ret;
 }
 
-std::vector<const ModuleInput *> PrimitiveModuleType::inputs() const
+std::vector<ModuleInput *> PrimitiveModuleType::inputs()
 {
-    std::vector<const ModuleInput*> ret;
+    std::vector<ModuleInput*> ret;
     for(auto &it:m_inputs){
         ret.push_back(it.get());
     }

@@ -52,9 +52,9 @@ const ModuleOutput *CompositeModuleType::getOutput(std::string name) const
     }
 }
 
-std::vector<const ModuleOutput *> CompositeModuleType::outputs() const
+std::vector<ModuleOutput *> CompositeModuleType::outputs()
 {
-    std::vector<const ModuleOutput*> ret{};
+    std::vector<ModuleOutput*> ret{};
     ret.reserve(m_inputs.size());
     for(auto &i : m_outputs){
         ret.emplace_back(i.first.get());
@@ -62,9 +62,9 @@ std::vector<const ModuleOutput *> CompositeModuleType::outputs() const
     return ret;
 }
 
-std::vector<const ModuleInput *> CompositeModuleType::inputs() const
+std::vector<ModuleInput *> CompositeModuleType::inputs()
 {
-    std::vector<const ModuleInput*> ret{};
+    std::vector<ModuleInput*> ret{};
     ret.reserve(m_inputs.size());
     for(auto &i : m_inputs){
         ret.emplace_back(i.get());

@@ -26,8 +26,8 @@ public:
     virtual std::string getDescription() const override {return c_description;}
     virtual const ModuleInput *getInput(std::string name) const override;
     virtual const ModuleOutput *getOutput(std::string name) const override;
-    virtual std::vector<const ModuleOutput*> outputs() const override;
-    virtual std::vector<const ModuleInput*> inputs() const override;
+    virtual std::vector<ModuleOutput*> outputs() override;
+    virtual std::vector<ModuleInput*> inputs() override;
     virtual void onCreatedModule(Module &module) override {m_modulesOfThisType.push_back(&module);} //TODO add to a list of modules
     virtual void onDestroyingModule(Module *module) override;
 

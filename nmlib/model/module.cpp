@@ -8,34 +8,31 @@
 
 namespace nm {
 
-Module::Module(const ModuleType &type, std::string name):
-    c_type(type),
+Module::Module(ModuleType &type, std::string name):
+    m_type(type),
     m_name(name),
     m_inputs(),
     m_outputs()
 {
-    for(auto &moduleInput : c_type.inputs()){
+    for(auto &moduleInput : m_type.inputs()){
         createInputLink(*moduleInput);
     }
-    for(auto &moduleOutput : c_type.outputs()){
+    for(auto &moduleOutput : m_type.outputs()){
         createOutputLink(*moduleOutput);
     }
 }
 
 Module::~Module()
 {
-    //again total badasses to const_casts
-    //might eventually solve this by making some methods private, and make moduletype and module friends
     destroying(*this);
-    auto &mutableType = const_cast<ModuleType &>(c_type);
-    mutableType.onDestroyingModule(this);
+    m_type.onDestroyingModule(this);
 }
 
 std::unique_ptr<Module> Module::create(const ModuleType &type, std::string name)
 {
     //We're gonna be total badasses and cast away the constness of the type
     auto &mutableType = const_cast<ModuleType &>(type);
-    std::unique_ptr<Module> module{new Module{type, name}};
+    std::unique_ptr<Module> module{new Module{mutableType, name}};
     mutableType.onCreatedModule(*module);
     return std::move(module);
 }

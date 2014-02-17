@@ -52,9 +52,9 @@ const ModuleOutput *InputModuleType::getOutput(std::string /*name*/) const
     //    }
 }
 
-std::vector<const ModuleOutput *> InputModuleType::outputs() const
+std::vector<ModuleOutput *> InputModuleType::outputs()
 {
-    std::vector<const ModuleOutput*> ret;
+    std::vector<ModuleOutput*> ret;
     ret.reserve(m_inputs.size());
     for(auto &p : m_inputs){
         ret.push_back(&(p.second));
@@ -62,9 +62,9 @@ std::vector<const ModuleOutput *> InputModuleType::outputs() const
     return ret;
 }
 
-std::vector<const ModuleInput *> InputModuleType::inputs() const
+std::vector<ModuleInput *> InputModuleType::inputs()
 {
-    return std::vector<const ModuleInput*>();
+    return std::vector<ModuleInput*>();
 }
 
 void InputModuleType::onCreatedModule(Module &module)

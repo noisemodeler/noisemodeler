@@ -24,14 +24,20 @@ SOURCES += main.cpp \
     moduleq.cpp \
     outputlinkq.cpp \
     inputlinkq.cpp \
-    beziercurve.cpp
+    beziercurve.cpp \
+    moduletypeq.cpp \
+    moduleinputq.cpp \
+    moduleoutputq.cpp
 
 HEADERS += \
     texturerenderer.hpp \
     moduleq.hpp \
     outputlinkq.hpp \
     inputlinkq.hpp \
-    beziercurve.hpp
+    beziercurve.hpp \
+    moduletypeq.hpp \
+    moduleinputq.hpp \
+    moduleoutputq.hpp
 
 # Installation path
 # target.path =

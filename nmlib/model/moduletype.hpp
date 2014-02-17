@@ -24,8 +24,8 @@ public:
     virtual std::string getDescription() const = 0;
     virtual const ModuleInput *getInput(std::string name) const = 0;
     virtual const ModuleOutput *getOutput(std::string name) const = 0;
-    virtual std::vector<const ModuleOutput*> outputs() const = 0;
-    virtual std::vector<const ModuleInput*> inputs() const = 0;
+    virtual std::vector<ModuleOutput*> outputs() = 0;
+    virtual std::vector<ModuleInput*> inputs() = 0;
     virtual void onCreatedModule(Module &module) = 0;
     virtual void onDestroyingModule(Module *module) = 0;
 };

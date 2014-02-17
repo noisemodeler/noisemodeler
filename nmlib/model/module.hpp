@@ -26,7 +26,7 @@ class Module : public UserDataProvider
 public:
     virtual ~Module();
     static std::unique_ptr<Module> create(const ModuleType &type, std::string name);
-    const ModuleType& getType() const {return c_type;}
+    const ModuleType& getType() const {return m_type;}
     const std::string getName() const {return m_name;}
     void setName(std::string name);
 
@@ -67,8 +67,8 @@ public:
 private:
     void createInputLink(const ModuleInput& moduleInput);
     void createOutputLink(const ModuleOutput& moduleInput);
-    explicit Module(const ModuleType& getType, std::string getName);
-    const ModuleType& c_type;
+    explicit Module(ModuleType &getType, std::string getName);
+    ModuleType& m_type;
     std::string m_name;
     std::vector<std::unique_ptr<InputLink>> m_inputs;
     std::vector<std::unique_ptr<OutputLink>> m_outputs;

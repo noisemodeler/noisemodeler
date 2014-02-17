@@ -20,8 +20,8 @@ public:
     virtual std::string getDescription() const override{return c_description;}
     virtual const ModuleInput *getInput(std::string name) const override;
     virtual const ModuleOutput *getOutput(std::string name) const override;
-    virtual std::vector<const ModuleOutput *> outputs() const override;
-    virtual std::vector<const ModuleInput *> inputs() const override;
+    virtual std::vector<ModuleOutput *> outputs() override;
+    virtual std::vector<ModuleInput *> inputs() override;
     virtual void onCreatedModule(Module &/*module*/) override {}
     virtual void onDestroyingModule(Module */*module*/) override {}
 
@@ -31,8 +31,8 @@ public:
 private:
     const std::string c_name;
     const std::string c_description;
-    std::vector<std::unique_ptr<const ModuleInput>> m_inputs;
-    std::vector<std::unique_ptr<const ModuleOutput>> m_outputs;
+    std::vector<std::unique_ptr<ModuleInput>> m_inputs;
+    std::vector<std::unique_ptr<ModuleOutput>> m_outputs;
 };
 
 } // namespace nm
