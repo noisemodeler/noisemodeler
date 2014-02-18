@@ -14,9 +14,7 @@ public:
 private:
     GlslGenerator();
 
-    // InlineGenerator interface
 private:
-    virtual void generateBody(Module &module, std::ostream &out) override;
 };
 
 } // namespace nm

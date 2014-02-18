@@ -1,10 +1,16 @@
 #include "inlinegenerator.hpp"
 
+#include <nmlib/codegeneration/compositemodulegenerator.hpp>
+#include <nmlib/codegeneration/simplebodygenerator.hpp>
+#include <nmlib/codegeneration/zerodefaultsgenerator.hpp>
+
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
 #include <nmlib/model/module.hpp>
+#include <nmlib/model/signalvalue.hpp>
 
 #include <algorithm>
+#include <sstream>
 
 namespace nm {
 
@@ -85,18 +91,45 @@ void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::Input
                 moduleOutputRemaps.push_back(std::move(remap));
             }
         }
-        generateModule(moduleInputRemaps, moduleOutputRemaps, out);
+        generateModule(*module, moduleInputRemaps, moduleOutputRemaps, out);
     }
 }
 
-void InlineGenerator::generateModule(const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
+void InlineGenerator::generateModule(Module &module, const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
 {
-    generatePreamble(inputRemaps, outputRemaps, out);
-    Module &module = outputRemaps[0].outputLink->getOwner();
+    //module handler object
+    std::unique_ptr<ModuleGenerator> moduleGenerator = getModuleGenerator(module);
+
+    //declare outputs of scope
+    generateOutputDeclarations(outputRemaps, out);
+
+    //start module call scope
+    out << "{\n";
+
+    //declare all inputs
+    generateInputDeclarations(module, out);
+
+    //generate default values for inputs
+    moduleGenerator->generateDefaults(*this, out);
+
+    //overwrite defaults with supplied remaps
+    out << "\n//generating input reassignments\n";
+    for(auto remap : inputRemaps){
+        auto &moduleInput = remap.inputLink->getModuleInput();
+        out << " " << moduleInput.getName() << ";\n";
+    }
+
+    //assign custom inputs from inputremaps
+    generateInputAssignments(inputRemaps, out);
+
     out << "\n//funtion body for module \"" << module.getName() << "\" of type \"" << module.getType().getName() << "\"\n";
-    generateBody(module, out);
+    moduleGenerator->generateBody(*this, out);
     out << "//end function body\n\n";
-    generatePostamble(outputRemaps, out);
+
+    out << "\n//generating postamble\n";
+    //assign outputs to remapped values
+    generateOutputAssignments(outputRemaps, out);
+    out << "}\n";
 }
 
 std::string InlineGenerator::getUniqueId()
@@ -104,37 +137,46 @@ std::string InlineGenerator::getUniqueId()
     return m_idGenerator.getUniqueId();
 }
 
-void InlineGenerator::generatePreamble(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream& out)
+std::unique_ptr<ModuleGenerator> InlineGenerator::getModuleGenerator(Module &module)
 {
-    out << "\n//generating preamble\n";
-    generateOutputDeclarations(outputRemaps, out);
-    out << "{\n";
-    generateInputDeclarations(inputRemaps, out);
-    //TODO defaults here!
-    generateModuleDefaultValues(outputRemaps[0].outputLink->getOwner(), out);
-    generateInputAssignments(inputRemaps, out);
-}
-
-void InlineGenerator::generateModuleDefaultValues(Module &module, std::ostream &/*out*/)
-{
-    //TODO move to subclass
-    auto moduleName = module.getType().getName();
-    if(moduleName == "add"){
-//        out << "lhs = 0; rhs = 0;";
+    auto moduleTypeName = module.getType().getName();
+    std::unique_ptr<BodyGenerator> body;
+    std::unique_ptr<DefaultsGenerator> defaults;
+    body.reset(new SimpleBodyGenerator("//empty body\n"));
+    defaults.reset(new ZeroDefaultsGenerator(module));
+    if(moduleTypeName == "add"){
+        body.reset(new SimpleBodyGenerator("float result = lhs + rhs;\n"));
+    } else if (moduleTypeName == "demux2") {
+        body.reset(new SimpleBodyGenerator(
+            "float x = m.x;\n"
+            "float y = m.y;\n"
+        ));
     }
-
+    else {
+        std::cerr << "No policy for module of type: " << moduleTypeName << "\n";
+    }
+    return std::unique_ptr<ModuleGenerator>{new CompositeModuleGenerator(std::move(body), std::move(defaults))};
 }
 
-void InlineGenerator::generateBody(Module& /*module*/, std::ostream &out)
+void InlineGenerator::assignVariable(std::string name, const SignalValue &value, std::ostream &out)
 {
-    out << "Override me!;\n";
+    out << name << " = " << generateValue(value) << ";\n";
 }
 
-void InlineGenerator::generatePostamble(std::vector<InlineGenerator::OutputRemap> remaps, std::ostream& out)
+std::string InlineGenerator::generateValue(const SignalValue &value)
 {
-    out << "\n//generating postamble\n";
-    generateOutputAssignments(remaps, out);
-    out << "}\n";
+    std::stringstream ss;
+    if(value.getSignalType().dimensionality==1){
+        ss << value[0];
+    } else {
+        generateTypeKeyword(value.getSignalType(), ss);
+        ss << "(";
+        for(unsigned int i=0; i<static_cast<unsigned int>(value.getSignalType().dimensionality-1); ++i){
+            ss << value[i] << ", ";
+        }
+        ss << value[static_cast<unsigned int>(value.getSignalType().dimensionality-1)] << ")";
+    }
+    return ss.str();
 }
 
 void InlineGenerator::generateOutputDeclarations(const std::vector<InlineGenerator::OutputRemap> &remaps, std::ostream &out)
@@ -146,11 +188,11 @@ void InlineGenerator::generateOutputDeclarations(const std::vector<InlineGenerat
     }
 }
 
-void InlineGenerator::generateInputDeclarations(const std::vector<InputRemap> &inputRemaps, std::ostream &out)
+void InlineGenerator::generateInputDeclarations(Module &module, std::ostream &out)
 {
     out << "\n//generating input declarations\n";
-    for(auto remap : inputRemaps){
-        auto &moduleInput = remap.inputLink->getModuleInput();
+    for(auto inputLink : module.getInputs()){
+        auto &moduleInput =inputLink->getModuleInput();
         generateTypeKeyword(moduleInput.getSignalType(), out);
         out << " " << moduleInput.getName() << ";\n";
     }

@@ -27,7 +27,14 @@ SOURCES = \
     codegeneration/idgenerator.cpp \
     codegeneration/inlinegenerator.cpp \
     codegeneration/glslgenerator.cpp \
-    model/primitivemoduletype.cpp
+    model/primitivemoduletype.cpp \
+    codegeneration/defaultsgenerator.cpp \
+    codegeneration/bodygenerator.cpp \
+    codegeneration/modulegenerator.cpp \
+    codegeneration/compositemodulegenerator.cpp \
+    codegeneration/zerodefaultsgenerator.cpp \
+    model/signalvalue.cpp \
+    codegeneration/simplebodygenerator.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -47,4 +54,11 @@ HEADERS = \
     codegeneration/idgenerator.hpp \
     codegeneration/inlinegenerator.hpp \
     codegeneration/glslgenerator.hpp \
-    model/primitivemoduletype.hpp
+    model/primitivemoduletype.hpp \
+    codegeneration/defaultsgenerator.hpp \
+    codegeneration/bodygenerator.hpp \
+    codegeneration/modulegenerator.hpp \
+    codegeneration/compositemodulegenerator.hpp \
+    codegeneration/zerodefaultsgenerator.hpp \
+    model/signalvalue.hpp \
+    codegeneration/simplebodygenerator.hpp

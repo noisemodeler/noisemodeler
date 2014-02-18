@@ -45,22 +45,6 @@ std::string GlslGenerator::compileToGlslFunction(InputLink &inputLink, OutputLin
 GlslGenerator::GlslGenerator():
     InlineGenerator()
 {
-
-}
-
-void GlslGenerator::generateBody(Module &module, std::ostream &out)
-{
-    auto &moduleType = module.getType();
-    auto moduleTypeString = moduleType.getName();
-    if (moduleTypeString == "add"){
-        out << "float result = lhs + rhs;\n";
-    } else if (moduleTypeString == "demux2") {
-        out << "float x = m.x;\n";
-        out << "float y = m.y;\n";
-    }
-    else {
-        out << "//No handler for this type\n";
-    }
 }
 
 } // namespace nm
