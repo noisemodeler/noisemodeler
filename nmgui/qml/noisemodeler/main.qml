@@ -13,11 +13,16 @@ Rectangle {
         id: moduleTypeBrowser
     }
 
-    GraphEditor{
+    Item {
+        id: mainArea
         anchors.top: menu.bottom
         anchors.left: moduleTypeBrowser.right
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+    }
+
+    GraphEditor{
+        anchors.fill: mainArea
         TexturePreview{}
         Node{module:mockModule}
         Node{x: 300; y: 100; module:mockModule2}
