@@ -15,17 +15,12 @@ Rectangle {
     property alias titleBar: titleBar
     property alias contents: contents
     property int borderThickness: 0
-
-//    border.color: mystyle.borderColor
-
     Rectangle{
         id: titleBar
         anchors.left: subWindow.left
         anchors.right: subWindow.right
         anchors.bottom: subWindow.top
         height: titleHeight
-//        border.width: 0
-//        border.color: mystyle.borderColor
         color: mystyle.subWindow.bgColor
         Text {
             x: 3
@@ -41,11 +36,10 @@ Rectangle {
         anchors.fill: subWindow
         anchors.topMargin: -titleHeight
         drag.target: subWindow
-
-        drag.minimumY: subWindow.titleHeight
-        drag.minimumX: 0
-        drag.maximumX: subWindow.parent.width - subWindow.width
-        drag.maximumY: subWindow.parent.height - subWindow.height
+//        drag.minimumY: subWindow.titleHeight
+//        drag.minimumX: 0
+//        drag.maximumX: subWindow.parent.width - subWindow.width
+//        drag.maximumY: subWindow.parent.height - subWindow.height
     }
     Item {
         id:contents

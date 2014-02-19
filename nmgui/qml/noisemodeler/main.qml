@@ -10,6 +10,7 @@ Rectangle {
     }
 
     ModuleTypeBrowser {
+        z:50
         id: moduleTypeBrowser
     }
 
@@ -23,11 +24,13 @@ Rectangle {
 
     GraphEditor{
         anchors.fill: mainArea
-        TexturePreview{}
-        Node{module:mockModule}
-        Node{x: 300; y: 100; module:mockModule2}
-        Node{module:mockModule3}
-        Node{x: 100; y: 100; module:debugInput}
-        Node{x: 400; y: 100; module:debugOutput}
+        contents.children: [
+            TexturePreview{},
+            Node{module:mockModule},
+            Node{x: 300; y: 100; module:mockModule2},
+            Node{module:mockModule3},
+            Node{x: 100; y: 100; module:debugInput},
+            Node{x: 400; y: 100; module:debugOutput}
+        ]
     }
 }
