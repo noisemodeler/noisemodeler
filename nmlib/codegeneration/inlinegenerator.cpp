@@ -151,39 +151,35 @@ std::unique_ptr<ModuleGenerator> InlineGenerator::getModuleGenerator(Module &mod
             "float x = m.x;\n"
             "float y = m.y;\n"
         ));
-    }
-    else {
+    } else if (moduleTypeName == "mul1") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = lhs * rhs;\n"
+        ));
+    } else {
         std::cerr << "No policy for module of type: " << moduleTypeName << "\n";
     }
     return std::unique_ptr<ModuleGenerator>{new CompositeModuleGenerator(std::move(body), std::move(defaults))};
 }
 
-void InlineGenerator::assignVariable(std::string name, const SignalValue &value, std::ostream &out)
+void InlineGenerator::genValue(const SignalValue &value, std::ostream &out)
 {
-    out << name << " = " << generateValue(value) << ";\n";
-}
-
-std::string InlineGenerator::generateValue(const SignalValue &value)
-{
-    std::stringstream ss;
     if(value.getSignalType().dimensionality==1){
-        ss << value[0];
+        out << value[0];
     } else {
-        generateTypeKeyword(value.getSignalType(), ss);
-        ss << "(";
+        genTypeKeyword(value.getSignalType(), out);
+        out << "(";
         for(unsigned int i=0; i<static_cast<unsigned int>(value.getSignalType().dimensionality-1); ++i){
-            ss << value[i] << ", ";
+            out << value[i] << ", ";
         }
-        ss << value[static_cast<unsigned int>(value.getSignalType().dimensionality-1)] << ")";
+        out << value[static_cast<unsigned int>(value.getSignalType().dimensionality-1)] << ")";
     }
-    return ss.str();
 }
 
 void InlineGenerator::generateOutputDeclarations(const std::vector<InlineGenerator::OutputRemap> &remaps, std::ostream &out)
 {
     out << "\n//generating output declarations\n";
     for(auto &remap : remaps){
-        generateTypeKeyword(remap.outputLink->getModuleOutput().getSignalType(), out);
+        genTypeKeyword(remap.outputLink->getModuleOutput().getSignalType(), out);
         out << " " << remap.externalName << ";\n";
     }
 }
@@ -193,7 +189,7 @@ void InlineGenerator::generateInputDeclarations(Module &module, std::ostream &ou
     out << "\n//generating input declarations\n";
     for(auto inputLink : module.getInputs()){
         auto &moduleInput =inputLink->getModuleInput();
-        generateTypeKeyword(moduleInput.getSignalType(), out);
+        genTypeKeyword(moduleInput.getSignalType(), out);
         out << " " << moduleInput.getName() << ";\n";
     }
 }
@@ -201,7 +197,12 @@ void InlineGenerator::generateInputDeclarations(Module &module, std::ostream &ou
 void InlineGenerator::generateInputAssignments(const std::vector<InlineGenerator::InputRemap> &remaps, std::ostream &out)
 {
     for(auto remap : remaps){
-        out << remap.inputLink->getModuleInput().getName() << " = " << remap.externalName << ";\n";
+//        out << remap.inputLink->getModuleInput().getName() << " = " << remap.externalName << ";\n";
+        std::unique_ptr<Assignment> assignment{new Assignment(
+            std::unique_ptr<Variable>{new Variable(remap.inputLink->getModuleInput().getName())},
+            std::unique_ptr<Variable>{new Variable(remap.externalName)}
+        )};
+        assignment->gen(*this, out);
     }
 }
 
@@ -209,11 +210,16 @@ void InlineGenerator::generateOutputAssignments(const std::vector<InlineGenerato
 {
     out << "\n//generating outputassignments\n";
     for(auto remap : remaps){
-        out << remap.externalName << " = " << remap.outputLink->getModuleOutput().getName() << ";\n";
+//        out << remap.inputLink->getModuleInput().getName() << " = " << remap.externalName << ";\n";
+        std::unique_ptr<Assignment> assignment{new Assignment(
+            std::unique_ptr<Variable>{new Variable(remap.externalName)},
+            std::unique_ptr<Variable>{new Variable(remap.outputLink->getModuleOutput().getName())}
+        )};
+        assignment->gen(*this, out);
     }
 }
 
-void InlineGenerator::generateTypeKeyword(const SignalType &signalType, std::ostream &out)
+void InlineGenerator::genTypeKeyword(const SignalType &signalType, std::ostream &out)
 {
     switch(signalType.dimensionality){
     case 1:
@@ -227,6 +233,19 @@ void InlineGenerator::generateTypeKeyword(const SignalType &signalType, std::ost
     default:
         out << "UNKNOWN_TYPE";
     }
+}
+
+void InlineGenerator::genAssignment(const Assignment &assignment, std::ostream &out)
+{
+    assignment.lhs->gen(*this, out);
+    out << " = ";
+    assignment.rhs->gen(*this, out);
+    out << ";\n";
+}
+
+void InlineGenerator::genVariable(const Variable &variable, std::ostream &out)
+{
+    out << variable.m_id;
 }
 
 } // namespace nm

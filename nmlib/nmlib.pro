@@ -61,4 +61,6 @@ HEADERS = \
     codegeneration/compositemodulegenerator.hpp \
     codegeneration/zerodefaultsgenerator.hpp \
     model/signalvalue.hpp \
-    codegeneration/simplebodygenerator.hpp
+    codegeneration/simplebodygenerator.hpp \
+    util/makeunique.hpp \
+    util.hpp

@@ -6,12 +6,22 @@
 #include <nmlib/model/signalvalue.hpp>
 #include <nmlib/model/moduleinput.hpp>
 
+#include <nmlib/util.hpp>
+
 namespace nm {
 
 void ZeroDefaultsGenerator::generateDefaults(InlineGenerator &gen, std::ostream &out)
 {
     for(auto inputLink : m_module.getInputs()){
-        gen.assignVariable(inputLink->getModuleInput().getName(), SignalValue{inputLink->getModuleInput().getSignalType()}, out);
+        auto variableName = inputLink->getModuleInput().getName();
+        auto signalType = inputLink->getModuleInput().getSignalType();
+        std::unique_ptr<SignalValue> zero{new SignalValue{signalType}};
+
+        auto assignment = make_unique<Assignment>(
+            make_unique<Variable>(variableName),
+            make_unique<Value>(std::move(zero))
+        );
+        assignment->gen(gen, out);
     }
 }
 
