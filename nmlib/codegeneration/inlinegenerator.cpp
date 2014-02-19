@@ -9,6 +9,10 @@
 #include <nmlib/model/module.hpp>
 #include <nmlib/model/signalvalue.hpp>
 
+#include <nmlib/util.hpp>
+
+#include <nmlib/util.hpp>
+
 #include <algorithm>
 #include <sstream>
 
@@ -198,10 +202,10 @@ void InlineGenerator::generateInputAssignments(const std::vector<InlineGenerator
 {
     for(auto remap : remaps){
 //        out << remap.inputLink->getModuleInput().getName() << " = " << remap.externalName << ";\n";
-        std::unique_ptr<Assignment> assignment{new Assignment(
-            std::unique_ptr<Variable>{new Variable(remap.inputLink->getModuleInput().getName())},
-            std::unique_ptr<Variable>{new Variable(remap.externalName)}
-        )};
+        auto assignment = make_unique<Assignment>(
+            make_unique<Variable>(remap.inputLink->getModuleInput().getName()),
+            make_unique<Variable>(remap.externalName)
+        );
         assignment->gen(*this, out);
     }
 }
@@ -210,11 +214,10 @@ void InlineGenerator::generateOutputAssignments(const std::vector<InlineGenerato
 {
     out << "\n//generating outputassignments\n";
     for(auto remap : remaps){
-//        out << remap.inputLink->getModuleInput().getName() << " = " << remap.externalName << ";\n";
-        std::unique_ptr<Assignment> assignment{new Assignment(
-            std::unique_ptr<Variable>{new Variable(remap.externalName)},
-            std::unique_ptr<Variable>{new Variable(remap.outputLink->getModuleOutput().getName())}
-        )};
+        auto assignment = make_unique<Assignment>(
+            make_unique<Variable>(remap.externalName),
+            make_unique<Variable>(remap.outputLink->getModuleOutput().getName())
+        );
         assignment->gen(*this, out);
     }
 }

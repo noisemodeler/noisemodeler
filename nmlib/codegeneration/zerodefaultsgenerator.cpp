@@ -15,7 +15,7 @@ void ZeroDefaultsGenerator::generateDefaults(InlineGenerator &gen, std::ostream 
     for(auto inputLink : m_module.getInputs()){
         auto variableName = inputLink->getModuleInput().getName();
         auto signalType = inputLink->getModuleInput().getSignalType();
-        std::unique_ptr<SignalValue> zero{new SignalValue{signalType}};
+        auto zero = make_unique<SignalValue>(signalType);
 
         auto assignment = make_unique<Assignment>(
             make_unique<Variable>(variableName),

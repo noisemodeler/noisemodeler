@@ -44,27 +44,29 @@ private:
 
     IdGenerator m_idGenerator;
 
-    friend class Assignment;
-    friend class Variable;
-    friend class Expression;
-    friend class Value;
+    friend struct Assignment;
+    friend struct Variable;
+    friend struct Expression;
+    friend struct Value;
 };
 
-class Expression {
-public:
+struct SyntaxNode {
     virtual void gen(InlineGenerator &gen,std::ostream& out) = 0;
-    virtual ~Expression(){}
+    virtual ~SyntaxNode(){}
 };
-class Variable : public Expression {
-public:
+
+struct Expression : public SyntaxNode {
+};
+
+struct Variable : public Expression {
     Variable(std::string id):m_id(id){}
     virtual void gen(InlineGenerator &g, std::ostream &out) override {
         g.genVariable(*this, out);
     }
     std::string m_id;
 };
-class Assignment : public Expression {
-public:
+
+struct Assignment : public Expression {
     Assignment(std::unique_ptr<Variable> id, std::unique_ptr<Expression> value):
         lhs(std::move(id)),
         rhs(std::move(value))
@@ -75,17 +77,14 @@ public:
     std::unique_ptr<Variable> lhs;
     std::unique_ptr<Expression> rhs;
 };
-class Value : public Expression {
-public:
+
+struct Value : public Expression {
     Value(std::unique_ptr<SignalValue> v): value(std::move(v)){}
     virtual void gen(InlineGenerator &g, std::ostream &out) override {
         g.genValue(*value, out);
     }
     std::unique_ptr<SignalValue> value;
 };
-
-
-
 } // namespace nm
 
 #endif // NM_INLINEGENERATOR_HPP
