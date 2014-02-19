@@ -9,19 +9,10 @@
 #include <nmlib/model/module.hpp>
 #include <nmlib/model/signalvalue.hpp>
 
-#include <nmlib/util.hpp>
-
-#include <nmlib/util.hpp>
-
 #include <algorithm>
 #include <sstream>
 
 namespace nm {
-
-InlineGenerator::InlineGenerator()
-{
-
-}
 
 void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
 {
@@ -39,12 +30,6 @@ void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::Input
     std::vector<OutputRemap> internalOutputRemaps = outputRemaps;
 
     auto dependencies = Module::getDependenciesSorted(outputs, inputs);
-
-//    std::remove_if(begin(dependencies), end(dependencies), [&](Module &module){
-//        return end(inputRemaps) != find_if(begin(inputRemaps), end(inputRemaps), [&](InputRemap& inputRemap){
-//            return &module == &inputRemap.inputLink->getOwner();
-//        });
-//    });
 
     //generate code for all dependencies
     for(auto module : dependencies){
@@ -165,6 +150,14 @@ std::unique_ptr<ModuleGenerator> InlineGenerator::getModuleGenerator(Module &mod
     return std::unique_ptr<ModuleGenerator>{new CompositeModuleGenerator(std::move(body), std::move(defaults))};
 }
 
+void InlineGenerator::genDeclaration(const Declaration &variable, std::ostream &out)
+{
+    genTypeKeyword(variable.type, out);
+    out << " ";
+    variable.id->gen(*this, out);
+    out << ";\n";
+}
+
 void InlineGenerator::genValue(const SignalValue &value, std::ostream &out)
 {
     if(value.getSignalType().dimensionality==1){
@@ -183,8 +176,11 @@ void InlineGenerator::generateOutputDeclarations(const std::vector<InlineGenerat
 {
     out << "\n//generating output declarations\n";
     for(auto &remap : remaps){
-        genTypeKeyword(remap.outputLink->getModuleOutput().getSignalType(), out);
-        out << " " << remap.externalName << ";\n";
+        Declaration declaration{
+            remap.outputLink->getModuleOutput().getSignalType(),
+            remap.externalName
+        };
+        declaration.gen(*this, out);
     }
 }
 
@@ -192,9 +188,12 @@ void InlineGenerator::generateInputDeclarations(Module &module, std::ostream &ou
 {
     out << "\n//generating input declarations\n";
     for(auto inputLink : module.getInputs()){
-        auto &moduleInput =inputLink->getModuleInput();
-        genTypeKeyword(moduleInput.getSignalType(), out);
-        out << " " << moduleInput.getName() << ";\n";
+        auto &moduleInput = inputLink->getModuleInput();
+        Declaration d{
+            moduleInput.getSignalType(),
+            moduleInput.getName()
+        };
+        d.gen(*this, out);
     }
 }
 
@@ -202,11 +201,11 @@ void InlineGenerator::generateInputAssignments(const std::vector<InlineGenerator
 {
     for(auto remap : remaps){
 //        out << remap.inputLink->getModuleInput().getName() << " = " << remap.externalName << ";\n";
-        auto assignment = make_unique<Assignment>(
-            make_unique<Variable>(remap.inputLink->getModuleInput().getName()),
-            make_unique<Variable>(remap.externalName)
-        );
-        assignment->gen(*this, out);
+        Assignment assignment{
+            remap.inputLink->getModuleInput().getName(),
+            remap.externalName
+        };
+        assignment.gen(*this, out);
     }
 }
 
@@ -214,30 +213,13 @@ void InlineGenerator::generateOutputAssignments(const std::vector<InlineGenerato
 {
     out << "\n//generating outputassignments\n";
     for(auto remap : remaps){
-        auto assignment = make_unique<Assignment>(
-            make_unique<Variable>(remap.externalName),
-            make_unique<Variable>(remap.outputLink->getModuleOutput().getName())
-        );
-        assignment->gen(*this, out);
+        Assignment assignment{
+            remap.externalName,
+            remap.outputLink->getModuleOutput().getName()
+        };
+        assignment.gen(*this, out);
     }
 }
-
-void InlineGenerator::genTypeKeyword(const SignalType &signalType, std::ostream &out)
-{
-    switch(signalType.dimensionality){
-    case 1:
-        out << "float";
-        break;
-    case 2:
-    case 3:
-    case 4:
-        out << "vec" << signalType.dimensionality;
-        break;
-    default:
-        out << "UNKNOWN_TYPE";
-    }
-}
-
 void InlineGenerator::genAssignment(const Assignment &assignment, std::ostream &out)
 {
     assignment.lhs->gen(*this, out);

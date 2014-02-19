@@ -9,11 +9,14 @@
 #include <nmlib/model/primitivemoduletype.hpp>
 #include <nmlib/model/signalvalue.hpp>
 
+#include <nmlib/util.hpp>
+
 namespace nm {
 
-class Expression;
-class Assignment;
-class Variable;
+struct Expression;
+struct Assignment;
+struct Variable;
+struct Declaration;
 
 class InlineGenerator {
 public:
@@ -25,22 +28,26 @@ public:
         std::string externalName;
         OutputLink* outputLink;
     };
-    explicit InlineGenerator();
-    virtual void generateFromLinks(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
-    virtual void generateModule(Module& module, const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
+
+    void generateFromLinks(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
+    void generateModule(Module& module, const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
     std::string getUniqueId();
     virtual std::unique_ptr<ModuleGenerator> getModuleGenerator(Module &module);
-private:
-    virtual void generateOutputDeclarations(const std::vector<OutputRemap> &conversions, std::ostream& out);
-    virtual void generateInputDeclarations(Module&, std::ostream& out);
-    virtual void generateInputAssignments(const std::vector<InputRemap> &conversions, std::ostream& out);
-    virtual void generateOutputAssignments(const std::vector<OutputRemap> &conversions, std::ostream& out);
 
+protected:
     //syntax tree generation helpers
-    virtual void genTypeKeyword(const SignalType &signalType, std::ostream& out);
+    virtual void genTypeKeyword(const SignalType &signalType, std::ostream& out) = 0;
+    virtual void genDeclaration(const Declaration &variable, std::ostream &out);
     virtual void genAssignment(const Assignment &assignment, std::ostream &out);
     virtual void genVariable(const Variable &variable, std::ostream &out);
     virtual void genValue(const SignalValue &value, std::ostream &out);
+
+
+private:
+    void generateOutputDeclarations(const std::vector<OutputRemap> &conversions, std::ostream& out);
+    void generateInputDeclarations(Module&, std::ostream& out);
+    void generateInputAssignments(const std::vector<InputRemap> &conversions, std::ostream& out);
+    void generateOutputAssignments(const std::vector<OutputRemap> &conversions, std::ostream& out);
 
     IdGenerator m_idGenerator;
 
@@ -48,6 +55,7 @@ private:
     friend struct Variable;
     friend struct Expression;
     friend struct Value;
+    friend struct Declaration;
 };
 
 struct SyntaxNode {
@@ -71,11 +79,31 @@ struct Assignment : public Expression {
         lhs(std::move(id)),
         rhs(std::move(value))
     {}
-    virtual void gen(InlineGenerator &g, std::ostream &out) override {
+    Assignment(std::string l, std::string r):
+        lhs{make_unique<Variable>(std::move(l))},
+        rhs{make_unique<Variable>(std::move(r))}
+    {}
+     virtual void gen(InlineGenerator &g, std::ostream &out) override {
         g.genAssignment(*this, out);
     }
     std::unique_ptr<Variable> lhs;
     std::unique_ptr<Expression> rhs;
+};
+
+struct Declaration : public SyntaxNode {
+    Declaration(SignalType t, std::string s):
+        type{t},
+        id{make_unique<Variable>(std::move(s))}
+    {}
+    Declaration(SignalType t, std::unique_ptr<Variable> v):
+        type(t),
+        id(std::move(v))
+    {}
+    virtual void gen(InlineGenerator &g, std::ostream &out) override {
+        g.genDeclaration(*this, out);
+    }
+    SignalType type;
+    std::unique_ptr<Variable> id;
 };
 
 struct Value : public Expression {
@@ -85,6 +113,7 @@ struct Value : public Expression {
     }
     std::unique_ptr<SignalValue> value;
 };
+
 } // namespace nm
 
 #endif // NM_INLINEGENERATOR_HPP

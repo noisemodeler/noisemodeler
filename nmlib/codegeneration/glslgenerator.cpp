@@ -42,6 +42,22 @@ std::string GlslGenerator::compileToGlslFunction(InputLink &inputLink, OutputLin
     return sl.str();
 }
 
+void GlslGenerator::genTypeKeyword(const SignalType &signalType, std::ostream &out)
+{
+    switch(signalType.dimensionality){
+    case 1:
+        out << "float";
+        break;
+    case 2:
+    case 3:
+    case 4:
+        out << "vec" << signalType.dimensionality;
+        break;
+    default:
+        out << "UNKNOWN_TYPE";
+    }
+}
+
 GlslGenerator::GlslGenerator():
     InlineGenerator()
 {

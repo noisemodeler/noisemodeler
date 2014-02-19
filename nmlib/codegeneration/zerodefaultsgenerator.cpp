@@ -17,11 +17,11 @@ void ZeroDefaultsGenerator::generateDefaults(InlineGenerator &gen, std::ostream 
         auto signalType = inputLink->getModuleInput().getSignalType();
         auto zero = make_unique<SignalValue>(signalType);
 
-        auto assignment = make_unique<Assignment>(
+        Assignment assignment(
             make_unique<Variable>(variableName),
             make_unique<Value>(std::move(zero))
         );
-        assignment->gen(gen, out);
+        assignment.gen(gen, out);
     }
 }
 

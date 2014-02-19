@@ -14,7 +14,8 @@ public:
 private:
     GlslGenerator();
 
-private:
+protected:
+    virtual void genTypeKeyword(const SignalType &signalType, std::ostream &out) override;
 };
 
 } // namespace nm
