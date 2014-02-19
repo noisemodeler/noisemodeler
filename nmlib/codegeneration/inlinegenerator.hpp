@@ -17,6 +17,7 @@ struct Expression;
 struct Assignment;
 struct Variable;
 struct Declaration;
+struct FunctionCall;
 
 class InlineGenerator {
 public:
@@ -41,6 +42,7 @@ protected:
     virtual void genAssignment(const Assignment &assignment, std::ostream &out);
     virtual void genVariable(const Variable &variable, std::ostream &out);
     virtual void genValue(const SignalValue &value, std::ostream &out);
+    virtual void genFunctionCall(FunctionCall &functionCall, std::ostream &out);
 
 
 private:
@@ -56,6 +58,7 @@ private:
     friend struct Expression;
     friend struct Value;
     friend struct Declaration;
+    friend struct FunctionCall;
 };
 
 struct SyntaxNode {
@@ -112,6 +115,21 @@ struct Value : public Expression {
         g.genValue(*value, out);
     }
     std::unique_ptr<SignalValue> value;
+};
+
+struct FunctionCall : public SyntaxNode {
+    template<typename T, typename U, typename V>
+    FunctionCall(T&& function, U&& ins, V&& outs):
+        functionName{std::forward<T>(function)},
+        inputs{std::forward<U>(ins)},
+        outputs{std::forward<V>(outs)}
+    {}
+    virtual void gen(InlineGenerator &g, std::ostream &out) override {
+        g.genFunctionCall(*this, out);
+    }
+    std::string functionName;
+    std::vector<Variable> inputs;
+    std::vector<Variable> outputs;
 };
 
 } // namespace nm

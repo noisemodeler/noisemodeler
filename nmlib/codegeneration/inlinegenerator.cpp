@@ -3,6 +3,7 @@
 #include <nmlib/codegeneration/compositemodulegenerator.hpp>
 #include <nmlib/codegeneration/simplebodygenerator.hpp>
 #include <nmlib/codegeneration/zerodefaultsgenerator.hpp>
+#include <nmlib/codegeneration/functioncallbodygenerator.hpp>
 
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
@@ -135,6 +136,7 @@ std::unique_ptr<ModuleGenerator> InlineGenerator::getModuleGenerator(Module &mod
     defaults.reset(new ZeroDefaultsGenerator(module));
     if(moduleTypeName == "add"){
         body.reset(new SimpleBodyGenerator("float result = lhs + rhs;\n"));
+//        body.reset(new SimpleBodyGenerator("float result = smoothstep(0,1,lhs);\n"));
     } else if (moduleTypeName == "demux2") {
         body.reset(new SimpleBodyGenerator(
             "float x = m.x;\n"
@@ -170,6 +172,24 @@ void InlineGenerator::genValue(const SignalValue &value, std::ostream &out)
         }
         out << value[static_cast<unsigned int>(value.getSignalType().dimensionality-1)] << ")";
     }
+}
+
+void InlineGenerator::genFunctionCall(FunctionCall &functionCall, std::ostream &out)
+{
+    out << functionCall.functionName;
+    out << "(";
+    for(auto in : functionCall.inputs) {
+        in.gen(*this, out);
+        out << ", ";
+    }
+
+    for(auto it = functionCall.outputs.begin(); it!=functionCall.outputs.end(); ++it) {
+        it->gen(*this, out);
+        if(it+1 != functionCall.outputs.end()){
+            out << ", ";
+        }
+    }
+    out << ";\n";
 }
 
 void InlineGenerator::generateOutputDeclarations(const std::vector<InlineGenerator::OutputRemap> &remaps, std::ostream &out)

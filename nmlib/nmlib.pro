@@ -34,7 +34,8 @@ SOURCES = \
     codegeneration/compositemodulegenerator.cpp \
     codegeneration/zerodefaultsgenerator.cpp \
     model/signalvalue.cpp \
-    codegeneration/simplebodygenerator.cpp
+    codegeneration/simplebodygenerator.cpp \
+    codegeneration/functioncallbodygenerator.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -63,4 +64,5 @@ HEADERS = \
     model/signalvalue.hpp \
     codegeneration/simplebodygenerator.hpp \
     util/makeunique.hpp \
-    util.hpp
+    util.hpp \
+    codegeneration/functioncallbodygenerator.hpp
