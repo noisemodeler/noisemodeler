@@ -23,6 +23,7 @@ Rectangle {
     }
 
     GraphEditor{
+        id: editor
         anchors.fill: mainArea
         contents.children: [
             TexturePreview{},
@@ -32,5 +33,10 @@ Rectangle {
             Node{x: 100; y: 100; module:debugInput},
             Node{x: 400; y: 100; module:debugOutput}
         ]
+    }
+    Keys.onPressed: {
+        if(event.key == Qt.Key_F){
+            editor.autoArrangeWindows();
+        }
     }
 }

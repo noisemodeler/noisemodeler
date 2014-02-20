@@ -19,7 +19,9 @@ TextureRenderer::TextureRenderer(QQuickItem *the_parent) :
     m_inputLink(nullptr),
     m_outputLink(nullptr),
     m_t(0),
-    m_thread_t(0)
+    m_thread_t(0),
+    m_domain(0,0,1,1),
+    m_thread_domain(m_domain)
 {
     connect(this, SIGNAL(windowChanged(QQuickWindow*)), this, SLOT(handleWindowChanged(QQuickWindow*)));
 }
@@ -92,11 +94,13 @@ void TextureRenderer::compileProgram()
     m_program = new QOpenGLShaderProgram();
     m_program->addShaderFromSourceCode(QOpenGLShader::Vertex,
                                        "#version 130\n"
+                                       "uniform vec4 domain;\n"
                                        "attribute highp vec4 vertices;\n"
                                        "varying highp vec2 coords;\n"
                                        "void main() {\n"
                                        "    gl_Position = vertices;\n"
-                                       "    coords = vertices.xy;\n"
+                                       "    coords = vertices.xy*vec2(0.5,0.5)*domain.zw+vec2(0.5,0.5)+domain.xy;\n"
+//                                       "    coords = vec2(domain.x,10);\n"
                                        "}\n");
     std::stringstream fs;
     fs << "#version 130\n";
@@ -110,6 +114,7 @@ void TextureRenderer::compileProgram()
           "    float height;\n"
           "    test(coords, height);\n"
           "    gl_FragColor = vec4(height, height, height, 1);\n"
+//          "    gl_FragColor = vec4(coords.x, coords.y, 1, 1);\n"
           "}\n";
     m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fs.str().c_str());
 
@@ -128,14 +133,26 @@ void TextureRenderer::paint()
 
     m_program->enableAttributeArray(0);
 
-    float values[] = {
-        -1, -1,
-        1, -1,
+   float values[] = {
+//        left, top,
+//        right, top,
+//        left,  bottom,
+//        right, bottom
+        -1,-1,
+         1,-1,
         -1, 1,
-        1, 1
+         1, 1
     };
     m_program->setAttributeArray(0, GL_FLOAT, values, 2);
     m_program->setUniformValue("t", static_cast<float>(m_thread_t));
+
+    float l = m_thread_domain.left();
+    float t = m_thread_domain.top();
+    float w = m_thread_domain.width();
+    float h = m_thread_domain.height();
+    QVector4D domain{l, t, w, h};
+    m_program->setUniformValue("domain", domain);
+
 
     auto globalPos = mapToScene(position());
     glViewport(globalPos.x(), window()->height()-height()-globalPos.y(), width(), height());
@@ -145,8 +162,9 @@ void TextureRenderer::paint()
     //        glClearColor(0, 0, 0, 1);
     //        glClear(GL_COLOR_BUFFER_BIT);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    //this looked fancy, but don't need it
+//    glEnable(GL_BLEND);
+//    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
@@ -166,6 +184,7 @@ void TextureRenderer::cleanup()
 void TextureRenderer::sync()
 {
     m_thread_t = m_t;
+    m_thread_domain = m_domain;
     if(m_generatorDirty){
         if(m_inputLink == nullptr || m_outputLink == nullptr){return;}
         auto source = nm::GlslGenerator::compileToGlslFunction(m_inputLink->inputLink(), m_outputLink->outputLink(), "test");

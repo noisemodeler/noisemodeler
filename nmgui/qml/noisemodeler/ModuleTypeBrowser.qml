@@ -8,21 +8,6 @@ Rectangle {
     anchors.bottom: parent.bottom
     anchors.top: menu.bottom
     width:150
-    //        Column {
-    //            anchors.fill: parent
-    //            Repeater {
-    //                model: [addModuleType,demuxModuleType]
-    //                Rectangle {
-    //                    height: 20
-    //                    anchors.left: parent.left
-    //                    anchors.right: parent.right
-    //                    color: "yellow"
-    //                    Text {
-    //                        text: modelData
-    //                    }
-    //                }
-    //            }
-    //        }
     Component {
         id: moduleTypeEntry
         Item {
@@ -46,7 +31,6 @@ Rectangle {
             }
         }
     }
-    
     ListView {
         anchors.fill: parent
         model: [ addModuleType, demuxModuleType ]

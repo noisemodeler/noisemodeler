@@ -2,13 +2,12 @@ import QtQuick 2.0
 import NoiseModeler 1.0
 
 SubWindow {
-    color:'black'
     windowTitle: "texture preview"
-
     contents.width: 200
     contents.height: 200
     contents.children: [
         TextureRenderer{
+            id:textureRenderer
             outputLink: debugOutput.outputs[0]
             inputLink: debugInput.inputs[0]
             anchors.fill: parent
@@ -18,6 +17,12 @@ SubWindow {
                 loops: Animation.Infinite
                 running: true
             }
+        },
+
+        LineInput {
+            anchors.top: textureRenderer.bottom
+            text:"test"
+            id: lineInput
         }
     ]
 }
