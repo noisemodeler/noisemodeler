@@ -5,6 +5,7 @@
 #include <nmlib/codegeneration/inlinegenerator.hpp>
 
 namespace nm {
+namespace glsl {
 
 class GlslGenerator : InlineGenerator
 {
@@ -16,8 +17,10 @@ private:
 
 protected:
     virtual void genTypeKeyword(const SignalType &signalType, std::ostream &out) override;
+    virtual std::unique_ptr<nm::ModuleGenerator> getModuleGenerator(Module &module) override;
 };
 
+} // namespace glsl
 } // namespace nm
 
 #endif // NM_GLSLGENERATOR_HPP

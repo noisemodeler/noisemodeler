@@ -25,17 +25,10 @@ Rectangle {
     GraphEditor{
         id: editor
         anchors.fill: mainArea
-        contents.children: [
-            TexturePreview{},
-            Node{module:mockModule},
-            Node{x: 300; y: 100; module:mockModule2},
-            Node{module:mockModule3},
-            Node{x: 100; y: 100; module:debugInput},
-            Node{x: 400; y: 100; module:debugOutput}
-        ]
+        model: mockGraph
     }
     Keys.onPressed: {
-        if(event.key == Qt.Key_F){
+        if(event.key === Qt.Key_F){
             editor.autoArrangeWindows();
         }
     }

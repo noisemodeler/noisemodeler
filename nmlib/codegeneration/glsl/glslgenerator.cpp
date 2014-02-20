@@ -1,8 +1,12 @@
-#include "glslgenerator.hpp"
+#include <nmlib/codegeneration/glsl/glslgenerator.hpp>
+#include <nmlib/codegeneration/zerodefaultsgenerator.hpp>
+#include <nmlib/codegeneration/simplebodygenerator.hpp>
+#include <nmlib/codegeneration/compositemodulegenerator.hpp>
 
 #include <sstream>
 
 namespace nm {
+namespace glsl {
 
 std::string GlslGenerator::compileToGlslFunction(InputLink &inputLink, OutputLink &outputLink, std::string name)
 {
@@ -58,9 +62,35 @@ void GlslGenerator::genTypeKeyword(const SignalType &signalType, std::ostream &o
     }
 }
 
+std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &module)
+{
+//    auto moduleTypeName = module.getType().getName();
+//    std::unique_ptr<BodyGenerator> body;
+//    std::unique_ptr<DefaultsGenerator> defaults;
+//    body.reset(new SimpleBodyGenerator("//empty body\n"));
+//    defaults.reset(new ZeroDefaultsGenerator(module));
+//    //TODO implement other modules
+//    if(moduleTypeName == "add"){
+//        body.reset(new SimpleBodyGenerator("float result = lhs + rhs;\n"));
+//    } else if (moduleTypeName == "demux2") {
+//        body.reset(new SimpleBodyGenerator(
+//            "float x = m.x;\n"
+//            "float y = m.y;\n"
+//        ));
+//    } else if (moduleTypeName == "mul1") {
+//        body.reset(new SimpleBodyGenerator(
+//            "float result = lhs * rhs;\n"
+//        ));
+//    } else {
+        return InlineGenerator::getModuleGenerator(module);
+//    }
+//    return std::unique_ptr<ModuleGenerator>{new CompositeModuleGenerator(std::move(body), std::move(defaults))};
+}
+
 GlslGenerator::GlslGenerator():
     InlineGenerator()
 {
 }
 
+} // namespace glsl
 } // namespace nm

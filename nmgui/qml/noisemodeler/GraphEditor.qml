@@ -16,6 +16,12 @@ Rectangle {
         Repeater{
             id:rep
         }
+        Node{module:mockModule}
+        Node{x: 300; y: 100; module:mockModule2}
+        Node{module:mockModule3}
+        Node{x: 100; y: 100; module:debugInput}
+        Node{x: 400; y: 100; module:debugOutput}
+        TexturePreview{}
     }
     function autoArrangeWindows(){
         contents.x = 0;

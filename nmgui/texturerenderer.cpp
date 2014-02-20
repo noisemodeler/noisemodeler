@@ -2,7 +2,7 @@
 
 #include "moduleq.hpp"
 
-#include <nmlib/codegeneration/glslgenerator.hpp>
+#include <nmlib/codegeneration/glsl/glslgenerator.hpp>
 
 #include <QtQuick/qquickwindow.h>
 #include <QtGui/QOpenGLContext>
@@ -187,7 +187,7 @@ void TextureRenderer::sync()
     m_thread_domain = m_domain;
     if(m_generatorDirty){
         if(m_inputLink == nullptr || m_outputLink == nullptr){return;}
-        auto source = nm::GlslGenerator::compileToGlslFunction(m_inputLink->inputLink(), m_outputLink->outputLink(), "test");
+        auto source = nm::glsl::GlslGenerator::compileToGlslFunction(m_inputLink->inputLink(), m_outputLink->outputLink(), "test");
         m_thread_generatorFunctionSource = source;
         m_generatorDirty = false;
         m_thread_sourceDirty = true;

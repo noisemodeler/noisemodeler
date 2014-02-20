@@ -26,7 +26,6 @@ SOURCES = \
     util/noncopyable.cpp \
     codegeneration/idgenerator.cpp \
     codegeneration/inlinegenerator.cpp \
-    codegeneration/glslgenerator.cpp \
     model/primitivemoduletype.cpp \
     codegeneration/defaultsgenerator.cpp \
     codegeneration/bodygenerator.cpp \
@@ -35,7 +34,8 @@ SOURCES = \
     codegeneration/zerodefaultsgenerator.cpp \
     model/signalvalue.cpp \
     codegeneration/simplebodygenerator.cpp \
-    codegeneration/functioncallbodygenerator.cpp
+    codegeneration/functioncallbodygenerator.cpp \
+    codegeneration/glsl/glslgenerator.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -54,7 +54,6 @@ HEADERS = \
     util/signals.hpp \
     codegeneration/idgenerator.hpp \
     codegeneration/inlinegenerator.hpp \
-    codegeneration/glslgenerator.hpp \
     model/primitivemoduletype.hpp \
     codegeneration/defaultsgenerator.hpp \
     codegeneration/bodygenerator.hpp \
@@ -65,4 +64,5 @@ HEADERS = \
     codegeneration/simplebodygenerator.hpp \
     util/makeunique.hpp \
     util.hpp \
-    codegeneration/functioncallbodygenerator.hpp
+    codegeneration/functioncallbodygenerator.hpp \
+    codegeneration/glsl/glslgenerator.hpp
