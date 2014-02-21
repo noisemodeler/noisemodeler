@@ -40,17 +40,17 @@ int main(int argc, char *argv[])
     auto debugInputModuleType = typeManager.getType("debug_input");
     auto debugOutputModuleType = typeManager.getType("debug_output");
 
-    auto fbmModule = nm::Module::create(*fbmModuleType, "myfbm");
-    auto fbmModule2 = nm::Module::create(*demuxModuleType, "demux2");
-    auto AddModule = nm::Module::create(*addModuleType, "myAdd");
-    auto debugInputModule = nm::Module::create(*debugInputModuleType, "debugInput");
-    auto debugOutputModule = nm::Module::create(*debugOutputModuleType, "debugOutput");
+    nm::Module fbmModule(*fbmModuleType, "myfbm");
+    nm::Module fbmModule2(*demuxModuleType, "demux2");
+    nm::Module AddModule(*addModuleType, "myAdd");
+    nm::Module debugInputModule(*debugInputModuleType, "debugInput");
+    nm::Module debugOutputModule(*debugOutputModuleType, "debugOutput");
 
-    auto mockModule = nmgui::ModuleQ::fromModule(*fbmModule);
-    auto mockModule2 = nmgui::ModuleQ::fromModule(*fbmModule2);
-    auto mockModule3 = nmgui::ModuleQ::fromModule(*AddModule);
-    auto debugInputModuleQ = nmgui::ModuleQ::fromModule(*debugInputModule);
-    auto debugOutputModuleQ = nmgui::ModuleQ::fromModule(*debugOutputModule);
+    auto mockModule = nmgui::ModuleQ::fromModule(fbmModule);
+    auto mockModule2 = nmgui::ModuleQ::fromModule(fbmModule2);
+    auto mockModule3 = nmgui::ModuleQ::fromModule(AddModule);
+    auto debugInputModuleQ = nmgui::ModuleQ::fromModule(debugInputModule);
+    auto debugOutputModuleQ = nmgui::ModuleQ::fromModule(debugOutputModule);
 
     QtQuick2ApplicationViewer viewer;
     viewer.rootContext()->setContextProperty("mockModule", mockModule);

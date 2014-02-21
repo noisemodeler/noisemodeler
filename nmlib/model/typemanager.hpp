@@ -11,13 +11,14 @@
 namespace nm {
 
 class PrimitiveModuleType;
+class CompositeTypeBuilder;
 
 class TypeManager : public UserDataProvider
 {
 public:
     TypeManager();
     ~TypeManager();
-    bool addUserType(std::unique_ptr<ModuleType> type);
+    bool addUserType(std::unique_ptr<CompositeTypeBuilder> builder);
     const ModuleType *getType(std::string name) const;
     ModuleType *getUserType(std::string name);
     enum class BuiltinType {
@@ -28,8 +29,8 @@ public:
 
 private:
     void addBuiltinType(std::unique_ptr<const ModuleType> moduleType);
-    std::map<std::string, std::unique_ptr<ModuleType>> m_userTypes;
-    std::map<std::string, std::unique_ptr<const ModuleType>> m_primitiveBuiltinTypes;
+    std::map<std::string, std::unique_ptr<CompositeTypeBuilder>> m_userTypes;
+    std::map<std::string, std::unique_ptr<const ModuleType>> m_builtinTypes;
 
     static const ModuleType
     //1D only types

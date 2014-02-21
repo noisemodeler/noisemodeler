@@ -2,7 +2,7 @@
 
 namespace nm {
 
-bool Graph::addModule(std::unique_ptr<Module> /*module*/)
+bool Graph::addModule(std::unique_ptr<Module> module)
 {
     //TODO check for name conflicts
     m_modules.push_back(std::move(module));
@@ -12,6 +12,11 @@ bool Graph::addModule(std::unique_ptr<Module> /*module*/)
 void Graph::clearModules()
 {
     m_modules.clear();
+}
+
+Module *Graph::getModule(const std::string &name)
+{
+    return const_cast<Module*>(static_cast<const Graph&>(*this).getModule(name));
 }
 
 const Module *Graph::getModule(const std::string &name) const

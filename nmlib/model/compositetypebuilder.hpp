@@ -7,6 +7,8 @@
 
 namespace nm {
 
+class OutputLink;
+
 class CompositeTypeBuilder
 {
 public:
@@ -16,10 +18,14 @@ public:
     {}
     ModuleType &getModuleType() { return *m_moduleType; }
     const ModuleType &getModuleType() const { return *m_moduleType; }
-    std::unique_ptr<ModuleType> releaseModuleType() { return std::unique_ptr<ModuleType>{m_moduleType.release()}; }
+    std::unique_ptr<ModuleType> releaseModuleType();
 
     bool addInput(std::string name, SignalType signalType);
     bool exportOutput(const OutputLink &outputLink, std::string externalName);
+
+    //convenience (no added functionality)
+    Graph *getGraph(){return m_moduleType->getGraph(); }
+
 
     //implementation
 private:

@@ -4,6 +4,8 @@
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
 #include <nmlib/model/module.hpp>
+#include <nmlib/model/compositetypebuilder.hpp>
+#include <nmlib/model/graph.hpp>
 
 #include <iostream>
 #include <algorithm>
@@ -12,7 +14,7 @@ namespace nm {
 
 TypeManager::TypeManager():
     m_userTypes(),
-    m_primitiveBuiltinTypes()
+    m_builtinTypes()
 {
 }
 
@@ -24,30 +26,30 @@ TypeManager::~TypeManager()
 }
 
 //TODO graphTypeController as well
-bool TypeManager::addUserType(std::unique_ptr<ModuleType> type)
+bool TypeManager::addUserType(std::unique_ptr<CompositeTypeBuilder> builder)
 {
-    if(getType(type->getName()) != nullptr){
+    if(getType(builder->getModuleType().getName()) != nullptr){
         std::cerr << "Type already exists\n";
         return false;
     }
-    m_userTypes[type->getName()]=std::move(type);
+    m_userTypes[builder->getModuleType().getName()] = std::move(builder);
     return true;
 }
 
 const ModuleType *TypeManager::getType(std::string name) const
 {
-    auto it1 = m_primitiveBuiltinTypes.find(name);
-    if(it1 != end(m_primitiveBuiltinTypes)){
+    auto it1 = m_builtinTypes.find(name);
+    if(it1 != end(m_builtinTypes)){
         return it1->second.get();
     }
     auto it = m_userTypes.find(name);
-    return it != end(m_userTypes) ? it->second.get() : nullptr;
+    return it != end(m_userTypes) ? &it->second->getModuleType() : nullptr;
 }
 
 ModuleType *TypeManager::getUserType(std::string name)
 {
     auto it = m_userTypes.find(name);
-    return it != end(m_userTypes) ? it->second.get() : nullptr;
+    return it != end(m_userTypes) ? &it->second->getModuleType() : nullptr;
 }
 
 namespace {
@@ -105,7 +107,7 @@ void TypeManager::initBuiltinTypes()
 
 void TypeManager::addBuiltinType(std::unique_ptr<const ModuleType> moduleType)
 {
-    m_primitiveBuiltinTypes[moduleType->getName()] = std::move(moduleType);
+    m_builtinTypes[moduleType->getName()] = std::move(moduleType);
 }
 
 } // namespace nm

@@ -36,10 +36,11 @@ public:
 
     //inputs
     //getters
+    unsigned int numInputs() const { return m_inputs.size(); }
     const ModuleInput *getInput(std::string name) const;
     ModuleInput *getInput(std::string name);
-    const ModuleInput *getInput(unsigned int index) const;
-    ModuleInput *getInput(unsigned int index);
+    const ModuleInput *getInput(unsigned int index) const { return m_inputs.at(index).get(); }
+    ModuleInput *getInput(unsigned int index) { return m_inputs.at(index).get(); }
     void eachModuleInput(std::function<void(const ModuleInput&)> f) const;
     void eachModuleInput(std::function<void(ModuleInput&)> f);
     //mutable stuff
@@ -48,10 +49,11 @@ public:
 
     //outputs
     //getters
+    unsigned int numOutputs() const { return m_outputs.size(); }
     const ModuleOutput *getOutput(std::string name) const;
     ModuleOutput *getOutput(std::string name);
-    const ModuleOutput *getOutput(unsigned int index) const;
-    ModuleOutput *getOutput(unsigned int index);
+    const ModuleOutput *getOutput(unsigned int index) const { return m_outputs.at(index).get(); }
+    ModuleOutput *getOutput(unsigned int index) { return m_outputs.at(index).get(); }
     void eachModuleOutput(std::function<void(const ModuleOutput&)> f) const;
     void eachModuleOutput(std::function<void(ModuleOutput&)> f);
     //mutable stuff

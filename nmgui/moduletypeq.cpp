@@ -54,8 +54,7 @@ ModuleInputQ *ModuleTypeQ::inputAt(QQmlListProperty<ModuleInputQ> *list, int ind
 {
     ModuleTypeQ *moduleType = qobject_cast<ModuleTypeQ *>(list->object);
     if(moduleType){
-        //TODO this is very inefficient and redundant, but it works for now.
-        return ModuleInputQ::fromModuleInput(*moduleType->m_moduleType->inputs().at(index));
+        return ModuleInputQ::fromModuleInput(*moduleType->m_moduleType->getInput(index));
     } else {
         return nullptr;
     }
@@ -65,8 +64,7 @@ int ModuleTypeQ::inputsCount(QQmlListProperty<ModuleInputQ> *list)
 {
     ModuleTypeQ *moduleType = qobject_cast<ModuleTypeQ *>(list->object);
     if(moduleType){
-        //TODO this is very inefficient and redundant, but it works for now.
-        return moduleType->m_moduleType->inputs().size();
+        return moduleType->m_moduleType->numInputs();
     } else {
         return 0;
     }
@@ -76,7 +74,7 @@ ModuleOutputQ *ModuleTypeQ::outputAt(QQmlListProperty<ModuleOutputQ> *list, int 
 {
     ModuleTypeQ *moduleType = qobject_cast<ModuleTypeQ *>(list->object);
     if(moduleType){
-        return ModuleOutputQ::fromModuleOutput(*moduleType->m_moduleType->outputs().at(index));
+        return ModuleOutputQ::fromModuleOutput(*moduleType->m_moduleType->getOutput(index));
     } else {
         return nullptr;
     }
@@ -87,7 +85,7 @@ int ModuleTypeQ::outputsCount(QQmlListProperty<ModuleOutputQ> *list)
     ModuleTypeQ *moduleType = qobject_cast<ModuleTypeQ *>(list->object);
     if(moduleType){
         //TODO this is very inefficient and redundant, but it works for now.
-        return moduleType->m_moduleType->outputs().size();
+        return moduleType->m_moduleType->numOutputs();
     } else {
         return 0;
     }
