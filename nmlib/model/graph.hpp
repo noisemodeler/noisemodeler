@@ -10,7 +10,9 @@ namespace nm {
 class Graph : UserDataProvider, NonCopyable //TODO make copyable
 {
 public:
-    Graph();
+    Graph():
+        m_modules{}
+    {}
     bool addModule(std::unique_ptr<Module> module);
     void clearModules();
     Module* getModule(const std::string &name);

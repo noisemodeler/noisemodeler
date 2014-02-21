@@ -33,6 +33,10 @@ public:
     bool isRemovable() const { return m_removable; }
     bool isGraphInput() const { return m_graphInput; }
     bool isGraphOutput() const { return m_graphOutput; }
+    void setComposite(bool composite) { m_composite = composite; }
+    void setRemovable(bool removable) { m_removable = removable; }
+    void setGraphInput(bool graphInput) { m_graphInput = graphInput; }
+    void setGraphOutput(bool graphOutput) { m_graphOutput = graphOutput; } //some of these may be placed in an enum since they are exclusive
 
     //inputs
     //getters

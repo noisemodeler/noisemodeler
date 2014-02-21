@@ -15,7 +15,12 @@ public:
     template<typename T>
     CompositeTypeBuilder(T&& t):
         m_moduleType(std::forward<T>(t))
-    {}
+    {
+        if(m_moduleType->getGraph() == nullptr){
+            m_moduleType->setGraph(make_unique<Graph>());
+        }
+        m_moduleType->setComposite(true);
+    }
     ModuleType &getModuleType() { return *m_moduleType; }
     const ModuleType &getModuleType() const { return *m_moduleType; }
     std::unique_ptr<ModuleType> releaseModuleType();
