@@ -10,20 +10,18 @@
 
 namespace nm {
 
-class PrimitiveModuleType : public ModuleType
+class PrimitiveModuleType
 {
 public:
     explicit PrimitiveModuleType(std::string name, std::string description);
 
     // ModuleType interface
-    virtual std::string getName() const override{return c_name;}
-    virtual std::string getDescription() const override{return c_description;}
-    virtual const ModuleInput *getInput(std::string name) const override;
-    virtual const ModuleOutput *getOutput(std::string name) const override;
-    virtual std::vector<ModuleOutput *> outputs() override;
-    virtual std::vector<ModuleInput *> inputs() override;
-    virtual void onCreatedModule(Module &/*module*/) override {}
-    virtual void onDestroyingModule(Module */*module*/) override {}
+    virtual std::string getName() const{return c_name;}
+    virtual std::string getDescription() const{return c_description;}
+    virtual const ModuleInput *getInput(std::string name) const;
+    virtual const ModuleOutput *getOutput(std::string name) const;
+    virtual std::vector<ModuleOutput *> outputs();
+    virtual std::vector<ModuleInput *> inputs();
 
     bool addInput(std::string name, SignalType signalType);
     bool addOutput(std::string name, SignalType signalType);

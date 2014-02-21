@@ -24,10 +24,10 @@ class ModuleOutput;
 class Module : public UserDataProvider
 {
 public:
+    explicit Module(const ModuleType &type, std::string name);
     virtual ~Module();
-    static std::unique_ptr<Module> create(const ModuleType &type, std::string name);
     const ModuleType& getType() const {return m_type;}
-    ModuleType& getType() {return m_type;}
+    const ModuleType& getType() {return m_type;}
     const std::string getName() const {return m_name;}
     void setName(std::string name);
 
@@ -65,11 +65,11 @@ public:
                                                     const std::set<InputLink *> &ignoreInputs = {});
     static void topologicallyTraverseDependencies(const std::vector<OutputLink*> &outputs, std::function<void(Module&)> visitor,
                                                   const std::set<InputLink*> &ignoreInputs = {});
+
 private:
     void createInputLink(const ModuleInput& moduleInput);
     void createOutputLink(const ModuleOutput& moduleInput);
-    explicit Module(ModuleType &getType, std::string getName);
-    ModuleType& m_type;
+    const ModuleType& m_type;
     std::string m_name;
     std::vector<std::unique_ptr<InputLink>> m_inputs;
     std::vector<std::unique_ptr<OutputLink>> m_outputs;

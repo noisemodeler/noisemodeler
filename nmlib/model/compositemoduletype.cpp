@@ -5,6 +5,8 @@
 #include <nmlib/model/outputlink.hpp>
 #include <nmlib/model/module.hpp>
 
+#include <nmlib/util.hpp>
+
 #include <algorithm>
 #include <cassert>
 
@@ -13,14 +15,12 @@ namespace nm {
 CompositeModuleType::CompositeModuleType(const std::string& name, const std::string& description):
     c_name(name),
     c_description(description),
-    m_inputModuleType(*this),
     m_inputs(),
     m_outputs(),
-    m_internalModules(),
-    m_modulesOfThisType()
+    m_internalModules()
 {
-    auto inputModule = Module::create(m_inputModuleType, "inputs");
-    m_internalModules.emplace_back(std::move(inputModule));
+//    auto inputModule = make_unique<Module>(m_inputModuleType, "inputs");
+//    m_internalModules.emplace_back(std::move(inputModule));
 }
 
 CompositeModuleType::~CompositeModuleType()
@@ -77,42 +77,30 @@ void CompositeModuleType::onDestroyingModule(Module *module)
     std::remove(std::begin(m_modulesOfThisType), std::end(m_modulesOfThisType), module);
 }
 
-bool CompositeModuleType::addInput(std::string name, SignalType signalType)
+bool CompositeModuleType::addInput(std::string /*name*/, SignalType /*signalType*/)
 {
-    if(getInput(name) != nullptr){
-        return false;
-    }
-    m_inputs.emplace_back(new ModuleInput{name, signalType, *this});
-    m_inputModuleType.addInput(name, signalType);
+//    if(getInput(name) != nullptr){
+//        return false;
+//    }
+//    m_inputs.emplace_back(new ModuleInput{name, signalType, *this});
+//    m_inputModuleType.addInput(name, signalType);
     return true;
 }
 
-bool CompositeModuleType::exportOutput(const OutputLink &outputLink, std::string externalName)
+bool CompositeModuleType::exportOutput(const OutputLink &/*outputLink*/, std::string /*externalName*/)
 {
-    if(getOutput(externalName) != nullptr){
-        return false;
-    }
-    //verify that OutputLink is actually a part of the composite
-    if(getModule(outputLink.getOwner().getName()) != &(outputLink.getOwner())){
-        return false;
-    }
-    m_outputs.emplace_back(
-                std::unique_ptr<ModuleOutput>(new ModuleOutput(externalName, outputLink.getModuleOutput().getSignalType(), *this)),
-                outputLink);
+//    if(getOutput(externalName) != nullptr){
+//        return false;
+//    }
+//    //verify that OutputLink is actually a part of the composite
+//    if(getModule(outputLink.getOwner().getName()) != &(outputLink.getOwner())){
+//        return false;
+//    }
+//    m_outputs.emplace_back(
+//                std::unique_ptr<ModuleOutput>(new ModuleOutput(externalName, outputLink.getModuleOutput().getSignalType(), *this)),
+//                outputLink);
     return true;
 }
-
-bool CompositeModuleType::addModule(std::unique_ptr<Module> module)
-{
-    m_internalModules.push_back(std::move(module));
-    return true;
-}
-
-void CompositeModuleType::clearModules()
-{
-    m_internalModules.clear();
-}
-
 Module *CompositeModuleType::getModule(const std::string &name)
 {
     using namespace std;

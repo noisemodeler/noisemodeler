@@ -48,18 +48,4 @@ std::vector<ModuleInput *> PrimitiveModuleType::inputs()
     return ret;
 }
 
-bool PrimitiveModuleType::addInput(std::string name, SignalType signalType)
-{
-    if(getInput(name) != nullptr)return false;
-    m_inputs.emplace_back(new ModuleInput(name, signalType, *this));
-    return true;
-}
-
-bool PrimitiveModuleType::addOutput(std::string name, SignalType signalType)
-{
-    if(getOutput(name) != nullptr)return false;
-    m_outputs.emplace_back(new ModuleOutput(name, signalType, *this));
-    return false;
-}
-
 } // namespace nm

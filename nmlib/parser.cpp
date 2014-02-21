@@ -41,33 +41,33 @@ optional<SignalType> parseSignalType(const rapidjson::Value &signalTypeValue)
     return {SignalType{dimensionality}};
 }
 
-optional<std::unique_ptr<Module> > parseModule(const rapidjson::Value &moduleValue, const nm::TypeManager &typeManager, CompositeModuleType &owner)
+optional<std::unique_ptr<Module> > parseModule(const rapidjson::Value &moduleValue, const nm::TypeManager &typeManager, Graph &graph)
 {
     if(!moduleValue["name"].IsString()){
-        return {};
+        return false;
     }
     if(!moduleValue["type"].IsString()){
-        return {};
+        return false;
     }
     std::string typeString = moduleValue["type"].GetString();
     std::string nameString = moduleValue["name"].GetString();
     auto type = typeManager.getType(typeString);
     if(type == nullptr){
         std::cerr << "Unknown type: " <<  typeString << std::endl;
-        return {};
+        return false;
     }
-    std::unique_ptr<Module> module = Module::create(*type, nameString);
+    auto module = make_unique<Module>(*type, nameString);
     //TODO parse inputs
     auto &inputsValue = moduleValue["inputs"];
     if(!inputsValue.IsNull()){
         if(!inputsValue.IsObject()){
             std::cerr << "Invalid input\n";
-            return {};
+            return false;
         }
         for(auto it = inputsValue.MemberBegin(); it != inputsValue.MemberEnd(); ++it){
             if(!it->name.IsString() || !it->value.IsString()){
                 std::cerr << "Invalid member in inputs\n";
-                return {};
+                return false;
             }
 
             //find out which input to connect
@@ -75,7 +75,7 @@ optional<std::unique_ptr<Module> > parseModule(const rapidjson::Value &moduleVal
             auto inputLink = module->getInput(inputName);
             if(inputLink==nullptr){
                 std::cerr << "ModuleType \"" << module->getName() << "\" has no input named \"" << inputName << "\"\n";
-                return {};
+                return false;
             }
 
             //find out which outputlink to connect to
@@ -83,27 +83,28 @@ optional<std::unique_ptr<Module> > parseModule(const rapidjson::Value &moduleVal
             auto sourcePair = parseDotPair(sourceString);
             if(!sourcePair){
                 std::cerr << "Couldn't parse input string\n";
-                return {};
+                return false;
             }
-            auto sourceModule = owner.getModule(sourcePair->first);
+            auto sourceModule = graph.getModule(sourcePair->first);
             if(sourceModule==nullptr){
-                std::cerr << "No module named \"" << sourcePair->first << "\" in ModuleType \"" << owner.getName() << "\"\n";
-                return {};
+                std::cerr << "No module named \"" << sourcePair->first << "\" in graph\n"; // \"" << owner.getName() << "\"\n";
+                return false;
             }
 
             auto sourceOutputLink = sourceModule->getOutput(sourcePair->second);
             if(sourceOutputLink==nullptr){
                 std::cerr << "No output named \"" << sourcePair->second << "\" in module \"" << sourceModule->getName() << "\"\n";
-                return {};
+                return false;
             }
             inputLink->link(*sourceOutputLink);
         }
 
     }
-    return {std::move(module)};
+    graph.addModule(std::move(module));
+    return true;
 }
 
-optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson::Value &type, const TypeManager& typeManager)
+optional<std::unique_ptr<CompositeTypeBuilder> > parseModuleType(const rapidjson::Value &type, const TypeManager& typeManager)
 {
     auto &nameValue = type["name"];
     if(!nameValue.IsString()){
@@ -117,7 +118,7 @@ optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson:
         description = descriptionValue.GetString();
     }
 
-    auto moduleType = std::unique_ptr<CompositeModuleType>{new CompositeModuleType(moduleTypeName, description)};
+    auto compositeBuilder = make_unique<CompositeTypeBuilder>(make_unique<ModuleType>(moduleTypeName, description));
 
     //parse inputs
     auto &inputsValue = type["inputs"];
@@ -133,7 +134,7 @@ optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson:
             if(!maybeSignalType){
                 return {};
             }
-            moduleType->addInput(name, *maybeSignalType);
+            compositeBuilder->addInput(name, *maybeSignalType);
         }
     }
 
@@ -145,12 +146,12 @@ optional<std::unique_ptr<CompositeModuleType> > parseModuleType(const rapidjson:
             return {};
         }
         for(rapidjson::SizeType i = 0; i<modulesValue.Size(); i++){
-            auto maybeModule = parseModule(modulesValue[i], typeManager, *moduleType);
-            if(!maybeModule){
+            auto success = parseModule(modulesValue[i], typeManager, *compositeBuilder->getGraph());
+            //TODO consider continuing without this module?
+            if(!success){
                 std::cerr << "Couldn't parse Module\n";
                 return {};
             }
-            moduleType->addModule(std::move(*maybeModule));
         }
     }
 
@@ -204,7 +205,7 @@ bool parseModuleTypeArray(const rapidjson::Value &array, TypeManager &typeManage
         if(!maybeModuleType){
             return false;
         }
-        std::unique_ptr<CompositeModuleType> &moduleTypePtr = *maybeModuleType;
+        std::unique_ptr<ModuleType> &moduleTypePtr = *maybeModuleType;
         if(!typeManager.addUserType(std::move(moduleTypePtr))){
             std::cerr << "Couldn't add type to typeManager.\n";
             return false;

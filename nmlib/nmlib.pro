@@ -21,7 +21,6 @@ SOURCES = \
     parser.cpp \
     model/typemanager.cpp \
     model/compositemoduletype.cpp \
-    model/inputmoduletype.cpp \
     util/userdataprovider.cpp \
     util/noncopyable.cpp \
     codegeneration/idgenerator.cpp \
@@ -35,7 +34,9 @@ SOURCES = \
     model/signalvalue.cpp \
     codegeneration/simplebodygenerator.cpp \
     codegeneration/functioncallbodygenerator.cpp \
-    codegeneration/glsl/glslgenerator.cpp
+    codegeneration/glsl/glslgenerator.cpp \
+    model/graph.cpp \
+    model/compositetypebuilder.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -48,7 +49,6 @@ HEADERS = \
     parser.hpp \
     model/typemanager.hpp \
     model/compositemoduletype.hpp \
-    model/inputmoduletype.hpp \
     util/userdataprovider.hpp \
     util/noncopyable.hpp \
     util/signals.hpp \
@@ -65,4 +65,6 @@ HEADERS = \
     util/makeunique.hpp \
     util.hpp \
     codegeneration/functioncallbodygenerator.hpp \
-    codegeneration/glsl/glslgenerator.hpp
+    codegeneration/glsl/glslgenerator.hpp \
+    model/graph.hpp \
+    model/compositetypebuilder.hpp

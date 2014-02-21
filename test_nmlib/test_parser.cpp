@@ -55,7 +55,7 @@ TEST(ParserTest, OneModuleType){
     nm::TypeManager &typeManager = *(*maybeTypeManager);
     //TODO assert user modules == 1
 
-    nm::CompositeModuleType* terrainModuleType = typeManager.getUserType("terrainHeight");
+    nm::ModuleType* terrainModuleType = typeManager.getUserType("terrainHeight");
     ASSERT_NE(terrainModuleType, nullptr) << "Couldn't find ModuleType terrainHeight";
 
     EXPECT_EQ("terrainHeight", terrainModuleType->getName());
@@ -72,18 +72,21 @@ TEST(ParserTest, OneModuleType){
 
     //check that the submodule is there
     {
-        auto fbmmodule = terrainModuleType->getModule("fbm1");
+        auto graph = terrainModuleType->getGraph();
+        ASSERT_NE(nullptr, graph);
+
+        auto fbmmodule = graph->getModule("fbm1");
         ASSERT_NE(nullptr, fbmmodule);
         EXPECT_EQ("fbm", fbmmodule->getType().getName());
 
         //check that it's connected to the input
         auto posInputLink = fbmmodule->getInput("pos");
         ASSERT_NE(nullptr, posInputLink);
-        //TODO uncomment this part of the test
+
         //check that fbm.pos is connected to input
         auto outputLink = posInputLink->getOutputLink();
         ASSERT_NE(nullptr, outputLink);
-        EXPECT_EQ(terrainModuleType->getModule("inputs"), &(outputLink->getOwner()));
+        EXPECT_EQ(graph->getModule("inputs"), &(outputLink->getOwner()));
     }
 
     //verify output

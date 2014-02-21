@@ -24,7 +24,7 @@ class ModuleTypeQ : public QObject
 public:
     //should have been protected, but not allowed by qt
     explicit ModuleTypeQ(nm::ModuleType *moduleType = nullptr, QObject *parent = 0);
-    static ModuleTypeQ* fromModuleType(nm::ModuleType &moduleType);
+    static ModuleTypeQ *fromModuleType(nm::ModuleType &moduleType);
     static ModuleTypeQ *fromModuleType(const nm::ModuleType &moduleType);
 
     QString name() const;

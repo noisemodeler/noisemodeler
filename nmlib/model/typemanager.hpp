@@ -17,9 +17,9 @@ class TypeManager : public UserDataProvider
 public:
     TypeManager();
     ~TypeManager();
-    bool addUserType(std::unique_ptr<CompositeModuleType> type);
+    bool addUserType(std::unique_ptr<ModuleType> type);
     const ModuleType *getType(std::string name) const;
-    CompositeModuleType *getUserType(std::string name);
+    ModuleType *getUserType(std::string name);
     enum class BuiltinType {
         ADD1, SUB1, MUL1,
         DEMUX2 //and more...
@@ -27,11 +27,11 @@ public:
     void initBuiltinTypes();
 
 private:
-    void addBuiltinType(std::unique_ptr<const PrimitiveModuleType> moduleType);
-    std::map<std::string, std::unique_ptr<CompositeModuleType>> m_userTypes;
+    void addBuiltinType(std::unique_ptr<const ModuleType> moduleType);
+    std::map<std::string, std::unique_ptr<ModuleType>> m_userTypes;
     std::map<std::string, std::unique_ptr<const ModuleType>> m_primitiveBuiltinTypes;
-//    std::map<std::string, std::unique_ptr<CompositeModuleType>> m_compositeBuiltinTypes;
-    static const PrimitiveModuleType
+
+    static const ModuleType
     //1D only types
     mod,step,smoothStep,
     //1D modules

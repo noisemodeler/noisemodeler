@@ -4,37 +4,29 @@
 #include <nmlib/model/moduleoutput.hpp>
 #include <nmlib/model/moduletype.hpp>
 
+#include <nmlib/util.hpp>
+
 #include <algorithm>
 
 namespace nm {
 
-Module::Module(ModuleType &type, std::string name):
+Module::Module(const ModuleType &type, std::string name):
     m_type(type),
     m_name(name),
     m_inputs(),
     m_outputs()
 {
-    for(auto &moduleInput : m_type.inputs()){
-        createInputLink(*moduleInput);
-    }
-    for(auto &moduleOutput : m_type.outputs()){
-        createOutputLink(*moduleOutput);
-    }
+    m_type.eachModuleInput([&](const ModuleInput& moduleInput){
+        createInputLink(moduleInput);
+    });
+    m_type.eachModuleOutput([&](const ModuleOutput& moduleOutput){
+        createOutputLink(moduleOutput);
+    });
 }
 
 Module::~Module()
 {
     destroying(*this);
-    m_type.onDestroyingModule(this);
-}
-
-std::unique_ptr<Module> Module::create(const ModuleType &type, std::string name)
-{
-    //We're gonna be total badasses and cast away the constness of the type
-    auto &mutableType = const_cast<ModuleType &>(type);
-    std::unique_ptr<Module> module{new Module{mutableType, name}};
-    mutableType.onCreatedModule(*module);
-    return std::move(module);
 }
 
 void Module::setName(std::string name){
