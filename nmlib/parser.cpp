@@ -57,7 +57,7 @@ bool parseModule(const rapidjson::Value &moduleValue, const nm::TypeManager &typ
         return false;
     }
     auto module = make_unique<Module>(*type, nameString);
-    //TODO parse inputs
+    //parse inputs
     auto &inputsValue = moduleValue["inputs"];
     if(!inputsValue.IsNull()){
         if(!inputsValue.IsObject()){

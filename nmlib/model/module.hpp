@@ -73,6 +73,9 @@ private:
     std::string m_name;
     std::vector<std::unique_ptr<InputLink>> m_inputs;
     std::vector<std::unique_ptr<OutputLink>> m_outputs;
+
+    //we need some connections to the moduletype to make sure links are added and removed as needed
+    boost::signals2::scoped_connection m_moduleInputAddedCon, m_moduleinputRemovedCon;
 };
 
 } // namespace nm

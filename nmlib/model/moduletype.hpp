@@ -31,7 +31,7 @@ public:
         GraphInput,
         GraphOutput
     };
-    explicit ModuleType(std::string name, std::string description = "");
+    explicit ModuleType(std::string name, std::string description);
     explicit ModuleType(std::string name, Category category = Category::Composite, std::string description = "");
 
     std::string getName() const { return m_name; }
