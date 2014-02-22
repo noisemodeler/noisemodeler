@@ -75,7 +75,8 @@ private:
     std::vector<std::unique_ptr<OutputLink>> m_outputs;
 
     //we need some connections to the moduletype to make sure links are added and removed as needed
-    boost::signals2::scoped_connection m_moduleInputAddedCon, m_moduleinputRemovedCon;
+    boost::signals2::scoped_connection m_moduleInputAddedCon, m_moduleInputRemovedCon;
+    boost::signals2::scoped_connection m_moduleOutputAddedCon, m_moduleOutputRemovedCon;
 };
 
 } // namespace nm

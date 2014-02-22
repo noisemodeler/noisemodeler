@@ -22,6 +22,18 @@ Module::Module(const ModuleType &type, std::string name):
     m_type.eachModuleOutput([&](const ModuleOutput& moduleOutput){
         createOutputLink(moduleOutput);
     });
+
+    //hook up to events from moduletype
+    //we're gonna be total badasses and cast away the constness
+    auto &mutableType = const_cast<ModuleType&>(type);
+    m_moduleInputAddedCon = mutableType.inputAdded.connect([&](ModuleInput &moduleInput){
+        createInputLink(moduleInput);
+    });
+    m_moduleOutputAddedCon = mutableType.outputAdded.connect([&](ModuleOutput &moduleOutput){
+        createOutputLink(moduleOutput);
+    });
+
+    //TODO connect to removed events as well
 }
 
 Module::~Module()
