@@ -60,11 +60,11 @@ ModuleInput *ModuleType::addInput(std::string name, SignalType signalType)
 {
     if(getInput(name) != nullptr)return nullptr;
     m_inputs.emplace_back(new ModuleInput(name, signalType, *this));
-    inputAdded(*m_inputs.back());
     if(isComposite()){
         m_inputModuleType->addOutput(name, signalType);
         m_inputModuleType->addInput(name, signalType);
     }
+    inputAdded(*m_inputs.back());
     return m_inputs.back().get();
 }
 
@@ -106,6 +106,7 @@ ModuleOutput *ModuleType::addOutput(std::string name, SignalType signalType)
         m_outputModuleType->addOutput(name, signalType);
         m_outputModuleType->addInput(name, signalType);
     }
+    outputAdded(*m_outputs.back());
     return m_outputs.back().get();
 }
 
