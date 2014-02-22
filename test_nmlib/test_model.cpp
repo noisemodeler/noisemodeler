@@ -31,11 +31,22 @@ TEST(ModelTest, BuiltinModuleType){
     EXPECT_EQ(3, output->getSignalType().dimensionality);
 }
 
-TEST(ModelTest, CompositeModuleTypeBasic){
+TEST(ModelTest, CompositeModuleBasic){
     //TODO why doesn't it work with a simple stack allocation?
-    std::unique_ptr<nm::CompositeModuleType> moduleType{new nm::CompositeModuleType("test", "testdescription")};
+    std::unique_ptr<nm::ModuleType> moduleType{new nm::ModuleType("test", "testdescription")};
     EXPECT_EQ("test", moduleType->getName());
     EXPECT_EQ("testdescription", moduleType->getDescription());
+    EXPECT_TRUE(moduleType->isComposite());
+    EXPECT_FALSE(moduleType->isPrimitive());
+}
+
+TEST(ModelTest, PrimitiveModuleBasic){
+    //TODO why doesn't it work with a simple stack allocation?
+    std::unique_ptr<nm::ModuleType> moduleType{new nm::ModuleType("test", nm::ModuleType::Category::Primitive, "testdescription")};
+    EXPECT_EQ("test", moduleType->getName());
+    EXPECT_EQ("testdescription", moduleType->getDescription());
+    EXPECT_FALSE(moduleType->isComposite());
+    EXPECT_TRUE(moduleType->isPrimitive());
 }
 
 TEST(ModelTest, TopologicalTraversal){

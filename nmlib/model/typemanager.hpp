@@ -2,7 +2,6 @@
 #define NM_TYPEMANAGER_HPP
 
 #include <nmlib/model/moduletype.hpp>
-#include <nmlib/model/compositemoduletype.hpp>
 
 #include <map>
 #include <memory>
@@ -18,18 +17,14 @@ class TypeManager : public UserDataProvider
 public:
     TypeManager();
     ~TypeManager();
-    bool addUserType(std::unique_ptr<CompositeTypeBuilder> builder);
+    bool addUserType(std::unique_ptr<ModuleType> builder);
     const ModuleType *getType(std::string name) const;
     ModuleType *getUserType(std::string name);
-    enum class BuiltinType {
-        ADD1, SUB1, MUL1,
-        DEMUX2 //and more...
-    };
     void initBuiltinTypes();
 
 private:
     void addBuiltinType(std::unique_ptr<const ModuleType> moduleType);
-    std::map<std::string, std::unique_ptr<CompositeTypeBuilder>> m_userTypes;
+    std::map<std::string, std::unique_ptr<ModuleType>> m_userTypes;
     std::map<std::string, std::unique_ptr<const ModuleType>> m_builtinTypes;
 
     static const ModuleType

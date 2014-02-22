@@ -4,7 +4,6 @@
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
 #include <nmlib/model/module.hpp>
-#include <nmlib/model/compositetypebuilder.hpp>
 #include <nmlib/model/graph.hpp>
 
 #include <iostream>
@@ -25,14 +24,13 @@ TypeManager::~TypeManager()
 //    }
 }
 
-//TODO graphTypeController as well
-bool TypeManager::addUserType(std::unique_ptr<CompositeTypeBuilder> builder)
+bool TypeManager::addUserType(std::unique_ptr<ModuleType> moduleType)
 {
-    if(getType(builder->getModuleType().getName()) != nullptr){
+    if(getType(moduleType->getName()) != nullptr){
         std::cerr << "Type already exists\n";
         return false;
     }
-    m_userTypes[builder->getModuleType().getName()] = std::move(builder);
+    m_userTypes[moduleType->getName()] = std::move(moduleType);
     return true;
 }
 
@@ -43,19 +41,19 @@ const ModuleType *TypeManager::getType(std::string name) const
         return it1->second.get();
     }
     auto it = m_userTypes.find(name);
-    return it != end(m_userTypes) ? &it->second->getModuleType() : nullptr;
+    return it != end(m_userTypes) ? it->second.get() : nullptr;
 }
 
 ModuleType *TypeManager::getUserType(std::string name)
 {
     auto it = m_userTypes.find(name);
-    return it != end(m_userTypes) ? &it->second->getModuleType() : nullptr;
+    return it != end(m_userTypes) ? it->second.get() : nullptr;
 }
 
 namespace {
 
 std::unique_ptr<const ModuleType> createFBM(){
-    std::unique_ptr<ModuleType> moduleType{new ModuleType{"fbm", "fractional brownian motion"}};
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"fbm", ModuleType::Category::Primitive, "fractional brownian motion"}};
     moduleType->addInput("pos", SignalType{2});
     moduleType->addInput("gain", SignalType{1});
     moduleType->addInput("lacunarity", SignalType{1});
@@ -64,7 +62,7 @@ std::unique_ptr<const ModuleType> createFBM(){
 }
 
 std::unique_ptr<const ModuleType> createAdd(){
-    std::unique_ptr<ModuleType> moduleType{new ModuleType{"add", "result = lhs + rhs"}};
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"add", ModuleType::Category::Primitive, "result = lhs + rhs"}};
     moduleType->addInput("lhs", SignalType{1});
     moduleType->addInput("rhs", SignalType{1});
     moduleType->addOutput("result", SignalType{1});
@@ -72,21 +70,21 @@ std::unique_ptr<const ModuleType> createAdd(){
 }
 
 std::unique_ptr<const ModuleType> createDebugInput(){
-    std::unique_ptr<ModuleType> moduleType{new ModuleType{"debug_input", "preview pixel coordinates"}};
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"debug_input", ModuleType::Category::Primitive, "preview pixel coordinates"}};
     moduleType->addOutput("pos", SignalType{2});
     moduleType->addInput("pos", SignalType{2});
     return std::move(moduleType);
 }
 
 std::unique_ptr<const ModuleType> createDebugOutput(){
-    std::unique_ptr<ModuleType> moduleType{new ModuleType{"debug_output", "height value for the preview"}};
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"debug_output", ModuleType::Category::Primitive, "height value for the preview"}};
     moduleType->addInput("height", SignalType{1});
     moduleType->addOutput("height", SignalType{1});
     return std::move(moduleType);
 }
 
 std::unique_ptr<const ModuleType> createDemux2(){
-    std::unique_ptr<ModuleType> moduleType{new ModuleType{"demux2", "demultiplexes a 2D vector to two 1D vectors"}};
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"demux2", ModuleType::Category::Primitive, "demultiplexes a 2D vector to two 1D vectors"}};
     moduleType->addInput("m", SignalType{2});
     moduleType->addOutput("x", SignalType{1});
     moduleType->addOutput("y", SignalType{1});

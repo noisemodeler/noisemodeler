@@ -17,6 +17,7 @@ class Module;
 class ModuleOutput;
 class ModuleInput;
 class Graph;
+class OutputLink;
 
 /**
  * @brief describes a recipe for a module and its inputs and outputs.
@@ -24,19 +25,24 @@ class Graph;
 class ModuleType : NonCopyable, public UserDataProvider
 {
 public:
+    enum class Category { //couldn't call it moduletypetype, cause that would be silly
+        Primitive,
+        Composite,
+        GraphInput,
+        GraphOutput
+    };
     explicit ModuleType(std::string name, std::string description = "");
+    explicit ModuleType(std::string name, Category category = Category::Composite, std::string description = "");
 
     std::string getName() const { return m_name; }
     std::string getDescription() const { return m_description; }
     bool isBuiltin() const { return !isComposite(); } //subject to change (some builtins may become composites in the future
-    bool isComposite() const { return m_composite; }
+    bool isComposite() const { return m_category == Category::Composite; }
+    bool isPrimitive() const { return m_category == Category::Primitive; } //consider if graphinput and graphoutput should be primitive as well?
     bool isRemovable() const { return m_removable; }
-    bool isGraphInput() const { return m_graphInput; }
-    bool isGraphOutput() const { return m_graphOutput; }
-    void setComposite(bool composite) { m_composite = composite; }
+    bool isGraphInput() const { return m_category == Category::GraphInput; }
+    bool isGraphOutput() const { return m_category == Category::GraphOutput; }
     void setRemovable(bool removable) { m_removable = removable; }
-    void setGraphInput(bool graphInput) { m_graphInput = graphInput; }
-    void setGraphOutput(bool graphOutput) { m_graphOutput = graphOutput; } //some of these may be placed in an enum since they are exclusive
 
     //inputs
     //getters
@@ -65,9 +71,9 @@ public:
     bool removeOutput(ModuleOutput *moduleOutput);
 
     Graph* getGraph() { return m_graph.get(); }
-    void setGraph(std::unique_ptr<Graph> graph);
+    ModuleOutput *exportInternalOutput(OutputLink &outputLink, std::string externalName);
 
-    //TODO enum params
+    //TODO enum and/or constant params
 
     //signals
     signal<void(ModuleInput&)> inputAdded;
@@ -75,19 +81,22 @@ public:
     signal<void(ModuleOutput&)> outputAdded;
     signal<void(ModuleOutput&)> outputRemoved;
     //TODO more signals
+//    signal<void(ModuleType&)> nameChanged;
 
 
     //implementation
 private:
     std::string m_name, m_description;
-    bool m_composite, m_removable; //TODO could be put in a bit field to save space
-    bool m_graphInput, m_graphOutput; // these are special types of nodes that there can only be one of in each graph
-                                      // they also can't be copied
+    bool m_removable;
+    const Category m_category; // these are special types of nodes that there can only be one of in each graph
+                         // they also can't be copied
 
     std::vector<std::unique_ptr<ModuleInput>> m_inputs;
     std::vector<std::unique_ptr<ModuleOutput>> m_outputs;
 
     std::unique_ptr<Graph> m_graph; //if this is a composite module, it will have a graph of internal nodes, this is it.
+    std::unique_ptr<ModuleType> m_inputModuleType; //if this is a composite module, it will have a special module type for inputs this is were its type will be stored
+    std::unique_ptr<ModuleType> m_outputModuleType; //if this is a composite module, it will have a special module type for outputs
 };
 
 } // namespace nm
