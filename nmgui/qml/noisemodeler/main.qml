@@ -22,10 +22,10 @@ Rectangle {
         anchors.bottom: parent.bottom
     }
 
-    GraphEditor{
+    GraphEditor {
         id: editor
         anchors.fill: mainArea
-        model: mockGraph
+        graph: mockGraph
     }
     Keys.onPressed: {
         if(event.key === Qt.Key_F){

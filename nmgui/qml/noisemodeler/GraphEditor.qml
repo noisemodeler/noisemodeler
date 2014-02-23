@@ -5,7 +5,7 @@ Rectangle {
     id:graphEditor
     color: mystyle.graphEditor.bgColor
     property alias contents: contents
-    property alias model: rep.model
+    property Graph graph
     MouseArea {
             anchors.fill: parent
             drag.target:contents
@@ -13,14 +13,13 @@ Rectangle {
     }
     Item {
         id:contents
-        Repeater{
-            id:rep
+        Repeater {
+            id: rep
+            model: graph.modules
+            Node {
+                module: modelData
+            }
         }
-//        Node{module:mockModule}
-        Node{x: 300; y: 100; module:mockModule2}
-        Node{module:mockModule3}
-        Node{x: 100; y: 100; module:debugInput}
-        Node{x: 400; y: 100; module:debugOutput}
         TexturePreview{}
     }
     function autoArrangeWindows(){

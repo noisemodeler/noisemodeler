@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<nmgui::InputLinkQ>("NoiseModeler", 1, 0, "InputLink");
     qmlRegisterType<nmgui::OutputLinkQ>("NoiseModeler", 1, 0, "OutputLink");
     qmlRegisterType<nmgui::ModuleTypeQ>("NoiseModeler", 1, 0, "ModuleType");
+    qmlRegisterType<nmgui::GraphQ>("NoiseModeler", 1, 0, "Graph");
 
     //create mockup data
     nm::TypeManager typeManager;
@@ -41,30 +42,19 @@ int main(int argc, char *argv[])
     auto debugInputModuleType = typeManager.getType("debug_input");
     auto debugOutputModuleType = typeManager.getType("debug_output");
 
-//    nm::Module fbmModule(*fbmModuleType, "myfbm");
-//    nm::Module demuxModule(*demuxModuleType, "demux2");
-//    nm::Module addModule(*addModuleType, "myAdd");
-//    nm::Module debugInputModule(*debugInputModuleType, "debugInput");
-//    nm::Module debugOutputModule(*debugOutputModuleType, "debugOutput");
-
     nm::Graph graph{};
-    auto demuxModule = graph.createModule(*demuxModuleType, "demux");
-    auto addModule = graph.createModule(*addModuleType, "add");
+    graph.createModule(*demuxModuleType, "demux");
+    graph.createModule(*addModuleType, "add");
     auto debugInputModule = graph.createModule(*debugInputModuleType, "debugInput");
     auto debugOutputModule = graph.createModule(*debugOutputModuleType, "debugOutput");
 
-//    auto mockModule = nmgui::ModuleQ::fromModule(fbmModule);
-    auto mockModule2 = nmgui::ModuleQ::fromModule(*demuxModule);
-    auto mockModule3 = nmgui::ModuleQ::fromModule(*addModule);
+    //wrapping into QObjects
     auto debugInputModuleQ = nmgui::ModuleQ::fromModule(*debugInputModule);
     auto debugOutputModuleQ = nmgui::ModuleQ::fromModule(*debugOutputModule);
 
     auto mockGraph = nmgui::GraphQ::fromGraph(graph);
 
     QtQuick2ApplicationViewer viewer;
-//    viewer.rootContext()->setContextProperty("mockModule", mockModule);
-    viewer.rootContext()->setContextProperty("mockModule2", mockModule2);
-    viewer.rootContext()->setContextProperty("mockModule3", mockModule3);
     viewer.rootContext()->setContextProperty("debugInput", debugInputModuleQ);
     viewer.rootContext()->setContextProperty("debugOutput", debugOutputModuleQ);
 
