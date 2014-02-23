@@ -32,6 +32,8 @@ public:
     void setName(const QString &value);
     ModuleTypeQ *moduleType();
 
+    Q_INVOKABLE int getDepth(); //TODO rename to depth and make it property with a notifier
+
     QQmlListProperty<InputLinkQ> inputs();
     QQmlListProperty<OutputLinkQ> outputs();
 

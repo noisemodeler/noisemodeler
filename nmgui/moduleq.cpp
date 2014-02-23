@@ -54,6 +54,11 @@ ModuleTypeQ *ModuleQ::moduleType()
     return ModuleTypeQ::fromModuleType(p_module->getType());
 }
 
+int ModuleQ::getDepth()
+{
+    return p_module->getDepth();
+}
+
 QString ModuleQ::name() const
 {
     auto ss = p_module->getName();
