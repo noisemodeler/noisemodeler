@@ -3,6 +3,7 @@
 #include <nmlib/model/graph.hpp>
 
 #include "moduleq.hpp"
+#include "moduletypeq.hpp"
 
 namespace nmgui {
 
@@ -37,6 +38,12 @@ GraphQ *GraphQ::fromGraph(nm::Graph &graph)
 QQmlListProperty<ModuleQ> GraphQ::modules()
 {
     return QQmlListProperty<ModuleQ>(this, 0, nullptr, &GraphQ::modulesCount, &GraphQ::moduleAt, nullptr);
+}
+
+void GraphQ::createModule(ModuleTypeQ *type, QString name)
+{
+    /*auto module =*/ m_graph->createModule(*type->moduleType(), name.toStdString());
+//    return module ? ModuleQ::fromModule(*module) : nullptr;
 }
 
 ModuleQ *GraphQ::moduleAt(QQmlListProperty<ModuleQ> *list, int index)

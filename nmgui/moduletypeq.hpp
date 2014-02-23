@@ -30,6 +30,7 @@ public:
     QString name() const;
     QQmlListProperty<ModuleInputQ> inputs();
     QQmlListProperty<ModuleOutputQ> outputs();
+    nm::ModuleType* moduleType() const {return m_moduleType;}
 
 signals:
     void inputsChanged(); //TODO connect

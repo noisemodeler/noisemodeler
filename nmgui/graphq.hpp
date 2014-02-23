@@ -13,6 +13,7 @@ class Graph;
 namespace nmgui {
 
 class ModuleQ;
+class ModuleTypeQ;
 
 class GraphQ : public QObject
 {
@@ -23,6 +24,8 @@ public:
     static GraphQ *fromGraph(nm::Graph &graph);
 
     QQmlListProperty<ModuleQ> modules();
+
+    Q_INVOKABLE void createModule(nmgui::ModuleTypeQ *type, QString name);
 
 signals:
     void modulesChanged(); //TODO connect

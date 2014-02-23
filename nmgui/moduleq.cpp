@@ -25,7 +25,8 @@ ModuleQ::ModuleQ(nm::Module *module, QObject *p) :
 
 ModuleQ::ModuleQ(ModuleTypeQ &/*type*/, QObject */*parent*/)
 {
-
+    //TODO
+    std::cerr << "not implemented\n";
 }
 
 ModuleQ::~ModuleQ()
