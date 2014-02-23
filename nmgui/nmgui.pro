@@ -27,7 +27,8 @@ SOURCES += main.cpp \
     beziercurve.cpp \
     moduletypeq.cpp \
     moduleinputq.cpp \
-    moduleoutputq.cpp
+    moduleoutputq.cpp \
+    graphq.cpp
 
 HEADERS += \
     texturerenderer.hpp \
@@ -37,7 +38,8 @@ HEADERS += \
     beziercurve.hpp \
     moduletypeq.hpp \
     moduleinputq.hpp \
-    moduleoutputq.hpp
+    moduleoutputq.hpp \
+    graphq.hpp
 
 # Installation path
 # target.path =

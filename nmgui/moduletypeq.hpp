@@ -45,7 +45,7 @@ private:
     static ModuleOutputQ* outputAt(QQmlListProperty<ModuleOutputQ> *list, int index);
     static int outputsCount(QQmlListProperty<ModuleOutputQ> *list);
 
-//    boost::signals2::scoped_connection moduleTypeDestroyedConnection;
+    boost::signals2::scoped_connection moduleTypeDestroyedConnection;
 };
 
 } // namespace nmgui

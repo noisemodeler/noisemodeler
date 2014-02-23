@@ -2,6 +2,7 @@
 #include "inputlinkq.hpp"
 #include "outputlinkq.hpp"
 #include "moduletypeq.hpp"
+#include "graphq.hpp"
 #include "texturerenderer.hpp"
 
 #include "beziercurve.hpp"
@@ -34,30 +35,40 @@ int main(int argc, char *argv[])
     //create mockup data
     nm::TypeManager typeManager;
     typeManager.initBuiltinTypes();
-    auto fbmModuleType = typeManager.getType("fbm");
+//    auto fbmModuleType = typeManager.getType("fbm");
     auto addModuleType = typeManager.getType("add");
     auto demuxModuleType = typeManager.getType("demux2");
     auto debugInputModuleType = typeManager.getType("debug_input");
     auto debugOutputModuleType = typeManager.getType("debug_output");
 
-    nm::Module fbmModule(*fbmModuleType, "myfbm");
-    nm::Module fbmModule2(*demuxModuleType, "demux2");
-    nm::Module AddModule(*addModuleType, "myAdd");
-    nm::Module debugInputModule(*debugInputModuleType, "debugInput");
-    nm::Module debugOutputModule(*debugOutputModuleType, "debugOutput");
+//    nm::Module fbmModule(*fbmModuleType, "myfbm");
+//    nm::Module demuxModule(*demuxModuleType, "demux2");
+//    nm::Module addModule(*addModuleType, "myAdd");
+//    nm::Module debugInputModule(*debugInputModuleType, "debugInput");
+//    nm::Module debugOutputModule(*debugOutputModuleType, "debugOutput");
 
-    auto mockModule = nmgui::ModuleQ::fromModule(fbmModule);
-    auto mockModule2 = nmgui::ModuleQ::fromModule(fbmModule2);
-    auto mockModule3 = nmgui::ModuleQ::fromModule(AddModule);
-    auto debugInputModuleQ = nmgui::ModuleQ::fromModule(debugInputModule);
-    auto debugOutputModuleQ = nmgui::ModuleQ::fromModule(debugOutputModule);
+    nm::Graph graph{};
+    auto demuxModule = graph.createModule(*demuxModuleType, "demux");
+    auto addModule = graph.createModule(*addModuleType, "add");
+    auto debugInputModule = graph.createModule(*debugInputModuleType, "debugInput");
+    auto debugOutputModule = graph.createModule(*debugOutputModuleType, "debugOutput");
+
+//    auto mockModule = nmgui::ModuleQ::fromModule(fbmModule);
+    auto mockModule2 = nmgui::ModuleQ::fromModule(*demuxModule);
+    auto mockModule3 = nmgui::ModuleQ::fromModule(*addModule);
+    auto debugInputModuleQ = nmgui::ModuleQ::fromModule(*debugInputModule);
+    auto debugOutputModuleQ = nmgui::ModuleQ::fromModule(*debugOutputModule);
+
+    auto mockGraph = nmgui::GraphQ::fromGraph(graph);
 
     QtQuick2ApplicationViewer viewer;
-    viewer.rootContext()->setContextProperty("mockModule", mockModule);
+//    viewer.rootContext()->setContextProperty("mockModule", mockModule);
     viewer.rootContext()->setContextProperty("mockModule2", mockModule2);
     viewer.rootContext()->setContextProperty("mockModule3", mockModule3);
     viewer.rootContext()->setContextProperty("debugInput", debugInputModuleQ);
     viewer.rootContext()->setContextProperty("debugOutput", debugOutputModuleQ);
+
+    viewer.rootContext()->setContextProperty("mockGraph", mockGraph);
 
     viewer.rootContext()->setContextProperty("addModuleType", nmgui::ModuleTypeQ::fromModuleType(*addModuleType));
     viewer.rootContext()->setContextProperty("demuxModuleType", nmgui::ModuleTypeQ::fromModuleType(*demuxModuleType));

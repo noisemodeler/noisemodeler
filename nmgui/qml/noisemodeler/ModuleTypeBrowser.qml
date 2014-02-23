@@ -16,7 +16,8 @@ Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
             Text {
-                anchors.fill: parent; text: modelData.name
+                anchors.fill: parent
+                text: modelData.name
                 verticalAlignment: Text.AlignVCenter
             }
             MouseArea {
@@ -27,6 +28,8 @@ Rectangle {
                 }
                 onDoubleClicked: {
                     console.log("add new module to graph");
+                    console.log(modelData);
+//                    ModuleType a = ModuleType();
                 }
             }
         }

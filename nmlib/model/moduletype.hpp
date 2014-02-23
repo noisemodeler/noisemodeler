@@ -33,6 +33,7 @@ public:
     };
     explicit ModuleType(std::string name, std::string description);
     explicit ModuleType(std::string name, Category category = Category::Composite, std::string description = "");
+    ~ModuleType();
 
     std::string getName() const { return m_name; }
     std::string getDescription() const { return m_description; }
@@ -80,6 +81,7 @@ public:
     signal<void(ModuleInput&)> inputRemoved;
     signal<void(ModuleOutput&)> outputAdded;
     signal<void(ModuleOutput&)> outputRemoved;
+    signal<void(ModuleType&)> destroying;
     //TODO more signals
 //    signal<void(ModuleType&)> nameChanged;
 

@@ -15,11 +15,11 @@ ModuleTypeQ::ModuleTypeQ(nm::ModuleType *moduleType, QObject *parent) :
     Q_ASSERT(m_moduleType->getUserData()==nullptr);
     m_moduleType->setUserData(this);
 
-//    moduleTypeDestroyedConnection = m_moduleType->destroying.connect([&](nm::Module&){
-//        deleteLater();
-//        m_moduleType->setUserData(nullptr);
-//        m_moduleType = nullptr;
-    //    });
+    moduleTypeDestroyedConnection = m_moduleType->destroying.connect([&](nm::ModuleType &){
+        deleteLater();
+        m_moduleType->setUserData(nullptr);
+        m_moduleType = nullptr;
+    });
 }
 
 ModuleTypeQ *ModuleTypeQ::fromModuleType(nm::ModuleType &moduleType)

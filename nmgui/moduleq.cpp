@@ -23,6 +23,11 @@ ModuleQ::ModuleQ(nm::Module *module, QObject *p) :
     });
 }
 
+ModuleQ::ModuleQ(ModuleTypeQ &/*type*/, QObject */*parent*/)
+{
+
+}
+
 ModuleQ::~ModuleQ()
 {
     if(p_module!=nullptr){

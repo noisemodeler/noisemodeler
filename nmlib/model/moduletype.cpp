@@ -28,6 +28,8 @@ ModuleType::ModuleType(std::string name, ModuleType::Category category, std::str
     }
 }
 
+ModuleType::~ModuleType(){destroying(*this);}
+
 const ModuleInput *ModuleType::getInput(std::string name) const
 {
     using namespace std;
