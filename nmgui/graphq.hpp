@@ -28,7 +28,7 @@ public:
     Q_INVOKABLE void createModule(nmgui::ModuleTypeQ *type, QString name);
 
 signals:
-    void modulesChanged(); //TODO connect
+    void modulesChanged();
 
 private:
     nm::Graph *m_graph;
