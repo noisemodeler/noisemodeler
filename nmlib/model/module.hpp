@@ -50,9 +50,6 @@ public:
     void traverseDescendants(std::function<void(Module&)> callback);
     void traverseAncestors(std::function<void(Module&)> callback);
 
-    void onAddedModuleInput(const ModuleInput &moduleInput);
-    void onAddedModuleOutput(const ModuleOutput &moduleOutput);
-
     //signals
     signal<void (Module&, const std::string&)> nameChanged;
     signal<void (Module&)> destroying;

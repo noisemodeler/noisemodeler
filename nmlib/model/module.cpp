@@ -162,16 +162,6 @@ void nm::Module::traverseAncestors(std::function<void (nm::Module &)> callback)
     traverseParents(helper);
 }
 
-void Module::onAddedModuleInput(const ModuleInput &moduleInput)
-{
-    createInputLink(moduleInput);
-}
-
-void Module::onAddedModuleOutput(const ModuleOutput &moduleOutput)
-{
-    createOutputLink(moduleOutput);
-}
-
 std::vector<Module *> Module::getDependenciesSorted(const std::vector<OutputLink *> &outputs, const std::set<InputLink *> &ignoreInputs)
 {
     std::vector<Module *> modules;
