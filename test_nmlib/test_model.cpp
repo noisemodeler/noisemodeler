@@ -93,4 +93,34 @@ TEST(ModelTest, TopologicalTraversal){
     EXPECT_EQ(4, names.size()); //just check that all nodes were visited
 }
 
+TEST(ModelTest, ModuleDepthAndHeight){
+    //create a simple test module type
+    std::unique_ptr<nm::ModuleType> moduleType{new nm::ModuleType("test", "testdescription")};
+    moduleType->addInput("in1", nm::SignalType{1});
+    moduleType->addInput("in2", nm::SignalType{1});
+    moduleType->addOutput("result", nm::SignalType{1});
+
+    //create some modules
+    nm::Module a(*moduleType, "a");
+    nm::Module b(*moduleType, "b");
+    nm::Module c(*moduleType, "c");
+    nm::Module d(*moduleType, "d");
+
+    //connect them together. a is connected to b which is connected to both c and d
+    a.getInput("in1")->link(*b.getOutput("result"));
+    b.getInput("in1")->link(*c.getOutput("result"));
+    b.getInput("in2")->link(*d.getOutput("result"));
+
+    EXPECT_EQ(2, a.getDepth());
+    EXPECT_EQ(1, b.getDepth());
+    EXPECT_EQ(0, c.getDepth());
+    EXPECT_EQ(0, d.getDepth());
+
+    EXPECT_EQ(0, a.getHeight());
+    EXPECT_EQ(1, b.getHeight());
+    EXPECT_EQ(2, c.getHeight());
+    EXPECT_EQ(2, d.getHeight());
+
+}
+
 }

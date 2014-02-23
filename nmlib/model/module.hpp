@@ -44,11 +44,21 @@ public:
     std::vector<OutputLink*> getOutputs();
 
     //module graph convenience functions
-    void traverseChildren(std::function<void (Module &)> callback);
-    void traverseParents(std::function<void(Module&)> callback);
+    void traverseChildren(std::function<void (const Module &)> callback) const;
+    void traverseParents(std::function<void(const Module&)> callback) const;
     //for now, these two includes this node as well
+    void traverseDescendants(std::function<void(const Module&)> callback) const;
     void traverseDescendants(std::function<void(Module&)> callback);
-    void traverseAncestors(std::function<void(Module&)> callback);
+    void traverseAncestors(std::function<void(const Module&)> callback) const;
+
+    /**
+     * @return the number of modules above this one
+     */
+    int getDepth() const;
+    /**
+     * @return the number of modules below this one
+     */
+    int getHeight() const;
 
     //signals
     signal<void (Module&, const std::string&)> nameChanged;

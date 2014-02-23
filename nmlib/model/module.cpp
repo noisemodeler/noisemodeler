@@ -108,9 +108,16 @@ std::vector<OutputLink *> Module::getOutputs()
 
 void Module::traverseDescendants(std::function<void (Module &)> callback)
 {
+    const_cast<const Module&>(*this).traverseDescendants([&](const Module& module){
+        callback(const_cast<Module&>(module));
+    });
+}
+
+void Module::traverseDescendants(std::function<void(const Module &)> callback) const
+{
     //simple recursive dfs traversal, but keep track of visited ancestors and skip them
-    std::set<Module *> visited;
-    std::function<void(Module&)> helper = [&](Module& module) {
+    std::set<const Module *> visited;
+    std::function<void(const Module&)> helper = [&](const Module& module) {
         auto inserted = visited.insert(&module).second;
         if(inserted){
             module.traverseChildren(helper);
@@ -122,9 +129,9 @@ void Module::traverseDescendants(std::function<void (Module &)> callback)
     helper(*this);
 }
 
-void Module::traverseChildren(std::function<void (Module &)> callback)
+void Module::traverseChildren(std::function<void(const Module &)> callback) const
 {
-    std::set<Module *> visited{this};
+    std::set<const Module *> visited{this};
     for(auto &outputLink : m_outputs){
         for(unsigned int i=0; i<outputLink->numLinks(); ++i){
             auto inputLink = outputLink->getLink(i);
@@ -139,19 +146,21 @@ void Module::traverseChildren(std::function<void (Module &)> callback)
     }
 }
 
-void nm::Module::traverseParents(std::function<void (nm::Module &)> callback)
+void nm::Module::traverseParents(std::function<void(const Module &)> callback) const
 {
     for(auto &inputLink : m_inputs){
         auto outputLink = inputLink->getOutputLink();
-        callback(outputLink->getOwner());
+        if(outputLink!=nullptr){
+            callback(outputLink->getOwner());
+        }
     }
 }
 
-void nm::Module::traverseAncestors(std::function<void (nm::Module &)> callback)
+void nm::Module::traverseAncestors(std::function<void(const Module &)> callback) const
 {
     //simple recursive dfs traversal, but keep track of visited ancestors and skip them
-    std::set<Module *> visited{this};
-    std::function<void(Module&)> helper = [&](Module& module) {
+    std::set<const Module *> visited{this};
+    std::function<void(const Module&)> helper = [&](const Module& module) {
         auto inserted = visited.insert(&module).second;
         if(inserted){
             module.traverseParents(helper);
@@ -160,6 +169,26 @@ void nm::Module::traverseAncestors(std::function<void (nm::Module &)> callback)
         }
     };
     traverseParents(helper);
+}
+
+int Module::getDepth() const
+{
+    int maxParentDepth = -1;
+    traverseParents([&](const Module &parentModule){
+        int parentDepth = parentModule.getDepth();
+        maxParentDepth = parentDepth>maxParentDepth ? parentDepth : maxParentDepth;
+    });
+    return maxParentDepth+1;
+}
+
+int Module::getHeight() const
+{
+    int maxChildHeight = -1;
+    traverseChildren([&](const Module &childModule){
+        int childHeight = childModule.getHeight();
+        maxChildHeight = childHeight>maxChildHeight ? childHeight : maxChildHeight;
+    });
+    return maxChildHeight+1;
 }
 
 std::vector<Module *> Module::getDependenciesSorted(const std::vector<OutputLink *> &outputs, const std::set<InputLink *> &ignoreInputs)
