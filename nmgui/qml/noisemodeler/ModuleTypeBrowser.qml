@@ -27,10 +27,7 @@ Rectangle {
                     row.ListView.view.currentIndex = index;
                 }
                 onDoubleClicked: {
-                    console.log("add new module to graph");
-                    console.log(modelData);
-                    mockGraph.createModule(modelData, "testModule");
-//                    ModuleType a = ModuleType();
+                    mockGraph.createModule(modelData);
                 }
             }
         }

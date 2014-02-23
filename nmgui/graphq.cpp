@@ -43,7 +43,12 @@ QQmlListProperty<ModuleQ> GraphQ::modules()
 void GraphQ::createModule(ModuleTypeQ *type, QString name)
 {
     /*auto module =*/ m_graph->createModule(*type->moduleType(), name.toStdString());
-//    return module ? ModuleQ::fromModule(*module) : nullptr;
+    //    return module ? ModuleQ::fromModule(*module) : nullptr;
+}
+
+void GraphQ::createModule(ModuleTypeQ *type)
+{
+    m_graph->createModule(*type->moduleType());
 }
 
 ModuleQ *GraphQ::moduleAt(QQmlListProperty<ModuleQ> *list, int index)

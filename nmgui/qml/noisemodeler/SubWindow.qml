@@ -2,8 +2,6 @@ import QtQuick 2.0
 
 Rectangle {
     id: subWindow
-    x: parent.width/2
-    y: parent.height/2
     width: Math.max(contents.childrenRect.width + borderThickness * 2, nodeLabel.width+3)
     height: contents.childrenRect.height + borderThickness * 2
     color: mystyle.node.bgColor

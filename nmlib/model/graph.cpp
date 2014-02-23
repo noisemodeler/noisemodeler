@@ -1,4 +1,7 @@
 #include <nmlib/model/graph.hpp>
+#include <nmlib/model/moduletype.hpp>
+
+#include <sstream>
 
 namespace nm {
 
@@ -23,6 +26,17 @@ Module *Graph::createModule(const ModuleType &type, std::string name)
         return nullptr;
     }
     return modulePtr;
+}
+
+Module *Graph::createModule(const ModuleType &type)
+{
+    std::string name = type.getName() + "_1";
+    for(unsigned int i = 2; getModule(name) != nullptr; ++i){
+        std::stringstream ss;
+        ss << type.getName() << "_" << i;
+        name = ss.str();
+    }
+    return createModule(type, name);
 }
 
 void Graph::clearModules()

@@ -11,17 +11,46 @@ Rectangle {
             drag.target:contents
             acceptedButtons: Qt.RightButton | Qt.MiddleButton
     }
+    onGraphChanged: {
+        //TODO disconnect old signal
+        graph.onModulesChanged.connect(contents.updateContents);
+    }
+    Component.onCompleted: contents.updateContents();
+
+        Component {
+            id:nodeDelegate
+            Node {}
+        }
+
     Item {
         id:contents
-        Repeater {
-            id: rep
-            model: graph.modules
-            Node {
-                module: modelData
+        //repeater regenerates modules when new ones are added, and messes up positioning, so we cant use it
+//        Repeater {
+//            id: rep
+//            model: graph.modules
+//            Node {
+//                module: modelData
+//            }
+//            onItemAdded: console.log("added");
+//        }
+        function updateContents(){
+            for(var i=0; i<graph.modules.length; ++i){
+                var module = graph.modules[i];
+                if(children.length > i){
+                    if(children[i].module === module){
+//                        console.log("node exists for this object")
+                    } else {
+//                        console.log("skipping unknown stuff")
+                    }
+                } else {
+                    nodeDelegate.createObject(contents, {"module":module});
+                }
+
             }
         }
-        TexturePreview{}
     }
+    TexturePreview{}
+
     function autoArrangeWindows(){
         contents.x = 0;
         contents.y = 0;

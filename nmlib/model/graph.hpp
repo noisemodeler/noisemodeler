@@ -18,6 +18,7 @@ public:
     bool addModule(std::unique_ptr<Module> module);
     //TODO supply a version without name
     Module* createModule(const ModuleType& type, std::string name);
+    Module* createModule(const ModuleType& type);
     void clearModules();
     Module* getModule(const std::string &name);
     const Module* getModule(const std::string &name) const;

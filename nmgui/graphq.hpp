@@ -26,6 +26,7 @@ public:
     QQmlListProperty<ModuleQ> modules();
 
     Q_INVOKABLE void createModule(nmgui::ModuleTypeQ *type, QString name);
+    Q_INVOKABLE void createModule(nmgui::ModuleTypeQ *type);
 
 signals:
     void modulesChanged();
