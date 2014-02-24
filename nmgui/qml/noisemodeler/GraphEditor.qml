@@ -54,20 +54,33 @@ Rectangle {
     function autoArrangeWindows(){
         contents.x = 0;
         contents.y = 0;
-        var curY = 50;
-        var curX = 50;
-        var maxWidth = 0;
+
+        //sort nodes according to depth
+        var columns = [];
         for(var i=0; i<contents.children.length; ++i){
-            var child = contents.children[i];
-            if(curY+child.height > graphEditor.height){
-                curY = 50;
-                curX += maxWidth + 20;
-                maxWidth = 0;
+            var node = contents.children[i];
+            var depth = node.module.getDepth();
+            console.log(depth);
+            if(!columns.hasOwnProperty(depth)){
+                columns[depth] = []
             }
-            child.y = curY;
-            child.x = curX;
-            curY += child.height + 50;
-            maxWidth = Math.max(maxWidth, child.width);
+            columns[depth][node.module.name] = node;
+        }
+
+        //place each depth into its own column
+        var curX = 50;
+        for(var depth = 0; depth<columns.length; ++depth){
+            var curY = 50;
+            //adjust column width according to the biggest node
+            var maxWidth = 0;
+            for(var moduleName in columns[depth]){
+                var node = columns[depth][moduleName];
+                node.x = curX;
+                node.y = curY;
+                curY += node.height + 50;
+                maxWidth = Math.max(maxWidth, node.width);
+            }
+            curX+= maxWidth + 70;
         }
     }
 }
