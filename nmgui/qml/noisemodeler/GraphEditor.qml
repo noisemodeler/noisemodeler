@@ -50,13 +50,7 @@ Rectangle {
         }
     }
 
-    TexturePreview{
-        id:texturePreview;
-        antialiasing: true
-        SelectionGlow {
-            anchors.fill: parent
-        }
-    }
+    TexturePreview{}
     function autoArrangeWindows(){
         contents.x = 0;
         contents.y = 0;
