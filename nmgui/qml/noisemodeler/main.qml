@@ -2,7 +2,7 @@ import QtQuick 2.2
 
 Rectangle {
     Style { id:mystyle }
-    width: 800
+    width: 1024
     height: 600
     TopBar {
         id: menu
