@@ -64,27 +64,80 @@ void GlslGenerator::genTypeKeyword(const SignalType &signalType, std::ostream &o
 
 std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &module)
 {
-//    auto moduleTypeName = module.getType().getName();
-//    std::unique_ptr<BodyGenerator> body;
-//    std::unique_ptr<DefaultsGenerator> defaults;
-//    body.reset(new SimpleBodyGenerator("//empty body\n"));
-//    defaults.reset(new ZeroDefaultsGenerator(module));
-//    //TODO implement other modules
-//    if(moduleTypeName == "add"){
-//        body.reset(new SimpleBodyGenerator("float result = lhs + rhs;\n"));
-//    } else if (moduleTypeName == "demux2") {
-//        body.reset(new SimpleBodyGenerator(
-//            "float x = m.x;\n"
-//            "float y = m.y;\n"
-//        ));
-//    } else if (moduleTypeName == "mul1") {
-//        body.reset(new SimpleBodyGenerator(
-//            "float result = lhs * rhs;\n"
-//        ));
-//    } else {
+    auto moduleTypeName = module.getType().getName();
+    std::unique_ptr<BodyGenerator> body;
+    std::unique_ptr<DefaultsGenerator> defaults;
+    body.reset(new SimpleBodyGenerator("//empty body\n"));
+    defaults.reset(new ZeroDefaultsGenerator(module));
+
+    //mah giant if
+
+    //1D modules
+    if (moduleTypeName == "add1") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = lhs + rhs;\n"
+        ));
+    } else if (moduleTypeName == "sub1") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = lhs - rhs;\n"
+        ));
+    } else if (moduleTypeName == "mul1") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = lhs * rhs;\n"
+        ));
+
+    //2D modules
+    } else if (moduleTypeName == "add2") {
+        body.reset(new SimpleBodyGenerator(
+            "vec2 result = lhs + rhs;\n"
+        ));
+    } else if (moduleTypeName == "sub2") {
+        body.reset(new SimpleBodyGenerator(
+            "vec2 result = lhs - rhs;\n"
+        ));
+    } else if (moduleTypeName == "mul2") {
+        body.reset(new SimpleBodyGenerator(
+            "vec2 result = lhs * rhs;\n"
+        ));
+    } else if (moduleTypeName == "demux2") {
+        body.reset(new SimpleBodyGenerator(
+            "float x = m.x;\n"
+            "float y = m.y;\n"
+        ));
+    } else if (moduleTypeName == "mux2") {
+        body.reset(new SimpleBodyGenerator(
+            "vec2 m = vec2(x, y);\n"
+        ));
+
+    //3D modules
+    } else if (moduleTypeName == "add3") {
+        body.reset(new SimpleBodyGenerator(
+            "vec3 result = lhs + rhs;\n"
+        ));
+    } else if (moduleTypeName == "sub3") {
+        body.reset(new SimpleBodyGenerator(
+            "vec3 result = lhs - rhs;\n"
+        ));
+    } else if (moduleTypeName == "mul3") {
+        body.reset(new SimpleBodyGenerator(
+            "vec3 result = lhs * rhs;\n"
+        ));
+    } else if (moduleTypeName == "demux3") {
+        body.reset(new SimpleBodyGenerator(
+            "float x = m.x;\n"
+            "float y = m.y;\n"
+            "float z = m.z;\n"
+        ));
+    } else if (moduleTypeName == "mux3") {
+        body.reset(new SimpleBodyGenerator(
+            "vec3 m = vec3(x, y, z);\n"
+        ));
+
+    //lets ask superclass if it knows something useful
+    } else {
         return InlineGenerator::getModuleGenerator(module);
-//    }
-//    return std::unique_ptr<ModuleGenerator>{new CompositeModuleGenerator(std::move(body), std::move(defaults))};
+    }
+    return std::unique_ptr<ModuleGenerator>{new CompositeModuleGenerator(std::move(body), std::move(defaults))};
 }
 
 GlslGenerator::GlslGenerator():
