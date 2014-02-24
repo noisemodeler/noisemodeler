@@ -103,6 +103,14 @@ std::unique_ptr<const ModuleType> createMul1(){
     return std::move(moduleType);
 }
 
+std::unique_ptr<const ModuleType> createMod(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"mod", ModuleType::Category::Primitive, "modulo operator. result = dividend mod divisor"}};
+    moduleType->addInput("dividend", SignalType{1});
+    moduleType->addInput("divisor", SignalType{1});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
 //2D modules
 
 std::unique_ptr<const ModuleType> createAdd2(){
@@ -190,6 +198,7 @@ void TypeManager::initBuiltinTypes()
     addBuiltinType(createAdd1());
     addBuiltinType(createSub1());
     addBuiltinType(createMul1());
+    addBuiltinType(createMod());
 
     //2D modules
     addBuiltinType(createAdd2());

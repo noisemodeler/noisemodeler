@@ -85,6 +85,10 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
         body.reset(new SimpleBodyGenerator(
             "float result = lhs * rhs;\n"
         ));
+    } else if (moduleTypeName == "mod") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = mod(dividend, divisor);\n"
+        ));
 
     //2D modules
     } else if (moduleTypeName == "add2") {
