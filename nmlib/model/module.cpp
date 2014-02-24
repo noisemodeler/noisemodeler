@@ -33,6 +33,12 @@ Module::Module(const ModuleType &type, std::string name, std::string description
     m_moduleOutputAddedCon = mutableType.outputAdded.connect([&](ModuleOutput &moduleOutput){
         createOutputLink(moduleOutput);
     });
+    m_moduleInputRemovedCon = mutableType.removingInput.connect([&](ModuleInput &moduleInput){
+        removeInput(moduleInput);
+    });
+    m_moduleOutputRemovedCon = mutableType.removingOutput.connect([&](ModuleOutput &moduleOutput){
+        removeOutput(moduleOutput);
+    });
 
     //TODO connect to removed events as well
 }
@@ -81,6 +87,28 @@ std::vector<InputLink *> Module::getInputs()
         inputs.push_back(input.get());
     }
     return inputs;
+}
+
+bool Module::removeInput(const ModuleInput &moduleInput)
+{
+    auto it = std::find_if(m_inputs.begin(), m_inputs.end(), [&](const std::unique_ptr<InputLink> &inputLink){
+        return &inputLink->getModuleInput() == &moduleInput;
+    });
+    if(it==m_inputs.end())return false;
+    m_inputs.erase(it);
+    removedInputLink(*this, moduleInput);
+    return true;
+}
+
+bool Module::removeOutput(const ModuleOutput &moduleOutput)
+{
+    auto it = std::find_if(m_outputs.begin(), m_outputs.end(), [&](const std::unique_ptr<OutputLink> &outputLink){
+        return &outputLink->getModuleOutput() == &moduleOutput;
+    });
+    if(it==m_outputs.end())return false;
+    m_outputs.erase(it);
+    removedOutputLink(*this, moduleOutput);
+    return true;
 }
 
 OutputLink *Module::getOutput(std::string name)

@@ -81,10 +81,12 @@ public:
     //signals
     signal<void(ModuleType&, const std::string&)> nameChanged;
     signal<void(ModuleType&, const std::string&)> descriptionChanged;
-    signal<void(ModuleInput&)> inputAdded;
-    signal<void(ModuleInput&)> inputRemoved;
+    signal<void(ModuleInput&)> inputAdded; //fired after an input has been added
+    signal<void(ModuleInput&)> removingInput; //fired before input is removed
+    signal<void(ModuleType&)> inputRemoved; //fired after input is removed
     signal<void(ModuleOutput&)> outputAdded;
-    signal<void(ModuleOutput&)> outputRemoved;
+    signal<void(ModuleOutput&)> removingOutput;
+    signal<void(ModuleType&)> outputRemoved;
     signal<void(ModuleType&)> destroying;
     //TODO more signals
 //    signal<void(ModuleType&)> nameChanged;

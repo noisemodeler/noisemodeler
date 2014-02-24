@@ -31,14 +31,14 @@ ModuleTypeQ::ModuleTypeQ(nm::ModuleType *moduleType, QObject *parent) :
     inputAddedCon = m_moduleType->inputAdded.connect([&](nm::ModuleInput&){
         inputsChanged();
     });
-    inputRemovedCon = m_moduleType->inputRemoved.connect([&](nm::ModuleInput&){
+    inputRemovedCon = m_moduleType->inputRemoved.connect([&](nm::ModuleType&){
         inputsChanged();
     });
 
     outputAddedCon = m_moduleType->outputAdded.connect([&](nm::ModuleOutput&){
         outputsChanged();
     });
-    outputRemovedCon = m_moduleType->outputRemoved.connect([&](nm::ModuleOutput&){
+    outputRemovedCon = m_moduleType->outputRemoved.connect([&](nm::ModuleType&){
         outputsChanged();
     });
 }

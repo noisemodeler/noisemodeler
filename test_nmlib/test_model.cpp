@@ -1,4 +1,5 @@
 #include <nmlib/model.hpp>
+#include <nmlib/util.hpp>
 
 #include <gtest/gtest.h>
 
@@ -11,61 +12,43 @@ TEST(ModelTest, SignalType){
     EXPECT_EQ(4, signalType.dimensionality);
 }
 
-TEST(ModelTest, BuiltinModuleType){
-    nm::ModuleType moduleType{"test", "testdescription"};
-    EXPECT_EQ("test", moduleType.getName());
-    EXPECT_EQ("testdescription", moduleType.getDescription());
+//tests if changes to the moduletype propagates to instantiated modules
+TEST(ModelTest, ModuleTypeToModulePropagation){
+    nm::ModuleType moduleType{"test"};
+    auto moduleInput = moduleType.addInput("testinput", nm::SignalType{3});
+    auto moduleOutput = moduleType.addOutput("testoutput", nm::SignalType{2});
+    nm::Module module{moduleType, "a"};
+    EXPECT_EQ(1, module.getInputSize());
+    EXPECT_EQ(1, module.getOutputSize());
+    auto input1 = module.getInput(0);
+    auto output1 = module.getOutput(0);
+    ASSERT_NE(nullptr, input1);
+    ASSERT_NE(nullptr, output1);
+    EXPECT_EQ("testinput", input1->getModuleInput().getName());
+    EXPECT_EQ("testoutput", output1->getModuleOutput().getName());
 
-    //inputs
-    moduleType.addInput("testinput", nm::SignalType{2});
-    auto input = moduleType.getInput("testinput");
-    ASSERT_NE(nullptr, input);
-    EXPECT_EQ("testinput", input->getName());
-    EXPECT_EQ(2, input->getSignalType().dimensionality);
+    EXPECT_EQ(true, moduleType.removeInput(moduleInput));
+    EXPECT_EQ(true, moduleType.removeOutput(moduleOutput));
+    EXPECT_EQ(0, module.getInputSize());
+    EXPECT_EQ(0, module.getOutputSize());
+    EXPECT_EQ(nullptr, module.getInput("testinput"));
+    EXPECT_EQ(nullptr, module.getOutput("testoutput"));
 
-    //outputs
-    moduleType.addOutput("testoutput", nm::SignalType{3});
-    auto output = moduleType.getOutput("testoutput");
-    ASSERT_NE(nullptr, output);
-    EXPECT_EQ("testoutput", output->getName());
-    EXPECT_EQ(3, output->getSignalType().dimensionality);
-}
-
-TEST(ModelTest, PrimitiveModuleTypeBasic){
-    //TODO why doesn't it work with a simple stack allocation?
-    std::unique_ptr<nm::ModuleType> moduleType{new nm::ModuleType("test", nm::ModuleType::Category::Primitive, "testdescription")};
-    EXPECT_EQ("test", moduleType->getName());
-    EXPECT_EQ("testdescription", moduleType->getDescription());
-    EXPECT_FALSE(moduleType->isComposite());
-    EXPECT_TRUE(moduleType->isPrimitive());
-}
-
-TEST(ModelTest, CompositeModuleTypeBasic){
-    //TODO why doesn't it work with a simple stack allocation?
-    std::unique_ptr<nm::ModuleType> moduleType{new nm::ModuleType("test", "testdescription")};
-    EXPECT_EQ("test", moduleType->getName());
-    EXPECT_EQ("testdescription", moduleType->getDescription());
-    EXPECT_TRUE(moduleType->isComposite());
-    EXPECT_FALSE(moduleType->isPrimitive());
-}
-
-TEST(ModelTest, CompositeModuleTypeInputAdding){
-    //TODO why doesn't it work with a simple stack allocation?
-    std::unique_ptr<nm::ModuleType> moduleType{new nm::ModuleType("test")};
-    ASSERT_TRUE(moduleType->isComposite());
-    moduleType->addInput("in1", nm::SignalType{1});
-    auto moduleInput = moduleType->getInput("in1");
-    EXPECT_EQ("in1", moduleInput->getName());
-    auto graph = moduleType->getGraph();
-    ASSERT_NE(nullptr, graph);
-    auto inputsModule = graph->getModule("inputs");
-    ASSERT_NE(nullptr, inputsModule);
-    EXPECT_NE(nullptr, inputsModule->getInput("in1"));
+    moduleType.addInput("testinput2", nm::SignalType{3});
+    moduleType.addOutput("testoutput2", nm::SignalType{3});
+    EXPECT_EQ(1, module.getInputSize());
+    EXPECT_EQ(1, module.getOutputSize());
+    auto input2 = module.getInput(0);
+    auto output2 = module.getOutput(0);
+    ASSERT_NE(nullptr, input2);
+    ASSERT_NE(nullptr, output2);
+    EXPECT_EQ("testinput2", input2->getModuleInput().getName());
+    EXPECT_EQ("testoutput2", output2->getModuleOutput().getName());
 }
 
 TEST(ModelTest, TopologicalTraversal){
     //create a simple test module type
-    std::unique_ptr<nm::ModuleType> moduleType{new nm::ModuleType("test", "testdescription")};
+    auto moduleType = make_unique<nm::ModuleType>("test", "testdescription");
     moduleType->addInput("in1", nm::SignalType{1});
     moduleType->addInput("in2", nm::SignalType{1});
     moduleType->addOutput("result", nm::SignalType{1});
@@ -95,16 +78,16 @@ TEST(ModelTest, TopologicalTraversal){
 
 TEST(ModelTest, ModuleDepthAndHeight){
     //create a simple test module type
-    std::unique_ptr<nm::ModuleType> moduleType{new nm::ModuleType("test", "testdescription")};
-    moduleType->addInput("in1", nm::SignalType{1});
-    moduleType->addInput("in2", nm::SignalType{1});
-    moduleType->addOutput("result", nm::SignalType{1});
+    nm::ModuleType moduleType{"test", "testdescription"};
+    moduleType.addInput("in1", nm::SignalType{1});
+    moduleType.addInput("in2", nm::SignalType{1});
+    moduleType.addOutput("result", nm::SignalType{1});
 
     //create some modules
-    nm::Module a(*moduleType, "a");
-    nm::Module b(*moduleType, "b");
-    nm::Module c(*moduleType, "c");
-    nm::Module d(*moduleType, "d");
+    nm::Module a(moduleType, "a");
+    nm::Module b(moduleType, "b");
+    nm::Module c(moduleType, "c");
+    nm::Module d(moduleType, "d");
 
     //connect them together. a is connected to b which is connected to both c and d
     a.getInput("in1")->link(*b.getOutput("result"));

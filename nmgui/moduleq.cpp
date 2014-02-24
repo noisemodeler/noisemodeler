@@ -25,13 +25,13 @@ ModuleQ::ModuleQ(nm::Module *module, QObject *p) :
     inputAddedCon = p_module->addedInputLink.connect([&](nm::Module&, nm::InputLink&){
         inputsChanged();
     });
-    inputRemovedCon = p_module->removedInputLink.connect([&](nm::Module&, nm::InputLink&){
+    inputRemovedCon = p_module->removedInputLink.connect([&](nm::Module&, const nm::ModuleInput&){
         inputsChanged();
     });
     outputAddedCon = p_module->addedOutputLink.connect([&](nm::Module&, nm::OutputLink&){
         outputsChanged();
     });
-    outputRemovedCon = p_module->removedOutputLink.connect([&](nm::Module&, nm::OutputLink&){
+    outputRemovedCon = p_module->removedOutputLink.connect([&](nm::Module&, const nm::ModuleOutput&){
         outputsChanged();
     });
 

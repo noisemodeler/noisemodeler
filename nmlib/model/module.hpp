@@ -35,13 +35,13 @@ public:
 
 
     //inputs
-    InputLink *getInput(std::string getName);
+    InputLink *getInput(std::string name);
     InputLink *getInput(unsigned int i);
     unsigned int getInputSize() const;
     std::vector<InputLink*> getInputs();
 
     //outputs
-    OutputLink *getOutput(std::string getName);
+    OutputLink *getOutput(std::string name);
     OutputLink *getOutput(unsigned int i);
     unsigned int getOutputSize() const;
     std::vector<OutputLink*> getOutputs();
@@ -68,9 +68,9 @@ public:
     signal<void (Module&, const std::string&)> descriptionChanged;
     signal<void (Module&)> destroying;
     signal<void (Module&, InputLink&)> addedInputLink;
-    signal<void (Module&, InputLink&)> removedInputLink; //TODO hook up
+    signal<void (Module&, const ModuleInput&)> removedInputLink; //TODO hook up
     signal<void (Module&, OutputLink&)> addedOutputLink;
-    signal<void (Module&, OutputLink&)> removedOutputLink; //TODO hook up
+    signal<void (Module&, const ModuleOutput&)> removedOutputLink; //TODO hook up
     signal<void (Module&)> dependenciesChanged;
 
     //static methods
@@ -80,6 +80,8 @@ public:
                                                   const std::set<InputLink*> &ignoreInputs = {});
 
 private:
+    bool removeInput(const ModuleInput& moduleInput);
+    bool removeOutput(const ModuleOutput& moduleOutput);
     void createInputLink(const ModuleInput& moduleInput);
     void createOutputLink(const ModuleOutput& moduleInput);
     const ModuleType& m_type;

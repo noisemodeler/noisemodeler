@@ -84,6 +84,18 @@ ModuleInput *ModuleType::addInput(std::string name, SignalType signalType)
     return m_inputs.back().get();
 }
 
+bool ModuleType::removeInput(ModuleInput *moduleInput)
+{
+    auto it = std::find_if(m_inputs.begin(), m_inputs.end(), [&](const std::unique_ptr<ModuleInput>& input){
+        return input.get() == moduleInput;
+    });
+    if(it==m_inputs.end())return false;
+    removingInput(**it);
+    m_inputs.erase(it);
+    inputRemoved(*this);
+    return true;
+}
+
 
 
 const ModuleOutput *ModuleType::getOutput(std::string name) const
@@ -124,6 +136,18 @@ ModuleOutput *ModuleType::addOutput(std::string name, SignalType signalType)
     }
     outputAdded(*m_outputs.back());
     return m_outputs.back().get();
+}
+
+bool ModuleType::removeOutput(ModuleOutput *moduleOutput)
+{
+    auto it = std::find_if(m_outputs.begin(), m_outputs.end(), [&](const std::unique_ptr<ModuleOutput>& output){
+        return output.get() == moduleOutput;
+    });
+    if(it==m_outputs.end())return false;
+    removingOutput(**it);
+    m_outputs.erase(it);
+    outputRemoved(*this);
+    return true;
 }
 
 ModuleOutput *ModuleType::exportInternalOutput(OutputLink &outputLink, std::string externalName)
