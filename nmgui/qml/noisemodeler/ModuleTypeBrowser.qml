@@ -34,7 +34,7 @@ Rectangle {
     }
     ListView {
         anchors.fill: parent
-        model: [ addModuleType, demuxModuleType ]
+        model: typeManager.builtinTypes
         delegate: moduleTypeEntry
         highlightMoveDuration: 0
         highlight: Rectangle {

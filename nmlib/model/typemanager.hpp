@@ -19,13 +19,22 @@ public:
     ~TypeManager();
     bool addUserType(std::unique_ptr<ModuleType> builder);
     const ModuleType *getType(std::string name) const;
-    ModuleType *getUserType(std::string name);
+    const ModuleType *getBuiltinType(std::string name) const;
+    const ModuleType *getUserType(std::string name) const;
+    ModuleType *getUserType(std::string name); //this is used to be able to edit usertypes
     void initBuiltinTypes();
+
+    //index accessors
+    unsigned int numBuiltinTypes() const { return m_builtinTypes.size(); }
+    const ModuleType *getBuiltinType(unsigned int index) const { return m_builtinTypes.at(index).get(); }
+
+    //signals
+    signal<void(TypeManager&)> destroying;
 
 private:
     void addBuiltinType(std::unique_ptr<const ModuleType> moduleType);
-    std::map<std::string, std::unique_ptr<ModuleType>> m_userTypes;
-    std::map<std::string, std::unique_ptr<const ModuleType>> m_builtinTypes;
+    std::vector<std::unique_ptr<ModuleType>> m_userTypes;
+    std::vector<std::unique_ptr<const ModuleType>> m_builtinTypes;
 
     static const ModuleType
     //1D only types

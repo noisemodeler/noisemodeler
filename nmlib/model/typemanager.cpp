@@ -19,6 +19,7 @@ TypeManager::TypeManager():
 
 TypeManager::~TypeManager()
 {
+    destroying(*this);
     //TODO empty all graphs
 //    for(auto &graphs : m_userTypes){
 //    }
@@ -30,24 +31,39 @@ bool TypeManager::addUserType(std::unique_ptr<ModuleType> moduleType)
         std::cerr << "Type already exists\n";
         return false;
     }
-    m_userTypes[moduleType->getName()] = std::move(moduleType);
+    m_userTypes.push_back(std::move(moduleType));
     return true;
 }
 
 const ModuleType *TypeManager::getType(std::string name) const
 {
-    auto it1 = m_builtinTypes.find(name);
-    if(it1 != end(m_builtinTypes)){
-        return it1->second.get();
-    }
-    auto it = m_userTypes.find(name);
-    return it != end(m_userTypes) ? it->second.get() : nullptr;
+    //try to find builtin first
+    auto builtin = getBuiltinType(name);
+    if(builtin != nullptr)return builtin;
+
+    //then search the user types
+    return getUserType(name);
+}
+
+const ModuleType *TypeManager::getBuiltinType(std::string name) const
+{
+    auto it = std::find_if(m_builtinTypes.begin(), m_builtinTypes.end(), [&](const std::unique_ptr<const ModuleType> &moduleType){
+        return moduleType->getName()==name;
+    });
+    return it != m_builtinTypes.end() ? it->get() : nullptr;
+}
+
+const ModuleType *TypeManager::getUserType(std::string name) const
+{
+    auto it = std::find_if(m_userTypes.begin(), m_userTypes.end(), [&](const std::unique_ptr<ModuleType> &moduleType){
+        return moduleType->getName()==name;
+    });
+    return it != m_userTypes.end() ? it->get() : nullptr;
 }
 
 ModuleType *TypeManager::getUserType(std::string name)
 {
-    auto it = m_userTypes.find(name);
-    return it != end(m_userTypes) ? it->second.get() : nullptr;
+    return const_cast<ModuleType*>(const_cast<const TypeManager&>(*this).getUserType(name));
 }
 
 namespace {
@@ -105,7 +121,7 @@ void TypeManager::initBuiltinTypes()
 
 void TypeManager::addBuiltinType(std::unique_ptr<const ModuleType> moduleType)
 {
-    m_builtinTypes[moduleType->getName()] = std::move(moduleType);
+    m_builtinTypes.push_back(std::move(moduleType));
 }
 
 } // namespace nm

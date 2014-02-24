@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     moduletypeq.cpp \
     moduleinputq.cpp \
     moduleoutputq.cpp \
-    graphq.cpp
+    graphq.cpp \
+    typemanagerq.cpp
 
 HEADERS += \
     texturerenderer.hpp \
@@ -39,7 +40,8 @@ HEADERS += \
     moduletypeq.hpp \
     moduleinputq.hpp \
     moduleoutputq.hpp \
-    graphq.hpp
+    graphq.hpp \
+    typemanagerq.hpp
 
 # Installation path
 # target.path =

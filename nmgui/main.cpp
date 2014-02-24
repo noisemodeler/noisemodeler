@@ -3,6 +3,7 @@
 #include "outputlinkq.hpp"
 #include "moduletypeq.hpp"
 #include "graphq.hpp"
+#include "typemanagerq.hpp"
 #include "texturerenderer.hpp"
 
 #include "beziercurve.hpp"
@@ -32,6 +33,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<nmgui::OutputLinkQ>("NoiseModeler", 1, 0, "OutputLink");
     qmlRegisterType<nmgui::ModuleTypeQ>("NoiseModeler", 1, 0, "ModuleType");
     qmlRegisterType<nmgui::GraphQ>("NoiseModeler", 1, 0, "Graph");
+    qmlRegisterType<nmgui::TypeManagerQ>("NoiseModeler", 1, 0, "TypeManager");
 
     //create mockup data
     nm::TypeManager typeManager;
@@ -60,8 +62,9 @@ int main(int argc, char *argv[])
 
     viewer.rootContext()->setContextProperty("mockGraph", mockGraph);
 
-    viewer.rootContext()->setContextProperty("addModuleType", nmgui::ModuleTypeQ::fromModuleType(*addModuleType));
-    viewer.rootContext()->setContextProperty("demuxModuleType", nmgui::ModuleTypeQ::fromModuleType(*demuxModuleType));
+//    viewer.rootContext()->setContextProperty("addModuleType", nmgui::ModuleTypeQ::fromModuleType(*addModuleType));
+//    viewer.rootContext()->setContextProperty("demuxModuleType", nmgui::ModuleTypeQ::fromModuleType(*demuxModuleType));
+    viewer.rootContext()->setContextProperty("typeManager", nmgui::TypeManagerQ::fromTypeManager(typeManager));
 
     viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));
     viewer.showExpanded();
