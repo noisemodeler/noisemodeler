@@ -38,32 +38,22 @@ int main(int argc, char *argv[])
     //create mockup data
     nm::TypeManager typeManager;
     typeManager.initBuiltinTypes();
-//    auto fbmModuleType = typeManager.getType("fbm");
-    auto addModuleType = typeManager.getType("add");
-    auto demuxModuleType = typeManager.getType("demux2");
     auto debugInputModuleType = typeManager.getType("debug_input");
     auto debugOutputModuleType = typeManager.getType("debug_output");
 
     nm::Graph graph{};
-    graph.createModule(*demuxModuleType, "demux");
-    graph.createModule(*addModuleType, "add");
     auto debugInputModule = graph.createModule(*debugInputModuleType, "debugInput");
     auto debugOutputModule = graph.createModule(*debugOutputModuleType, "debugOutput");
 
     //wrapping into QObjects
     auto debugInputModuleQ = nmgui::ModuleQ::fromModule(*debugInputModule);
     auto debugOutputModuleQ = nmgui::ModuleQ::fromModule(*debugOutputModule);
-
     auto mockGraph = nmgui::GraphQ::fromGraph(graph);
 
     QtQuick2ApplicationViewer viewer;
     viewer.rootContext()->setContextProperty("debugInput", debugInputModuleQ);
     viewer.rootContext()->setContextProperty("debugOutput", debugOutputModuleQ);
-
     viewer.rootContext()->setContextProperty("mockGraph", mockGraph);
-
-//    viewer.rootContext()->setContextProperty("addModuleType", nmgui::ModuleTypeQ::fromModuleType(*addModuleType));
-//    viewer.rootContext()->setContextProperty("demuxModuleType", nmgui::ModuleTypeQ::fromModuleType(*demuxModuleType));
     viewer.rootContext()->setContextProperty("typeManager", nmgui::TypeManagerQ::fromTypeManager(typeManager));
 
     viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));
