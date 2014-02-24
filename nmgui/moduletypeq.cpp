@@ -20,6 +20,27 @@ ModuleTypeQ::ModuleTypeQ(nm::ModuleType *moduleType, QObject *parent) :
         m_moduleType->setUserData(nullptr);
         m_moduleType = nullptr;
     });
+
+    nameChangedCon = m_moduleType->nameChanged.connect([&](nm::ModuleType&, const std::string&){
+        nameChanged();
+    });
+    descriptionChangedCon = m_moduleType->descriptionChanged.connect([&](nm::ModuleType&, const std::string&){
+        descriptionChanged();
+    });
+
+    inputAddedCon = m_moduleType->inputAdded.connect([&](nm::ModuleInput&){
+        inputsChanged();
+    });
+    inputRemovedCon = m_moduleType->inputRemoved.connect([&](nm::ModuleInput&){
+        inputsChanged();
+    });
+
+    outputAddedCon = m_moduleType->outputAdded.connect([&](nm::ModuleOutput&){
+        outputsChanged();
+    });
+    outputRemovedCon = m_moduleType->outputRemoved.connect([&](nm::ModuleOutput&){
+        outputsChanged();
+    });
 }
 
 ModuleTypeQ *ModuleTypeQ::fromModuleType(nm::ModuleType &moduleType)

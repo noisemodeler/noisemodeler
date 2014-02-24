@@ -30,6 +30,20 @@ ModuleType::ModuleType(std::string name, ModuleType::Category category, std::str
 
 ModuleType::~ModuleType(){destroying(*this);}
 
+void ModuleType::setName(std::string name)
+{
+    if(name==m_name)return;
+    m_name = std::move(name);
+    nameChanged(*this, m_name);
+}
+
+void ModuleType::setDescription(std::string description)
+{
+    if(description==m_description)return;
+    m_description = std::move(description);
+    descriptionChanged(*this, m_description);
+}
+
 const ModuleInput *ModuleType::getInput(std::string name) const
 {
     using namespace std;

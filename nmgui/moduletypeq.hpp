@@ -18,8 +18,8 @@ class ModuleOutputQ;
 class ModuleTypeQ : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name CONSTANT)
-    Q_PROPERTY(QString description READ description CONSTANT)
+    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleInputQ> inputs READ inputs NOTIFY inputsChanged)
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleOutputQ> outputs READ outputs NOTIFY outputsChanged)
 public:
@@ -35,8 +35,10 @@ public:
     nm::ModuleType* moduleType() const {return m_moduleType;}
 
 signals:
-    void inputsChanged(); //TODO connect
+    void inputsChanged();
     void outputsChanged();
+    void nameChanged();
+    void descriptionChanged();
 
 private:
 
@@ -49,6 +51,9 @@ private:
     static int outputsCount(QQmlListProperty<ModuleOutputQ> *list);
 
     boost::signals2::scoped_connection moduleTypeDestroyedConnection;
+    boost::signals2::scoped_connection inputAddedCon, outputAddedCon;
+    boost::signals2::scoped_connection inputRemovedCon, outputRemovedCon;
+    boost::signals2::scoped_connection nameChangedCon, descriptionChangedCon;
 };
 
 } // namespace nmgui

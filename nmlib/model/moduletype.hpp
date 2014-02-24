@@ -36,7 +36,9 @@ public:
     ~ModuleType();
 
     std::string getName() const { return m_name; }
+    void setName(std::string name);
     std::string getDescription() const { return m_description; }
+    void setDescription(std::string description);
     bool isBuiltin() const { return !isComposite(); } //subject to change (some builtins may become composites in the future
     bool isComposite() const { return m_category == Category::Composite; }
     bool isPrimitive() const { return m_category == Category::Primitive; } //consider if graphinput and graphoutput should be primitive as well?
@@ -77,6 +79,8 @@ public:
     //TODO enum and/or constant params
 
     //signals
+    signal<void(ModuleType&, const std::string&)> nameChanged;
+    signal<void(ModuleType&, const std::string&)> descriptionChanged;
     signal<void(ModuleInput&)> inputAdded;
     signal<void(ModuleInput&)> inputRemoved;
     signal<void(ModuleOutput&)> outputAdded;
