@@ -49,8 +49,14 @@ Rectangle {
             }
         }
     }
-    TexturePreview{}
 
+    TexturePreview{
+        id:texturePreview;
+        antialiasing: true
+        SelectionGlow {
+            anchors.fill: parent
+        }
+    }
     function autoArrangeWindows(){
         contents.x = 0;
         contents.y = 0;
