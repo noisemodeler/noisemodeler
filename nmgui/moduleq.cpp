@@ -21,6 +21,26 @@ ModuleQ::ModuleQ(nm::Module *module, QObject *p) :
     dependenciesChangedConnection = p_module->dependenciesChanged.connect([&](nm::Module&){
         dependenciesChanged();
     });
+
+    inputAddedCon = p_module->addedInputLink.connect([&](nm::Module&, nm::InputLink&){
+        inputsChanged();
+    });
+    inputRemovedCon = p_module->removedInputLink.connect([&](nm::Module&, nm::InputLink&){
+        inputsChanged();
+    });
+    outputAddedCon = p_module->addedOutputLink.connect([&](nm::Module&, nm::OutputLink&){
+        outputsChanged();
+    });
+    outputRemovedCon = p_module->removedOutputLink.connect([&](nm::Module&, nm::OutputLink&){
+        outputsChanged();
+    });
+
+    nameChangedCon = p_module->nameChanged.connect([&](nm::Module&, const std::string&){
+        nameChanged();
+    });
+    descriptionChangedCon = p_module->descriptionChanged.connect([&](nm::Module&, const std::string&){
+        descriptionChanged();
+    });
 }
 
 ModuleQ::ModuleQ(ModuleTypeQ &/*type*/, QObject */*parent*/)
@@ -47,6 +67,18 @@ void ModuleQ::setName(const QString &value)
 {
     if(value == name())return;
     p_module->setName(value.toUtf8().constData());
+}
+
+QString ModuleQ::description() const
+{
+    auto ss = p_module->getDescription();
+    return QString::fromUtf8(ss.data(), ss.size());
+}
+
+void ModuleQ::setDescription(const QString &value)
+{
+    if(value == description())return;
+    p_module->setDescription(value.toUtf8().constData());
 }
 
 ModuleTypeQ *ModuleQ::moduleType()

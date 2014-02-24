@@ -24,12 +24,15 @@ class ModuleOutput;
 class Module : public UserDataProvider
 {
 public:
-    explicit Module(const ModuleType &type, std::string name);
+    explicit Module(const ModuleType &type, std::string name, std::string description = "");
     virtual ~Module();
     const ModuleType& getType() const {return m_type;}
     const ModuleType& getType() {return m_type;}
     const std::string getName() const {return m_name;}
     void setName(std::string name);
+    const std::string getDescription() const {return m_description;}
+    void setDescription(std::string description);
+
 
     //inputs
     InputLink *getInput(std::string getName);
@@ -62,9 +65,12 @@ public:
 
     //signals
     signal<void (Module&, const std::string&)> nameChanged;
+    signal<void (Module&, const std::string&)> descriptionChanged;
     signal<void (Module&)> destroying;
     signal<void (Module&, InputLink&)> addedInputLink;
+    signal<void (Module&, InputLink&)> removedInputLink; //TODO hook up
     signal<void (Module&, OutputLink&)> addedOutputLink;
+    signal<void (Module&, OutputLink&)> removedOutputLink; //TODO hook up
     signal<void (Module&)> dependenciesChanged;
 
     //static methods
@@ -77,7 +83,7 @@ private:
     void createInputLink(const ModuleInput& moduleInput);
     void createOutputLink(const ModuleOutput& moduleInput);
     const ModuleType& m_type;
-    std::string m_name;
+    std::string m_name, m_description;
     std::vector<std::unique_ptr<InputLink>> m_inputs;
     std::vector<std::unique_ptr<OutputLink>> m_outputs;
 

@@ -10,9 +10,10 @@
 
 namespace nm {
 
-Module::Module(const ModuleType &type, std::string name):
+Module::Module(const ModuleType &type, std::string name, std::string description):
     m_type(type),
     m_name(name),
+    m_description(description),
     m_inputs(),
     m_outputs()
 {
@@ -44,6 +45,12 @@ Module::~Module()
 void Module::setName(std::string name){
     m_name=name;
     nameChanged(*this, m_name);
+}
+
+void Module::setDescription(std::string description)
+{
+    m_description=description;
+    descriptionChanged(*this, m_description);
 }
 
 InputLink *Module::getInput(std::string name)

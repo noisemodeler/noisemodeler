@@ -19,6 +19,7 @@ class ModuleQ : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
     Q_PROPERTY(QQmlListProperty<nmgui::InputLinkQ> inputs READ inputs NOTIFY inputsChanged)
     Q_PROPERTY(QQmlListProperty<nmgui::OutputLinkQ> outputs READ outputs NOTIFY outputsChanged)
     Q_PROPERTY(nmgui::ModuleTypeQ *moduleType READ moduleType CONSTANT)
@@ -30,6 +31,8 @@ public:
 
     QString name() const;
     void setName(const QString &value);
+    QString description() const;
+    void setDescription(const QString &value);
     ModuleTypeQ *moduleType();
 
     Q_INVOKABLE int getDepth(); //TODO rename to depth and make it property with a notifier
@@ -39,6 +42,7 @@ public:
 
 signals:
     void nameChanged();
+    void descriptionChanged();
     void inputsChanged();
     void outputsChanged();
     void dependenciesChanged();
@@ -52,8 +56,11 @@ private:
     static OutputLinkQ* outputAt(QQmlListProperty<OutputLinkQ> *list, int index);
     static int outputsCount(QQmlListProperty<OutputLinkQ> *list);
 
+    boost::signals2::scoped_connection nameChangedCon, descriptionChangedCon;
     boost::signals2::scoped_connection moduleDestroyedConnection;
     boost::signals2::scoped_connection dependenciesChangedConnection;
+    boost::signals2::scoped_connection inputAddedCon, inputRemovedCon;
+    boost::signals2::scoped_connection outputAddedCon, outputRemovedCon;
 
     nm::Module *p_module;
 };
