@@ -22,9 +22,10 @@ Rectangle {
                 text: modelData.name
                 verticalAlignment: Text.AlignVCenter
             }
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
+            ToolTipArea {
+                text: modelData.description
+                tip.x: parent.width + 10
+                tip.y: parent.height / 2 - tip.height/2
                 onPressed: {
                     row.ListView.view.currentIndex = index;
                 }

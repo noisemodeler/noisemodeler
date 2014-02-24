@@ -19,6 +19,7 @@ class ModuleTypeQ : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(QString description READ description CONSTANT)
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleInputQ> inputs READ inputs NOTIFY inputsChanged)
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleOutputQ> outputs READ outputs NOTIFY outputsChanged)
 public:
@@ -28,6 +29,7 @@ public:
     static ModuleTypeQ *fromModuleType(const nm::ModuleType &moduleType);
 
     QString name() const;
+    QString description() const;
     QQmlListProperty<ModuleInputQ> inputs();
     QQmlListProperty<ModuleOutputQ> outputs();
     nm::ModuleType* moduleType() const {return m_moduleType;}

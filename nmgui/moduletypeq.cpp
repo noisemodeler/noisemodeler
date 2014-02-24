@@ -40,6 +40,12 @@ QString ModuleTypeQ::name() const
     return QString::fromUtf8(ss.data(), ss.size());
 }
 
+QString ModuleTypeQ::description() const
+{
+    auto ss = m_moduleType->getDescription();
+    return QString::fromUtf8(ss.data(), ss.size());
+}
+
 QQmlListProperty<ModuleInputQ> ModuleTypeQ::inputs()
 {
     return QQmlListProperty<ModuleInputQ>(this, 0, nullptr, &ModuleTypeQ::inputsCount, &ModuleTypeQ::inputAt, nullptr);
