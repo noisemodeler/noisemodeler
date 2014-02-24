@@ -77,13 +77,96 @@ std::unique_ptr<const ModuleType> createFBM(){
     return std::move(moduleType);
 }
 
-std::unique_ptr<const ModuleType> createAdd(){
-    std::unique_ptr<ModuleType> moduleType{new ModuleType{"add", ModuleType::Category::Primitive, "result = lhs + rhs"}};
+//1D versions
+
+std::unique_ptr<const ModuleType> createAdd1(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"add1", ModuleType::Category::Primitive, "result = lhs + rhs"}};
     moduleType->addInput("lhs", SignalType{1});
     moduleType->addInput("rhs", SignalType{1});
     moduleType->addOutput("result", SignalType{1});
     return std::move(moduleType);
 }
+
+std::unique_ptr<const ModuleType> createSub1(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"sub1", ModuleType::Category::Primitive, "result = lhs - rhs"}};
+    moduleType->addInput("lhs", SignalType{1});
+    moduleType->addInput("rhs", SignalType{1});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
+std::unique_ptr<const ModuleType> createMul1(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"mul1", ModuleType::Category::Primitive, "result = lhs * rhs"}};
+    moduleType->addInput("lhs", SignalType{1});
+    moduleType->addInput("rhs", SignalType{1});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
+//2D modules
+
+std::unique_ptr<const ModuleType> createAdd2(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"add2", ModuleType::Category::Primitive, "result = lhs + rhs"}};
+    moduleType->addInput("lhs", SignalType{2});
+    moduleType->addInput("rhs", SignalType{2});
+    moduleType->addOutput("result", SignalType{2});
+    return std::move(moduleType);
+}
+
+std::unique_ptr<const ModuleType> createSub2(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"sub2", ModuleType::Category::Primitive, "result = lhs - rhs"}};
+    moduleType->addInput("lhs", SignalType{2});
+    moduleType->addInput("rhs", SignalType{2});
+    moduleType->addOutput("result", SignalType{2});
+    return std::move(moduleType);
+}
+
+std::unique_ptr<const ModuleType> createMul2(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"mul2", ModuleType::Category::Primitive, "result = lhs * rhs"}};
+    moduleType->addInput("lhs", SignalType{2});
+    moduleType->addInput("rhs", SignalType{2});
+    moduleType->addOutput("result", SignalType{2});
+    return std::move(moduleType);
+}
+
+std::unique_ptr<const ModuleType> createDemux2(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"demux2", ModuleType::Category::Primitive, "demultiplexes a 2D vector to two 1D vectors"}};
+    moduleType->addInput("m", SignalType{2});
+    moduleType->addOutput("x", SignalType{1});
+    moduleType->addOutput("y", SignalType{1});
+    return std::move(moduleType);
+}
+
+std::unique_ptr<const ModuleType> createMux2(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"mux2", ModuleType::Category::Primitive, "multiplexes two 1D vectors into a 2D vector"}};
+    moduleType->addInput("x", SignalType{1});
+    moduleType->addInput("y", SignalType{1});
+    moduleType->addOutput("m", SignalType{2});
+    return std::move(moduleType);
+}
+
+//3D modules
+
+std::unique_ptr<const ModuleType> createDemux3(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"demux3", ModuleType::Category::Primitive, "demultiplexes a 3D vector to three 1D vectors"}};
+    moduleType->addInput("m", SignalType{3});
+    moduleType->addOutput("x", SignalType{1});
+    moduleType->addOutput("y", SignalType{1});
+    moduleType->addOutput("z", SignalType{1});
+    return std::move(moduleType);
+}
+
+std::unique_ptr<const ModuleType> createMux3(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"mux3", ModuleType::Category::Primitive, "multiplexes three 1D vectors into a 3D vector"}};
+    moduleType->addInput("x", SignalType{1});
+    moduleType->addInput("y", SignalType{1});
+    moduleType->addInput("z", SignalType{1});
+    moduleType->addOutput("m", SignalType{3});
+    return std::move(moduleType);
+}
+
+
+//Debug modules
 
 std::unique_ptr<const ModuleType> createDebugInput(){
     std::unique_ptr<ModuleType> moduleType{new ModuleType{"debug_input", ModuleType::Category::Primitive, "preview pixel coordinates"}};
@@ -99,24 +182,32 @@ std::unique_ptr<const ModuleType> createDebugOutput(){
     return std::move(moduleType);
 }
 
-std::unique_ptr<const ModuleType> createDemux2(){
-    std::unique_ptr<ModuleType> moduleType{new ModuleType{"demux2", ModuleType::Category::Primitive, "demultiplexes a 2D vector to two 1D vectors"}};
-    moduleType->addInput("m", SignalType{2});
-    moduleType->addOutput("x", SignalType{1});
-    moduleType->addOutput("y", SignalType{1});
-    return std::move(moduleType);
-}
-
 }
 
 void TypeManager::initBuiltinTypes()
 {
-    addBuiltinType(createFBM());
-    addBuiltinType(createAdd());
+    //1D modules
+    addBuiltinType(createAdd1());
+    addBuiltinType(createSub1());
+    addBuiltinType(createMul1());
+
+    //2D modules
+    addBuiltinType(createAdd2());
+    addBuiltinType(createSub2());
+    addBuiltinType(createMul2());
+    addBuiltinType(createDemux2());
+    addBuiltinType(createMux2());
+
+    //3D modules
+    addBuiltinType(createDemux3());
+    addBuiltinType(createMux3());
+
+    //debug modules
     addBuiltinType(createDebugInput());
     addBuiltinType(createDebugOutput());
-    addBuiltinType(createDemux2());
-    //TODO
+
+    //MISC
+    addBuiltinType(createFBM());
 }
 
 void TypeManager::addBuiltinType(std::unique_ptr<const ModuleType> moduleType)
