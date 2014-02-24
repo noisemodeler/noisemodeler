@@ -74,7 +74,7 @@ QtObject {
         property variant disconnectedColors: [
             Qt.darker(connectedColors[0], 2.8),
             Qt.darker(connectedColors[1], 2.8),
-            Qt.darker(connectedColors[1], 2.8)
+            Qt.darker(connectedColors[2], 2.8)
         ]
         property int height: 20
     }
