@@ -16,7 +16,9 @@ Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
             Text {
-                anchors.fill: parent
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                x: 10
                 text: modelData.name
                 verticalAlignment: Text.AlignVCenter
             }
