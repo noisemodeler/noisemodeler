@@ -60,7 +60,6 @@ Rectangle {
         for(var i=0; i<contents.children.length; ++i){
             var node = contents.children[i];
             var depth = node.module.getDepth();
-            console.log(depth);
             if(!columns.hasOwnProperty(depth)){
                 columns[depth] = []
             }
