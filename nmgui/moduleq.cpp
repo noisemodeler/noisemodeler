@@ -17,7 +17,6 @@ ModuleQ::ModuleQ(nm::Module *module, QObject *p) :
         deleteLater();
         p_module->setUserData(nullptr);
         p_module = nullptr;
-//        delete this;
     });
     dependenciesChangedConnection = p_module->dependenciesChanged.connect([&](nm::Module&){
         dependenciesChanged();
