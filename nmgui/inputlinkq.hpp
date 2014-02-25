@@ -41,6 +41,7 @@ public slots:
 private:
     nm::InputLink *m_inputLink;
     boost::signals2::scoped_connection m_inputLinkDestroyingConnection;
+    boost::signals2::scoped_connection m_outputLinkChangedConnection;
 };
 
 } // namespace nmgui

@@ -17,6 +17,10 @@ InputLinkQ::InputLinkQ(nm::InputLink *inputLink, QObject *p) :
         m_inputLink->setUserData(nullptr);
         m_inputLink = nullptr;
     });
+
+    m_outputLinkChangedConnection = m_inputLink->linkChanged.connect([&](nm::InputLink&){
+        outputLinkChanged();
+    });
 }
 
 InputLinkQ::~InputLinkQ()

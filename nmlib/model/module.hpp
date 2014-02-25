@@ -46,6 +46,11 @@ public:
     unsigned int getOutputSize() const;
     std::vector<OutputLink*> getOutputs();
 
+    /**
+     * @brief disconnects module by unlinking all inputlinks outputlinks
+     */
+    void disconnect();
+
     //module graph convenience functions
     void traverseChildren(std::function<void (const Module &)> callback) const;
     void traverseParents(std::function<void(const Module&)> callback) const;

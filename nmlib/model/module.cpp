@@ -141,6 +141,16 @@ std::vector<OutputLink *> Module::getOutputs()
     return outputs;
 }
 
+void Module::disconnect()
+{
+    for(auto &inputLink : m_inputs){
+        inputLink->unlink();
+    }
+    for(auto &outputLink : m_outputs){
+        outputLink->unlinkAll();
+    }
+}
+
 void Module::traverseDescendants(std::function<void (Module &)> callback)
 {
     const_cast<const Module&>(*this).traverseDescendants([&](const Module& module){

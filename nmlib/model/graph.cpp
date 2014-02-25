@@ -45,6 +45,7 @@ std::unique_ptr<Module> Graph::removeModule(Module &module)
         return m.get() == &module;
     });
     if(it==m_modules.end())return {};
+    (*it)->disconnect(); //we don't want to leave dangling connections to this node
     auto modulePtr = std::move(*it);
     m_modules.erase(it);
     moduleRemoved(*this, *modulePtr, it - m_modules.begin());
