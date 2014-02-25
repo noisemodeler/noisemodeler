@@ -153,6 +153,14 @@ std::unique_ptr<const ModuleType> createMux2(){
     return std::move(moduleType);
 }
 
+
+std::unique_ptr<const ModuleType> createNoise2(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"noise2", ModuleType::Category::Primitive, "2D noise (implementation defined)"}};
+    moduleType->addInput("pos", SignalType{2});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
 //3D modules
 
 std::unique_ptr<const ModuleType> createDemux3(){
@@ -206,6 +214,7 @@ void TypeManager::initBuiltinTypes()
     addBuiltinType(createMul2());
     addBuiltinType(createDemux2());
     addBuiltinType(createMux2());
+    addBuiltinType(createNoise2());
 
     //3D modules
     addBuiltinType(createDemux3());

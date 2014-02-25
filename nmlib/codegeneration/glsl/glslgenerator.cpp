@@ -3,6 +3,8 @@
 #include <nmlib/codegeneration/simplebodygenerator.hpp>
 #include <nmlib/codegeneration/compositemodulegenerator.hpp>
 
+#include <nmlib/codegeneration/glsl/glslsourcenoise2d.hpp>
+
 #include <sstream>
 
 namespace nm {
@@ -12,6 +14,9 @@ std::string GlslGenerator::compileToGlslFunction(InputLink &inputLink, OutputLin
 {
     std::stringstream sl;
     GlslGenerator generator;
+
+    sl << source_noise2d;
+
     auto posId = "pos_"+generator.getUniqueId();
     auto heightId = "height_"+generator.getUniqueId();
 
@@ -111,6 +116,10 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
     } else if (moduleTypeName == "mux2") {
         body.reset(new SimpleBodyGenerator(
             "vec2 m = vec2(x, y);\n"
+        ));
+    } else if (moduleTypeName == "noise2") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = snoise(pos);\n"
         ));
 
     //3D modules
