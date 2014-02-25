@@ -13,7 +13,7 @@ ModuleType::ModuleType(std::string name, std::string description):
 ModuleType::ModuleType(std::string name, ModuleType::Category category, std::string description):
     m_name(name),
     m_description(description),
-    m_removable(category==Category::GraphInput || category == Category::GraphOutput),
+    m_removable(category!=Category::GraphInput && category != Category::GraphOutput),
     m_category(category),
     m_inputs(),
     m_outputs(),
