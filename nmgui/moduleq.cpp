@@ -14,10 +14,10 @@ ModuleQ::ModuleQ(nm::Module *module, QObject *p) :
     Q_ASSERT(p_module!=nullptr);
     p_module->setUserData(this);
     moduleDestroyedConnection = p_module->destroying.connect([&](nm::Module&){
-//        deleteLater();
+        deleteLater();
         p_module->setUserData(nullptr);
         p_module = nullptr;
-        delete this;
+//        delete this;
     });
     dependenciesChangedConnection = p_module->dependenciesChanged.connect([&](nm::Module&){
         dependenciesChanged();

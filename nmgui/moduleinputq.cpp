@@ -16,6 +16,7 @@ ModuleInputQ::ModuleInputQ(nm::ModuleInput *moduleInput, QObject *parent) :
         deleteLater();
         m_moduleInput->setUserData(nullptr);
         m_moduleInput = nullptr;
+//        delete this;
     });
 }
 

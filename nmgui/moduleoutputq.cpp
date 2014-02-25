@@ -16,6 +16,7 @@ ModuleOutputQ::ModuleOutputQ(nm::ModuleOutput *moduleOutput, QObject *parent) :
         deleteLater();
         m_moduleOutput->setUserData(nullptr);
         m_moduleOutput = nullptr;
+//        delete this;
     });
 }
 

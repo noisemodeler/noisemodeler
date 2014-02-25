@@ -25,6 +25,7 @@ OutputLinkQ::OutputLinkQ(nm::OutputLink* outputLink, QObject *theParent) :
     m_outputLinkDestroyingConnection = m_outputLink->destroying.connect([&](nm::OutputLink&){
         deleteLater();
         m_outputLink->setUserData(nullptr);
+        m_outputLink = nullptr;
     });
 }
 

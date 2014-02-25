@@ -47,8 +47,8 @@ Rectangle {
             nodeDelegate.createObject(contents, {"module":module});
         }
         function onModuleRemoved(name, index){
-            children[index].module = null;
-            children[index].destroy();
+//            children[index].module = null;
+//            children[index].destroy();
 //            gc();
         }
 
