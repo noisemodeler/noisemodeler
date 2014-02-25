@@ -43,7 +43,7 @@ import QtQuick 2.0
 
 Item {
     id: rootItem
-    property real glowRadius: 10
+    property real glowRadius: 5
     property real spread: 0.2
     property color color: "powderblue"
     property real cornerRadius: glowRadius

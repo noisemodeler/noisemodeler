@@ -11,6 +11,12 @@ Rectangle {
             drag.target:contents
             acceptedButtons: Qt.RightButton | Qt.MiddleButton
     }
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.LeftButton
+        onPressed: graphEditor.focus = true;
+    }
+
     onGraphChanged: {
         //TODO disconnect old signal
         graph.onModulesChanged.connect(contents.updateContents);

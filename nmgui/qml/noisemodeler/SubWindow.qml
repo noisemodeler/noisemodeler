@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.2
 
 Rectangle {
     id: subWindow
@@ -13,7 +13,7 @@ Rectangle {
     property alias titleBar: titleBar
     property alias contents: contents
     property int borderThickness: 0
-    property bool selected: false
+    property bool selected: activeFocus
     SelectionGlow {
         id:selectionGlow
         anchors.fill: parent
@@ -40,7 +40,7 @@ Rectangle {
         id: windowMouseArea
         anchors.fill: subWindow
         drag.target: subWindow
-        onClicked: selected = !selected;
+        onPressed: subWindow.focus = true;
 //        drag.minimumY: subWindow.titleHeight
 //        drag.minimumX: 0
 //        drag.maximumX: subWindow.parent.width - subWindow.width
