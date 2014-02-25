@@ -67,6 +67,11 @@ QString ModuleTypeQ::description() const
     return QString::fromUtf8(ss.data(), ss.size());
 }
 
+bool ModuleTypeQ::removable() const
+{
+    return m_moduleType->isRemovable();
+}
+
 QQmlListProperty<ModuleInputQ> ModuleTypeQ::inputs()
 {
     return QQmlListProperty<ModuleInputQ>(this, 0, nullptr, &ModuleTypeQ::inputsCount, &ModuleTypeQ::inputAt, nullptr);
