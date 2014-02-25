@@ -21,12 +21,14 @@ GraphQ::GraphQ(nm::Graph *graph, QObject *parent) :
         m_graph = nullptr;
     });
 
-    m_moduleAddedConnection = m_graph->moduleAdded.connect([&](nm::Graph&, nm::Module&){
+    m_moduleAddedConnection = m_graph->moduleAdded.connect([&](nm::Graph&, nm::Module &module, unsigned int index){
+        moduleAdded(ModuleQ::fromModule(module)->name(), index);
         modulesChanged();
     });
-    m_moduleRemovedConnection = m_graph->moduleRemoved.connect([&](nm::Graph&, nm::Module&){
+    m_moduleRemovedConnection = m_graph->moduleRemoved.connect([&](nm::Graph&, nm::Module &module, unsigned int index){
+        moduleRemoved(ModuleQ::fromModule(module)->name(), index);
         modulesChanged();
-});
+    });
 }
 
 GraphQ *GraphQ::fromGraph(nm::Graph &graph)
@@ -49,6 +51,11 @@ void GraphQ::createModule(ModuleTypeQ *type, QString name)
 void GraphQ::createModule(ModuleTypeQ *type)
 {
     m_graph->createModule(*type->moduleType());
+}
+
+void GraphQ::removeModule(ModuleQ *module)
+{
+    m_graph->removeModule(*module->module());
 }
 
 ModuleQ *GraphQ::moduleAt(QQmlListProperty<ModuleQ> *list, int index)

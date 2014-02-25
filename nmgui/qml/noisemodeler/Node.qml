@@ -37,4 +37,17 @@ SubWindow {
             }
         }
     ]
+    function deleteNode(){
+        if(!module.moduleType.removable)return;
+        console.log("deleting node");
+        //TODO really delete node, don't just fake it!
+//        node.destroy();
+        graph.removeModule(node.module);
+    }
+
+    Keys.onPressed: {
+        if(event.key === Qt.Key_Delete || event.key === Qt.Key_Backspace){
+            deleteNode();
+        }
+    }
 }

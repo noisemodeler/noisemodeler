@@ -116,7 +116,7 @@ TEST(ModelTest, GraphSimple){
     EXPECT_EQ(module, graph.getModule("test_1"));
     EXPECT_EQ(module, graph.getModule(0));
     bool touched = false;
-    graph.moduleRemoved.connect([&](nm::Graph&, nm::Module& cbModule){
+    graph.moduleRemoved.connect([&](nm::Graph&, nm::Module& cbModule, unsigned int){
         EXPECT_EQ(module, &cbModule);
         touched = true;
     });

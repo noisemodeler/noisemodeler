@@ -11,6 +11,12 @@ ModuleOutputQ::ModuleOutputQ(nm::ModuleOutput *moduleOutput, QObject *parent) :
     Q_ASSERT(m_moduleOutput!=nullptr);
     Q_ASSERT(m_moduleOutput->getUserData()==nullptr);
     m_moduleOutput->setUserData(this);
+
+    moduleOutputDestroyingConnection = m_moduleOutput->destroying.connect([&](nm::ModuleOutput &){
+        deleteLater();
+        m_moduleOutput->setUserData(nullptr);
+        m_moduleOutput = nullptr;
+    });
 }
 
 ModuleOutputQ *ModuleOutputQ::fromModuleOutput(nm::ModuleOutput &moduleOutput)

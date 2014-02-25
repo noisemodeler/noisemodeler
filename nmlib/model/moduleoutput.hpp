@@ -4,6 +4,8 @@
 #include <nmlib/model/signaltype.hpp>
 #include <nmlib/util/userdataprovider.hpp>
 
+#include <nmlib/util/signals.hpp>
+
 #include <string>
 
 namespace nm {
@@ -21,11 +23,15 @@ public:
         c_signalType(signalType),
         c_moduleType(moduleType)
     {}
+    ~ModuleOutput(){destroying(*this);}
 //    ModuleOutput(ModuleOutput&&) = default;
 //    ModuleOutput(ModuleOutput&) = default;
 
     std::string getName() const {return c_name;}
     const SignalType &getSignalType() const {return c_signalType;}
+
+    signal<void(ModuleOutput&)> destroying;
+
 private:
     const std::string c_name;
     const SignalType c_signalType;

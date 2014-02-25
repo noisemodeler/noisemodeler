@@ -1,6 +1,8 @@
 #ifndef NMGUI_MODULEOUTPUTQ_HPP
 #define NMGUI_MODULEOUTPUTQ_HPP
 
+#include <nmlib/util/signals.hpp>
+
 #include <QObject>
 
 namespace nm {
@@ -21,6 +23,8 @@ public:
 
 private:
     nm::ModuleOutput* m_moduleOutput;
+
+    boost::signals2::scoped_connection moduleOutputDestroyingConnection;
 };
 
 } // namespace nmgui

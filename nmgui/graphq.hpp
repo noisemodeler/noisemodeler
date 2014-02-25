@@ -27,9 +27,12 @@ public:
 
     Q_INVOKABLE void createModule(nmgui::ModuleTypeQ *type, QString name);
     Q_INVOKABLE void createModule(nmgui::ModuleTypeQ *type);
+    Q_INVOKABLE void removeModule(nmgui::ModuleQ *module);
 
 signals:
     void modulesChanged();
+    void moduleAdded(QString name, unsigned int index);
+    void moduleRemoved(QString name, unsigned int index);
 
 private:
     nm::Graph *m_graph;

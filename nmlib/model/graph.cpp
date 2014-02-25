@@ -14,7 +14,7 @@ bool Graph::addModule(std::unique_ptr<Module> module)
 {
     //TODO check for name conflicts
     m_modules.push_back(std::move(module));
-    moduleAdded(*this, *module);
+    moduleAdded(*this, *m_modules.back(), m_modules.size()-1);
     return true;
 }
 
@@ -47,7 +47,7 @@ std::unique_ptr<Module> Graph::removeModule(Module &module)
     if(it==m_modules.end())return {};
     auto modulePtr = std::move(*it);
     m_modules.erase(it);
-    moduleRemoved(*this, *modulePtr);
+    moduleRemoved(*this, *modulePtr, it - m_modules.begin());
     return std::move(modulePtr);
 }
 

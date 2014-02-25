@@ -34,6 +34,7 @@ public:
     QString description() const;
     void setDescription(const QString &value);
     ModuleTypeQ *moduleType();
+    nm::Module *module() { return p_module; }
 
     Q_INVOKABLE int getDepth(); //TODO rename to depth and make it property with a notifier
 

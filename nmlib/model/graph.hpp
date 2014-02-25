@@ -28,8 +28,8 @@ public:
 
     //signals
     signal<void(Graph&)> destroying;
-    signal<void(Graph&, Module&)> moduleAdded;
-    signal<void(Graph&, Module&)> moduleRemoved;
+    signal<void(Graph&, Module&, unsigned int)> moduleAdded;
+    signal<void(Graph&, Module&, unsigned int)> moduleRemoved;
 
 private:
     std::vector<std::unique_ptr<Module>> m_modules;

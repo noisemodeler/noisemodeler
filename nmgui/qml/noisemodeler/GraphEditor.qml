@@ -6,6 +6,7 @@ Rectangle {
     color: mystyle.graphEditor.bgColor
     property alias contents: contents
     property Graph graph
+
     MouseArea {
             anchors.fill: parent
             drag.target:contents
@@ -20,6 +21,8 @@ Rectangle {
     onGraphChanged: {
         //TODO disconnect old signal
         graph.onModulesChanged.connect(contents.updateContents);
+        graph.onModuleRemoved.connect(contents.onModuleRemoved);
+        graph.onModuleAdded.connect(contents.addNode);
     }
     Component.onCompleted: contents.updateContents();
 
@@ -39,6 +42,16 @@ Rectangle {
 //            }
 //            onItemAdded: console.log("added");
 //        }
+        function addNode(name, index){
+            var module = graph.modules[index];
+            nodeDelegate.createObject(contents, {"module":module});
+        }
+        function onModuleRemoved(name, index){
+            children[index].module = null;
+            children[index].destroy();
+//            gc();
+        }
+
         function updateContents(){
             for(var i=0; i<graph.modules.length; ++i){
                 var module = graph.modules[i];
@@ -49,7 +62,7 @@ Rectangle {
 //                        console.log("skipping unknown stuff")
                     }
                 } else {
-                    nodeDelegate.createObject(contents, {"module":module});
+                    addNode(module.name, i);
                 }
 
             }
