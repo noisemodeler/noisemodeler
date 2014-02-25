@@ -1,5 +1,6 @@
-import QtQuick 2.0
+import QtQuick 2.2
 import NoiseModeler 1.0
+import QtQuick.Layouts 1.1
 
 SubWindow {
     windowTitle: "texture preview"
@@ -18,11 +19,50 @@ SubWindow {
                 running: true
             }
         },
-
-        LineInput {
+        GridLayout {
             anchors.top: textureRenderer.bottom
-            text:"test"
-            id: lineInput
+            columns: 4
+            Text {
+                text: "X:"
+            }
+            LineInput {
+                text:"0"
+                validator: DoubleValidator{}
+                onNewAcceptableValue: {
+                    textureRenderer.domain.x = parseFloat(text);
+                }
+            }
+            Text {
+                text: "width:"
+            }
+            LineInput {
+                text:"100"
+                validator: DoubleValidator{}
+                onNewAcceptableValue: {
+                    textureRenderer.domain.width = parseFloat(text);
+                }
+            }
+            Text {
+                text: "Y:"
+            }
+            LineInput {
+                text:"0"
+                validator: DoubleValidator{}
+                 onNewAcceptableValue: {
+                    textureRenderer.domain.y = parseFloat(text);
+                }
+           }
+            Text {
+                text: "height:"
+            }
+            LineInput {
+                text:"100"
+                validator: DoubleValidator{}
+                onNewAcceptableValue: {
+                    textureRenderer.domain.height = parseFloat(text);
+                }
+            }
+
         }
     ]
 }
