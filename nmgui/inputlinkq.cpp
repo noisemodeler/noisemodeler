@@ -59,7 +59,11 @@ OutputLinkQ *InputLinkQ::outputLink()
 void InputLinkQ::outputLink(OutputLinkQ *value)
 {
     if(value == outputLink())return;
-    m_inputLink->link(value->outputLink());
+    if(value == nullptr){
+        m_inputLink->unlink();
+    } else {
+        m_inputLink->link(value->outputLink());
+    }
     emit outputLinkChanged();
 }
 

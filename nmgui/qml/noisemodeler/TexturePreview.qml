@@ -21,9 +21,10 @@ SubWindow {
         },
         GridLayout {
             anchors.top: textureRenderer.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
             columns: 4
             Text {
-                text: "X:"
+                text: "x:"
             }
             LineInput {
                 text:"0"
@@ -36,14 +37,14 @@ SubWindow {
                 text: "width:"
             }
             LineInput {
-                text:"100"
+                text:"1"
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
                     textureRenderer.domain.width = parseFloat(text);
                 }
             }
             Text {
-                text: "Y:"
+                text: "y:"
             }
             LineInput {
                 text:"0"
@@ -56,7 +57,7 @@ SubWindow {
                 text: "height:"
             }
             LineInput {
-                text:"100"
+                text:"1"
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
                     textureRenderer.domain.height = parseFloat(text);

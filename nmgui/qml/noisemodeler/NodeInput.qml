@@ -31,6 +31,12 @@ Item {
                 curve.otherConnector = nodeOutput.connector;
             }
         }
+        MouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.LeftButton
+            onPressed: model.outputLink = null
+        }
+
         WeightedAngleCurve{
             property Connector otherConnector
             id: curve
