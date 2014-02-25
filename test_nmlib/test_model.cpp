@@ -126,4 +126,19 @@ TEST(ModelTest, GraphSimple){
     EXPECT_EQ(0, graph.numModules());
 }
 
+TEST(ModelTest, LinkUnlinkAll){
+    nm::ModuleType moduleType{"test", "testdescription"};
+    moduleType.addInput("in1", nm::SignalType{1});
+    moduleType.addOutput("out1", nm::SignalType{1});
+    nm::Module a{moduleType, "a"}, b{moduleType, "b"};
+    EXPECT_EQ(nullptr, a.getOutput(0)->getLink(0));
+    EXPECT_EQ(nullptr, a.getInput(0)->getOutputLink());
+    a.getInput(0)->link(*b.getOutput(0));
+    EXPECT_EQ(b.getOutput(0), a.getInput(0)->getOutputLink());
+    EXPECT_EQ(a.getInput(0), b.getOutput(0)->getLink(0));
+    b.getOutput(0)->unlinkAll();
+    EXPECT_EQ(nullptr, a.getInput(0)->getOutputLink());
+    EXPECT_EQ(nullptr, b.getOutput(0)->getLink(0));
+}
+
 }

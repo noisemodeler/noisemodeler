@@ -26,6 +26,7 @@ bool OutputLink::addLink(InputLink &input)
 
 bool OutputLink::unlink(InputLink *input)
 {
+    input->unlink();
     auto it = std::find(begin(m_inputLinks), end(m_inputLinks), input);
     if(it==m_inputLinks.end())return false;
     m_inputLinks.erase(it);
@@ -36,8 +37,9 @@ bool OutputLink::unlink(InputLink *input)
 void OutputLink::unlinkAll()
 {
     if(m_inputLinks.empty())return;
-    m_inputLinks.clear();
-    linksChanged(*this);
+    for(auto &inputLink : m_inputLinks){
+        unlink(inputLink);
+    }
 }
 
 InputLink *OutputLink::getLink(unsigned int index) {
