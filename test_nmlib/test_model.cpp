@@ -106,4 +106,24 @@ TEST(ModelTest, ModuleDepthAndHeight){
 
 }
 
+TEST(ModelTest, GraphSimple){
+    nm::ModuleType moduleType{"test", "testdescription"};
+    nm::Graph graph;
+    EXPECT_EQ(0, graph.numModules());
+    auto module = graph.createModule(moduleType);
+    ASSERT_NE(nullptr, module);
+    EXPECT_EQ(1, graph.numModules());
+    EXPECT_EQ(module, graph.getModule("test_1"));
+    EXPECT_EQ(module, graph.getModule(0));
+    bool touched = false;
+    graph.moduleRemoved.connect([&](nm::Graph&, nm::Module& cbModule){
+        EXPECT_EQ(module, &cbModule);
+        touched = true;
+    });
+    auto moduleUP = graph.removeModule(*module);
+    EXPECT_EQ(module, moduleUP.get());
+    EXPECT_EQ(true, touched);
+    EXPECT_EQ(0, graph.numModules());
+}
+
 }

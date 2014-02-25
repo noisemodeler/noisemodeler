@@ -39,8 +39,21 @@ Module *Graph::createModule(const ModuleType &type)
     return createModule(type, name);
 }
 
+std::unique_ptr<Module> Graph::removeModule(Module &module)
+{
+    auto it = std::find_if(m_modules.begin(), m_modules.end(), [&](const std::unique_ptr<Module> &m){
+        return m.get() == &module;
+    });
+    if(it==m_modules.end())return {};
+    auto modulePtr = std::move(*it);
+    m_modules.erase(it);
+    moduleRemoved(*this, *modulePtr);
+    return std::move(modulePtr);
+}
+
 void Graph::clearModules()
 {
+    //TODO some nodes can't be removed!
     m_modules.clear();
 }
 
