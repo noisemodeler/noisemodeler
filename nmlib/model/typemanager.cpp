@@ -111,6 +111,13 @@ std::unique_ptr<const ModuleType> createMod(){
     return std::move(moduleType);
 }
 
+std::unique_ptr<const ModuleType> createAbs(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"abs", ModuleType::Category::Primitive, "absolute value"}};
+    moduleType->addInput("source", SignalType{1});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
 //2D modules
 
 std::unique_ptr<const ModuleType> createAdd2(){
@@ -207,6 +214,7 @@ void TypeManager::initBuiltinTypes()
     addBuiltinType(createSub1());
     addBuiltinType(createMul1());
     addBuiltinType(createMod());
+    addBuiltinType(createAbs());
 
     //2D modules
     addBuiltinType(createAdd2());

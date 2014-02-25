@@ -94,6 +94,10 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
         body.reset(new SimpleBodyGenerator(
             "float result = mod(dividend, divisor);\n"
         ));
+    } else if (moduleTypeName == "abs") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = abs(source);\n"
+        ));
 
     //2D modules
     } else if (moduleTypeName == "add2") {
