@@ -67,16 +67,6 @@ ModuleType *TypeManager::getUserType(std::string name)
 }
 
 namespace {
-
-std::unique_ptr<const ModuleType> createFBM(){
-    std::unique_ptr<ModuleType> moduleType{new ModuleType{"fbm", ModuleType::Category::Primitive, "fractional brownian motion"}};
-    moduleType->addInput("pos", SignalType{2});
-    moduleType->addInput("gain", SignalType{1});
-    moduleType->addInput("lacunarity", SignalType{1});
-    moduleType->addOutput("result", SignalType{1});
-    return std::move(moduleType);
-}
-
 //1D versions
 
 std::unique_ptr<const ModuleType> createAdd1(){
@@ -168,6 +158,15 @@ std::unique_ptr<const ModuleType> createNoise2(){
     return std::move(moduleType);
 }
 
+std::unique_ptr<const ModuleType> createFbm2D(){
+    std::unique_ptr<ModuleType> moduleType{new ModuleType{"fbm2", ModuleType::Category::Primitive, "fractional brownian motion"}};
+    moduleType->addInput("pos", SignalType{2});
+    moduleType->addInput("lacunarity", SignalType{1});
+    moduleType->addInput("gain", SignalType{1});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
 //3D modules
 
 std::unique_ptr<const ModuleType> createDemux3(){
@@ -223,6 +222,7 @@ void TypeManager::initBuiltinTypes()
     addBuiltinType(createDemux2());
     addBuiltinType(createMux2());
     addBuiltinType(createNoise2());
+    addBuiltinType(createFbm2D());
 
     //3D modules
     addBuiltinType(createDemux3());
@@ -231,9 +231,6 @@ void TypeManager::initBuiltinTypes()
     //debug modules
     addBuiltinType(createDebugInput());
     addBuiltinType(createDebugOutput());
-
-    //MISC
-    addBuiltinType(createFBM());
 }
 
 void TypeManager::addBuiltinType(std::unique_ptr<const ModuleType> moduleType)

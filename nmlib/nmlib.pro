@@ -64,4 +64,5 @@ HEADERS = \
     codegeneration/functioncallbodygenerator.hpp \
     codegeneration/glsl/glslgenerator.hpp \
     model/graph.hpp \
-    codegeneration/glsl/glslsourcenoise2d.hpp
+    codegeneration/glsl/glslsourcenoise2d.hpp \
+    codegeneration/glsl/glslsourcefbm.hpp

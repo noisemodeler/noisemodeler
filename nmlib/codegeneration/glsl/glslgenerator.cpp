@@ -4,6 +4,7 @@
 #include <nmlib/codegeneration/compositemodulegenerator.hpp>
 
 #include <nmlib/codegeneration/glsl/glslsourcenoise2d.hpp>
+#include <nmlib/codegeneration/glsl/glslsourcefbm.hpp>
 
 #include <sstream>
 
@@ -16,6 +17,7 @@ std::string GlslGenerator::compileToGlslFunction(InputLink &inputLink, OutputLin
     GlslGenerator generator;
 
     sl << source_noise2d;
+    sl << source_fbm2d;
 
     auto posId = "pos_"+generator.getUniqueId();
     auto heightId = "height_"+generator.getUniqueId();
@@ -124,6 +126,11 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
     } else if (moduleTypeName == "noise2") {
         body.reset(new SimpleBodyGenerator(
             "float result = snoise(pos);\n"
+        ));
+    } else if (moduleTypeName == "fbm2") {
+        //TODO hook up lacunarity and gain
+        body.reset(new SimpleBodyGenerator(
+            "float result = fbm2d(pos, 5, 2, 0.5);\n"
         ));
 
     //3D modules
