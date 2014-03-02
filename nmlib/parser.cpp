@@ -240,7 +240,7 @@ optional<std::unique_ptr<TypeManager> > Parser::parseDocument(std::string input)
         return {};
     }
 
-    std::unique_ptr<TypeManager> typeManager{new TypeManager{}};
+    auto typeManager = make_unique<TypeManager>();
     typeManager->initBuiltinTypes();
     if(!parseModuleTypeArray(moduleTypes, *(typeManager.get()))){
         return {};
