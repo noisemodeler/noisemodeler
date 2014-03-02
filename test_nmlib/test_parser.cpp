@@ -77,7 +77,7 @@ TEST(ParserTest, OneModuleType){
 
         auto fbmmodule = graph->getModule("fbm1");
         ASSERT_NE(nullptr, fbmmodule);
-        EXPECT_EQ("fbm", fbmmodule->getType().getName());
+        EXPECT_EQ("fbm2", fbmmodule->getType().getName());
 
         //check that it's connected to the input
         auto posInputLink = fbmmodule->getInput("pos");
