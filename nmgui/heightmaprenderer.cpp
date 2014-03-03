@@ -1,4 +1,4 @@
-#include "heightmaprenderer.h"
+#include "heightmaprenderer.hpp"
 
 #include "moduleq.hpp"
 
@@ -88,12 +88,10 @@ void HeightMapRenderer::compileProgram()
                                        "void main() {\n"
                                        "    gl_Position = vertices;\n"
                                        "    coords = vertices.xy*vec2(0.5,0.5)*domain.zw+vec2(0.5,0.5)+domain.xy;\n"
-//                                       "    coords = vec2(domain.x,10);\n"
                                        "}\n");
     std::stringstream fs;
     fs << "#version 130\n";
 
-//    fs << "float test(vec2 coords){return 0.5*coords.x;}";
     fs << m_thread_generatorFunctionSource;
 
     fs << "uniform lowp float t;\n"
@@ -102,7 +100,6 @@ void HeightMapRenderer::compileProgram()
           "    float height;\n"
           "    test(coords, height);\n"
           "    gl_FragColor = vec4(height, height, height, 1);\n"
-//          "    gl_FragColor = vec4(coords.x, coords.y, 1, 1);\n"
           "}\n";
     m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fs.str().c_str());
 
@@ -122,10 +119,6 @@ void HeightMapRenderer::paint()
     m_program->enableAttributeArray(0);
 
    float values[] = {
-//        left, top,
-//        right, top,
-//        left,  bottom,
-//        right, bottom
         -1,-1,
          1,-1,
         -1, 1,

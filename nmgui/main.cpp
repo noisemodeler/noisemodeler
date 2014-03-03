@@ -5,6 +5,7 @@
 #include "graphq.hpp"
 #include "typemanagerq.hpp"
 #include "texturerenderer.hpp"
+#include "heightmaprenderer.hpp"
 
 #include "beziercurve.hpp"
 
@@ -28,6 +29,7 @@ int main(int argc, char *argv[])
     //but that makes it impossible to have strong typing of qml members, we'd have to use
     //variant instead. For that reason, we'll sacrifice the encapsulation in c++ for type safety in qml
     qmlRegisterType<nmgui::TextureRenderer>("NoiseModeler", 1, 0, "TextureRenderer");
+    qmlRegisterType<nmgui::HeightMapRenderer>("NoiseModeler", 1, 0, "HeightMapRenderer");
     qmlRegisterType<nmgui::ModuleQ>("NoiseModeler", 1, 0, "Module");
     qmlRegisterType<nmgui::InputLinkQ>("NoiseModeler", 1, 0, "InputLink");
     qmlRegisterType<nmgui::OutputLinkQ>("NoiseModeler", 1, 0, "OutputLink");

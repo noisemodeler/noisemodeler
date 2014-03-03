@@ -1,5 +1,5 @@
-#ifndef NMGUI_TEXTURERENDERER_HPP
-#define NMGUI_TEXTURERENDERER_HPP
+#ifndef NMGUI_HEIGHTMAPRENDERER_HPP
+#define NMGUI_HEIGHTMAPRENDERER_HPP
 
 #include "inputlinkq.hpp"
 #include "outputlinkq.hpp"
@@ -56,4 +56,4 @@ private:
 
 } // namespace nmgui
 
-#endif // NMGUI_TEXTURERENDERER_HPP
+#endif // NMGUI_HEIGHTMAPRENDERER_HPP

@@ -43,7 +43,7 @@ HEADERS += \
     moduleoutputq.hpp \
     graphq.hpp \
     typemanagerq.hpp \
-    heightmaprenderer.h
+    heightmaprenderer.hpp
 
 # Installation path
 # target.path =
