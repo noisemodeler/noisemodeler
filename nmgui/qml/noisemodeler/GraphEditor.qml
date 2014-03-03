@@ -68,6 +68,7 @@ Rectangle {
     }
 
     TexturePreview{}
+    HeightMapWindow{}
     function autoArrangeWindows(){
         contents.x = 0;
         contents.y = 0;

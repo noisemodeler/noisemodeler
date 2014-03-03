@@ -12,12 +12,6 @@ SubWindow {
             outputLink: debugOutput.outputs[0]
             inputLink: debugInput.inputs[0]
             anchors.fill: parent
-            SequentialAnimation on t {
-                NumberAnimation { to: 1; duration: 2500; easing.type: Easing.InQuad }
-                NumberAnimation { to: 0; duration: 2500; easing.type: Easing.OutQuad }
-                loops: Animation.Infinite
-                running: true
-            }
         },
         GridLayout {
             anchors.top: textureRenderer.bottom

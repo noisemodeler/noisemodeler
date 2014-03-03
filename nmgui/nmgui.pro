@@ -30,6 +30,7 @@ SOURCES += main.cpp \
     moduleoutputq.cpp \
     graphq.cpp \
     typemanagerq.cpp \
+    fboinsgheightmaprenderer.cpp \
     heightmaprenderer.cpp
 
 HEADERS += \
@@ -43,6 +44,7 @@ HEADERS += \
     moduleoutputq.hpp \
     graphq.hpp \
     typemanagerq.hpp \
+    fboinsgheightmaprenderer.hpp \
     heightmaprenderer.hpp
 
 # Installation path
