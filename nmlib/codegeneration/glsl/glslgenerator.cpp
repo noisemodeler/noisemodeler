@@ -130,7 +130,7 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
     } else if (moduleTypeName == "fbm2") {
         //TODO hook up lacunarity and gain
         body.reset(new SimpleBodyGenerator(
-            "float result = fbm2d(pos, 5, 2, 0.5);\n"
+            "float result = fbm2d(pos, 8, 2, 0.5);\n"
         ));
 
     //3D modules

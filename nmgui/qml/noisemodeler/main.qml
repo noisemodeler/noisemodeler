@@ -1,4 +1,6 @@
 import QtQuick 2.2
+import QtQuick.Window 2.1
+import NoiseModeler 1.0
 
 Rectangle {
     Style { id:mystyle }
@@ -32,4 +34,20 @@ Rectangle {
             editor.autoArrangeWindows();
         }
     }
+//    Window{
+//        title: "Heightmap terrain preview"
+//        width: 400
+//        height: 400
+//        visible:true
+//        HeightMapRenderer {
+//            id: textureRenderer
+//            outputLink: debugOutput.outputs[0]
+//            inputLink: debugInput.inputs[0]
+//            anchors.fill: parent
+//        }
+//        MapLikeDomainController {
+//            domain: textureRenderer.domain
+//            anchors.fill: textureRenderer
+//        }
+//    }
 }

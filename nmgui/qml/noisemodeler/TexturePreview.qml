@@ -7,17 +7,21 @@ SubWindow {
     contents.width: 200
     contents.height: 200
     contents.children: [
-        TextureRenderer{
+        HeightMapRenderer {
             id:textureRenderer
             outputLink: debugOutput.outputs[0]
             inputLink: debugInput.inputs[0]
             anchors.fill: parent
-            SequentialAnimation on t {
-                NumberAnimation { to: 1; duration: 2500; easing.type: Easing.InQuad }
-                NumberAnimation { to: 0; duration: 2500; easing.type: Easing.OutQuad }
-                loops: Animation.Infinite
-                running: true
+            onDomainChanged: {
+                //TODO: this doesn't work. Events are only fired when domain is reassigned, not when its properties changes
+                xPosInput.text = domain.x.toString();
+                yPosInput.text = domain.y.toString();
+                //TODO: do width and height as well
             }
+        },
+        MapLikeDomainController {
+            domain: textureRenderer.domain
+            anchors.fill: textureRenderer
         },
         GridLayout {
             anchors.top: textureRenderer.bottom
@@ -27,6 +31,7 @@ SubWindow {
                 text: "x:"
             }
             LineInput {
+                id: xPosInput
                 text:"0"
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
@@ -37,6 +42,7 @@ SubWindow {
                 text: "width:"
             }
             LineInput {
+                id: widthInput
                 text:"1"
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
@@ -47,9 +53,10 @@ SubWindow {
                 text: "y:"
             }
             LineInput {
+                id: yPosInput
                 text:"0"
                 validator: DoubleValidator{}
-                 onNewAcceptableValue: {
+                onNewAcceptableValue: {
                     textureRenderer.domain.y = parseFloat(text);
                 }
            }
@@ -57,6 +64,7 @@ SubWindow {
                 text: "height:"
             }
             LineInput {
+                id: heightInput
                 text:"1"
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
