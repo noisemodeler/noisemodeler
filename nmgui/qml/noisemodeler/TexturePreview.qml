@@ -8,16 +8,10 @@ SubWindow {
     contents.height: 350
     contents.children: [
         HeightMapRenderer {
-            id:textureRenderer
+            id: textureRenderer
             outputLink: debugOutput.outputs[0]
             inputLink: debugInput.inputs[0]
             anchors.fill: parent
-            onDomainChanged: {
-                xPosInput.text = domain.x.toFixed(3);
-                yPosInput.text = domain.y.toFixed(3);
-                widthInput.text = domain.width.toFixed(3);
-                heightInput.text = domain.height.toFixed(3);
-            }
         },
         MapLikeDomainController {
             domain: textureRenderer.domain
@@ -37,6 +31,10 @@ SubWindow {
                 onNewAcceptableValue: {
                     textureRenderer.domain.x = parseFloat(text);
                 }
+                Connections{
+                    target: textureRenderer
+                    onDomainChanged: xPosInput.text = textureRenderer.domain.x.toFixed(3);
+                }
             }
             Text {
                 text: "width:"
@@ -47,6 +45,10 @@ SubWindow {
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
                     textureRenderer.domain.width = parseFloat(text);
+                }
+                Connections{
+                    target: textureRenderer
+                    onDomainChanged: widthInput.text = textureRenderer.domain.width.toFixed(3);
                 }
             }
             Text {
@@ -59,6 +61,10 @@ SubWindow {
                 onNewAcceptableValue: {
                     textureRenderer.domain.y = parseFloat(text);
                 }
+                Connections{
+                    target: textureRenderer
+                    onDomainChanged: yPosInput.text = textureRenderer.domain.y.toFixed(3);
+                }
            }
             Text {
                 text: "height:"
@@ -69,6 +75,10 @@ SubWindow {
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
                     textureRenderer.domain.height = parseFloat(text);
+                }
+                Connections{
+                    target: textureRenderer
+                    onDomainChanged: heightInput.text = textureRenderer.domain.height.toFixed(3);
                 }
             }
 
