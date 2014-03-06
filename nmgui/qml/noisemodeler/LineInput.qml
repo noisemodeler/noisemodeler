@@ -7,6 +7,7 @@ Rectangle {
     property alias inputMask: input.inputMask
     property alias validator: input.validator
     property alias acceptableInput: input.acceptableInput
+    property alias textInput: input
     signal newAcceptableValue(string newText)
     width: 60; height: 18
     TextInput {
