@@ -1,6 +1,6 @@
 #include "fboinsgheightmaprenderer.hpp"
 
-#include "heightmaprenderer.hpp"
+#include "heightmapterrainrenderer.hpp"
 
 #include "moduleq.hpp"
 
@@ -43,7 +43,7 @@ protected:
         m_heightMapRenderer.setDomain(fboInSGMapRenderer->m_domain);
     }
 private:
-    HeightMapRenderer m_heightMapRenderer;
+    HeightMapTerrainRenderer m_heightMapRenderer;
 };
 
 FboInSGHeightMapRenderer::FboInSGHeightMapRenderer(QQuickItem *the_parent) :

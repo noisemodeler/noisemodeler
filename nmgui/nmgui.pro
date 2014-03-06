@@ -31,7 +31,8 @@ SOURCES += main.cpp \
     graphq.cpp \
     typemanagerq.cpp \
     fboinsgheightmaprenderer.cpp \
-    heightmaprenderer.cpp
+    heightmaprenderer.cpp \
+    heightmapterrainrenderer.cpp
 
 HEADERS += \
     texturerenderer.hpp \
@@ -45,7 +46,8 @@ HEADERS += \
     graphq.hpp \
     typemanagerq.hpp \
     fboinsgheightmaprenderer.hpp \
-    heightmaprenderer.hpp
+    heightmaprenderer.hpp \
+    heightmapterrainrenderer.hpp
 
 # Installation path
 # target.path =
