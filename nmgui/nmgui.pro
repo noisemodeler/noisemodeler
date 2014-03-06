@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     typemanagerq.cpp \
     fboinsgheightmaprenderer.cpp \
     heightmaprenderer.cpp \
-    heightmapterrainrenderer.cpp
+    heightmapterrainrenderer.cpp \
+    rendering/camera.cpp
 
 HEADERS += \
     texturerenderer.hpp \
@@ -47,7 +48,8 @@ HEADERS += \
     typemanagerq.hpp \
     fboinsgheightmaprenderer.hpp \
     heightmaprenderer.hpp \
-    heightmapterrainrenderer.hpp
+    heightmapterrainrenderer.hpp \
+    rendering/camera.hpp
 
 # Installation path
 # target.path =
