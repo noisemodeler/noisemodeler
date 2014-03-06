@@ -30,7 +30,7 @@ public:
     QRectF domain() const {return m_domain;}
     void setInputLink(InputLinkQ *newLink);
     void setOutputLink(OutputLinkQ *newLink);
-    void setDomain(QRectF domain){m_domain = domain; update();}
+    void setDomain(QRectF domain){m_domain = domain; update(); domainChanged();}
 
     //QQuickFrameBufferObject
     Renderer *createRenderer() const override;

@@ -8,9 +8,9 @@ Rectangle {
     property Graph graph
 
     MouseArea {
-            anchors.fill: parent
-            drag.target:contents
-            acceptedButtons: Qt.RightButton | Qt.MiddleButton
+        anchors.fill: parent
+        drag.target:contents
+        acceptedButtons: Qt.RightButton | Qt.MiddleButton
     }
     MouseArea {
         anchors.fill: parent
@@ -67,8 +67,13 @@ Rectangle {
         }
     }
 
-    TexturePreview{}
-    //HeightMapWindow{}
+    TexturePreview {
+//        x: parent.x-width
+//        y: parent.y-height
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+    }
+//    HeightMapWindow{}
     function autoArrangeWindows(){
         contents.x = 0;
         contents.y = 0;

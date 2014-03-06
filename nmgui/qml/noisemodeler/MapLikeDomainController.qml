@@ -26,7 +26,6 @@ Item {
             
             offset.x = -domain.x * parent.width / domain.width;
             offset.y = -domain.y * parent.height / domain.height;
-            console.log(domain.x);
         }
     }
 }

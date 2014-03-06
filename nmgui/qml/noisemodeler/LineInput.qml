@@ -8,7 +8,7 @@ Rectangle {
     property alias validator: input.validator
     property alias acceptableInput: input.acceptableInput
     signal newAcceptableValue(string newText)
-    width: 50; height: 18
+    width: 60; height: 18
     TextInput {
         id: input
         color: "black"

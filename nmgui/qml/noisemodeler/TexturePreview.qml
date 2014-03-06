@@ -4,8 +4,8 @@ import QtQuick.Layouts 1.1
 
 SubWindow {
     windowTitle: "texture preview"
-    contents.width: 200
-    contents.height: 200
+    contents.width: 350
+    contents.height: 350
     contents.children: [
         HeightMapRenderer {
             id:textureRenderer
@@ -13,10 +13,10 @@ SubWindow {
             inputLink: debugInput.inputs[0]
             anchors.fill: parent
             onDomainChanged: {
-                //TODO: this doesn't work. Events are only fired when domain is reassigned, not when its properties changes
-                xPosInput.text = domain.x.toString();
-                yPosInput.text = domain.y.toString();
-                //TODO: do width and height as well
+                xPosInput.text = domain.x.toFixed(3);
+                yPosInput.text = domain.y.toFixed(3);
+                widthInput.text = domain.width.toFixed(3);
+                heightInput.text = domain.height.toFixed(3);
             }
         },
         MapLikeDomainController {
