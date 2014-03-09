@@ -1,15 +1,25 @@
 #include "transform3d.hpp"
 
+#include <QMatrix4x4>
+
 namespace nmgui {
 
 Transform3D::Transform3D(QObject *parent) :
     QObject(parent),
-    m_orientation(0, 1, 0, 0),
+    m_orientation(1, QVector3D(0,0,0)),
     m_position(0,0,0)
 {
 }
 
-QVector3D Transform3D::position() const
+QMatrix4x4 Transform3D::worldToLocalMatrix() const
+{
+    QMatrix4x4 wtl;
+    wtl.translate(-m_position);
+    wtl.rotate(m_orientation.conjugate());
+    return wtl;
+}
+
+const QVector3D &Transform3D::position() const
 {
     return m_position;
 }
@@ -20,7 +30,7 @@ void Transform3D::setPosition(const QVector3D &position)
     positionChanged();
 }
 
-QQuaternion Transform3D::orientation() const
+const QQuaternion &Transform3D::orientation() const
 {
     return m_orientation;
 }
@@ -43,9 +53,9 @@ void Transform3D::moveRight(float distance)
     positionChanged();
 }
 
-void Transform3D::yaw(float angle)
+void Transform3D::yaw(float degrees)
 {
-    m_orientation *= QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), angle);
+    m_orientation *= QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), degrees);
 }
 
 /* Build a unit quaternion representing the rotation

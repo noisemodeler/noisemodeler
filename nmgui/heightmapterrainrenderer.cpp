@@ -5,6 +5,7 @@
 #include <sstream>
 
 //TODO remove
+#include <iostream>
 #include <QDebug>
 
 namespace nmgui {
@@ -37,12 +38,12 @@ void HeightMapTerrainRenderer::render(){
     m_program->enableAttributeArray(0);
 
     float values[] = {
-        -10,-10,
-         10,-10,
-        -10, 10,
-         10, 10
+        -10,-10, -5, 1,
+         10,-10, -5, 1,
+        -10, 10, -5, 1,
+         10, 10, -5, 1,
     };
-    m_program->setAttributeArray(0, GL_FLOAT, values, 2);
+    m_program->setAttributeArray(0, GL_FLOAT, values, 4);
 
     float l = m_domain.left();
     float t = m_domain.top();
@@ -51,21 +52,25 @@ void HeightMapTerrainRenderer::render(){
     QVector4D domain{l, t, w, h};
     m_program->setUniformValue("domain", domain);
 
-//    auto globalPos = mapToScene(position());
-//    m_camera.yaw(-1.01f);
-    QMatrix4x4 modelViewMatrix;
-//    modelViewMatrix.translate(m_camera.position());
-//    modelViewMatrix.lookAt(QVector3D(0,0,3), QVector3D(0,0,-1), QVector3D(0,1,0));
-    modelViewMatrix.rotate(m_camera.orientation());
+    //get viewmatrix from camera
+    QMatrix4x4 viewMatrix = m_camera.worldToLocalMatrix();
+    QMatrix4x4 modelViewMatrix = viewMatrix;
+
+    //set up projection matrix
     QMatrix4x4 projectionMatrix;
-    projectionMatrix.perspective(25, 1, 0.1, 128);
-    qDebug() << "hello";
+    projectionMatrix.perspective(55, 1, 0.1, 128);
 //    projectionMatrix.ortho(-10,10,-10,10,0.10,10);
+
+    //precompute model view projection matrix
+    QMatrix4x4 mvp = projectionMatrix * modelViewMatrix;
+
+    //Pass matrices to shader
     m_program->setUniformValue("modelViewMatrix", modelViewMatrix);
     m_program->setUniformValue("projectionMatrix", projectionMatrix);
-    m_program->setUniformValue("mvp", projectionMatrix * modelViewMatrix);
+    m_program->setUniformValue("mvp", mvp);
 
-    glDisable(GL_DEPTH_TEST);
+//    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
@@ -96,8 +101,8 @@ void HeightMapTerrainRenderer::recompileProgram()
     std::stringstream fs;
     fs << "#version 130\n";
 
-//    fs << m_generatorFunctionSource;
-    fs << "void elevation(in vec2 coords, out float height){height = 0.8+coords.x-mod(coords.y,1);}\n";
+    fs << m_generatorFunctionSource;
+//    fs << "void elevation(in vec2 coords, out float height){height = 0.8+coords.x-mod(coords.y,1);}\n";
 
     fs << "uniform lowp float t;\n"
           "varying highp vec2 coords;\n"

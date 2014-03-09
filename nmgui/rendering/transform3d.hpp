@@ -14,15 +14,17 @@ class Transform3D : public QObject
 public:
     explicit Transform3D(QObject *parent = 0);
 
-    QVector3D position() const;
+    QMatrix4x4 worldToLocalMatrix() const;
+
+    const QVector3D& position() const;
     void setPosition(const QVector3D &position);
 
-    QQuaternion orientation() const;
+    const QQuaternion& orientation() const;
     void setOrientation(const QQuaternion &orientation);
 
     void moveForward(float distance);
     void moveRight(float distance);
-    void yaw(float angle);
+    void yaw(float degrees);
 
     void lookAt(QVector3D position);
 
