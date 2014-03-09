@@ -50,6 +50,9 @@ int main(int argc, char *argv[])
     nm::Graph graph{};
     auto debugInputModule = graph.createModule(*debugInputModuleType, "debugInput");
     auto debugOutputModule = graph.createModule(*debugOutputModuleType, "debugOutput");
+    auto fbmModule = graph.createModule(*typeManager.getBuiltinType("fbm2"));
+    debugInputModule->getOutput("pos")->addLink(*fbmModule->getInput("pos"));
+    fbmModule->getOutput("result")->addLink(*debugOutputModule->getInput("height"));
 
     //wrapping into QObjects
     auto debugInputModuleQ = nmgui::ModuleQ::fromModule(*debugInputModule);
