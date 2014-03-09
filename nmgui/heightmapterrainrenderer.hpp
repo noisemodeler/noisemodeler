@@ -1,6 +1,8 @@
 #ifndef NMGUI_HEIGHTMAPTERRAINRENDERER_HPP
 #define NMGUI_HEIGHTMAPTERRAINRENDERER_HPP
 
+#include "rendering/transform3d.hpp"
+
 #include <string>
 
 #include <QRectF>
@@ -22,6 +24,7 @@ private:
     QRectF m_domain;
     bool m_sourceDirty;
     std::string m_generatorFunctionSource;
+    Transform3D m_camera;
     void recompileProgram();
 };
 

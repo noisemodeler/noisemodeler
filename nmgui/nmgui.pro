@@ -33,7 +33,7 @@ SOURCES += main.cpp \
     fboinsgheightmaprenderer.cpp \
     heightmaprenderer.cpp \
     heightmapterrainrenderer.cpp \
-    rendering/camera.cpp
+    rendering/transform3d.cpp
 
 HEADERS += \
     texturerenderer.hpp \
@@ -49,7 +49,7 @@ HEADERS += \
     fboinsgheightmaprenderer.hpp \
     heightmaprenderer.hpp \
     heightmapterrainrenderer.hpp \
-    rendering/camera.hpp
+    rendering/transform3d.hpp
 
 # Installation path
 # target.path =

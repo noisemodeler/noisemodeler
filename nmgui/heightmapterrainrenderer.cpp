@@ -1,9 +1,11 @@
 #include "heightmapterrainrenderer.hpp"
 
 #include <QVector>
-#include <QGLCamera>
 
 #include <sstream>
+
+//TODO remove
+#include <QDebug>
 
 namespace nmgui {
 
@@ -24,6 +26,9 @@ HeightMapTerrainRenderer::~HeightMapTerrainRenderer()
 }
 
 void HeightMapTerrainRenderer::render(){
+    glClearColor(1, 1, 0, 1);
+    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+
     if(!m_program || m_sourceDirty){
         recompileProgram();
     }
@@ -32,10 +37,10 @@ void HeightMapTerrainRenderer::render(){
     m_program->enableAttributeArray(0);
 
     float values[] = {
-        -1,-1,
-         1,-1,
-        -1, 1,
-         1, 1
+        -10,-10,
+         10,-10,
+        -10, 10,
+         10, 10
     };
     m_program->setAttributeArray(0, GL_FLOAT, values, 2);
 
@@ -47,7 +52,18 @@ void HeightMapTerrainRenderer::render(){
     m_program->setUniformValue("domain", domain);
 
 //    auto globalPos = mapToScene(position());
-//    glViewport(globalPos.x(), window()->height()-height()-globalPos.y(), width(), height());
+//    m_camera.yaw(-1.01f);
+    QMatrix4x4 modelViewMatrix;
+//    modelViewMatrix.translate(m_camera.position());
+//    modelViewMatrix.lookAt(QVector3D(0,0,3), QVector3D(0,0,-1), QVector3D(0,1,0));
+    modelViewMatrix.rotate(m_camera.orientation());
+    QMatrix4x4 projectionMatrix;
+    projectionMatrix.perspective(25, 1, 0.1, 128);
+    qDebug() << "hello";
+//    projectionMatrix.ortho(-10,10,-10,10,0.10,10);
+    m_program->setUniformValue("modelViewMatrix", modelViewMatrix);
+    m_program->setUniformValue("projectionMatrix", projectionMatrix);
+    m_program->setUniformValue("mvp", projectionMatrix * modelViewMatrix);
 
     glDisable(GL_DEPTH_TEST);
 
@@ -68,16 +84,20 @@ void HeightMapTerrainRenderer::recompileProgram()
     m_program->addShaderFromSourceCode(QOpenGLShader::Vertex,
                                        "#version 130\n"
                                        "uniform vec4 domain;\n"
+                                       "uniform mat4 modelViewMatrix;\n"
+                                       "uniform mat4 projectionMatrix;\n"
+                                       "uniform mat4 mvp;\n"
                                        "attribute highp vec4 vertices;\n"
                                        "varying highp vec2 coords;\n"
                                        "void main() {\n"
-                                       "    gl_Position = vertices;\n"
+                                       "    gl_Position = mvp * vertices;\n"
                                        "    coords = vertices.xy*vec2(0.5,0.5)*domain.zw+vec2(0.5,0.5)+domain.xy;\n"
                                        "}\n");
     std::stringstream fs;
     fs << "#version 130\n";
 
-    fs << m_generatorFunctionSource;
+//    fs << m_generatorFunctionSource;
+    fs << "void elevation(in vec2 coords, out float height){height = 0.8+coords.x-mod(coords.y,1);}\n";
 
     fs << "uniform lowp float t;\n"
           "varying highp vec2 coords;\n"
