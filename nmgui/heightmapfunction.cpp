@@ -30,7 +30,7 @@ void HeightMapFunction::setOutputLink(OutputLinkQ *newLink)
     if(m_outputLink!=nullptr)disconnect(m_outputLink->owner(), 0, this, 0);
     m_outputLink = newLink;
     //forward signal to listeners of this object
-    connect(m_outputLink->owner(), SIGNAL(dependenciesChanged()), this, SLOT(functionChanged()));
+    connect(m_outputLink->owner(), SIGNAL(dependenciesChanged()), this, SIGNAL(functionChanged()));
     emit outputLinkChanged();
 }
 
