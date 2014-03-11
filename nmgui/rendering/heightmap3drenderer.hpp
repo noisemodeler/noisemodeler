@@ -1,7 +1,8 @@
-#ifndef NMGUI_HEIGHTMAPTERRAINRENDERER_HPP
-#define NMGUI_HEIGHTMAPTERRAINRENDERER_HPP
+#ifndef NMGUI_HEIGHTMAP3DRENDERER_HPP
+#define NMGUI_HEIGHTMAP3DRENDERER_HPP
 
 #include "rendering/transform3d.hpp"
+#include "heightmap3dexplorer.hpp"
 
 #include <string>
 
@@ -12,13 +13,12 @@
 
 namespace nmgui {
 
-class HeightMapTerrainRenderer
+class HeightMap3DRenderer
 {
 public:
-    explicit HeightMapTerrainRenderer();
-    virtual ~HeightMapTerrainRenderer();
-    void setGeneratorSource(std::string src){m_generatorFunctionSource = src; m_sourceDirty = true;}
-    void setDomain(QRectF domain){m_domain = domain; }
+    explicit HeightMap3DRenderer();
+    virtual ~HeightMap3DRenderer();
+    void setState(HeightMap3DExplorer::State& state);
     void render();
 
 private:
@@ -26,10 +26,8 @@ private:
     QOpenGLShaderProgram *m_program;
     QOpenGLVertexArrayObject m_vao;
     QOpenGLBuffer m_gridVerticesBuffer;
-    QRectF m_domain;
+    HeightMap3DExplorer::State m_state;
     bool m_sourceDirty;
-    std::string m_generatorFunctionSource;
-    Transform3D m_camera;
     void initialize();
     void prepareVertexBuffer();
     void prepareVertexArrayObject();
@@ -38,4 +36,4 @@ private:
 
 } // namespace nmgui
 
-#endif // NMGUI_HEIGHTMAPTERRAINRENDERER_HPP
+#endif // NMGUI_HEIGHTMAP3DRENDERER_HPP

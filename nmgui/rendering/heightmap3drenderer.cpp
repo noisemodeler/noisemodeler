@@ -1,4 +1,4 @@
-#include "heightmapterrainrenderer.hpp"
+#include "heightmap3drenderer.hpp"
 
 #include <QVector>
 
@@ -10,16 +10,15 @@
 
 namespace nmgui {
 
-HeightMapTerrainRenderer::HeightMapTerrainRenderer():
+HeightMap3DRenderer::HeightMap3DRenderer():
     m_program(),
-    m_domain(0,0,1,1),
-    m_sourceDirty(true),
-    m_generatorFunctionSource("void elevation(in vec2 coords, out float height){height = 0.5;}")
+    m_state(),
+    m_sourceDirty(true)
 {
     initialize();
 }
 
-HeightMapTerrainRenderer::~HeightMapTerrainRenderer()
+HeightMap3DRenderer::~HeightMap3DRenderer()
 {
     if (m_program) {
         delete m_program;
@@ -27,7 +26,13 @@ HeightMapTerrainRenderer::~HeightMapTerrainRenderer()
     }
 }
 
-void HeightMapTerrainRenderer::render(){
+void HeightMap3DRenderer::setState(HeightMap3DExplorer::State &state)
+{
+    m_sourceDirty |= state.shaderSource!=m_state.shaderSource;
+    m_state = state;
+}
+
+void HeightMap3DRenderer::render(){
     glClearColor(1, 1, 0, 1);
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -38,23 +43,15 @@ void HeightMapTerrainRenderer::render(){
 
     m_program->enableAttributeArray(0);
 
-//    float values[] = {
-//        -10,-10, -5, 1,
-//         10,-10, -5, 1,
-//        -10, 10, -5, 1,
-//         10, 10, -5, 1,
-//    };
-//    m_program->setAttributeArray(0, GL_FLOAT, values, 4);
-
-    float l = m_domain.left();
-    float t = m_domain.top();
-    float w = m_domain.width();
-    float h = m_domain.height();
+    float l = m_state.domain.left();
+    float t = m_state.domain.top();
+    float w = m_state.domain.width();
+    float h = m_state.domain.height();
     QVector4D domain{l, t, w, h};
     m_program->setUniformValue("domain", domain);
 
     //get viewmatrix from camera
-    QMatrix4x4 viewMatrix = m_camera.worldToLocalMatrix();
+    QMatrix4x4 viewMatrix = m_state.camera.worldToLocalMatrix();
     QMatrix4x4 modelViewMatrix = viewMatrix;
 
     //set up projection matrix
@@ -79,7 +76,7 @@ void HeightMapTerrainRenderer::render(){
     }
 }
 
-void HeightMapTerrainRenderer::initialize()
+void HeightMap3DRenderer::initialize()
 {
     //initialize opengl stuff
 
@@ -95,7 +92,7 @@ void HeightMapTerrainRenderer::initialize()
 //    m_camera.setOrientation(QQuaternion::fromAxisAndAngle(0,1,0,-90));
 }
 
-void HeightMapTerrainRenderer::recompileProgram()
+void HeightMap3DRenderer::recompileProgram()
 {
     if(m_program){
         delete m_program;
@@ -117,7 +114,7 @@ void HeightMapTerrainRenderer::recompileProgram()
     std::stringstream fs;
     fs << "#version 130\n";
 
-    fs << m_generatorFunctionSource;
+    fs << m_state.shaderSource;
 //    fs << "void elevation(in vec2 coords, out float height){height = 0.8+coords.x-mod(coords.y,1);}\n";
 
     fs << "uniform lowp float t;\n"
@@ -136,7 +133,7 @@ void HeightMapTerrainRenderer::recompileProgram()
     m_sourceDirty = false;
 }
 
-void HeightMapTerrainRenderer::prepareVertexBuffer()
+void HeightMap3DRenderer::prepareVertexBuffer()
 {
     //prepare the data for the buffer
     int vertexCount = c_resolution * c_resolution;
@@ -163,7 +160,7 @@ void HeightMapTerrainRenderer::prepareVertexBuffer()
     m_gridVerticesBuffer.release();
 }
 
-void HeightMapTerrainRenderer::prepareVertexArrayObject()
+void HeightMap3DRenderer::prepareVertexArrayObject()
 {
     m_vao.create();
     {

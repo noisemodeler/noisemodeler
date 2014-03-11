@@ -7,8 +7,8 @@ SubWindow {
     contents.width: 350
     contents.height: 350
     contents.children: [
-        HeightMapTextureExplorer {
-            id: textureRenderer
+        HeightMap3DExplorer {
+            id: renderer
             heightMapFunction: HeightMapFunction {
                 inputLink: debugInput.inputs[0];
                 outputLink: debugOutput.outputs[0];
@@ -16,13 +16,34 @@ SubWindow {
             anchors.fill: parent
             Keys.forwardTo: keyMap
         },
+        Item {
+            id: cameraKeyboardControls
+            anchors.fill: renderer
+            KeyMap {
+                id: keyMap
+            }
+            Timer {
+                running: true; repeat: true
+                interval: 10
+                onTriggered: {
+                    var dir = 0;
+                    if(keyMap.isKeyDown(Qt.Key_Left)){
+                        ++dir;
+                    }
+                    if(keyMap.isKeyDown(Qt.Key_Right)){
+                        --dir;
+                    }
+                    renderer.yawCamera(dir * interval/1000);
+                }
+            }
+        },
         MapLikeDomainController {
-            domain: textureRenderer.domain
-            anchors.fill: textureRenderer
-            onPressedChanged: textureRenderer.focus = true;
+            domain: renderer.domain
+            anchors.fill: renderer
+            onPressedChanged: renderer.focus = true;
         },
         GridLayout {
-            anchors.top: textureRenderer.bottom
+            anchors.top: renderer.bottom
             anchors.horizontalCenter: parent.horizontalCenter
             columns: 4
             Text {
@@ -33,11 +54,11 @@ SubWindow {
                 text:"0"
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
-                    textureRenderer.domain.x = parseFloat(text);
+                    renderer.domain.x = parseFloat(text);
                 }
                 Connections{
-                    target: textureRenderer
-                    onDomainChanged: if(!xPosInput.textInput.focus)xPosInput.text = textureRenderer.domain.x.toFixed(3);
+                    target: renderer
+                    onDomainChanged: if(!xPosInput.textInput.focus)xPosInput.text = renderer.domain.x.toFixed(3);
                 }
             }
             Text {
@@ -48,11 +69,11 @@ SubWindow {
                 text:"1"
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
-                    textureRenderer.domain.width = parseFloat(text);
+                    renderer.domain.width = parseFloat(text);
                 }
                 Connections{
-                    target: textureRenderer
-                    onDomainChanged: if(!widthInput.textInput.focus)widthInput.text = textureRenderer.domain.width.toFixed(3);
+                    target: renderer
+                    onDomainChanged: if(!widthInput.textInput.focus)widthInput.text = renderer.domain.width.toFixed(3);
                 }
             }
             Text {
@@ -63,11 +84,11 @@ SubWindow {
                 text:"0"
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
-                    textureRenderer.domain.y = parseFloat(text);
+                    renderer.domain.y = parseFloat(text);
                 }
                 Connections{
-                    target: textureRenderer
-                    onDomainChanged: if(!yPosInput.textInput.focus)yPosInput.text = textureRenderer.domain.y.toFixed(3);
+                    target: renderer
+                    onDomainChanged: if(!yPosInput.textInput.focus)yPosInput.text = renderer.domain.y.toFixed(3);
                 }
            }
             Text {
@@ -78,11 +99,11 @@ SubWindow {
                 text:"1"
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
-                    textureRenderer.domain.height = parseFloat(text);
+                    renderer.domain.height = parseFloat(text);
                 }
                 Connections{
-                    target: textureRenderer
-                    onDomainChanged: if(!heightInput.textInput.focus)heightInput.text = textureRenderer.domain.height.toFixed(3);
+                    target: renderer
+                    onDomainChanged: if(!heightInput.textInput.focus)heightInput.text = renderer.domain.height.toFixed(3);
                 }
             }
 

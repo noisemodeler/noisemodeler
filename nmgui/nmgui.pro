@@ -30,11 +30,14 @@ SOURCES += main.cpp \
     moduleoutputq.cpp \
     graphq.cpp \
     typemanagerq.cpp \
-    fboinsgheightmaprenderer.cpp \
-    heightmapterrainrenderer.cpp \
     rendering/transform3d.cpp \
     rendering/heightmapterrainmesh.cpp \
-    heightmapviewportrenderer.cpp
+    heightmapviewportrenderer.cpp \
+    heightmapfunction.cpp \
+    heightmap3dexplorer.cpp \
+    heightmaptextureexplorer.cpp \
+    rendering/heightmap3drenderer.cpp \
+    rendering/heightmaptexturerenderer.cpp
 
 HEADERS += \
     texturerenderer.hpp \
@@ -47,11 +50,14 @@ HEADERS += \
     moduleoutputq.hpp \
     graphq.hpp \
     typemanagerq.hpp \
-    fboinsgheightmaprenderer.hpp \
-    heightmapterrainrenderer.hpp \
     rendering/transform3d.hpp \
     rendering/heightmapterrainmesh.hpp \
-    heightmapviewportrenderer.hpp
+    heightmapviewportrenderer.hpp \
+    heightmapfunction.hpp \
+    heightmap3dexplorer.hpp \
+    heightmaptextureexplorer.hpp \
+    rendering/heightmap3drenderer.hpp \
+    rendering/heightmaptexturerenderer.hpp
 
 # Installation path
 # target.path =

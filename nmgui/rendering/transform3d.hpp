@@ -1,36 +1,29 @@
 #ifndef NMGUI_TRANSFORM3D_HPP
 #define NMGUI_TRANSFORM3D_HPP
 
-#include <QObject>
 #include <QQuaternion>
 #include <QVector3D>
 
 namespace nmgui {
 
-class Transform3D : public QObject
+class Transform3D
 {
-    Q_OBJECT
-    Q_PROPERTY(QVector3D position READ position WRITE setPosition NOTIFY positionChanged)
 public:
-    explicit Transform3D(QObject *parent = 0);
+    explicit Transform3D();
 
     QMatrix4x4 worldToLocalMatrix() const;
 
-    const QVector3D& position() const;
-    void setPosition(const QVector3D &position);
+    const QVector3D& position() const { return m_position; }
+    void setPosition(const QVector3D &position) { m_position = position; }
 
-    const QQuaternion& orientation() const;
-    void setOrientation(const QQuaternion &orientation);
+    const QQuaternion& orientation() const { return m_orientation; }
+    void setOrientation(const QQuaternion &orientation) { m_orientation = orientation; }
 
-    void moveForward(float distance);
-    void moveRight(float distance);
-    void yaw(float degrees);
-
+    //convenience menthods
+    void moveForward(float distance) { m_position += m_orientation.rotatedVector(QVector3D(0,0,-1)) * distance; }
+    void moveRight(float distance) { m_position += m_orientation.rotatedVector(QVector3D(1,0,0)) * distance; }
+    void yaw(float degrees){m_orientation *= QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), degrees);}
     void lookAt(QVector3D position);
-
-Q_SIGNALS:
-    void positionChanged();
-    void orientationChanged();
 
 private:
     QQuaternion m_orientation;

@@ -4,8 +4,7 @@
 
 namespace nmgui {
 
-Transform3D::Transform3D(QObject *parent) :
-    QObject(parent),
+Transform3D::Transform3D() :
     m_orientation(1, QVector3D(0,0,0)),
     m_position(0,0,0)
 {
@@ -19,44 +18,7 @@ QMatrix4x4 Transform3D::worldToLocalMatrix() const
     return wtl;
 }
 
-const QVector3D &Transform3D::position() const
-{
-    return m_position;
-}
 
-void Transform3D::setPosition(const QVector3D &position)
-{
-    m_position = position;
-    positionChanged();
-}
-
-const QQuaternion &Transform3D::orientation() const
-{
-    return m_orientation;
-}
-
-void Transform3D::setOrientation(const QQuaternion &orientation)
-{
-    m_orientation = orientation;
-    orientationChanged();
-}
-
-void Transform3D::moveForward(float distance)
-{
-    m_position += m_orientation.rotatedVector(QVector3D(0,0,-1)) * distance;
-    positionChanged();
-}
-
-void Transform3D::moveRight(float distance)
-{
-    m_position += m_orientation.rotatedVector(QVector3D(1,0,0)) * distance;
-    positionChanged();
-}
-
-void Transform3D::yaw(float degrees)
-{
-    m_orientation *= QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), degrees);
-}
 
 /* Build a unit quaternion representing the rotation
  * from u to v. The input vectors need not be normalised. */
