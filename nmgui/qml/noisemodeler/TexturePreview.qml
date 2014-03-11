@@ -14,7 +14,6 @@ SubWindow {
                 outputLink: debugOutput.outputs[0];
             }
             anchors.fill: parent
-            Keys.forwardTo: keyMap
         },
         MapLikeDomainController {
             domain: textureRenderer.domain
