@@ -76,13 +76,10 @@ void HeightMapTextureRenderer::recompileProgram()
     m_program->addShaderFromSourceCode(QOpenGLShader::Vertex,
                                        "#version 130\n"
                                        "uniform vec4 domain;\n"
-                                       "uniform mat4 modelViewMatrix;\n"
-                                       "uniform mat4 projectionMatrix;\n"
-                                       "uniform mat4 mvp;\n"
                                        "attribute highp vec2 vertices;\n"
                                        "varying highp vec2 coords;\n"
                                        "void main() {\n"
-                                       "    gl_Position = mvp * vec4(vertices.x,vertices.y,-5,1);\n"
+                                       "    gl_Position = vec4(vertices.x,vertices.y,0,1);\n"
                                        "    coords = vertices.xy*vec2(0.5,0.5)*domain.zw+vec2(0.5,0.5)+domain.xy;\n"
                                        "}\n");
     std::stringstream fs;
@@ -110,12 +107,11 @@ void HeightMapTextureRenderer::recompileProgram()
 void HeightMapTextureRenderer::prepareVertexBuffer()
 {
     QVector<QVector2D> vertices;
-    {
-        vertices.append({1,0}); //bot-right
-        vertices.append({0,0}); //bot-left
-        vertices.append({1,1}); //top-right
-        vertices.append({0,1}); //top-left
-    }
+    //                x, y
+    vertices.append({ 1,-1}); //bot-right
+    vertices.append({-1,-1}); //bot-left
+    vertices.append({ 1, 1}); //top-right
+    vertices.append({-1, 1}); //top-left
 
     //prepare the buffer
     m_gridVerticesBuffer.create();
