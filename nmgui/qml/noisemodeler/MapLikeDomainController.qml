@@ -5,6 +5,7 @@ import NoiseModeler 1.0
 Item {
     id: mapLikeDomainController
     property var domain: Qt.rect(0,0,1,1) //using var instead of rect, because we need reference semantics instead of value semantics
+    property alias pressed: mouseArea.pressed
     Item {
         id:offset
         onXChanged: {
@@ -15,6 +16,7 @@ Item {
         }
     }
     MouseArea {
+        id: mouseArea
         anchors.fill: parent
         drag.target: offset
         hoverEnabled: true

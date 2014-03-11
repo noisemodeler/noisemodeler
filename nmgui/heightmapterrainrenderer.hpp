@@ -6,7 +6,9 @@
 #include <string>
 
 #include <QRectF>
-#include <QtGui/qopenglshaderprogram.h>
+#include <QOpenGLShaderProgram>
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLBuffer>
 
 namespace nmgui {
 
@@ -20,11 +22,17 @@ public:
     void render();
 
 private:
+    static constexpr int c_resolution = 2; //width and height of a terrain patch
     QOpenGLShaderProgram *m_program;
+    QOpenGLVertexArrayObject m_vao;
+    QOpenGLBuffer m_gridVerticesBuffer;
     QRectF m_domain;
     bool m_sourceDirty;
     std::string m_generatorFunctionSource;
     Transform3D m_camera;
+    void initialize();
+    void prepareVertexBuffer();
+    void prepareVertexArrayObject();
     void recompileProgram();
 };
 

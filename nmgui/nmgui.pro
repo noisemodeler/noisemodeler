@@ -33,7 +33,8 @@ SOURCES += main.cpp \
     fboinsgheightmaprenderer.cpp \
     heightmaprenderer.cpp \
     heightmapterrainrenderer.cpp \
-    rendering/transform3d.cpp
+    rendering/transform3d.cpp \
+    rendering/heightmapterrainmesh.cpp
 
 HEADERS += \
     texturerenderer.hpp \
@@ -49,7 +50,8 @@ HEADERS += \
     fboinsgheightmaprenderer.hpp \
     heightmaprenderer.hpp \
     heightmapterrainrenderer.hpp \
-    rendering/transform3d.hpp
+    rendering/transform3d.hpp \
+    rendering/heightmapterrainmesh.hpp
 
 # Installation path
 # target.path =

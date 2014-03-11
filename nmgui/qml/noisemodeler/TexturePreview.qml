@@ -12,10 +12,33 @@ SubWindow {
             outputLink: debugOutput.outputs[0]
             inputLink: debugInput.inputs[0]
             anchors.fill: parent
+            Keys.forwardTo: keyMap
+        },
+        Item {
+            id: cameraKeyboardControls
+            anchors.fill: textureRenderer
+            KeyMap {
+                id: keyMap
+            }
+            Timer {
+                running: true; repeat: true
+                interval: 10
+                onTriggered: {
+                    var dir = 0;
+                    if(keyMap.isKeyDown(Qt.Key_Left)){
+                        ++dir;
+                    }
+                    if(keyMap.isKeyDown(Qt.Key_Right)){
+                        --dir;
+                    }
+                    textureRenderer.yawCamera(dir * interval/1000);
+                }
+            }
         },
         MapLikeDomainController {
             domain: textureRenderer.domain
             anchors.fill: textureRenderer
+            onPressedChanged: textureRenderer.focus = true;
         },
         GridLayout {
             anchors.top: textureRenderer.bottom

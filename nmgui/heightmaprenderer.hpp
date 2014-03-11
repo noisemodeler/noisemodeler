@@ -4,7 +4,7 @@
 #include <string>
 
 #include <QRectF>
-#include <QtGui/qopenglshaderprogram.h>
+#include <QOpenGLShaderProgram>
 
 namespace nmgui {
 
