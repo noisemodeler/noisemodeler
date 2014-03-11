@@ -1,4 +1,4 @@
-#include "heightmaprenderer.hpp"
+#include "heightmapviewportrenderer.hpp"
 
 #include <QVector>
 
@@ -6,7 +6,7 @@
 
 namespace nmgui {
 
-HeightMapRenderer::HeightMapRenderer():
+HeightMapViewportRenderer::HeightMapViewportRenderer():
     m_program(),
     m_domain(0,0,1,1),
     m_sourceDirty(true),
@@ -14,7 +14,7 @@ HeightMapRenderer::HeightMapRenderer():
 {
 }
 
-HeightMapRenderer::~HeightMapRenderer()
+HeightMapViewportRenderer::~HeightMapViewportRenderer()
 {
     if (m_program) {
         delete m_program;
@@ -22,7 +22,7 @@ HeightMapRenderer::~HeightMapRenderer()
     }
 }
 
-void HeightMapRenderer::render(){
+void HeightMapViewportRenderer::render(){
     if(!m_program || m_sourceDirty){
         recompileProgram();
     }
@@ -57,7 +57,7 @@ void HeightMapRenderer::render(){
     m_program->release();
 }
 
-void HeightMapRenderer::recompileProgram()
+void HeightMapViewportRenderer::recompileProgram()
 {
     if(m_program){
         delete m_program;

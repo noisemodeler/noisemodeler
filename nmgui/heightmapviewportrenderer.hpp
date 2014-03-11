@@ -1,5 +1,5 @@
-#ifndef NMGUI_HEIGHTMAPRENDERER_HPP
-#define NMGUI_HEIGHTMAPRENDERER_HPP
+#ifndef NMGUI_HEIGHTMAPVIEWPORTRENDERER_HPP
+#define NMGUI_HEIGHTMAPVIEWPORTRENDERER_HPP
 
 #include <string>
 
@@ -8,11 +8,11 @@
 
 namespace nmgui {
 
-class HeightMapRenderer
+class HeightMapViewportRenderer
 {
 public:
-    explicit HeightMapRenderer();
-    virtual ~HeightMapRenderer();
+    explicit HeightMapViewportRenderer();
+    virtual ~HeightMapViewportRenderer();
     void setGeneratorSource(std::string src){m_generatorFunctionSource = src; m_sourceDirty = true;}
     void setDomain(QRectF domain){m_domain = domain; }
     void render();
@@ -27,4 +27,4 @@ private:
 
 } // namespace nmgui
 
-#endif // NMGUI_HEIGHTMAPRENDERER_HPP
+#endif // NMGUI_HEIGHTMAPVIEWPORTRENDERER_HPP
