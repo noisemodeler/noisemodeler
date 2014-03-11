@@ -43,6 +43,7 @@ HeightMap3DExplorer::HeightMap3DExplorer(QQuickItem *the_parent) :
 
 void HeightMap3DExplorer::updateShaderSource()
 {
+    if(m_heightMapFunction->inputLink()==nullptr || m_heightMapFunction->objectName() == nullptr)return;
     m_state.shaderSource = nm::glsl::GlslGenerator::compileToGlslFunction(
                 m_heightMapFunction->inputLink()->inputLink(),
                 m_heightMapFunction->outputLink()->outputLink(),

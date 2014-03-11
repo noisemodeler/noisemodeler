@@ -3,7 +3,7 @@ import NoiseModeler 1.0
 import QtQuick.Layouts 1.1
 
 SubWindow {
-    windowTitle: "texture preview"
+    windowTitle: "heightmap 3D preview"
     contents.width: 350
     contents.height: 350
     contents.children: [
@@ -33,7 +33,7 @@ SubWindow {
                     if(keyMap.isKeyDown(Qt.Key_Right)){
                         --dir;
                     }
-                    renderer.yawCamera(dir * interval/1000);
+//                    renderer.yawCamera(dir * interval/1000);
                 }
             }
         },

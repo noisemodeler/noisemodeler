@@ -73,6 +73,10 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
     }
+    HeightMap3DExplorerWindow {
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+    }
 //    HeightMapWindow{}
     function autoArrangeWindows(){
         contents.x = 0;
