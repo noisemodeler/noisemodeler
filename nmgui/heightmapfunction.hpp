@@ -30,8 +30,6 @@ signals:
     //this signal is emitted whenever the function changes, a catchall for inputlinkchanged, outputlinkchanged, dependencieschanged...
     void functionChanged();
 
-public slots:
-
 private:
     InputLinkQ *m_inputLink;
     OutputLinkQ *m_outputLink;
