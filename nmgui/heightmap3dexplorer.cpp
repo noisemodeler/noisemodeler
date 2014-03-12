@@ -38,12 +38,13 @@ HeightMap3DExplorer::HeightMap3DExplorer(QQuickItem *the_parent) :
     QQuickFramebufferObject(the_parent),
     m_state()
 {
-    connect(this, SIGNAL(heightMapFunctionChanged()), this, SLOT(updateShaderSource()));
+    connect(this, &HeightMap3DExplorer::heightMapFunctionChanged,
+            this, &HeightMap3DExplorer::updateShaderSource);
 }
 
 void HeightMap3DExplorer::updateShaderSource()
 {
-    if(m_heightMapFunction->inputLink()==nullptr || m_heightMapFunction->objectName() == nullptr)return;
+    if(m_heightMapFunction->inputLink()==nullptr || m_heightMapFunction->outputLink() == nullptr)return;
     m_state.shaderSource = nm::glsl::GlslGenerator::compileToGlslFunction(
                 m_heightMapFunction->inputLink()->inputLink(),
                 m_heightMapFunction->outputLink()->outputLink(),
@@ -61,7 +62,7 @@ void HeightMap3DExplorer::setHeightMapFunction(HeightMapFunction *heightMapFunct
     if(heightMapFunction==m_heightMapFunction)return;
     if(m_heightMapFunction!=nullptr)disconnect(m_heightMapFunction, 0, this, 0);
     m_heightMapFunction = heightMapFunction;
-    connect(m_heightMapFunction, SIGNAL(functionChanged()), this, SLOT(updateShaderSource()));
+    connect(m_heightMapFunction, &HeightMapFunction::functionChanged, this, &HeightMap3DExplorer::updateShaderSource);
     emit heightMapFunctionChanged();
 }
 

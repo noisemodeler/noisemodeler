@@ -34,9 +34,9 @@ int main(int argc, char *argv[])
     //but that makes it impossible to have strong typing of qml members, we'd have to use
     //variant instead. For that reason, we'll sacrifice the encapsulation in c++ for type safety in qml
     qmlRegisterType<nmgui::TextureRenderer>("NoiseModeler", 1, 0, "TextureRenderer");
+    qmlRegisterType<nmgui::HeightMapFunction>("NoiseModeler", 1, 0, "HeightMapFunction");
     qmlRegisterType<nmgui::HeightMap3DExplorer>("NoiseModeler", 1, 0, "HeightMap3DExplorer");
     qmlRegisterType<nmgui::HeightMapTextureExplorer>("NoiseModeler", 1, 0, "HeightMapTextureExplorer");
-    qmlRegisterType<nmgui::HeightMapFunction>("NoiseModeler", 1, 0, "HeightMapFunction");
     qmlRegisterType<nmgui::ModuleQ>("NoiseModeler", 1, 0, "Module");
     qmlRegisterType<nmgui::InputLinkQ>("NoiseModeler", 1, 0, "InputLink");
     qmlRegisterType<nmgui::OutputLinkQ>("NoiseModeler", 1, 0, "OutputLink");
