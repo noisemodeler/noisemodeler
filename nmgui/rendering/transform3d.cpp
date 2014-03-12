@@ -13,8 +13,8 @@ Transform3D::Transform3D() :
 QMatrix4x4 Transform3D::worldToLocalMatrix() const
 {
     QMatrix4x4 wtl;
-    wtl.translate(-m_position);
     wtl.rotate(m_orientation.conjugate());
+    wtl.translate(-m_position);
     return wtl;
 }
 

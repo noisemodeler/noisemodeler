@@ -50,6 +50,7 @@ void HeightMap3DRenderer::render(){
     QVector4D domain{l, t, w, h};
     m_program->setUniformValue("domain", domain);
 
+
     //get viewmatrix from camera
     QMatrix4x4 viewMatrix = m_state.camera.worldToLocalMatrix();
     QMatrix4x4 modelViewMatrix = viewMatrix;
@@ -58,6 +59,7 @@ void HeightMap3DRenderer::render(){
     QMatrix4x4 projectionMatrix;
     projectionMatrix.perspective(55, 1, 0.1, 128);
 //    projectionMatrix.ortho(-10,10,-10,10,0.10,10);
+    projectionMatrix.scale({1,-1,1}); //flip Y coordinates because otherwise Qt will render it upside down
 
     //precompute model view projection matrix
     QMatrix4x4 mvp = projectionMatrix * modelViewMatrix;
@@ -108,7 +110,7 @@ void HeightMap3DRenderer::recompileProgram()
                                        "attribute highp vec2 vertices;\n"
                                        "varying highp vec2 coords;\n"
                                        "void main() {\n"
-                                       "    gl_Position = mvp * vec4(vertices.x,vertices.y,-5,1);\n"
+                                       "    gl_Position = mvp * vec4(vertices.x,-2,vertices.y,1);\n"
                                        "    coords = vertices.xy*vec2(0.5,0.5)*domain.zw+vec2(0.5,0.5)+domain.xy;\n"
                                        "}\n");
     std::stringstream fs;
@@ -122,7 +124,7 @@ void HeightMap3DRenderer::recompileProgram()
           "void main() {\n"
           "    float height;\n"
           "    elevation(coords, height);\n"
-          "    gl_FragColor = vec4(height, height, height, 1);\n"
+          "    gl_FragColor = vec4(coords.x, height, height, 1);\n"
           "}\n";
 
     m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fs.str().c_str());

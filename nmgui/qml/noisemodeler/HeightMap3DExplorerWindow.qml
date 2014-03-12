@@ -27,26 +27,23 @@ SubWindow {
                 interval: 10
                 onTriggered: {
                     //yawing/turning
-                    var yawDir = 0;
-                    if(keyMap.isKeyDown(Qt.Key_Left)){
-                        ++yawDir;
-                    }
-                    if(keyMap.isKeyDown(Qt.Key_Right)){
-                        --yawDir;
-                    }
+                    var yawDir = -keyMap.getAxis(Qt.Key_Right, Qt.Key_Left);
                     var yawSpeed = 80;
-                    if(yawDir!=0)renderer.yawCamera(yawDir * yawSpeed * interval/1000);
+                    if(yawDir!==0)renderer.yawCamera(yawDir * yawSpeed * interval/1000);
 
                     //pitching/tilting
-                    var pitchDir = 0;
-                    if(keyMap.isKeyDown(Qt.Key_Up)){
-                        ++pitchDir;
-                    }
-                    if(keyMap.isKeyDown(Qt.Key_Down)){
-                        --pitchDir;
-                    }
+                    var pitchDir = keyMap.getAxis(Qt.Key_Up, Qt.Key_Down);
                     var pitchSpeed = 80;
-                    if(pitchDir!=0)renderer.pitchCamera(pitchDir * pitchSpeed * interval/1000);
+                    if(pitchDir!==0)renderer.pitchCamera(-pitchDir * pitchSpeed * interval/1000);
+
+                    //forwards/backwards
+                    var forwardDir = keyMap.getAxis(Qt.Key_W, Qt.Key_S);
+                    var forwardSpeed = 8;
+                    if(forwardDir!==0)renderer.moveCameraForward(forwardDir * forwardSpeed * interval/1000);
+
+                    var strafeDir = keyMap.getAxis(Qt.Key_D, Qt.Key_A);
+                    var strafeSpeed = 8;
+                    if(strafeDir!==0)renderer.moveCameraRight(strafeDir * strafeSpeed * interval/1000);
                 }
             }
         },

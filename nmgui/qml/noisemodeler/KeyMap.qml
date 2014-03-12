@@ -1,7 +1,6 @@
 import QtQuick 2.2
 
 Item{
-    id: keyMap
     property var keys: ({})
     Keys.onPressed: {
         keys[event.key] = true;
@@ -11,5 +10,11 @@ Item{
     }
     function isKeyDown(key){
         return keys[key] === true;
+    }
+    function getAxis(positiveKey, negativeKey){
+        var direction = 0;
+        direction += isKeyDown(positiveKey) ? 1 : 0;
+        direction -= isKeyDown(negativeKey) ? 1 : 0;
+        return direction;
     }
 }
