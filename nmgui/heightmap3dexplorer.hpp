@@ -46,6 +46,11 @@ public:
     //QQuickFrameBufferObject
     Renderer *createRenderer() const override;
 
+    Q_INVOKABLE void yawCamera(float degrees);
+    Q_INVOKABLE void pitchCamera(float degrees);
+    Q_INVOKABLE void moveCameraForward(float distance);
+    Q_INVOKABLE void moveCameraRight(float distance);
+
 signals:
     void domainChanged();
     void heightMapFunctionChanged();

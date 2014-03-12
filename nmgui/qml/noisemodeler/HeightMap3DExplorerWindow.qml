@@ -26,14 +26,27 @@ SubWindow {
                 running: true; repeat: true
                 interval: 10
                 onTriggered: {
-                    var dir = 0;
+                    //yawing/turning
+                    var yawDir = 0;
                     if(keyMap.isKeyDown(Qt.Key_Left)){
-                        ++dir;
+                        ++yawDir;
                     }
                     if(keyMap.isKeyDown(Qt.Key_Right)){
-                        --dir;
+                        --yawDir;
                     }
-//                    renderer.yawCamera(dir * interval/1000);
+                    var yawSpeed = 80;
+                    if(yawDir!=0)renderer.yawCamera(yawDir * yawSpeed * interval/1000);
+
+                    //pitching/tilting
+                    var pitchDir = 0;
+                    if(keyMap.isKeyDown(Qt.Key_Up)){
+                        ++pitchDir;
+                    }
+                    if(keyMap.isKeyDown(Qt.Key_Down)){
+                        --pitchDir;
+                    }
+                    var pitchSpeed = 80;
+                    if(pitchDir!=0)renderer.pitchCamera(pitchDir * pitchSpeed * interval/1000);
                 }
             }
         },

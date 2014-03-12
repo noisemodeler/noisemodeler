@@ -57,6 +57,30 @@ QQuickFramebufferObject::Renderer *HeightMap3DExplorer::createRenderer() const
     return new HeightMap3DFboRenderer();
 }
 
+void HeightMap3DExplorer::yawCamera(float degrees)
+{
+    m_state.camera.yaw(degrees);
+    update();
+}
+
+void HeightMap3DExplorer::pitchCamera(float degrees)
+{
+    m_state.camera.pitch(degrees);
+    update();
+}
+
+void HeightMap3DExplorer::moveCameraForward(float distance)
+{
+    m_state.camera.moveForward(distance);
+    update();
+}
+
+void HeightMap3DExplorer::moveCameraRight(float distance)
+{
+    m_state.camera.moveRight(distance);
+    update();
+}
+
 void HeightMap3DExplorer::setHeightMapFunction(HeightMapFunction *heightMapFunction)
 {
     if(heightMapFunction==m_heightMapFunction)return;
