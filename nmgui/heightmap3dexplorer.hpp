@@ -31,8 +31,12 @@ public:
         Transform3D camera;
         State():
             domain(0,0,1,1),
-            shaderSource("void elevation(in vec2 coords, out float height){height = 0.5;}")
-        {}
+            shaderSource("void elevation(in vec2 coords, out float height){height = 0.5;}"),
+            camera()
+        {
+            camera.setPosition({1,1,1});
+//            camera.lookAt({0,0,0});
+        }
     };
 
     explicit HeightMap3DExplorer(QQuickItem *the_parent = 0);

@@ -74,7 +74,7 @@ void HeightMap3DRenderer::render(){
     //this is where the magic happens
     {
         QOpenGLVertexArrayObject::Binder binder(&m_vao);
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, c_resolution*c_resolution);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, m_vertexCount);
     }
 }
 
@@ -138,27 +138,33 @@ void HeightMap3DRenderer::recompileProgram()
 void HeightMap3DRenderer::prepareVertexBuffer()
 {
     //prepare the data for the buffer
-    int vertexCount = c_resolution * c_resolution;
-    QVector<QVector2D> vertices(vertexCount);
+    QVector<QVector2D> vertices;
 //    const float tileWidth = 1.0 / static_cast<float>(resolution);
     //column major
 //    for (int j=0; j<resolution; ++j) {
 //        for(int i=0; i<resolution; ++i){
 //        }
 //    }
-    {
-        int i=0;//     x,z
-        vertices[i++]={1,0}; //bot-right
-        vertices[i++]={0,0}; //bot-left
-        vertices[i++]={1,1}; //top-right
-        vertices[i++]={0,1}; //top-left
+    for (int y = 0; y < c_resolution-1; ++y) {
+        if(y%2==0){
+            for (int x = 0; x < c_resolution; ++x) {
+                vertices.append({float(x),float(y)  });
+                vertices.append({float(x),float(y+1)});
+            }
+        } else {
+            for (int x = c_resolution-1; x >= 0; --x) {
+                vertices.append({float(x),float(y)  });
+                vertices.append({float(x),float(y+1)});
+            }
+        }
     }
+    m_vertexCount = vertices.length();
 
     //prepare the buffer
     m_gridVerticesBuffer.create();
     m_gridVerticesBuffer.setUsagePattern(QOpenGLBuffer::StaticDraw); //static because the height values will be obtained separately and added in the vertex shader
     m_gridVerticesBuffer.bind();
-    m_gridVerticesBuffer.allocate(vertices.data(), vertexCount*sizeof(QVector2D)); //second parameter is number of bytes
+    m_gridVerticesBuffer.allocate(vertices.data(), m_vertexCount*sizeof(QVector2D)); //second parameter is number of bytes
     m_gridVerticesBuffer.release();
 }
 

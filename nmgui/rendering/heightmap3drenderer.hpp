@@ -22,12 +22,13 @@ public:
     void render();
 
 private:
-    static constexpr int c_resolution = 2; //width and height of a terrain patch
+    static constexpr int c_resolution = 4; //width and height of a terrain patch
     QOpenGLShaderProgram *m_program;
     QOpenGLVertexArrayObject m_vao;
     QOpenGLBuffer m_gridVerticesBuffer;
     HeightMap3DExplorer::State m_state;
     bool m_sourceDirty;
+    int m_vertexCount;
     void initialize();
     void prepareVertexBuffer();
     void prepareVertexArrayObject();
