@@ -34,6 +34,7 @@ void HeightMap3DRenderer::setState(HeightMap3DExplorer::State &state)
 
 void HeightMap3DRenderer::render(){
     glClearColor(0.5, 0.7, 1, 1);
+    glDepthMask(GL_TRUE);
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     if(!m_program || m_sourceDirty){
@@ -51,7 +52,7 @@ void HeightMap3DRenderer::render(){
     m_program->setUniformValue("domain", domain);
 
     QMatrix4x4 modelMatrix;
-    modelMatrix.scale(30);
+    modelMatrix.scale(300);
 
     //get viewmatrix from camera
     QMatrix4x4 viewMatrix = m_state.camera.worldToLocalMatrix();
@@ -59,7 +60,7 @@ void HeightMap3DRenderer::render(){
 
     //set up projection matrix
     QMatrix4x4 projectionMatrix;
-    projectionMatrix.perspective(55, 1, 0.1, 1024);
+    projectionMatrix.perspective(65, 1, 1.0, 10024);
 //    projectionMatrix.ortho(-10,10,-10,10,0.10,10);
     projectionMatrix.scale({1,-1,1}); //flip Y coordinates because otherwise Qt will render it upside down
 
@@ -72,7 +73,9 @@ void HeightMap3DRenderer::render(){
     m_program->setUniformValue("mvp", mvp);
 
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
     glEnable(GL_CULL_FACE);
+    glDisable(GL_BLEND);
     glCullFace(GL_BACK);
 
     //this is where the magic happens
@@ -178,20 +181,13 @@ void HeightMap3DRenderer::prepareVertexBuffer()
     float dx = 1.f/float(c_resolution);
     float dy = dx;
     for (int y = 0; y < c_resolution-1; ++y) {
-        if(y%2==0){
-            for (int x = c_resolution-1; x >= 0; --x) {
-                vertices.append({x*dx,y*dy});
-                vertices.append({x*dx,(y+1)*dy});
-            }
-        } else {
-            for (int x = 0; x < c_resolution-2; ++x) {
-                vertices.append({x*dx,(y+1)*dy});
-                vertices.append({(x+1)*dx,y*dy});
-            }
-            if(y==c_resolution-2){
-                vertices.append({(c_resolution-1)*dx,(y+1)*dy}); //if this is the last row, add the final vertex
-            }
+        //if not first row, create a degenerate here
+        if(y!=0)vertices.append({(c_resolution-1)*dx, y*dx});
+        for (int x = c_resolution-1; x >= 0; --x) {
+            vertices.append({x*dx,y*dy});
+            vertices.append({x*dx,(y+1)*dy});
         }
+        if(y!=c_resolution-2)vertices.append({0*dx,(y+1)*dy});
     }
     m_vertexCount = vertices.length();
 
