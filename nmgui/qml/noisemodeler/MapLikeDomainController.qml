@@ -6,6 +6,7 @@ Item {
     id: mapLikeDomainController
     property var domain: Qt.rect(0,0,1,1) //using var instead of rect, because we need reference semantics instead of value semantics
     property alias pressed: mouseArea.pressed
+    signal doubleClicked(var mouse)
     Item {
         id:offset
         onXChanged: {
@@ -29,5 +30,6 @@ Item {
             offset.x = -domain.x * parent.width / domain.width;
             offset.y = -domain.y * parent.height / domain.height;
         }
+        onDoubleClicked: mapLikeDomainController.doubleClicked(mouse)
     }
 }

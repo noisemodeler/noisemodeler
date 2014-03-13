@@ -3,9 +3,10 @@ import NoiseModeler 1.0
 import QtQuick.Layouts 1.1
 
 SubWindow {
+    property bool maximized: false
     windowTitle: "heightmap 3D preview"
-    contents.width: 350
-    contents.height: 350
+    contents.width: maximized ? parent.width : 350
+    contents.height: maximized ? parent.height : 350
     contents.children: [
         HeightMap3DExplorer {
             id: renderer
@@ -51,6 +52,7 @@ SubWindow {
             domain: renderer.domain
             anchors.fill: renderer
             onPressedChanged: renderer.focus = true;
+            onDoubleClicked: maximized = !maximized
         },
         GridLayout {
             anchors.top: renderer.bottom
