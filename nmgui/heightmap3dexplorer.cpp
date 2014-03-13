@@ -8,6 +8,7 @@
 
 #include <QtQuick/qquickwindow.h>
 #include <QtGui/QOpenGLContext>
+#include <QtGui/QOpenGLFramebufferObject>
 #include <sstream>
 
 namespace nmgui {
@@ -20,7 +21,11 @@ protected:
         m_heightMapRenderer.render();
         update();
     }
-    //QOpenGLFramebufferObject *createFramebufferObject(const QSize &size) override;
+    QOpenGLFramebufferObject *createFramebufferObject(const QSize &size) override {
+        QOpenGLFramebufferObjectFormat format;
+        format.setAttachment(QOpenGLFramebufferObject::Depth);
+        return new QOpenGLFramebufferObject(size, format);
+    }
 
     //this is the only function where it is safe to communicate with the QQuickFrameBufferObject
     void synchronize(QQuickFramebufferObject *fbo) override

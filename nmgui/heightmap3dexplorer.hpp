@@ -34,7 +34,7 @@ public:
             shaderSource("void elevation(in vec2 coords, out float height){height = 0.5;}"),
             camera()
         {
-            camera.setPosition({1,1,1});
+            camera.setPosition({0,300,0});
             camera.yaw(-120);
             camera.pitch(-45);
 //            camera.lookAt({0,0,0});
