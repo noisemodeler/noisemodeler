@@ -55,11 +55,11 @@ void HeightMap3DRenderer::render(){
 
     //get viewmatrix from camera
     QMatrix4x4 viewMatrix = m_state.camera.worldToLocalMatrix();
-    QMatrix4x4 modelViewMatrix = modelMatrix * viewMatrix;
+    QMatrix4x4 modelViewMatrix = viewMatrix * modelMatrix;
 
     //set up projection matrix
     QMatrix4x4 projectionMatrix;
-    projectionMatrix.perspective(55, 1, 0.1, 128);
+    projectionMatrix.perspective(55, 1, 0.1, 1024);
 //    projectionMatrix.ortho(-10,10,-10,10,0.10,10);
     projectionMatrix.scale({1,-1,1}); //flip Y coordinates because otherwise Qt will render it upside down
 
@@ -108,10 +108,22 @@ void HeightMap3DRenderer::recompileProgram()
           "uniform mat4 mvp;\n"
           "attribute highp vec2 vertices;\n"
           "varying highp vec2 coords;\n"
+          "varying vec3 normal;\n"
           "void main() {\n"
           "    coords = vertices.xy*vec2(0.5,0.5)*domain.zw+vec2(0.5,0.5)+domain.xy;\n"
           "    float height;\n"
           "    elevation(coords, height);\n"
+          //for now, we'll compute the normals here\n
+          "    float rightHeight, forwardHeight;\n"
+          //TODO get rid of hard coded delta
+          "    float delta = 1.0/64.0;\n"
+          "    elevation(vec2(coords.x+delta,coords.y), rightHeight);\n"
+          "    elevation(vec2(coords.x,coords.y-delta), forwardHeight);\n"
+          //compute normal purely based on these two points (it'll probably look like shit)
+          "    vec3 rightVector = normalize(vec3(delta, rightHeight-height, 0));\n"
+          "    vec3 forwardVector = normalize(vec3(0, forwardHeight-height, delta));\n"
+          "    normal = cross(rightVector, forwardVector);\n"
+
           "    gl_Position = mvp * vec4(vertices.x,height,vertices.y,1);\n"
           "}\n";
 
@@ -122,12 +134,22 @@ void HeightMap3DRenderer::recompileProgram()
     fs << m_state.shaderSource;
 //    fs << "void elevation(in vec2 coords, out float height){height = 0.8+coords.x-mod(coords.y,1);}\n";
 
-    fs << "uniform lowp float t;\n"
+    fs << ""
+          "uniform mat4 modelViewMatrix;\n"
+          "uniform lowp float t;\n"
           "varying highp vec2 coords;\n"
+          "varying vec3 normal;\n"
           "void main() {\n"
-          "    float height;\n"
-          "    elevation(coords, height);\n"
-          "    gl_FragColor = vec4(coords.x, height, height, 1);\n"
+          "    vec3 n = normalize(modelViewMatrix * vec4(normal,0)).xyz;\n"
+          "    vec3 s = normalize(modelViewMatrix * vec4(1,1,1,0)).xyz; //direction towards light source\n"
+          //material constants
+          "    float k_d = 0.5;\n"
+          //intensities of different types of lighting
+          "    float i_d = k_d * max(0, dot(s, n));\n"
+//          "    float height;\n"
+//          "    elevation(coords, height);\n"
+          "    gl_FragColor = vec4(i_d*vec3(1, 1, 1), 1);\n"
+//          "    gl_FragColor = vec4(height, height, height, 1);\n"
           "}\n";
 
     m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fs.str().c_str());
