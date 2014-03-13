@@ -72,6 +72,8 @@ void HeightMap3DRenderer::render(){
     m_program->setUniformValue("mvp", mvp);
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
 
     //this is where the magic happens
     {
@@ -177,14 +179,17 @@ void HeightMap3DRenderer::prepareVertexBuffer()
     float dy = dx;
     for (int y = 0; y < c_resolution-1; ++y) {
         if(y%2==0){
-            for (int x = 0; x < c_resolution; ++x) {
+            for (int x = c_resolution-1; x >= 0; --x) {
                 vertices.append({x*dx,y*dy});
                 vertices.append({x*dx,(y+1)*dy});
             }
         } else {
-            for (int x = c_resolution-1; x >= 0; --x) {
-                vertices.append({x*dx,y*dy});
+            for (int x = 0; x < c_resolution-2; ++x) {
                 vertices.append({x*dx,(y+1)*dy});
+                vertices.append({(x+1)*dx,y*dy});
+            }
+            if(y==c_resolution-2){
+                vertices.append({(c_resolution-1)*dx,(y+1)*dy}); //if this is the last row, add the final vertex
             }
         }
     }
