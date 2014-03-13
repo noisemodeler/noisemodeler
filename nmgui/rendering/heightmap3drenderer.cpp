@@ -141,14 +141,17 @@ void HeightMap3DRenderer::recompileProgram()
           "varying vec3 normal;\n"
           "void main() {\n"
           "    vec3 n = normalize(modelViewMatrix * vec4(normal,0)).xyz;\n"
-          "    vec3 s = normalize(modelViewMatrix * vec4(1,1,1,0)).xyz; //direction towards light source\n"
+          "    vec3 s = normalize(modelViewMatrix * vec4(1,2,1,0)).xyz; //direction towards light source\n"
+          "    float height;\n"
+          "    elevation(coords, height);\n"
           //material constants
-          "    float k_d = 0.5;\n"
+          "    float k_d = 0.7;\n"
+          "    float k_height = 0.5;\n"
           //intensities of different types of lighting
           "    float i_d = k_d * max(0, dot(s, n));\n"
-//          "    float height;\n"
-//          "    elevation(coords, height);\n"
-          "    gl_FragColor = vec4(i_d*vec3(1, 1, 1), 1);\n"
+          "    float i_height = k_height * height;\n"
+          "    float i_total = i_d;// + i_height;\n"
+          "    gl_FragColor = vec4(i_total*vec3(1, 1, 1), 1);\n"
 //          "    gl_FragColor = vec4(height, height, height, 1);\n"
           "}\n";
 
