@@ -18,6 +18,11 @@ QMatrix4x4 Transform3D::worldToLocalMatrix() const
     return wtl;
 }
 
+void Transform3D::yaw(float degrees){
+    QQuaternion yRotation = QQuaternion::fromAxisAndAngle(QVector3D(0,1,0), degrees);
+    m_orientation = yRotation * m_orientation;
+}
+
 
 
 /* Build a unit quaternion representing the rotation

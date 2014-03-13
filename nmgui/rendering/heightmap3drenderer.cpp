@@ -50,10 +50,12 @@ void HeightMap3DRenderer::render(){
     QVector4D domain{l, t, w, h};
     m_program->setUniformValue("domain", domain);
 
+    QMatrix4x4 modelMatrix;
+    modelMatrix.scale(30);
 
     //get viewmatrix from camera
     QMatrix4x4 viewMatrix = m_state.camera.worldToLocalMatrix();
-    QMatrix4x4 modelViewMatrix = viewMatrix;
+    QMatrix4x4 modelViewMatrix = modelMatrix * viewMatrix;
 
     //set up projection matrix
     QMatrix4x4 projectionMatrix;
@@ -146,16 +148,18 @@ void HeightMap3DRenderer::prepareVertexBuffer()
 //        for(int i=0; i<resolution; ++i){
 //        }
 //    }
+    float dx = 1.f/float(c_resolution);
+    float dy = dx;
     for (int y = 0; y < c_resolution-1; ++y) {
         if(y%2==0){
             for (int x = 0; x < c_resolution; ++x) {
-                vertices.append({float(x),float(y)  });
-                vertices.append({float(x),float(y+1)});
+                vertices.append({x*dx,y*dy});
+                vertices.append({x*dx,(y+1)*dy});
             }
         } else {
             for (int x = c_resolution-1; x >= 0; --x) {
-                vertices.append({float(x),float(y)  });
-                vertices.append({float(x),float(y+1)});
+                vertices.append({x*dx,y*dy});
+                vertices.append({x*dx,(y+1)*dy});
             }
         }
     }
