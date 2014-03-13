@@ -87,11 +87,6 @@ void HeightMap3DRenderer::initialize()
     //prepare textures?
     prepareVertexBuffer();
     prepareVertexArrayObject();
-
-    //set camera to a sensible position and rotation
-//    m_camera.setPosition({0,2,0});
-//    m_camera.lookAt({0,0,0});
-//    m_camera.setOrientation(QQuaternion::fromAxisAndAngle(0,1,0,-90));
 }
 
 void HeightMap3DRenderer::recompileProgram()
