@@ -101,18 +101,24 @@ void HeightMap3DRenderer::recompileProgram()
         m_program = nullptr;
     }
     m_program = new QOpenGLShaderProgram();
-    m_program->addShaderFromSourceCode(QOpenGLShader::Vertex,
-                                       "#version 130\n"
-                                       "uniform vec4 domain;\n"
-                                       "uniform mat4 modelViewMatrix;\n"
-                                       "uniform mat4 projectionMatrix;\n"
-                                       "uniform mat4 mvp;\n"
-                                       "attribute highp vec2 vertices;\n"
-                                       "varying highp vec2 coords;\n"
-                                       "void main() {\n"
-                                       "    gl_Position = mvp * vec4(vertices.x,-2,vertices.y,1);\n"
-                                       "    coords = vertices.xy*vec2(0.5,0.5)*domain.zw+vec2(0.5,0.5)+domain.xy;\n"
-                                       "}\n");
+    std::stringstream vs;
+
+    vs << "#version 130\n";
+    vs << m_state.shaderSource;
+    vs << "uniform vec4 domain;\n"
+          "uniform mat4 modelViewMatrix;\n"
+          "uniform mat4 projectionMatrix;\n"
+          "uniform mat4 mvp;\n"
+          "attribute highp vec2 vertices;\n"
+          "varying highp vec2 coords;\n"
+          "void main() {\n"
+          "    coords = vertices.xy*vec2(0.5,0.5)*domain.zw+vec2(0.5,0.5)+domain.xy;\n"
+          "    float height;\n"
+          "    elevation(coords, height);\n"
+          "    gl_Position = mvp * vec4(vertices.x,height,vertices.y,1);\n"
+          "}\n";
+
+    m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vs.str().c_str());
     std::stringstream fs;
     fs << "#version 130\n";
 
