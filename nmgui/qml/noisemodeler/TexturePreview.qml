@@ -3,9 +3,11 @@ import NoiseModeler 1.0
 import QtQuick.Layouts 1.1
 
 SubWindow {
+    property bool maximized: false
     windowTitle: "texture preview"
-    contents.width: 350
-    contents.height: 350
+    contents.width: maximized ? parent.width : 350
+    contents.height: maximized ? parent.height : 350
+    z: maximized ? 20 : 0
     contents.children: [
         HeightMapTextureExplorer {
             id: textureRenderer
@@ -19,6 +21,7 @@ SubWindow {
             domain: textureRenderer.domain
             anchors.fill: textureRenderer
             onPressedChanged: textureRenderer.focus = true;
+            onDoubleClicked: maximized = !maximized;
         },
         GridLayout {
             anchors.top: textureRenderer.bottom
