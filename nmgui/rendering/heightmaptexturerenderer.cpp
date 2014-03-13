@@ -108,10 +108,10 @@ void HeightMapTextureRenderer::prepareVertexBuffer()
 {
     QVector<QVector2D> vertices;
     //                x, y
-    vertices.append({ 1,-1}); //bot-right
     vertices.append({-1,-1}); //bot-left
-    vertices.append({ 1, 1}); //top-right
+    vertices.append({ 1,-1}); //bot-right
     vertices.append({-1, 1}); //top-left
+    vertices.append({ 1, 1}); //top-right
 
     //prepare the buffer
     m_gridVerticesBuffer.create();
