@@ -12,6 +12,9 @@ namespace {
 
 bool lineSegmentIntersectsSphere(QVector3D p1, QVector3D p2, QVector3D sphereCenter, float radius){
     // formula from: http://paulbourke.net/geometry/circlesphere/index.html
+    const float rsquared = radius * radius;
+    if((p2-sphereCenter).lengthSquared()<rsquared)return true;
+    if((p1-sphereCenter).lengthSquared()<rsquared)return true;
     QVector3D &p3 = sphereCenter;
     QVector3D p1p2 = p2-p1;
     const float numerator = QVector3D::dotProduct((p3-p1)*(p1p2),{1,1,1});
@@ -20,7 +23,6 @@ bool lineSegmentIntersectsSphere(QVector3D p1, QVector3D p2, QVector3D sphereCen
     if(u<0 || u>1)return false; //line intersection outside line segment
     QVector3D p = p1 + p1p2*u; //intersection point
     QVector3D p3p = p - p3; //vector from center to intersection point
-    const float rsquared = radius * radius;
     return p3p.lengthSquared() < rsquared; //checking if closest point on segment is closer to the center than the radius
 }
 
@@ -58,7 +60,7 @@ struct TerrainPatchSelection {
         QVector3D tr = bl + QVector3D{1,0,-1}*size;
         //first check if center is inside
         if(sphereCenter.x()>bl.x() && sphereCenter.x()<br.x() &&
-           sphereCenter.z()>bl.z() && sphereCenter.z()<tr.z()){
+           sphereCenter.z()<bl.z() && sphereCenter.z()>tr.z()){
             return true;
         }
         return lineSegmentIntersectsSphere(bl,br,sphereCenter,radius) ||
@@ -98,8 +100,11 @@ void HeightMap3DRenderer::render(){
     //select terrain patches of different lod levels here
     //TODO maybe this is not the right place for this kind of code...
     std::vector<TerrainPatchSelection> selections;
-    TerrainPatchSelection rootQuad{0,{0,0,0},100};
-    rootQuad.lodSelect({10,8,4,2},m_state.camera.position(),selections);
+    std::vector<float> ranges{2000,1000};
+    const int lodLevelCount = ranges.size()+1;
+    const float rootScale = 1;
+    TerrainPatchSelection rootQuad{lodLevelCount-1,{0,0,0},rootScale};
+    rootQuad.lodSelect(ranges,m_state.camera.position(),selections);
 
 
 
@@ -124,7 +129,6 @@ void HeightMap3DRenderer::render(){
 
     //get viewmatrix from camera
     QMatrix4x4 viewMatrix = m_state.camera.worldToLocalMatrix();
-    QMatrix4x4 modelViewMatrix = viewMatrix * modelMatrix;
 
     //set up projection matrix
     QMatrix4x4 projectionMatrix;
@@ -132,16 +136,7 @@ void HeightMap3DRenderer::render(){
 //    projectionMatrix.ortho(-10,10,-10,10,0.10,10);
     projectionMatrix.scale({1,-1,1}); //flip Y coordinates because otherwise Qt will render it upside down
 
-    QMatrix4x4 modelMatrix;
-    modelMatrix.scale(100);
-    modelMatrix.translate(rootQuad.position);
-    QMatrix4x4 mvp = projectionMatrix * modelViewMatrix;
-
-    //Pass matrices to shader
-    m_program->setUniformValue("modelViewMatrix", modelViewMatrix);
-    m_program->setUniformValue("projectionMatrix", projectionMatrix);
-    m_program->setUniformValue("mvp", mvp);
-
+    //set gl states for terrain rendering
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     glEnable(GL_CULL_FACE);
@@ -151,8 +146,27 @@ void HeightMap3DRenderer::render(){
     //this is where the magic happens
     {
         QOpenGLVertexArrayObject::Binder binder(&m_vao);
-        for (int i = 0; i < 1; ++i) {
-            glDrawArrays(GL_LINE_STRIP, 0, m_vertexCount);
+        //loop through all selected terrain patches
+        for (auto selection : selections) {
+            QMatrix4x4 modelMatrix;
+            modelMatrix.scale(100);
+            modelMatrix.translate(selection.position);
+            QVector4D subDomain{domain.x()+selection.position.x(),
+                                domain.y()+selection.position.z(),
+                                domain.z(),domain.w()};
+            m_program->setUniformValue("domain", subDomain);
+            modelMatrix.scale(selection.size);
+
+            QMatrix4x4 modelViewMatrix = viewMatrix * modelMatrix;
+            QMatrix4x4 mvp = projectionMatrix * modelViewMatrix;
+
+            //Pass matrices to shader
+            m_program->setUniformValue("modelViewMatrix", modelViewMatrix);
+            m_program->setUniformValue("projectionMatrix", projectionMatrix);
+            m_program->setUniformValue("mvp", mvp);
+
+            //finally draw this patch
+            glDrawArrays(GL_TRIANGLE_STRIP, 0, m_vertexCount);
         }
     }
 }
@@ -184,16 +198,15 @@ void HeightMap3DRenderer::recompileProgram()
           "uniform mat4 projectionMatrix;\n"
           "uniform mat4 mvp;\n"
           "attribute highp vec2 vertices;\n"
-          "varying highp vec2 coords;\n"
-          "varying vec3 normal;\n"
+          "out highp vec2 coords;\n"
+          "out vec3 normal;\n"
           "void main() {\n"
-          "    coords = vertices.xy*vec2(0.5,0.5)*domain.zw+vec2(0.5,0.5)+domain.xy;\n"
+          "    coords = vertices.xy*domain.zw+domain.xy;\n"
           "    float height;\n"
           "    elevation(coords, height);\n"
           //for now, we'll compute the normals here\n
           "    float rightHeight, forwardHeight;\n"
-          //TODO get rid of hard coded delta
-          "    float delta = 1.0/64.0;\n"
+          "    float delta = 1.0/" << c_resolution << ";\n"
           "    elevation(vec2(coords.x+delta,coords.y), rightHeight);\n"
           "    elevation(vec2(coords.x,coords.y-delta), forwardHeight);\n"
           //compute normal purely based on these two points (it'll probably look like shit)
@@ -214,8 +227,8 @@ void HeightMap3DRenderer::recompileProgram()
     fs << ""
           "uniform mat4 modelViewMatrix;\n"
           "uniform lowp float t;\n"
-          "varying highp vec2 coords;\n"
-          "varying vec3 normal;\n"
+          "in highp vec2 coords;\n"
+          "in vec3 normal;\n"
           "void main() {\n"
           "    vec3 n = normalize(modelViewMatrix * vec4(normal,0)).xyz;\n"
           "    vec3 s = normalize(modelViewMatrix * vec4(1,2,1,0)).xyz; //direction towards light source\n"
@@ -228,7 +241,8 @@ void HeightMap3DRenderer::recompileProgram()
           "    float i_d = k_d * max(0, dot(s, n));\n"
           "    float i_height = k_height * height;\n"
           "    float i_total = i_d;// + i_height;\n"
-          "    gl_FragColor = vec4(i_total*vec3(1, 1, 1), 1);\n"
+//          "    gl_FragColor = vec4(i_total*vec3(1, 1, 1), 1);\n"
+          "    gl_FragColor = vec4(coords.x, coords.y, 0, 1);//vec4(i_total*vec3(1, 1, 1), 1);\n"
 //          "    gl_FragColor = vec4(height, height, height, 1);\n"
           "}\n";
 
