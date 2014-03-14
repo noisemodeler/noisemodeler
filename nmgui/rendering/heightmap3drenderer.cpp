@@ -264,8 +264,8 @@ void HeightMap3DRenderer::prepareVertexBuffer()
 //        for(int i=0; i<resolution; ++i){
 //        }
 //    }
-    float dx = 1.f/float(c_resolution);
-    float dy = dx;
+    const float dx = 1.f/float(c_resolution-1);
+    const float dy = dx;
     for (int y = 0; y < c_resolution-1; ++y) {
         //if not first row, create a degenerate here
         if(y!=0)vertices.append({(c_resolution-1)*dx, y*dx});
