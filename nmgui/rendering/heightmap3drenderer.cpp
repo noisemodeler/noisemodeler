@@ -153,7 +153,8 @@ void HeightMap3DRenderer::render(){
             modelMatrix.translate(selection.position);
             QVector4D subDomain{domain.x()+selection.position.x(),
                                 domain.y()+selection.position.z(),
-                                domain.z(),domain.w()};
+                                domain.z()*selection.size,
+                                domain.w()*selection.size};
             m_program->setUniformValue("domain", subDomain);
             modelMatrix.scale(selection.size);
 
