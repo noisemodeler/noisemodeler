@@ -33,8 +33,8 @@ struct TerrainPatchSelection {
     void visitChildren(std::function<void(TerrainPatchSelection)> cb){
         cb(TerrainPatchSelection{lodLevel-1, position, size/2});
         cb(TerrainPatchSelection{lodLevel-1, position+QVector3D{1,0,0}*size/2, size/2});
-        cb(TerrainPatchSelection{lodLevel-1, position+QVector3D{0,0,-1}*size/2, size/2});
-        cb(TerrainPatchSelection{lodLevel-1, position+QVector3D{1,0,-1}*size/2, size/2});
+        cb(TerrainPatchSelection{lodLevel-1, position+QVector3D{0,1,0}*size/2, size/2});
+        cb(TerrainPatchSelection{lodLevel-1, position+QVector3D{1,1,0}*size/2, size/2});
     }
     /** @brief appends appropriate terrainpatches to a list of selections
       * @param ranges the radiuses of different lod ranges
@@ -55,12 +55,12 @@ struct TerrainPatchSelection {
     }
     bool patchIntersectsSphere(float radius, QVector3D sphereCenter){
         QVector3D bl = position;
-        QVector3D br = bl + QVector3D{1,0, 0}*size; //TODO ideally get height from terrain data here
-        QVector3D tl = bl + QVector3D{0,0,-1}*size;
-        QVector3D tr = bl + QVector3D{1,0,-1}*size;
+        QVector3D br = bl + QVector3D{1,0,0}*size; //TODO ideally get height from terrain data here
+        QVector3D tl = bl + QVector3D{0,1,0}*size;
+        QVector3D tr = bl + QVector3D{1,1,0}*size;
         //first check if center is inside
         if(sphereCenter.x()>bl.x() && sphereCenter.x()<br.x() &&
-           sphereCenter.z()<bl.z() && sphereCenter.z()>tr.z()){
+           sphereCenter.y()>bl.y() && sphereCenter.y()<tr.y()){
             return true;
         }
         return lineSegmentIntersectsSphere(bl,br,sphereCenter,radius) ||
@@ -97,14 +97,21 @@ void HeightMap3DRenderer::setState(HeightMap3DExplorer::State &state)
 }
 
 void HeightMap3DRenderer::render(){
+    QMatrix4x4 terrainModelMatrix;
+    terrainModelMatrix.rotate(-90, {1,0,0});
+    terrainModelMatrix.scale(10000);
+
     //select terrain patches of different lod levels here
     //TODO maybe this is not the right place for this kind of code...
     std::vector<TerrainPatchSelection> selections;
-    std::vector<float> ranges{2000,1000};
+    std::vector<float> ranges{0.000125,0.00025,0.0005,0.001};
+//    std::vector<float> ranges{0.5,1};
     const int lodLevelCount = ranges.size()+1;
     const float rootScale = 1;
     TerrainPatchSelection rootQuad{lodLevelCount-1,{0,0,0},rootScale};
-    rootQuad.lodSelect(ranges,m_state.camera.position(),selections);
+    QVector3D observerPosition = terrainModelMatrix.inverted() * m_state.camera.position();
+    observerPosition.setZ(0);//TODO don't ignore height
+    rootQuad.lodSelect(ranges,observerPosition,selections);
 
 
 
@@ -147,15 +154,15 @@ void HeightMap3DRenderer::render(){
     {
         QOpenGLVertexArrayObject::Binder binder(&m_vao);
         //loop through all selected terrain patches
-        for (auto selection : selections) {
-            QMatrix4x4 modelMatrix;
-            modelMatrix.scale(100);
+        for (TerrainPatchSelection selection : selections) {
+            QMatrix4x4 modelMatrix = terrainModelMatrix;
             modelMatrix.translate(selection.position);
-            QVector4D subDomain{domain.x()+selection.position.x(),
-                                domain.y()+selection.position.z(),
+            QVector4D subDomain{domain.x()+selection.position.x()*domain.z(),
+                                domain.y()+selection.position.y()*domain.w(),
                                 domain.z()*selection.size,
                                 domain.w()*selection.size};
             m_program->setUniformValue("domain", subDomain);
+            m_program->setUniformValue("heightScale", float(0.01/selection.size));
             modelMatrix.scale(selection.size);
 
             QMatrix4x4 modelViewMatrix = viewMatrix * modelMatrix;
@@ -198,6 +205,7 @@ void HeightMap3DRenderer::recompileProgram()
           "uniform mat4 modelViewMatrix;\n"
           "uniform mat4 projectionMatrix;\n"
           "uniform mat4 mvp;\n"
+          "uniform float heightScale;\n"
           "attribute highp vec2 vertices;\n"
           "out highp vec2 coords;\n"
           "out vec3 normal;\n"
@@ -205,17 +213,20 @@ void HeightMap3DRenderer::recompileProgram()
           "    coords = vertices.xy*domain.zw+domain.xy;\n"
           "    float height;\n"
           "    elevation(coords, height);\n"
+          "    height *= heightScale;\n"
           //for now, we'll compute the normals here\n
           "    float rightHeight, forwardHeight;\n"
           "    float delta = 1.0/" << c_resolution << ";\n"
           "    elevation(vec2(coords.x+delta,coords.y), rightHeight);\n"
-          "    elevation(vec2(coords.x,coords.y-delta), forwardHeight);\n"
+          "    elevation(vec2(coords.x,coords.y+delta), forwardHeight);\n"
+          "    rightHeight *= heightScale;\n"
+          "    forwardHeight *= heightScale;\n"
           //compute normal purely based on these two points (it'll probably look like shit)
-          "    vec3 rightVector = normalize(vec3(delta, rightHeight-height, 0));\n"
-          "    vec3 forwardVector = normalize(vec3(0, forwardHeight-height, delta));\n"
+          "    vec3 rightVector = normalize(vec3(delta, 0, rightHeight-height));\n"
+          "    vec3 forwardVector = normalize(vec3(0, delta, forwardHeight-height));\n"
           "    normal = cross(rightVector, forwardVector);\n"
 
-          "    gl_Position = mvp * vec4(vertices.x,height,vertices.y,1);\n"
+          "    gl_Position = mvp * vec4(vertices.x,vertices.y,height,1);\n"
           "}\n";
 
     m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vs.str().c_str());
@@ -232,7 +243,7 @@ void HeightMap3DRenderer::recompileProgram()
           "in vec3 normal;\n"
           "void main() {\n"
           "    vec3 n = normalize(modelViewMatrix * vec4(normal,0)).xyz;\n"
-          "    vec3 s = normalize(modelViewMatrix * vec4(1,2,1,0)).xyz; //direction towards light source\n"
+          "    vec3 s = normalize(modelViewMatrix * vec4(1,1,1,0)).xyz; //direction towards light source\n"
           "    float height;\n"
           "    elevation(coords, height);\n"
           //material constants
@@ -242,8 +253,8 @@ void HeightMap3DRenderer::recompileProgram()
           "    float i_d = k_d * max(0, dot(s, n));\n"
           "    float i_height = k_height * height;\n"
           "    float i_total = i_d;// + i_height;\n"
-//          "    gl_FragColor = vec4(i_total*vec3(1, 1, 1), 1);\n"
-          "    gl_FragColor = vec4(coords.x, coords.y, 0, 1);//vec4(i_total*vec3(1, 1, 1), 1);\n"
+          "    gl_FragColor = vec4(i_total*vec3(1, 1, 1), 1);\n"
+//          "    gl_FragColor = vec4(coords.x, coords.y, 0, 1);//vec4(i_total*vec3(1, 1, 1), 1);\n"
 //          "    gl_FragColor = vec4(height, height, height, 1);\n"
           "}\n";
 
@@ -266,15 +277,17 @@ void HeightMap3DRenderer::prepareVertexBuffer()
 //        }
 //    }
     const float dx = 1.f/float(c_resolution-1);
+//    const float dx = 1.f/float(c_resolution); //TODO switch back to line above
     const float dy = dx;
     for (int y = 0; y < c_resolution-1; ++y) {
-        //if not first row, create a degenerate here
-        if(y!=0)vertices.append({(c_resolution-1)*dx, y*dx});
-        for (int x = c_resolution-1; x >= 0; --x) {
+        //if not first row, create a degenerate triangle here
+        if(y!=0)vertices.append({(0)*dx, y*dy});
+        for (int x = 0; x < c_resolution; ++x) {
             vertices.append({x*dx,y*dy});
             vertices.append({x*dx,(y+1)*dy});
         }
-        if(y!=c_resolution-2)vertices.append({0*dx,(y+1)*dy});
+        //if not last row, create a degenerate at the end
+        if(y!=c_resolution-2)vertices.append({(c_resolution-1)*dx,(y+1)*dy});
     }
     m_vertexCount = vertices.length();
 
