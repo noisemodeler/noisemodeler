@@ -142,7 +142,6 @@ void HeightMap3DRenderer::render(){
     glCullFace(GL_BACK);
 
 
-    //setting uniforms that are shared for each patch
     QMatrix4x4 viewMatrix = m_state.camera.worldToLocalMatrix();
     QMatrix4x4 projectionMatrix;
     projectionMatrix.perspective(65, 1, 1.0, 10024);
@@ -152,11 +151,12 @@ void HeightMap3DRenderer::render(){
     QMatrix4x4 modelViewMatrix = viewMatrix * modelMatrix;
     QMatrix4x4 mvp = projectionMatrix * modelViewMatrix;
 
-    //Pass matrices to shader
+    //uniforms shared between patches
     m_program->setUniformValue("modelViewMatrix", modelViewMatrix);
     m_program->setUniformValue("normalMatrix", modelViewMatrix.normalMatrix());
     m_program->setUniformValue("projectionMatrix", projectionMatrix);
     m_program->setUniformValue("mvp", mvp);
+    m_program->setUniformValue("sampleOffset", QVector2D(m_state.domain.left(), m_state.domain.top()));
 
     m_program->setUniformValue("scaling", QVector3D(
                                    m_state.domain.width(),
@@ -216,11 +216,12 @@ void HeightMap3DRenderer::recompileProgram()
           "uniform mat4 mvp;\n"
           "uniform vec3 scaling;\n"
           "uniform vec2 patchOffset;\n"
+          "uniform vec2 sampleOffset;\n"
           "uniform float patchSize;\n"
 
           "float sampleHeight(vec2 pos){\n"
           "    float height;\n"
-          "    elevation(pos*scaling.xy,height);\n"
+          "    elevation(sampleOffset+pos*scaling.xy,height);\n"
           "    return height*scaling.z;\n"
           "}\n"
 
@@ -272,7 +273,7 @@ void HeightMap3DRenderer::recompileProgram()
 
           "    vec3 baseColor = vec3(1,1,1);\n"
 
-//          "    float grassyness = smoothstep(0.1,0.6,dot(vertexNormal,vec3(0,0,1)));\n"
+//          "    float grassyness = smoothstep(0.7,0.9,dot(vertexNormal,vec3(0,0,1)));\n"
 //          "    baseColor -= vec3(grassyness,0,grassyness);\n"
           "    float i_total = i_d + i_a;// + i_height;\n"
           "    gl_FragColor = vec4(i_total*baseColor, 1);\n"
