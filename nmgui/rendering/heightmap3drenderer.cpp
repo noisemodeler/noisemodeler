@@ -99,15 +99,16 @@ void HeightMap3DRenderer::setState(HeightMap3DExplorer::State &state)
 void HeightMap3DRenderer::render(){
     QMatrix4x4 terrainModelMatrix;
     terrainModelMatrix.rotate(-90, {1,0,0});
-    terrainModelMatrix.scale(10000);
+    float rootSize = 10;
+    terrainModelMatrix.scale(rootSize);
 
     //select terrain patches of different lod levels here
     //TODO maybe this is not the right place for this kind of code...
     std::vector<TerrainPatchSelection> selections;
-    std::vector<float> ranges{0.000125,0.00025,0.0005,0.001};
+    std::vector<float> ranges{0.125,0.25,0.5,1};
 //    std::vector<float> ranges{0.5,1};
     const int lodLevelCount = ranges.size()+1;
-    const float rootScale = 1;
+    const float rootScale = rootSize;
     TerrainPatchSelection rootQuad{lodLevelCount-1,{0,0,0},rootScale};
     QVector3D observerPosition = terrainModelMatrix.inverted() * m_state.camera.position();
     observerPosition.setZ(0);//TODO don't ignore height
@@ -162,7 +163,7 @@ void HeightMap3DRenderer::render(){
                                 domain.z()*selection.size,
                                 domain.w()*selection.size};
             m_program->setUniformValue("domain", subDomain);
-            m_program->setUniformValue("heightScale", float(0.01/selection.size));
+            m_program->setUniformValue("heightScale", float(1/selection.size));
             modelMatrix.scale(selection.size);
 
             QMatrix4x4 modelViewMatrix = viewMatrix * modelMatrix;
