@@ -77,7 +77,8 @@ namespace nmgui {
 HeightMap3DRenderer::HeightMap3DRenderer():
     m_program(),
     m_state(),
-    m_sourceDirty(true)
+    m_sourceDirty(true),
+    m_aspectRatio(1)
 {
     initialize();
 }
@@ -144,7 +145,7 @@ void HeightMap3DRenderer::render(){
 
     QMatrix4x4 viewMatrix = m_state.camera.worldToLocalMatrix();
     QMatrix4x4 projectionMatrix;
-    projectionMatrix.perspective(65, 1, 1.0, 10024);
+    projectionMatrix.perspective(65, m_aspectRatio, 1.0, 10024);
 //    projectionMatrix.ortho(-10,10,-10,10,0.10,10);
     projectionMatrix.scale({1,-1,1}); //flip Y coordinates because otherwise Qt will render it upside down
 

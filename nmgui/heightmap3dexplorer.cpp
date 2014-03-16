@@ -22,6 +22,7 @@ protected:
         update();
     }
     QOpenGLFramebufferObject *createFramebufferObject(const QSize &size) override {
+        m_heightMapRenderer.setAspectRatio(size.width(), size.height());
         QOpenGLFramebufferObjectFormat format;
         format.setAttachment(QOpenGLFramebufferObject::Depth);
         return new QOpenGLFramebufferObject(size, format);

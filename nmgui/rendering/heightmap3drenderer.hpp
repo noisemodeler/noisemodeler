@@ -19,6 +19,7 @@ public:
     explicit HeightMap3DRenderer();
     virtual ~HeightMap3DRenderer();
     void setState(HeightMap3DExplorer::State& state);
+    void setAspectRatio(float width, float height = 1){m_aspectRatio = width/height; }
     void render();
 
 private:
@@ -29,6 +30,7 @@ private:
     HeightMap3DExplorer::State m_state;
     bool m_sourceDirty;
     int m_vertexCount;
+    float m_aspectRatio;
     void initialize();
     void prepareVertexBuffer();
     void prepareVertexArrayObject();
