@@ -3,7 +3,7 @@ import NoiseModeler 1.0
 import QtQuick.Layouts 1.1
 
 SubWindow {
-    property bool maximized: false
+    property bool maximized: true
     windowTitle: "heightmap 3D preview"
     contents.width: maximized ? parent.width : 350
     contents.height: maximized ? parent.height : 350
@@ -39,11 +39,11 @@ SubWindow {
 
                     //forwards/backwards
                     var forwardDir = keyMap.getAxis(Qt.Key_W, Qt.Key_S);
-                    var forwardSpeed = 8;
+                    var forwardSpeed = 64;
                     if(forwardDir!==0)renderer.moveCameraForward(forwardDir * forwardSpeed * interval/1000);
 
                     var strafeDir = keyMap.getAxis(Qt.Key_D, Qt.Key_A);
-                    var strafeSpeed = 8;
+                    var strafeSpeed = 64;
                     if(strafeDir!==0)renderer.moveCameraRight(strafeDir * strafeSpeed * interval/1000);
                 }
             }

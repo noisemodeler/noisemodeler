@@ -35,7 +35,7 @@ public:
             camera()
         {
             camera.setPosition({0,100,0});
-            camera.yaw(-120);
+            camera.yaw(-45);
             camera.pitch(-45);
 //            camera.lookAt({0,0,0});
         }

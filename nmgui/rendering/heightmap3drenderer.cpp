@@ -97,14 +97,13 @@ void HeightMap3DRenderer::setState(HeightMap3DExplorer::State &state)
 }
 
 void HeightMap3DRenderer::render(){
-    QMatrix4x4 terrainModelMatrix;
-    terrainModelMatrix.rotate(-90, {1,0,0});
+    QMatrix4x4 modelMatrix;
+    modelMatrix.rotate(-90, {1,0,0});
     const float rootSize = 50;
-    terrainModelMatrix.scale(rootSize);
+    modelMatrix.scale(rootSize);
 
     //select terrain patches of different lod levels here
     //TODO maybe this is not the right place for this kind of code...
-//    std::vector<float> ranges{0.5,1,2,4,8,16};
     std::vector<float> ranges;
     {
         ranges.push_back(0.125);
@@ -115,14 +114,12 @@ void HeightMap3DRenderer::render(){
         }
     }
     std::vector<TerrainPatchSelection> selections;
-//    std::vector<float> ranges{0.5,1};
     const int lodLevelCount = ranges.size()+1;
     const float rootScale = rootSize;
     TerrainPatchSelection rootQuad{lodLevelCount-1,{0,0,0},rootScale};
-    QVector3D observerPosition = terrainModelMatrix.inverted() * m_state.camera.position();
+    QVector3D observerPosition = modelMatrix.inverted() * m_state.camera.position();
     observerPosition.setZ(0);//TODO don't ignore height
     rootQuad.lodSelect(ranges,observerPosition,selections);
-
 
 
     glClearColor(0.5, 0.7, 1, 1);
@@ -136,54 +133,47 @@ void HeightMap3DRenderer::render(){
 
     m_program->enableAttributeArray(0);
 
-    float l = m_state.domain.left();
-    float t = m_state.domain.top();
-    float w = m_state.domain.width();
-    float h = m_state.domain.height();
-    QVector4D domain{l, t, w, h};
-    m_program->setUniformValue("domain", domain);
-
-
-    //get viewmatrix from camera
-    QMatrix4x4 viewMatrix = m_state.camera.worldToLocalMatrix();
-
-    //set up projection matrix
-    QMatrix4x4 projectionMatrix;
-    projectionMatrix.perspective(65, 1, 1.0, 10024);
-//    projectionMatrix.ortho(-10,10,-10,10,0.10,10);
-    projectionMatrix.scale({1,-1,1}); //flip Y coordinates because otherwise Qt will render it upside down
-
     //set gl states for terrain rendering
+    //TODO maybe some of these are remembered by vao?
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     glEnable(GL_CULL_FACE);
     glDisable(GL_BLEND);
     glCullFace(GL_BACK);
 
+
+    //setting uniforms that are shared for each patch
+    QMatrix4x4 viewMatrix = m_state.camera.worldToLocalMatrix();
+    QMatrix4x4 projectionMatrix;
+    projectionMatrix.perspective(65, 1, 1.0, 10024);
+//    projectionMatrix.ortho(-10,10,-10,10,0.10,10);
+    projectionMatrix.scale({1,-1,1}); //flip Y coordinates because otherwise Qt will render it upside down
+
+    QMatrix4x4 modelViewMatrix = viewMatrix * modelMatrix;
+    QMatrix4x4 mvp = projectionMatrix * modelViewMatrix;
+
+    //Pass matrices to shader
+    m_program->setUniformValue("modelViewMatrix", modelViewMatrix);
+    m_program->setUniformValue("normalMatrix", modelViewMatrix.normalMatrix());
+    m_program->setUniformValue("projectionMatrix", projectionMatrix);
+    m_program->setUniformValue("mvp", mvp);
+
+    m_program->setUniformValue("scaling", QVector3D(
+                                   m_state.domain.width(),
+                                   m_state.domain.height(),
+                                   1.f //height scaling
+                                   )
+                               );
+
     //this is where the magic happens
     {
         QOpenGLVertexArrayObject::Binder binder(&m_vao);
         //loop through all selected terrain patches
         for (TerrainPatchSelection selection : selections) {
-            QMatrix4x4 modelMatrix = terrainModelMatrix;
-            modelMatrix.translate(selection.position);
-            QVector4D subDomain{domain.x()+selection.position.x()*domain.z(),
-                                domain.y()+selection.position.y()*domain.w(),
-                                domain.z()*selection.size,
-                                domain.w()*selection.size};
-            m_program->setUniformValue("domain", subDomain);
-            m_program->setUniformValue("heightScale", float(1/selection.size));
-            modelMatrix.scale(selection.size);
-
-            QMatrix4x4 modelViewMatrix = viewMatrix * modelMatrix;
-            QMatrix4x4 mvp = projectionMatrix * modelViewMatrix;
-
-            //Pass matrices to shader
-            m_program->setUniformValue("modelViewMatrix", modelViewMatrix);
-            m_program->setUniformValue("projectionMatrix", projectionMatrix);
-            m_program->setUniformValue("mvp", mvp);
-
-            //finally draw this patch
+            QVector2D patchOffset{selection.position.x(),
+                                  selection.position.y()};
+            m_program->setUniformValue("patchOffset", patchOffset);
+            m_program->setUniformValue("patchSize", selection.size);
             glDrawArrays(GL_TRIANGLE_STRIP, 0, m_vertexCount);
         }
     }
@@ -211,32 +201,46 @@ void HeightMap3DRenderer::recompileProgram()
 
     vs << "#version 130\n";
     vs << m_state.shaderSource;
-    vs << "uniform vec4 domain;\n"
+    vs <<
+          "in vec2 vertex;\n"
+
+          "out highp vec2 coords;\n"
+//          "out vec3 position;\n"
+          "out vec3 normal;\n"
+          "out vec3 vertexNormal;\n"
+          "out vec3 vertexPosition;\n"
+
           "uniform mat4 modelViewMatrix;\n"
+          "uniform mat3 normalMatrix;\n"
           "uniform mat4 projectionMatrix;\n"
           "uniform mat4 mvp;\n"
-          "uniform float heightScale;\n"
-          "attribute highp vec2 vertices;\n"
-          "out highp vec2 coords;\n"
-          "out vec3 normal;\n"
-          "void main() {\n"
-          "    coords = vertices.xy*domain.zw+domain.xy;\n"
-          "    float height;\n"
-          "    elevation(coords, height);\n"
-          "    height *= heightScale;\n"
-          //for now, we'll compute the normals here\n
-          "    float rightHeight, forwardHeight;\n"
-          "    float delta = 1.0/" << c_resolution << ";\n"
-          "    elevation(vec2(coords.x+delta,coords.y), rightHeight);\n"
-          "    elevation(vec2(coords.x,coords.y+delta), forwardHeight);\n"
-          "    rightHeight *= heightScale;\n"
-          "    forwardHeight *= heightScale;\n"
-          //compute normal purely based on these two points (it'll probably look like shit)
-          "    vec3 rightVector = normalize(vec3(delta, 0, rightHeight-height));\n"
-          "    vec3 forwardVector = normalize(vec3(0, delta, forwardHeight-height));\n"
-          "    normal = cross(rightVector, forwardVector);\n"
+          "uniform vec3 scaling;\n"
+          "uniform vec2 patchOffset;\n"
+          "uniform float patchSize;\n"
 
-          "    gl_Position = mvp * vec4(vertices.x,vertices.y,height,1);\n"
+          "float sampleHeight(vec2 pos){\n"
+          "    float height;\n"
+          "    elevation(pos*scaling.xy,height);\n"
+          "    return height*scaling.z;\n"
+          "}\n"
+
+          "void main() {\n"
+          "    vec2 vertexCoords = patchOffset + vertex*patchSize;\n"
+          "    float height = sampleHeight(vertexCoords);\n"
+
+          //for now, we'll compute the normals here\n
+          "    float delta = patchSize/(" << c_resolution-1 << ");\n"
+          "    float rightHeight = sampleHeight(vertexCoords + vec2(delta,0));\n"
+          "    float upHeight = sampleHeight(vertexCoords + vec2(0,delta));\n"
+          "    vec3 rightVector = normalize(vec3(delta, 0, rightHeight-height));\n"
+          "    vec3 upVector = normalize(vec3(0, delta, upHeight-height));\n"
+          //compute normal purely based on these two points (it'll probably look like shit)
+          "    vertexNormal = normalize(cross(rightVector, upVector));\n"
+          "    normal = normalize(normalMatrix * vertexNormal);\n"
+
+          "    vertexPosition = vec3(vertexCoords,height);\n"
+//          "    vec3 position = (modelViewMatrix * vec4(vertexPosition,1)).xyz;\n"
+          "    gl_Position = mvp * vec4(vertexPosition,1);\n"
           "}\n";
 
     m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vs.str().c_str());
@@ -247,25 +251,31 @@ void HeightMap3DRenderer::recompileProgram()
 //    fs << "void elevation(in vec2 coords, out float height){height = 0.8+coords.x-mod(coords.y,1);}\n";
 
     fs << ""
-          "uniform mat4 modelViewMatrix;\n"
-          "uniform lowp float t;\n"
           "in highp vec2 coords;\n"
           "in vec3 normal;\n"
+          "in vec3 vertexPosition;\n"
+          "in vec3 vertexNormal;\n"
+
+          "uniform mat4 modelViewMatrix;\n"
+          "uniform mat3 normalMatrix;\n"
+          "uniform lowp float t;\n"
+          "uniform vec3 scaling;\n"
+
           "void main() {\n"
-          "    vec3 n = normalize(modelViewMatrix * vec4(normal,0)).xyz;\n"
-          "    vec3 s = normalize(modelViewMatrix * vec4(1,1,1,0)).xyz; //direction towards light source\n"
-          "    float height;\n"
-          "    elevation(coords, height);\n"
-          //material constants
+          "    vec3 n = normalize(normal);\n"
+          "    vec3 s = normalize(normalMatrix * vec3(1,1,1)); //direction towards light source\n"
+
           "    float k_d = 0.7;\n"
-          "    float k_height = 0.5;\n"
-          //intensities of different types of lighting
+
           "    float i_d = k_d * max(0, dot(s, n));\n"
-          "    float i_height = k_height * height;\n"
-          "    float i_total = i_d;// + i_height;\n"
-          "    gl_FragColor = vec4(i_total*vec3(1, 1, 1), 1);\n"
-//          "    gl_FragColor = vec4(coords.x, coords.y, 0, 1);//vec4(i_total*vec3(1, 1, 1), 1);\n"
-//          "    gl_FragColor = vec4(height, height, height, 1);\n"
+          "    float i_a = 0.2;\n"
+
+          "    vec3 baseColor = vec3(1,1,1);\n"
+
+//          "    float grassyness = smoothstep(0.1,0.6,dot(vertexNormal,vec3(0,0,1)));\n"
+//          "    baseColor -= vec3(grassyness,0,grassyness);\n"
+          "    float i_total = i_d + i_a;// + i_height;\n"
+          "    gl_FragColor = vec4(i_total*baseColor, 1);\n"
           "}\n";
 
     m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fs.str().c_str());
@@ -317,8 +327,8 @@ void HeightMap3DRenderer::prepareVertexArrayObject()
         m_program->bind();
         //bind vertex buffer
         m_gridVerticesBuffer.bind();
-        m_program->enableAttributeArray("vertices"); //TODO change "vertices" to something more descriptive
-        m_program->setAttributeBuffer("vertices", GL_FLOAT, 0, 2);
+        m_program->enableAttributeArray("vertex");
+        m_program->setAttributeBuffer("vertex", GL_FLOAT, 0, 2);
     }
 }
 
