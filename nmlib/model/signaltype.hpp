@@ -14,7 +14,7 @@ class SignalType
 {
 public:
     const int dimensionality;
-    explicit SignalType(int dimensions);
+    explicit SignalType(int dimensions); //TODO consider switching to unsigned int
     bool operator==(const SignalType& rhs) const;
     bool operator!=(const SignalType& rhs) const;
 

@@ -18,6 +18,7 @@ class ModuleOutput;
 class ModuleInput;
 class Graph;
 class OutputLink;
+class SignalValue;
 
 /**
  * @brief describes a recipe for a module and its inputs and outputs.
@@ -58,6 +59,7 @@ public:
     void eachModuleInput(std::function<void(ModuleInput&)> f);
     //mutable stuff
     ModuleInput *addInput(std::string name, SignalType signalType);
+    ModuleInput *addInput(std::string name, SignalValue defaultValue);
     bool removeInput(ModuleInput *moduleInput);
 
     //outputs

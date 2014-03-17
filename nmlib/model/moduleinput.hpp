@@ -20,13 +20,14 @@ class ModuleType;
 class ModuleInput : public UserDataProvider
 {
 public:
+    //TODO this constructor might not be needed
     explicit ModuleInput(std::string name, SignalType signalType, const ModuleType &moduleType):
-        ModuleInput(name, signalType, moduleType, SignalValue(signalType)) //zero as default value
+        ModuleInput(name, SignalValue(signalType), moduleType) //zero as default value
     {}
-    explicit ModuleInput(std::string name, SignalType signalType, const ModuleType &moduleType, SignalValue defaultValue):
+    explicit ModuleInput(std::string name, SignalValue defaultValue, const ModuleType &moduleType):
         c_name(name),
-        c_signalType(signalType),
-        c_signalValue(defaultValue),
+        c_signalType(defaultValue.getSignalType()), //TODO redundants?
+        c_defaultValue(defaultValue),
         c_moduleType(moduleType)
     {}
     ~ModuleInput(){destroying(*this);}
@@ -35,12 +36,13 @@ public:
 
     std::string getName() const {return c_name;}
     const SignalType &getSignalType() const {return c_signalType;}
+    const SignalValue &getDefaultValue() const {return c_defaultValue;}
 
     signal<void(ModuleInput&)> destroying;
 private:
     const std::string c_name;
     const SignalType c_signalType;//TODO this may be inferred from signalvalue?
-    const SignalValue c_signalValue;
+    const SignalValue c_defaultValue;//TODO consider relaxing the constant requirement on this member
     const ModuleType &c_moduleType;
 };
 

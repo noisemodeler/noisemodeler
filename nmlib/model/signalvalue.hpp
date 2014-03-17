@@ -10,6 +10,13 @@ namespace nm {
 class SignalValue
 {
 public:
+    SignalValue(float value):
+        SignalValue(std::vector<float>{value})
+    {}
+    SignalValue(std::vector<float> values):
+        m_signalType(SignalType{static_cast<int>(values.size())}),
+        m_values(values)
+    {}
     SignalValue(SignalType signalType):
         m_signalType(signalType),
         m_values(static_cast<unsigned int>(signalType.dimensionality))

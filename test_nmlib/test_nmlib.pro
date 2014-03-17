@@ -20,7 +20,8 @@ QMAKE_CXXFLAGS += -std=c++11 \
 SOURCES += \
     test_parser.cpp \
     test_model.cpp \
-    test_model_moduletype.cpp
+    test_model_moduletype.cpp \
+    test_model_constants.cpp
 
 HEADERS +=
 

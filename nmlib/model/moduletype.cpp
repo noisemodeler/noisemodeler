@@ -74,11 +74,16 @@ void ModuleType::eachModuleInput(std::function<void (ModuleInput &)> f)
 
 ModuleInput *ModuleType::addInput(std::string name, SignalType signalType)
 {
+    return addInput(name, SignalValue(signalType));
+}
+
+ModuleInput *ModuleType::addInput(std::string name, SignalValue defaultValue)
+{
     if(getInput(name) != nullptr)return nullptr;
-    m_inputs.emplace_back(new ModuleInput(name, signalType, *this));
+    m_inputs.emplace_back(new ModuleInput(name, defaultValue, *this));
     if(isComposite()){
-        m_inputModuleType->addOutput(name, signalType);
-        m_inputModuleType->addInput(name, signalType);
+        m_inputModuleType->addOutput(name, defaultValue.getSignalType());
+        m_inputModuleType->addInput(name, defaultValue);
     }
     inputAdded(*m_inputs.back());
     return m_inputs.back().get();
