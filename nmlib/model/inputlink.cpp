@@ -54,4 +54,10 @@ void InputLink::unlink()
     linkChanged(*this);
 }
 
+SignalValue InputLink::getUnlinkedValue()
+{
+    //TODO replace with configurable value
+    return c_moduleInput.getDefaultValue();
+}
+
 } // namespace nm

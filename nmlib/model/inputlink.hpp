@@ -9,6 +9,7 @@ namespace nm {
 class Module;
 class ModuleInput;
 class OutputLink;
+class SignalValue;
 
 /**
  * @brief Describes which output of which node a ModuleInput of a specific Module is connected to.
@@ -25,6 +26,7 @@ public:
     const ModuleInput& getModuleInput() const {return c_moduleInput;}
     const OutputLink* getOutputLink() const {return p_outputLink;}
     OutputLink* getOutputLink() {return p_outputLink;}
+    SignalValue getUnlinkedValue();
 
     //signals
     signal<void (InputLink&)> linkChanged;
