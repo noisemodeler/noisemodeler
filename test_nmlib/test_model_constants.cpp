@@ -61,7 +61,8 @@ TEST(ModelConstantsTest, ChangeUnlinkedValue){
     inputLink->unlinkedValueChanged.connect([&](const nm::InputLink&){
         touched = true;
     });
-    inputLink->setUnlinkedValue(nm::SignalValue{std::vector<float>{4,5,6}});
+    bool successful = inputLink->setUnlinkedValue(nm::SignalValue{std::vector<float>{4,5,6}});
+    EXPECT_EQ(true, successful);
     nm::SignalValue unlinkedValue = inputLink->getUnlinkedValue();
     EXPECT_EQ(3, unlinkedValue.getSignalType().dimensionality);
     EXPECT_EQ(4, unlinkedValue[0]);
