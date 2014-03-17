@@ -57,10 +57,15 @@ TEST(ModelConstantsTest, ChangeUnlinkedValue){
     nm::Module module(moduleType, "testModule");
     nm::InputLink* inputLink = module.getInput("myConstant");
     ASSERT_NE(nullptr, inputLink);
+    bool touched = false;
+    inputLink->unlinkedValueChanged.connect([&](const nm::InputLink&){
+        touched = true;
+    });
     inputLink->setUnlinkedValue(nm::SignalValue{std::vector<float>{4,5,6}});
     nm::SignalValue unlinkedValue = inputLink->getUnlinkedValue();
     EXPECT_EQ(3, unlinkedValue.getSignalType().dimensionality);
     EXPECT_EQ(4, unlinkedValue[0]);
     EXPECT_EQ(5, unlinkedValue[1]);
     EXPECT_EQ(6, unlinkedValue[2]);
+    EXPECT_EQ(true, touched);
 }

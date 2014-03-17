@@ -32,6 +32,7 @@ public:
 
     //signals
     signal<void (InputLink&)> linkChanged;
+    signal<void (InputLink&)> unlinkedValueChanged;
     signal<void (InputLink&)> destroying;
 
 private:
