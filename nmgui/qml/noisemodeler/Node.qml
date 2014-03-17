@@ -4,13 +4,8 @@ import NoiseModeler 1.0
 SubWindow {
     id: node
     property Module module
-    property bool maximized: true
     windowTitle: module.name
     visible: module
-
-    mouseArea.onClicked: {
-            maximized = !maximized;
-    }
 
     contents.width: nodeContents.width
     contents.height: nodeContents.height
