@@ -11,7 +11,8 @@ namespace nm {
 InputLink::InputLink(Module &owner, const ModuleInput &type):
     m_owner(owner),
     c_moduleInput(type),
-    p_outputLink(nullptr)
+    p_outputLink(nullptr),
+    m_unlinkedValue(type.getDefaultValue())
 {
     linkChanged.connect([&](InputLink&){
         m_owner.traverseDescendants([](Module& module){
@@ -56,8 +57,16 @@ void InputLink::unlink()
 
 SignalValue InputLink::getUnlinkedValue()
 {
-    //TODO replace with configurable value
-    return c_moduleInput.getDefaultValue();
+    return m_unlinkedValue;
+}
+
+bool InputLink::setUnlinkedValue(SignalValue newValue)
+{
+    //TODO make some sort of error output if there is a type mismatch
+    if(!newValue.getSignalType().isConvertibleTo(c_moduleInput.getSignalType()))return false;
+    m_unlinkedValue = newValue;
+    //TODO fire a signal?
+    return true;
 }
 
 } // namespace nm

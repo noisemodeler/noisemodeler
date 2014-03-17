@@ -38,7 +38,7 @@ TEST(ModelConstantsTest, TripleDefaultValue){
     EXPECT_EQ(3, defaultValue[2]);
 }
 
-TEST(ModelConstantsTest, DefaultValueInstantiated){
+TEST(ModelConstantsTest, DefaultUnlinkedValue){
     nm::ModuleType moduleType("testModuleType");
     moduleType.addInput("myConstant", std::vector<float>{1,2,3});
     nm::Module module(moduleType, "testModule");
@@ -49,4 +49,18 @@ TEST(ModelConstantsTest, DefaultValueInstantiated){
     EXPECT_EQ(1, unlinkedValue[0]);
     EXPECT_EQ(2, unlinkedValue[1]);
     EXPECT_EQ(3, unlinkedValue[2]);
+}
+
+TEST(ModelConstantsTest, ChangeUnlinkedValue){
+    nm::ModuleType moduleType("testModuleType");
+    moduleType.addInput("myConstant", std::vector<float>{1,2,3});
+    nm::Module module(moduleType, "testModule");
+    nm::InputLink* inputLink = module.getInput("myConstant");
+    ASSERT_NE(nullptr, inputLink);
+    inputLink->setUnlinkedValue(nm::SignalValue{std::vector<float>{4,5,6}});
+    nm::SignalValue unlinkedValue = inputLink->getUnlinkedValue();
+    EXPECT_EQ(3, unlinkedValue.getSignalType().dimensionality);
+    EXPECT_EQ(4, unlinkedValue[0]);
+    EXPECT_EQ(5, unlinkedValue[1]);
+    EXPECT_EQ(6, unlinkedValue[2]);
 }

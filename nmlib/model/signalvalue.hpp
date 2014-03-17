@@ -4,6 +4,7 @@
 #include <nmlib/model/signaltype.hpp>
 
 #include <vector>
+#include <cassert>
 
 namespace nm {
 
@@ -21,6 +22,17 @@ public:
         m_signalType(signalType),
         m_values(static_cast<unsigned int>(signalType.dimensionality))
     {}
+    SignalValue(const SignalValue &other):
+        m_signalType(other.m_signalType),
+        m_values(other.m_values)
+    {}
+    SignalValue& operator=(const SignalValue &rhs){
+        assert(rhs.m_signalType.isConvertibleTo(m_signalType));
+        m_values = rhs.m_values;
+        return *this;
+    }
+    //TODO move constructor
+
     float &operator [](unsigned int i) {
         return m_values[i];
     }
