@@ -66,7 +66,7 @@ TEST(ParserTest, OneModuleType){
         auto *inputPosition = terrainModuleType->getInput("pos");
         ASSERT_NE(nullptr, inputPosition) << "Couldn't find a ModuleInput named \"pos\"";
         EXPECT_EQ("pos", inputPosition->getName());
-        auto &posType = inputPosition->getSignalType();
+        auto posType = inputPosition->getSignalType();
         EXPECT_EQ(2, posType.dimensionality);
     }
 
@@ -94,7 +94,7 @@ TEST(ParserTest, OneModuleType){
         auto *height = terrainModuleType->getOutput("height");
         ASSERT_NE(nullptr, height) << "Couldn't find a ModuleOutput named \"height\"";
         EXPECT_EQ("height", height->getName());
-        auto &heightSignalType = height->getSignalType();
+        auto heightSignalType = height->getSignalType();
         EXPECT_EQ(1, heightSignalType.dimensionality);
     }
 }

@@ -28,7 +28,7 @@ public:
 //    ModuleOutput(ModuleOutput&) = default;
 
     std::string getName() const {return c_name;}
-    const SignalType &getSignalType() const {return c_signalType;}
+    SignalType getSignalType() const {return c_signalType;}
 
     signal<void(ModuleOutput&)> destroying;
 

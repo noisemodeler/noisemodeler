@@ -35,8 +35,8 @@ public:
 //    ModuleInput(ModuleInput&) = default;
 
     std::string getName() const {return c_name;}
-    const SignalType &getSignalType() const {return c_signalType;}
-    const SignalValue &getDefaultValue() const {return c_defaultValue;}
+    SignalType getSignalType() const {return c_signalType;}
+    SignalValue getDefaultValue() const {return c_defaultValue;}
 
     signal<void(ModuleInput&)> destroying;
 private:
