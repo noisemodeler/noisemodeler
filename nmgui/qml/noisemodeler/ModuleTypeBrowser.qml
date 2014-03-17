@@ -3,16 +3,16 @@ import NoiseModeler 1.0
 
 Rectangle {
     id: moduleTypeBrowser
-    color:"#666666"
+    color: mystyle.moduleTypeBrowser.bgColor
     anchors.left: parent.left
     anchors.bottom: parent.bottom
     anchors.top: menu.bottom
-    width:150
+    width: 150
     Component {
         id: moduleTypeEntry
         Item {
-            id:row
-            height:30
+            id: row
+            height: 30
             anchors.left: parent.left
             anchors.right: parent.right
             Text {

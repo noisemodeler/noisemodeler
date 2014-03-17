@@ -20,8 +20,23 @@ Rectangle {
         id: mainArea
         anchors.top: menu.bottom
         anchors.left: moduleTypeBrowser.right
+        anchors.right: inspectorArea.left
+        anchors.bottom: parent.bottom
+    }
+
+    Item {
+        property bool active: true
+        id: inspectorArea
+        anchors.top: menu.bottom
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+        width: active ? 150 : 0
+    }
+
+    Rectangle {
+        id: inspector
+        color: mystyle.inspector.bgColor
+        anchors.fill: inspectorArea
     }
 
     GraphEditor {
@@ -39,15 +54,13 @@ Rectangle {
 //        width: 400
 //        height: 400
 //        visible:true
-//        HeightMapRenderer {
-//            id: textureRenderer
-//            outputLink: debugOutput.outputs[0]
-//            inputLink: debugInput.inputs[0]
+//        HeightMap3DExplorer {
+//            id: heightMapExplorer
+//            heightMapFunction: HeightMapFunction{
+//                outputLink: debugOutput.outputs[0]
+//                inputLink: debugInput.inputs[0]
+//            }
 //            anchors.fill: parent
-//        }
-//        MapLikeDomainController {
-//            domain: textureRenderer.domain
-//            anchors.fill: textureRenderer
 //        }
 //    }
 }

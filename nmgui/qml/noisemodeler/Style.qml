@@ -43,6 +43,7 @@ QtObject {
 
     property color bgColor: "#444444"
     property color bgColor2: "#525252"
+    property color bgColor3: "#666666"
     property color fgColor: "powderBlue"
     property color textColor: "#cccccc"
     property color textOnFgColor: "#000000"
@@ -52,6 +53,14 @@ QtObject {
 
     property QtObject graphEditor: QtObject {
         property color bgColor: style.bgColor
+    }
+
+    property QtObject inspector: QtObject {
+        property color bgColor: bgColor3
+    }
+
+    property QtObject moduleTypeBrowser: QtObject {
+        property color bgColor: bgColor3
     }
 
     property QtObject topBar: QtObject {
