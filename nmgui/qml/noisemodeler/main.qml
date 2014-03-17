@@ -39,6 +39,13 @@ Rectangle {
         anchors.fill: inspectorArea
     }
 
+    ModuleInspector {
+        id: moduleInspector
+        z: 50
+        anchors.fill: inspectorArea
+        module: editor.selectedModule
+    }
+
     GraphEditor {
         id: editor
         anchors.fill: mainArea

@@ -6,6 +6,7 @@ Rectangle {
     color: mystyle.graphEditor.bgColor
     property alias contents: contents
     property Graph graph
+    property variant selectedModule
 
     MouseArea {
         anchors.fill: parent
@@ -28,7 +29,11 @@ Rectangle {
 
         Component {
             id:nodeDelegate
-            Node {}
+            Node {
+                onSelectedChanged: {
+                    if(selected)selectedModule = module;
+                }
+            }
         }
 
     Item {
