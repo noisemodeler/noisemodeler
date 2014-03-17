@@ -7,13 +7,23 @@
 
 TEST(ModelConstantsTest, SingleDefaultValue){
     nm::ModuleType moduleType("testModuleType");
-    //TODO move to separate tests
     moduleType.addInput("myConstant", 0.6f);
     nm::ModuleInput* moduleInput1 = moduleType.getInput("myConstant");
     ASSERT_NE(nullptr, moduleInput1);
     const nm::SignalValue defaultValue = moduleInput1->getDefaultValue();
     EXPECT_EQ(1, defaultValue.getSignalType().dimensionality);
     EXPECT_EQ(0.6f, moduleInput1->getDefaultValue()[0]);
+}
+
+//when no default value is specified, it should be set to zero
+TEST(ModelConstantsTest, ValueNotSpecified){
+    nm::ModuleType moduleType("testModuleType");
+    moduleType.addInput("myConstant", nm::SignalType{1});
+    nm::ModuleInput* moduleInput1 = moduleType.getInput("myConstant");
+    ASSERT_NE(nullptr, moduleInput1);
+    const nm::SignalValue defaultValue = moduleInput1->getDefaultValue();
+    EXPECT_EQ(1, defaultValue.getSignalType().dimensionality);
+    EXPECT_EQ(0.0f, moduleInput1->getDefaultValue()[0]);
 }
 
 TEST(ModelConstantsTest, TripleDefaultValue){
