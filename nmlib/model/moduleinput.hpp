@@ -2,6 +2,7 @@
 #define NM_MODULEINPUT_HPP
 
 #include <nmlib/model/signaltype.hpp>
+#include <nmlib/model/signalvalue.hpp>
 #include <nmlib/util/userdataprovider.hpp>
 
 #include <nmlib/util/signals.hpp>
@@ -20,8 +21,12 @@ class ModuleInput : public UserDataProvider
 {
 public:
     explicit ModuleInput(std::string name, SignalType signalType, const ModuleType &moduleType):
+        ModuleInput(name, signalType, moduleType, SignalValue(signalType)) //zero as default value
+    {}
+    explicit ModuleInput(std::string name, SignalType signalType, const ModuleType &moduleType, SignalValue defaultValue):
         c_name(name),
         c_signalType(signalType),
+        c_signalValue(defaultValue),
         c_moduleType(moduleType)
     {}
     ~ModuleInput(){destroying(*this);}
@@ -34,7 +39,8 @@ public:
     signal<void(ModuleInput&)> destroying;
 private:
     const std::string c_name;
-    const SignalType c_signalType;
+    const SignalType c_signalType;//TODO this may be inferred from signalvalue?
+    const SignalValue c_signalValue;
     const ModuleType &c_moduleType;
 };
 
