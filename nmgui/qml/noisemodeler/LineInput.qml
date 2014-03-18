@@ -8,9 +8,11 @@ Rectangle {
     property alias validator: input.validator
     property alias acceptableInput: input.acceptableInput
     property alias textInput: input
+    property alias readOnly: input.readOnly
     signal newAcceptableValue(string newText)
 //    width: 60
     height: 18
+    color: readOnly ? "#aaaaaa" : "white"
     TextInput {
         id: input
         color: "black"

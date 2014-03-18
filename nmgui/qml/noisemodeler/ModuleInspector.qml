@@ -12,7 +12,7 @@ SubWindow {
             anchors.margins: 6
 
             Repeater{
-                model: module.inputs
+                model: module ? module.inputs : 0
                 RowLayout{
                     Text {
                         text: modelData.name + ":"
@@ -21,6 +21,8 @@ SubWindow {
                         elide: Text.ElideRight
                     }
                     SignalValueEdit {
+                        fields: modelData.dimensionality
+                        readOnly: modelData.outputLink !== null
                     }
                 }
             }
