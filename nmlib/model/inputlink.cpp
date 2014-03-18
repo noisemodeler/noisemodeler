@@ -19,6 +19,11 @@ InputLink::InputLink(Module &owner, const ModuleInput &type):
             module.dependenciesChanged(module);
         });
     });
+    unlinkedValueChanged.connect([&](InputLink&){
+        m_owner.traverseDescendants([](Module& module){
+            module.dependenciesChanged(module);
+        });
+    });
 }
 
 InputLink::~InputLink()

@@ -8,12 +8,12 @@ RowLayout {
     property var values: [0,0,0,0]
     signal valueChanged(int index, var values)
 
-//    spacing: 6
     Repeater {
         id:repeater
         model: fields
 
         LineInput {
+            id: lineInput
             Layout.fillWidth: true
             readOnly: signalValueEdit.readOnly
             validator: DoubleValidator{}
@@ -25,7 +25,10 @@ RowLayout {
             Connections {
                 target: signalValueEdit
                 onValuesChanged: {
-                    text=values[modelData];
+                    if(!lineInput.textInput.focus){
+                        var val = values[modelData];
+                        text= val%1 !== 0 ? val.toFixed(3) : val;
+                    }
                 }
             }
         }
