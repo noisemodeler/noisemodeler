@@ -1,5 +1,5 @@
 #include <nmlib/codegeneration/glsl/glslgenerator.hpp>
-#include <nmlib/codegeneration/zerodefaultsgenerator.hpp>
+#include <nmlib/codegeneration/unlinkedvaluedefaultsgenerator.hpp>
 #include <nmlib/codegeneration/simplebodygenerator.hpp>
 #include <nmlib/codegeneration/compositemodulegenerator.hpp>
 
@@ -75,7 +75,7 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
     std::unique_ptr<BodyGenerator> body;
     std::unique_ptr<DefaultsGenerator> defaults;
     body.reset(new SimpleBodyGenerator("//empty body\n"));
-    defaults.reset(new ZeroDefaultsGenerator(module));
+    defaults.reset(new UnlinkedValueDefaultsGenerator(module));
 
     //mah giant if
 
