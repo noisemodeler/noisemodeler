@@ -80,7 +80,9 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
     //mah giant if
 
     //1D modules
-    if (moduleTypeName == "add1") {
+    if (moduleTypeName == "constant1") {
+        //default is ok, since outputs=inputs
+    } else if (moduleTypeName == "add1") {
         body.reset(new SimpleBodyGenerator(
             "float result = lhs + rhs;\n"
         ));
@@ -102,6 +104,8 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
         ));
 
     //2D modules
+    } else if (moduleTypeName == "constant2") {
+        //default is ok, since outputs=inputs
     } else if (moduleTypeName == "add2") {
         body.reset(new SimpleBodyGenerator(
             "vec2 result = lhs + rhs;\n"
@@ -133,6 +137,8 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
         ));
 
     //3D modules
+    } else if (moduleTypeName == "constant3") {
+        //default is ok, since outputs=inputs
     } else if (moduleTypeName == "add3") {
         body.reset(new SimpleBodyGenerator(
             "vec3 result = lhs + rhs;\n"
@@ -154,6 +160,21 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
     } else if (moduleTypeName == "mux3") {
         body.reset(new SimpleBodyGenerator(
             "vec3 m = vec3(x, y, z);\n"
+        ));
+
+    //4D modules
+    } else if (moduleTypeName == "constant4") {
+        //default is ok, since outputs=inputs
+    } else if (moduleTypeName == "demux4") {
+        body.reset(new SimpleBodyGenerator(
+            "float x = m.x;\n"
+            "float y = m.y;\n"
+            "float z = m.z;\n"
+            "float w = m.w;\n"
+        ));
+    } else if (moduleTypeName == "mux4") {
+        body.reset(new SimpleBodyGenerator(
+            "vec4 m = vec3(x, y, z, w);\n"
         ));
 
     //lets ask superclass if it knows something useful
