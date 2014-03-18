@@ -32,7 +32,6 @@ RowLayout {
     }
 
     function updateValue(newValue){
-        console.log(newValue);
         values[0] = newValue.x;
         values[1] = newValue.y;
         values[2] = newValue.z;
