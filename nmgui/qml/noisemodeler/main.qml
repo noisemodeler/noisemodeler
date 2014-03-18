@@ -30,7 +30,7 @@ Rectangle {
         anchors.top: menu.bottom
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        width: active ? 150 : 0
+        width: active ? 200 : 0
     }
 
     Rectangle {

@@ -3,22 +3,61 @@ import QtQuick.Layouts 1.1
 
 SubWindow {
     property variant module
-    windowTitle: "Inspector: " + (module ? module.name : "No module")
+    windowTitle: "inspector: " + (module ? module.name : "no module")
     contents.children: [
         ColumnLayout {
+            visible: module ? true : false
             anchors.left:parent.left
             anchors.right:parent.right
             anchors.top: parent.top
             anchors.margins: 6
 
+            RowLayout {
+                InspectorLabel {
+                    text: "name:"
+                }
+                LineInput {
+                    Layout.fillWidth: true
+                    text: module ? module.name : "error"
+                }
+            }
+
+            RowLayout {
+                InspectorLabel {
+                    text: "comment:"
+                }
+                LineInput {
+                    Layout.fillWidth: true
+                    text: module ? module.description : "error"
+                }
+            }
+
+            RowLayout {
+                InspectorLabel {
+                    text: "type:"
+                }
+                LineInput {
+                    Layout.fillWidth: true
+                    readOnly: true
+                    text: module ? module.moduleType.name : "error"
+                }
+            }
+            RowLayout {
+                InspectorLabel {
+                    text: ""
+                }
+                Text {
+                    Layout.fillWidth: true
+                    text: module ? module.moduleType.description : "error"
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
+            }
+
             Repeater{
                 model: module ? module.inputs : 0
                 RowLayout{
-                    Text {
+                    InspectorLabel {
                         text: modelData.name + ":"
-                        Layout.maximumWidth: 40
-                        Layout.minimumWidth: 40
-                        elide: Text.ElideRight
                     }
                     SignalValueEdit {
                         fields: modelData.dimensionality
@@ -26,6 +65,7 @@ SubWindow {
                     }
                 }
             }
+
         }
     ]
 }
