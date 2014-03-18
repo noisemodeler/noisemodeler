@@ -24,16 +24,6 @@ SubWindow {
 
             RowLayout {
                 InspectorLabel {
-                    text: "comment:"
-                }
-                LineInput {
-                    Layout.fillWidth: true
-                    text: module ? module.description : "error"
-                }
-            }
-
-            RowLayout {
-                InspectorLabel {
                     text: "type:"
                 }
                 LineInput {
@@ -53,15 +43,39 @@ SubWindow {
                 }
             }
 
-            Repeater{
-                model: module ? module.inputs : 0
-                RowLayout{
-                    InspectorLabel {
-                        text: modelData.name + ":"
+            ColumnLayout {
+                Repeater{
+                    model: module ? module.inputs : 0
+                    RowLayout{
+                        InspectorLabel {
+                            text: modelData.name + ":"
+                        }
+                        SignalValueEdit {
+                            fields: modelData.dimensionality
+                            readOnly: modelData.outputLink !== null
+                        }
                     }
-                    SignalValueEdit {
-                        fields: modelData.dimensionality
-                        readOnly: modelData.outputLink !== null
+                }
+            }
+
+            RowLayout {
+                Text {
+                    text: "comments:"
+                    Layout.fillWidth: true
+                }
+            }
+            RowLayout {
+                Rectangle {
+                    Layout.fillWidth: true
+                    height: Math.max(12+6, commentEdit.contentHeight+6)
+                    TextEdit {
+                        anchors.fill: parent
+                        anchors.margins: 3
+                        id: commentEdit
+                        text: module ? module.description : "error"
+                        //                    height: 200
+                        //                    width: 100
+                        wrapMode: TextEdit.WrapAtWordBoundaryOrAnywhere
                     }
                 }
             }
