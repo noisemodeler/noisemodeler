@@ -9,7 +9,8 @@ Rectangle {
     property alias acceptableInput: input.acceptableInput
     property alias textInput: input
     signal newAcceptableValue(string newText)
-    width: 60; height: 18
+//    width: 60
+    height: 18
     TextInput {
         id: input
         color: "black"

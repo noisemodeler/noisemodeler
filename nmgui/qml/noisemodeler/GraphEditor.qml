@@ -25,7 +25,10 @@ Rectangle {
         graph.onModuleRemoved.connect(contents.onModuleRemoved);
         graph.onModuleAdded.connect(contents.addNode);
     }
-    Component.onCompleted: contents.updateContents();
+    Component.onCompleted: {
+        contents.updateContents();
+        autoArrangeWindows();
+    }
 
         Component {
             id:nodeDelegate

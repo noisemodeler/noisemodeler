@@ -33,6 +33,7 @@ SubWindow {
             LineInput {
                 id: xPosInput
                 text:"0"
+                width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
                     textureRenderer.domain.x = parseFloat(text);
@@ -48,6 +49,7 @@ SubWindow {
             LineInput {
                 id: widthInput
                 text:"1"
+                width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
                     textureRenderer.domain.width = parseFloat(text);
@@ -63,6 +65,7 @@ SubWindow {
             LineInput {
                 id: yPosInput
                 text:"0"
+                width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
                     textureRenderer.domain.y = parseFloat(text);
@@ -78,6 +81,7 @@ SubWindow {
             LineInput {
                 id: heightInput
                 text:"1"
+                width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
                     textureRenderer.domain.height = parseFloat(text);

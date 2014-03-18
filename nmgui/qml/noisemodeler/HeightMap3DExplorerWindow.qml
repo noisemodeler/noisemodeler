@@ -3,7 +3,7 @@ import NoiseModeler 1.0
 import QtQuick.Layouts 1.1
 
 SubWindow {
-    property bool maximized: true
+    property bool maximized: false
     windowTitle: "heightmap 3D preview"
     contents.width: maximized ? parent.width : 350
     contents.height: maximized ? parent.height : 350
@@ -64,6 +64,7 @@ SubWindow {
             LineInput {
                 id: xPosInput
                 text:"0"
+                width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
                     renderer.domain.x = parseFloat(text);
@@ -79,6 +80,7 @@ SubWindow {
             LineInput {
                 id: widthInput
                 text:"1"
+                width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
                     renderer.domain.width = parseFloat(text);
@@ -94,6 +96,7 @@ SubWindow {
             LineInput {
                 id: yPosInput
                 text:"0"
+                width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
                     renderer.domain.y = parseFloat(text);
@@ -109,6 +112,7 @@ SubWindow {
             LineInput {
                 id: heightInput
                 text:"1"
+                width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
                     renderer.domain.height = parseFloat(text);
