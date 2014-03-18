@@ -19,6 +19,7 @@ SubWindow {
                 LineInput {
                     Layout.fillWidth: true
                     text: module ? module.name : "error"
+                    onTextChanged: module.name = text;
                 }
             }
 

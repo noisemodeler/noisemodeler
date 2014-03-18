@@ -150,6 +150,14 @@ std::unique_ptr<const ModuleType> createMul2(){
     return std::move(moduleType);
 }
 
+std::unique_ptr<const ModuleType> createScale2(){
+    auto moduleType = make_unique<ModuleType>("scale2", ModuleType::Category::Primitive, "multiplies a 2D vector by a scalar. result = scalar * v");
+    moduleType->addInput("v", SignalType{2});
+    moduleType->addInput("scalar", SignalValue{1.f});
+    moduleType->addOutput("result", SignalType{2});
+    return std::move(moduleType);
+}
+
 std::unique_ptr<const ModuleType> createDemux2(){
     auto moduleType = make_unique<ModuleType>("demux2", ModuleType::Category::Primitive, "demultiplexes a 2D vector to two 1D vectors");
     moduleType->addInput("m", SignalType{2});
@@ -211,6 +219,15 @@ std::unique_ptr<const ModuleType> createMux3(){
     return std::move(moduleType);
 }
 
+std::unique_ptr<const ModuleType> createScale3(){
+    auto moduleType = make_unique<ModuleType>("scale3", ModuleType::Category::Primitive, "multiplies a 3D vector by a scalar. result = scalar * v");
+    moduleType->addInput("v", SignalType{3});
+    moduleType->addInput("scalar", SignalValue{1.f});
+    moduleType->addOutput("result", SignalType{3});
+    return std::move(moduleType);
+}
+
+
 // 4D modules
 
 std::unique_ptr<const ModuleType> createConstant4(){
@@ -236,6 +253,14 @@ std::unique_ptr<const ModuleType> createMux4(){
     moduleType->addInput("z", SignalType{1});
     moduleType->addInput("w", SignalType{1});
     moduleType->addOutput("m", SignalType{4});
+    return std::move(moduleType);
+}
+
+std::unique_ptr<const ModuleType> createScale4(){
+    auto moduleType = make_unique<ModuleType>("scale4", ModuleType::Category::Primitive, "multiplies a 4D vector by a scalar. result = scalar * v");
+    moduleType->addInput("v", SignalType{4});
+    moduleType->addInput("scalar", SignalValue{1.f});
+    moduleType->addOutput("result", SignalType{4});
     return std::move(moduleType);
 }
 
@@ -272,6 +297,7 @@ void TypeManager::initBuiltinTypes()
     addBuiltinType(createAdd2());
     addBuiltinType(createSub2());
     addBuiltinType(createMul2());
+    addBuiltinType(createScale2());
     addBuiltinType(createDemux2());
     addBuiltinType(createMux2());
     addBuiltinType(createNoise2());
@@ -281,11 +307,13 @@ void TypeManager::initBuiltinTypes()
     addBuiltinType(createConstant3());
     addBuiltinType(createDemux3());
     addBuiltinType(createMux3());
+    addBuiltinType(createScale3());
 
     //4D modules
     addBuiltinType(createConstant4());
     addBuiltinType(createDemux4());
     addBuiltinType(createMux4());
+    addBuiltinType(createScale4());
 
     //debug modules
     addBuiltinType(createDebugInput());

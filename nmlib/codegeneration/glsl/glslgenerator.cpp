@@ -118,6 +118,10 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
         body.reset(new SimpleBodyGenerator(
             "vec2 result = lhs * rhs;\n"
         ));
+    } else if (moduleTypeName == "scale2") {
+        body.reset(new SimpleBodyGenerator(
+            "vec2 result = scalar * v;\n"
+        ));
     } else if (moduleTypeName == "demux2") {
         body.reset(new SimpleBodyGenerator(
             "float x = m.x;\n"
@@ -151,6 +155,10 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
         body.reset(new SimpleBodyGenerator(
             "vec3 result = lhs * rhs;\n"
         ));
+    } else if (moduleTypeName == "scale3") {
+        body.reset(new SimpleBodyGenerator(
+            "vec2 result = scalar * v;\n"
+        ));
     } else if (moduleTypeName == "demux3") {
         body.reset(new SimpleBodyGenerator(
             "float x = m.x;\n"
@@ -175,6 +183,10 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
     } else if (moduleTypeName == "mux4") {
         body.reset(new SimpleBodyGenerator(
             "vec4 m = vec3(x, y, z, w);\n"
+        ));
+    } else if (moduleTypeName == "scale4") {
+        body.reset(new SimpleBodyGenerator(
+            "vec2 result = scalar * v;\n"
         ));
 
     //lets ask superclass if it knows something useful
