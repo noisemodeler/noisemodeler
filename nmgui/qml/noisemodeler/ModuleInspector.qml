@@ -51,8 +51,19 @@ SubWindow {
                             text: modelData.name + ":"
                         }
                         SignalValueEdit {
+                            id: signalValueEdit
                             fields: modelData.dimensionality
                             readOnly: modelData.outputLink !== null
+                            onValueChanged: {
+                                var vector = Qt.vector4d(values[0], values[1], values[2], values[3]);
+                                console.log("updating model with this vector: ", vector)
+                                modelData.unlinkedValue = vector;
+                            }
+                            Component.onCompleted: updateValue(modelData.unlinkedValue)
+                            Connections {
+                                target: modelData
+                                onUnlinkedValueChanged: signalValueEdit.updateValue(modelData.unlinkedValue)
+                            }
                         }
                     }
                 }
