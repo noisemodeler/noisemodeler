@@ -89,8 +89,8 @@ std::unique_ptr<const ModuleType> createSub1(){
 
 std::unique_ptr<const ModuleType> createMul1(){
     auto moduleType = make_unique<ModuleType>("mul1", ModuleType::Category::Primitive, "result = lhs * rhs");
-    moduleType->addInput("lhs", SignalType{1});
-    moduleType->addInput("rhs", SignalType{1});
+    moduleType->addInput("lhs", SignalValue{1.f});
+    moduleType->addInput("rhs", SignalValue{1.f});
     moduleType->addOutput("result", SignalType{1});
     return std::move(moduleType);
 }
@@ -98,7 +98,7 @@ std::unique_ptr<const ModuleType> createMul1(){
 std::unique_ptr<const ModuleType> createMod(){
     auto moduleType = make_unique<ModuleType>("mod", ModuleType::Category::Primitive, "modulo operator. result = dividend mod divisor");
     moduleType->addInput("dividend", SignalType{1});
-    moduleType->addInput("divisor", SignalType{1});
+    moduleType->addInput("divisor", SignalValue{1.f});
     moduleType->addOutput("result", SignalType{1});
     return std::move(moduleType);
 }
@@ -163,8 +163,9 @@ std::unique_ptr<const ModuleType> createNoise2(){
 std::unique_ptr<const ModuleType> createFbm2D(){
     auto moduleType = make_unique<ModuleType>("fbm2", ModuleType::Category::Primitive, "fractional brownian motion");
     moduleType->addInput("pos", SignalType{2});
-    moduleType->addInput("lacunarity", SignalType{1});
-    moduleType->addInput("gain", SignalType{1});
+    moduleType->addInput("octaves", SignalValue{10});
+    moduleType->addInput("lacunarity", SignalValue{2.f});
+    moduleType->addInput("gain", SignalValue{0.5f});
     moduleType->addOutput("result", SignalType{1});
     return std::move(moduleType);
 }

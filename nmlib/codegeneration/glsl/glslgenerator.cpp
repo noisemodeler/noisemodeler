@@ -128,9 +128,8 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
             "float result = snoise(pos);\n"
         ));
     } else if (moduleTypeName == "fbm2") {
-        //TODO hook up lacunarity and gain
         body.reset(new SimpleBodyGenerator(
-            "float result = fbm2d(pos, 10, 2, 0.5);\n"
+            "float result = fbm2d(pos, octaves, lacunarity, gain);\n"
         ));
 
     //3D modules
