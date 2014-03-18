@@ -83,9 +83,8 @@ SubWindow {
                         anchors.margins: 3
                         id: commentEdit
                         text: module ? module.description : "error"
-                        //                    height: 200
-                        //                    width: 100
                         wrapMode: TextEdit.WrapAtWordBoundaryOrAnywhere
+                        onTextChanged: module.description = text;
                     }
                 }
             }
