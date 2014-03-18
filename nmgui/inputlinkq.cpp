@@ -5,6 +5,8 @@
 #include <nmlib/model/inputlink.hpp>
 #include <nmlib/model/moduleinput.hpp>
 
+#include <QVector4D>
+
 namespace nmgui {
 
 InputLinkQ::InputLinkQ(nm::InputLink *inputLink, QObject *p) :
@@ -20,6 +22,9 @@ InputLinkQ::InputLinkQ(nm::InputLink *inputLink, QObject *p) :
 
     m_outputLinkChangedConnection = m_inputLink->linkChanged.connect([&](nm::InputLink&){
         outputLinkChanged();
+    });
+    m_unlinkedValueChangedConnection = m_inputLink->unlinkedValueChanged.connect([&](nm::InputLink&){
+        unlinkedValueChanged();
     });
 }
 
@@ -60,7 +65,7 @@ OutputLinkQ *InputLinkQ::outputLink()
     return outputLink != nullptr ? OutputLinkQ::fromOutputLink(*outputLink) : nullptr;
 }
 
-void InputLinkQ::outputLink(OutputLinkQ *value)
+void InputLinkQ::setOutputLink(OutputLinkQ *value)
 {
     if(value == outputLink())return;
     if(value == nullptr){
@@ -74,6 +79,25 @@ void InputLinkQ::outputLink(OutputLinkQ *value)
 ModuleQ *InputLinkQ::owner()
 {
     return ModuleQ::fromModule(m_inputLink->getOwner());
+}
+
+void InputLinkQ::setUnlinkedValue(QVector4D value)
+{
+    std::vector<float> values(dimensionality());
+    for(int i = 0; i<dimensionality(); ++i){
+        values[i] = value[i];
+    }
+    m_inputLink->setUnlinkedValue(nm::SignalValue{values});
+}
+
+QVector4D InputLinkQ::unlinkedValue()
+{
+    nm::SignalValue signalValue = m_inputLink->getUnlinkedValue();
+    QVector4D ret;
+    for(int i=0; i<dimensionality(); ++i){
+        ret[i] = signalValue[i];
+    }
+    return ret;
 }
 
 } // namespace nmgui
