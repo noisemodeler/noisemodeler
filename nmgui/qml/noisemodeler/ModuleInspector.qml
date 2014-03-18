@@ -4,8 +4,23 @@ SubWindow {
     property variant module
     windowTitle: "Inspector: " + (module ? module.name : "No module")
     contents.children: [
-        Text {
-            text: "Test"
-        }
+        Grid {
+            verticalItemAlignment: Grid.AlignVCenter
+            anchors.fill:parent
+            anchors.margins: 6
+            columns: 2
+            spacing: 6
+
+            Text {
+                text: "rhs:"
+            }
+            SignalValueEdit {
+            }
+            Text {
+                text: "lhs:"
+            }
+            SignalValueEdit {
+            }
+       }
     ]
 }

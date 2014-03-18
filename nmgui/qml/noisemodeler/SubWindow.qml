@@ -2,8 +2,8 @@ import QtQuick 2.2
 
 Rectangle {
     id: subWindow
-    width: Math.max(contents.childrenRect.width + borderThickness * 2, nodeLabel.width+3)
-    height: contents.childrenRect.height + titleBar.height + borderThickness * 2
+    width: anchors.fill ? undefined : Math.max(contents.childrenRect.width + borderThickness * 2, nodeLabel.width+3)
+    height: anchors.fill ? undefined : contents.childrenRect.height + titleBar.height + borderThickness * 2
     color: mystyle.node.bgColor
 //    property int minWidth: Math.max(50, contents.minWidth+borderThickness*2)
 //    property int minHeight: contents.minHeight + titleBar.height + borderThickness * 2
@@ -52,7 +52,7 @@ Rectangle {
         anchors.left: subWindow.left
         anchors.leftMargin: borderThickness
         anchors.rightMargin: borderThickness
-        width: childrenRect.width
-        height: childrenRect.height
+        width: subWindow.anchors.fill ? subWindow.width : childrenRect.width
+        height: subWindow.anchors.fill ? subWindow.height-titleHeight : childrenRect.height
     }
 }
