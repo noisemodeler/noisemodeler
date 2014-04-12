@@ -37,15 +37,17 @@ RowLayout {
                 }
             }
             MouseArea {
-                anchors.fill: parent
-                drag.target: offset
+                visible: !lineInput.readOnly
+                anchors.fill: lineInput
                 hoverEnabled: true
                 acceptedButtons: Qt.NoButton
                 onWheel: {
                     wheel.accepted = true;
-                    //TODO: use wheel.pixelDelta
-                    values[modelData] *= 1.0 + -wheel.angleDelta.y/1200;
-                    offset.y = -values[modelData];
+                    //TODO: use wheel.pixelDelta for pixel perfect scrolling
+                    var wheelSensitivity = 1/1200;
+                    values[modelData] *= 1.0 + wheel.angleDelta.y*wheelSensitivity *
+                            (values[modelData]<0?-1:1); //flip direction of scrolling for negative values
+                    if(Math.abs(values[modelData])<0.0001)values[modelData] += wheel.angleDelta.y > 0 ? 0.01 : -0.01;
                     valueChanged(modelData, values);
                     lineInput.text = values[modelData].toFixed(3);
                 }
