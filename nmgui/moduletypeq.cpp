@@ -2,6 +2,7 @@
 
 #include <nmgui/moduleinputq.hpp>
 #include <nmgui/moduleoutputq.hpp>
+#include <nmgui/graphq.hpp>
 
 #include <nmlib/model/moduletype.hpp>
 
@@ -80,6 +81,12 @@ QQmlListProperty<ModuleInputQ> ModuleTypeQ::inputs()
 QQmlListProperty<ModuleOutputQ> ModuleTypeQ::outputs()
 {
     return QQmlListProperty<ModuleOutputQ>(this, 0, nullptr, &ModuleTypeQ::outputsCount, &ModuleTypeQ::outputAt, nullptr);
+}
+
+GraphQ *ModuleTypeQ::graph()
+{
+    nm::Graph *g = m_moduleType->getGraph();
+    return g == nullptr ? nullptr : GraphQ::fromGraph(*g);
 }
 
 ModuleInputQ *ModuleTypeQ::inputAt(QQmlListProperty<ModuleInputQ> *list, int index)

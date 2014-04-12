@@ -14,6 +14,7 @@ namespace nmgui {
 
 class ModuleInputQ;
 class ModuleOutputQ;
+class GraphQ;
 
 class ModuleTypeQ : public QObject
 {
@@ -23,6 +24,7 @@ class ModuleTypeQ : public QObject
     Q_PROPERTY(bool removable READ removable CONSTANT)
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleInputQ> inputs READ inputs NOTIFY inputsChanged)
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleOutputQ> outputs READ outputs NOTIFY outputsChanged)
+    Q_PROPERTY(GraphQ* graph READ graph CONSTANT)
 public:
     //should have been protected, but not allowed by qt
     explicit ModuleTypeQ(nm::ModuleType *moduleType = nullptr, QObject *parent = 0);
@@ -34,6 +36,7 @@ public:
     bool removable() const;
     QQmlListProperty<ModuleInputQ> inputs();
     QQmlListProperty<ModuleOutputQ> outputs();
+    GraphQ *graph();
     nm::ModuleType* moduleType() const {return m_moduleType;}
 
 signals:
