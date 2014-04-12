@@ -12,15 +12,9 @@ RowLayout {
         id:repeater
         model: fields
 
-
         Item {
             Layout.fillWidth: true
             height: lineInput.height
-            Item {
-                id:offset
-                onXChanged: {
-                }
-            }
             LineInput {
                 id: lineInput
                 anchors.left: parent.left
