@@ -19,7 +19,7 @@ SubWindow {
                 LineInput {
                     Layout.fillWidth: true
                     text: module ? module.name : "error"
-                    onTextChanged: module.name = text;
+                    onTextChanged: if(module)module.name = text;
                 }
             }
 
@@ -80,12 +80,12 @@ SubWindow {
                     Layout.fillWidth: true
                     height: Math.max(12+6, commentEdit.contentHeight+6)
                     TextEdit {
+                        id: commentEdit
                         anchors.fill: parent
                         anchors.margins: 3
-                        id: commentEdit
                         text: module ? module.description : "error"
                         wrapMode: TextEdit.WrapAtWordBoundaryOrAnywhere
-                        onTextChanged: module.description = text;
+                        onTextChanged: if(module)module.description = text;
                     }
                 }
             }
