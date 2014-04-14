@@ -34,11 +34,14 @@ Rectangle {
                     x: 10
                 }
             }
-            ModuleTypeListEntry {
-                id: userTypeListEntry
-                moduleType: typeManager.userTypes[0]
-                onAddClicked: console.log("Add user type to graph")
-                onEditClicked: console.log("edit user type")
+            Repeater {
+                model: typeManager.userTypes
+                ModuleTypeListEntry {
+                    id: userTypeListEntry
+                    moduleType: modelData
+                    onAddClicked: console.log("Add user type to graph")
+                    onEditClicked: console.log("edit user type")
+                }
             }
 
             Item {

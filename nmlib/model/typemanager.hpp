@@ -27,9 +27,12 @@ public:
     //index accessors
     unsigned int numBuiltinTypes() const { return m_builtinTypes.size(); }
     const ModuleType *getBuiltinType(unsigned int index) const { return m_builtinTypes.at(index).get(); }
+    unsigned int numUserTypes() const { return m_userTypes.size(); }
+    const ModuleType *getUserType(unsigned int index) const { return m_userTypes.at(index).get(); }
 
     //signals
     signal<void(TypeManager&)> destroying;
+    signal<void(TypeManager&)> userTypesChanged;
 
 private:
     void addBuiltinType(std::unique_ptr<const ModuleType> moduleType);

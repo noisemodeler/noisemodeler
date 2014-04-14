@@ -18,19 +18,28 @@ class TypeManagerQ : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleTypeQ> builtinTypes READ builtinTypes CONSTANT)
+    Q_PROPERTY(QQmlListProperty<nmgui::ModuleTypeQ> userTypes READ userTypes NOTIFY userTypesChanged)
 public:
     explicit TypeManagerQ(nm::TypeManager *typeManager = nullptr, QObject *parent = 0);
     static TypeManagerQ *fromTypeManager(nm::TypeManager &typeManager);
 
     QQmlListProperty<ModuleTypeQ> builtinTypes();
+    QQmlListProperty<ModuleTypeQ> userTypes();
+
+signals:
+    void userTypesChanged();
 
 private:
     nm::TypeManager *m_typeManager;
 
     boost::signals2::scoped_connection typeManagerDestroyedConnection;
+    boost::signals2::scoped_connection userTypesChangedConnection;
 
     static ModuleTypeQ* builtinModuleAt(QQmlListProperty<ModuleTypeQ> *list, int index);
     static int builtinModulesCount(QQmlListProperty<ModuleTypeQ> *list);
+
+    static ModuleTypeQ* userModuleAt(QQmlListProperty<ModuleTypeQ> *list, int index);
+    static int userModulesCount(QQmlListProperty<ModuleTypeQ> *list);
 };
 
 } // namespace nmgui

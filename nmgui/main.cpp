@@ -57,6 +57,16 @@ int main(int argc, char *argv[])
     debugInputModule->getOutput("pos")->addLink(*fbmModule->getInput("pos"));
     fbmModule->getOutput("result")->addLink(*debugOutputModule->getInput("height"));
 
+    //mock user type
+    {
+        auto mockUserType = make_unique<nm::ModuleType>("MyMockUserType", "Long mock description that is very long");
+        typeManager.addUserType(std::move(mockUserType));
+    }
+    {
+        auto mockUserType = make_unique<nm::ModuleType>("UserType2", "Long mock description that is very long");
+        typeManager.addUserType(std::move(mockUserType));
+    }
+
     //wrapping into QObjects
     auto debugInputModuleQ = nmgui::ModuleQ::fromModule(*debugInputModule);
     auto debugOutputModuleQ = nmgui::ModuleQ::fromModule(*debugOutputModule);

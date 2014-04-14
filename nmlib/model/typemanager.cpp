@@ -34,6 +34,7 @@ bool TypeManager::addUserType(std::unique_ptr<ModuleType> moduleType)
         return false;
     }
     m_userTypes.push_back(std::move(moduleType));
+    userTypesChanged(*this);
     return true;
 }
 

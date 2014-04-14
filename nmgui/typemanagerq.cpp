@@ -18,7 +18,10 @@ TypeManagerQ::TypeManagerQ(nm::TypeManager* typeManager, QObject *parent) :
         deleteLater();
         m_typeManager->setUserData(nullptr);
         m_typeManager = nullptr;
-});
+    });
+    userTypesChangedConnection = m_typeManager->userTypesChanged.connect([&](nm::TypeManager &){
+        userTypesChanged();
+    });
 }
 
 TypeManagerQ *TypeManagerQ::fromTypeManager(nm::TypeManager &typeManager)
@@ -31,6 +34,11 @@ TypeManagerQ *TypeManagerQ::fromTypeManager(nm::TypeManager &typeManager)
 QQmlListProperty<ModuleTypeQ> TypeManagerQ::builtinTypes()
 {
     return QQmlListProperty<ModuleTypeQ>(this, 0, nullptr, &TypeManagerQ::builtinModulesCount, &TypeManagerQ::builtinModuleAt, nullptr);
+}
+
+QQmlListProperty<ModuleTypeQ> TypeManagerQ::userTypes()
+{
+    return QQmlListProperty<ModuleTypeQ>(this, 0, nullptr, &TypeManagerQ::userModulesCount, &TypeManagerQ::userModuleAt, nullptr);
 }
 
 ModuleTypeQ *TypeManagerQ::builtinModuleAt(QQmlListProperty<ModuleTypeQ> *list, int index)
@@ -48,6 +56,26 @@ int TypeManagerQ::builtinModulesCount(QQmlListProperty<ModuleTypeQ> *list)
     TypeManagerQ *typeManager = qobject_cast<TypeManagerQ *>(list->object);
     if(typeManager){
         return typeManager->m_typeManager->numBuiltinTypes();
+    } else {
+        return 0;
+    }
+}
+
+ModuleTypeQ *TypeManagerQ::userModuleAt(QQmlListProperty<ModuleTypeQ> *list, int index)
+{
+    TypeManagerQ *typeManager = qobject_cast<TypeManagerQ *>(list->object);
+    if(typeManager){
+        return ModuleTypeQ::fromModuleType(*typeManager->m_typeManager->getUserType(index));
+    } else {
+        return nullptr;
+    }
+}
+
+int TypeManagerQ::userModulesCount(QQmlListProperty<ModuleTypeQ> *list)
+{
+    TypeManagerQ *typeManager = qobject_cast<TypeManagerQ *>(list->object);
+    if(typeManager){
+        return typeManager->m_typeManager->numUserTypes();
     } else {
         return 0;
     }
