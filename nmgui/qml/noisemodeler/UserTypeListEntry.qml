@@ -13,12 +13,14 @@ Item{
     anchors.left: parent.left
     anchors.right: parent.right
     RowLayout {
+        height: parent.height
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.leftMargin: 10
         anchors.rightMargin: 10
         Text {
             Layout.fillWidth: true
+            Layout.fillHeight: true
             elide: Text.ElideRight
             height: parent.height
             text: moduleType.name
