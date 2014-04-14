@@ -27,6 +27,7 @@ Item{
             verticalAlignment: Text.AlignVCenter
         }
         Image {
+            visible: !moduleType.builtin
             MouseArea{
                 anchors.fill: parent
                 onClicked: editClicked()

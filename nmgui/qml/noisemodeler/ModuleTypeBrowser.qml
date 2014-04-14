@@ -37,7 +37,6 @@ Rectangle {
             Repeater {
                 model: typeManager.userTypes
                 ModuleTypeListEntry {
-                    id: userTypeListEntry
                     moduleType: modelData
                     onAddClicked: console.log("Add user type to graph")
                     onEditClicked: console.log("edit user type")
@@ -60,22 +59,8 @@ Rectangle {
 
             Repeater{
                 model: typeManager.builtinTypes
-                Item {
-                    height: 30
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    Text {
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        x: 10
-                        text: modelData.name
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    ToolTipArea {
-                        text: modelData.description
-                        tip.x: parent.width + 10
-                        tip.y: parent.height / 2 - tip.height/2
-                    }
+                ModuleTypeListEntry {
+                    moduleType: modelData
                 }
             }
         }
