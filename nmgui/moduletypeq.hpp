@@ -22,6 +22,7 @@ class ModuleTypeQ : public QObject
     Q_PROPERTY(QString name READ name NOTIFY nameChanged)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(bool removable READ removable CONSTANT)
+    Q_PROPERTY(bool builtin READ builtin CONSTANT)
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleInputQ> inputs READ inputs NOTIFY inputsChanged)
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleOutputQ> outputs READ outputs NOTIFY outputsChanged)
     Q_PROPERTY(GraphQ* graph READ graph CONSTANT)
@@ -34,6 +35,7 @@ public:
     QString name() const;
     QString description() const;
     bool removable() const;
+    bool builtin() const;
     QQmlListProperty<ModuleInputQ> inputs();
     QQmlListProperty<ModuleOutputQ> outputs();
     GraphQ *graph();
