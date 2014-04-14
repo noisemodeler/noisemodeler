@@ -1,5 +1,8 @@
 import QtQuick 2.2
 import NoiseModeler 1.0
+import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.1
+import QtQuick.Layouts 1.1
 
 Rectangle {
     id: moduleTypeBrowser
@@ -8,43 +11,90 @@ Rectangle {
     anchors.bottom: parent.bottom
     anchors.top: menu.bottom
     width: 150
-    Component {
-        id: moduleTypeEntry
-        Item {
-            id: row
-            height: 30
-            anchors.left: parent.left
-            anchors.right: parent.right
-            Text {
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                x: 10
-                text: modelData.name
-                verticalAlignment: Text.AlignVCenter
-            }
-            ToolTipArea {
-                text: modelData.description
-                tip.x: parent.width + 10
-                tip.y: parent.height / 2 - tip.height/2
-                onPressed: {
-                    row.ListView.view.currentIndex = index;
-                }
-                onDoubleClicked: {
-                    mockGraph.createModule(modelData);
-                }
-            }
-        }
-    }
-    ListView {
+
+    ScrollView {
+        id: scrollView
         anchors.fill: parent
-        model: typeManager.builtinTypes
-        delegate: moduleTypeEntry
-        highlightMoveDuration: 0
-        highlight: Rectangle {
-            color: "lightsteelblue"
-            anchors.left: parent.left
-            anchors.right: parent.right
+        style: ScrollViewStyle{
+            scrollBarBackground: Item{}
+            transientScrollBars: true
         }
-        focus: true
+        Column {
+            width: scrollView.width
+            Item {
+                height: 30
+                anchors.left: parent.left
+                anchors.right: parent.right
+                Text {
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    text: "user types:"
+                    font.bold: true
+                    verticalAlignment: Text.AlignVCenter
+                    x: 10
+                }
+            }
+            UserTypeListEntry {
+                id: userTypeListEntry
+                moduleType: QtObject{
+                    property string name: 'DummyType'
+                    property string description: 'DummyDescription'
+                }
+            }
+
+            Item {
+                height: 40
+                anchors.left: parent.left
+                anchors.right: parent.right
+                Text {
+                    height: 30
+                    anchors.bottom: parent.bottom
+                    text: "built-in types:"
+                    font.bold: true
+                    verticalAlignment: Text.AlignVCenter
+                    x: 10
+                }
+            }
+
+            Repeater{
+                model: typeManager.builtinTypes
+                delegate: Component {
+                    id: moduleTypeEntry
+                    Item {
+                        id: row
+                        height: 30
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        Text {
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            x: 10
+                            text: modelData.name
+                            verticalAlignment: Text.AlignVCenter
+                        }
+                        ToolTipArea {
+                            text: modelData.description
+                            tip.x: parent.width + 10
+                            tip.y: parent.height / 2 - tip.height/2
+                            onDoubleClicked: {
+                                mockGraph.createModule(modelData);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+    //    ListView {
+    //        anchors.fill: parent
+                //        model: typeManager.builtinTypes
+                //        delegate: moduleTypeEntry
+                //        highlightMoveDuration: 0
+                //        highlight: Rectangle {
+                //            color: "lightsteelblue"
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//        }
+//        focus: true
+//    }
 }

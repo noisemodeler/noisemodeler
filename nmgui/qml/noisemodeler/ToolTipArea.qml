@@ -9,13 +9,13 @@ MouseArea {
     anchors.fill: parent
     hoverEnabled: true
     Timer {
-        id:showTimer
+        id: showTimer
         interval: 1000
         running: (mouseArea.containsMouse && !tip.visible)
         onTriggered: tip.show();
     }
     Timer {
-        id:hideTimer
+        id: hideTimer
         interval: 100
         running: !mouseArea.containsMouse && tip.visible
         onTriggered: tip.hide();

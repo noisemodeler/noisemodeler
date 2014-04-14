@@ -3,7 +3,8 @@ import QtQuick.Window 2.1
 import NoiseModeler 1.0
 
 Rectangle {
-    Style { id:mystyle }
+    id: mainWindow
+    Style { id: mystyle }
     width: 1024
     height: 600
     TopBar {

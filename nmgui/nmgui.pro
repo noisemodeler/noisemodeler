@@ -7,7 +7,7 @@ DEPLOYMENTFOLDERS = folder_01
 QML_IMPORT_PATH =
 
 TARGET = nmgui
-QT += qml
+QT += qml svg
 
 QMAKE_CXXFLAGS += -std=c++11 \
     -Wall -Werror -Wextra \
@@ -72,6 +72,6 @@ PRE_TARGETDEPS += ../nmlib/libnmlib.a
 include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
 qtcAddDeployment()
 
-OTHER_FILES += \
-    qml/noisemodeler/SubWindow.qml
+RESOURCES += \
+    nmgui.qrc
 
