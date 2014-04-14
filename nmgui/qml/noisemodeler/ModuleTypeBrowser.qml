@@ -40,6 +40,8 @@ Rectangle {
                     property string name: 'DummyTypeWithlongsadf'
                     property string description: 'DummyDescription'
                 }
+                onAddClicked: console.log("Add user type to graph")
+                onEditClicked: console.log("edit user type")
             }
 
             Item {
@@ -76,9 +78,6 @@ Rectangle {
                             text: modelData.description
                             tip.x: parent.width + 10
                             tip.y: parent.height / 2 - tip.height/2
-                            onDoubleClicked: {
-                                mockGraph.createModule(modelData);
-                            }
                         }
                     }
                 }

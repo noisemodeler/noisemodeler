@@ -5,10 +5,13 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 
 Item{
+    id: moduleTypeListEntry
+    property var moduleType
+    signal editClicked()
+    signal addClicked()
     height: 30
     anchors.left: parent.left
     anchors.right: parent.right
-    property var moduleType
     RowLayout {
         anchors.left: parent.left
         anchors.right: parent.right
@@ -22,10 +25,18 @@ Item{
             verticalAlignment: Text.AlignVCenter
         }
         Image {
+            MouseArea{
+                anchors.fill: parent
+                onClicked: editClicked()
+            }
             Layout.alignment: Qt.AlignRight
             source: 'qrc:///icons/edit.svg'
         }
         Image {
+            MouseArea{
+                anchors.fill: parent
+                onClicked: addClicked()
+            }
             Layout.alignment: Qt.AlignRight
             source: 'qrc:///icons/add.svg'
         }
@@ -34,8 +45,5 @@ Item{
         text: moduleType.description
         tip.y: parent.height
         tip.width: parent.width
-        onDoubleClicked: {
-            mockGraph.createModule(modelData);
-        }
     }
 }

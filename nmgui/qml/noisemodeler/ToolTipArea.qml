@@ -8,6 +8,7 @@ MouseArea {
     id: mouseArea
     anchors.fill: parent
     hoverEnabled: true
+    acceptedButtons: Qt.NoButton
     Timer {
         id: showTimer
         interval: 1000
