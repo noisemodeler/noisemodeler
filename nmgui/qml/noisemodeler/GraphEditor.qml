@@ -2,15 +2,22 @@ import QtQuick 2.2
 import NoiseModeler 1.0
 
 Rectangle {
-    id:graphEditor
+    id: graphEditor
     color: mystyle.graphEditor.bgColor
     property alias contents: contents
     property Graph graph
     property variant selectedModule
 
+    //TODO remove this
+    function reload(){
+        contents.clearContents();
+        contents.updateContents();
+        autoArrangeWindows();
+    }
+
     MouseArea {
         anchors.fill: parent
-        drag.target:contents
+        drag.target: contents
         acceptedButtons: Qt.RightButton | Qt.MiddleButton
     }
     MouseArea {
@@ -26,36 +33,35 @@ Rectangle {
         graph.onModuleAdded.connect(contents.addNode);
     }
     Component.onCompleted: {
-        contents.updateContents();
-        autoArrangeWindows();
+        if(graph){
+            contents.updateContents();
+            autoArrangeWindows();
+        }
     }
 
-        Component {
-            id:nodeDelegate
-            Node {
-                onSelectedChanged: {
-                    if(selected)selectedModule = module;
-                }
+    Component {
+        id: nodeDelegate
+        Node {
+            onSelectedChanged: {
+                if(selected)selectedModule = module;
             }
         }
+    }
 
     Item {
-        id:contents
-        //repeater regenerates modules when new ones are added, and messes up positioning, so we cant use it
-//        Repeater {
-//            id: rep
-//            model: graph.modules
-//            Node {
-//                module: modelData
-//            }
-//            onItemAdded: console.log("added");
-//        }
+        id: contents
         function addNode(name, index){
             var module = graph.modules[index];
             nodeDelegate.createObject(contents, {"module":module});
         }
         function onModuleRemoved(name, index){
             children[index].destroy();
+        }
+
+        function clearContents(){
+            for(var i=0; i<children.length; i++){
+                children[i].destroy();
+            }
         }
 
         function updateContents(){
@@ -65,7 +71,7 @@ Rectangle {
                     if(children[i].module === module){
 //                        console.log("node exists for this object")
                     } else {
-//                        console.log("skipping unknown stuff")
+                        console.log("Unexpected child: "+children[i]);
                     }
                 } else {
                     addNode(module.name, i);
@@ -83,7 +89,6 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
     }
-//    HeightMapWindow{}
     function autoArrangeWindows(){
         contents.x = 0;
         contents.y = 0;

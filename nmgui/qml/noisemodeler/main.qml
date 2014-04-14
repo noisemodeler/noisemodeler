@@ -4,6 +4,7 @@ import NoiseModeler 1.0
 
 Rectangle {
     id: mainWindow
+    property ModuleType currentModuleType: typeManager.userTypes[0]
     Style { id: mystyle }
     width: 1024
     height: 600
@@ -15,6 +16,14 @@ Rectangle {
     ModuleTypeBrowser {
         z:50
         id: moduleTypeBrowser
+        onAddModuleClicked: {
+            currentModuleType.graph.createModule(moduleType);
+        }
+        onEditModuleTypeClicked: {
+            currentModuleType = moduleType;
+            editor.reload();
+            console.log(moduleType.name);
+        }
     }
 
     Item {
@@ -50,7 +59,7 @@ Rectangle {
     GraphEditor {
         id: editor
         anchors.fill: mainArea
-        graph: mockGraph
+        graph: currentModuleType.graph
     }
     Keys.onPressed: {
         if(event.key === Qt.Key_F){

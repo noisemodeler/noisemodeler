@@ -25,7 +25,7 @@ class ModuleTypeQ : public QObject
     Q_PROPERTY(bool builtin READ builtin CONSTANT)
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleInputQ> inputs READ inputs NOTIFY inputsChanged)
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleOutputQ> outputs READ outputs NOTIFY outputsChanged)
-    Q_PROPERTY(GraphQ* graph READ graph CONSTANT)
+    Q_PROPERTY(nmgui::GraphQ* graph READ graph CONSTANT)
 public:
     //should have been protected, but not allowed by qt
     explicit ModuleTypeQ(nm::ModuleType *moduleType = nullptr, QObject *parent = 0);

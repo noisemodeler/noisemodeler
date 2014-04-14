@@ -6,6 +6,8 @@ import QtQuick.Layouts 1.1
 
 Rectangle {
     id: moduleTypeBrowser
+    signal addModuleClicked(ModuleType moduleType)
+    signal editModuleTypeClicked(ModuleType moduleType)
     color: mystyle.moduleTypeBrowser.bgColor
     anchors.left: parent.left
     anchors.bottom: parent.bottom
@@ -38,8 +40,8 @@ Rectangle {
                 model: typeManager.userTypes
                 ModuleTypeListEntry {
                     moduleType: modelData
-                    onAddClicked: mockGraph.createModule(moduleType)
-                    onEditClicked: console.log("edit user type")
+                    onAddClicked: addModuleClicked(moduleType)
+                    onEditClicked: editModuleTypeClicked(moduleType)
                 }
             }
 
@@ -61,7 +63,7 @@ Rectangle {
                 model: typeManager.builtinTypes
                 ModuleTypeListEntry {
                     moduleType: modelData
-                    onAddClicked: mockGraph.createModule(modelData)
+                    onAddClicked: addModuleClicked(modelData)
                 }
             }
         }
