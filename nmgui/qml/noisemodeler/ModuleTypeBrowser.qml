@@ -37,7 +37,7 @@ Rectangle {
             UserTypeListEntry {
                 id: userTypeListEntry
                 moduleType: QtObject{
-                    property string name: 'DummyType'
+                    property string name: 'DummyTypeWithlongsadf'
                     property string description: 'DummyDescription'
                 }
             }

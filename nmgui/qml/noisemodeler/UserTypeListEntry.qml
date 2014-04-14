@@ -15,6 +15,8 @@ Item{
         anchors.leftMargin: 10
         anchors.rightMargin: 10
         Text {
+            Layout.fillWidth: true
+            elide: Text.ElideRight
             height: parent.height
             text: moduleType.name
             verticalAlignment: Text.AlignVCenter
@@ -23,11 +25,15 @@ Item{
             Layout.alignment: Qt.AlignRight
             source: 'qrc:///icons/edit.svg'
         }
+        Image {
+            Layout.alignment: Qt.AlignRight
+            source: 'qrc:///icons/add.svg'
+        }
     }
     ToolTipArea {
         text: moduleType.description
-        tip.x: parent.width + 10
-        tip.y: parent.height / 2 - tip.height/2
+        tip.y: parent.height
+        tip.width: parent.width
         onDoubleClicked: {
             mockGraph.createModule(modelData);
         }
