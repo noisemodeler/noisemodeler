@@ -36,10 +36,7 @@ Rectangle {
             }
             ModuleTypeListEntry {
                 id: userTypeListEntry
-                moduleType: QtObject{
-                    property string name: 'DummyTypeWithlongsadf'
-                    property string description: 'DummyDescription'
-                }
+                moduleType: typeManager.userTypes[0]
                 onAddClicked: console.log("Add user type to graph")
                 onEditClicked: console.log("edit user type")
             }
