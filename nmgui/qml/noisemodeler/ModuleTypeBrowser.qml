@@ -38,7 +38,7 @@ Rectangle {
                 model: typeManager.userTypes
                 ModuleTypeListEntry {
                     moduleType: modelData
-                    onAddClicked: console.log("Add user type to graph")
+                    onAddClicked: mockGraph.createModule(moduleType)
                     onEditClicked: console.log("edit user type")
                 }
             }
@@ -61,20 +61,9 @@ Rectangle {
                 model: typeManager.builtinTypes
                 ModuleTypeListEntry {
                     moduleType: modelData
+                    onAddClicked: mockGraph.createModule(modelData)
                 }
             }
         }
     }
-    //    ListView {
-    //        anchors.fill: parent
-                //        model: typeManager.builtinTypes
-                //        delegate: moduleTypeEntry
-                //        highlightMoveDuration: 0
-                //        highlight: Rectangle {
-                //            color: "lightsteelblue"
-//            anchors.left: parent.left
-//            anchors.right: parent.right
-//        }
-//        focus: true
-//    }
 }
