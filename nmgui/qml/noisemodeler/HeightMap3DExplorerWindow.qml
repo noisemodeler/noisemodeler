@@ -5,8 +5,8 @@ import QtQuick.Layouts 1.1
 SubWindow {
     property bool maximized: false
     windowTitle: "heightmap 3D preview"
-    contents.width: maximized ? parent.width : 350
-    contents.height: maximized ? parent.height : 350
+    contents.width: maximized ? mainArea.width: 350
+    contents.height: maximized ? mainArea.height - topBar.height - titleHeight: 350 //TODO fix this ugly dependency
     contents.children: [
         HeightMap3DExplorer {
             id: renderer

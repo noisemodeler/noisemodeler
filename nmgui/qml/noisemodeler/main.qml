@@ -38,7 +38,7 @@ Rectangle {
 
     Item {
         id: mainArea
-        anchors.top: parent.top
+        anchors.top: topBar.bottom
         anchors.left: moduleTypeBrowser.right
         anchors.right: inspectorArea.left
         anchors.bottom: parent.bottom
@@ -82,6 +82,7 @@ Rectangle {
 
         frameVisible: false
         anchors.fill: mainArea
+        anchors.topMargin: -topBar.height
         style: TabViewStyle {
             frameOverlap: 0
             tabsMovable: true
