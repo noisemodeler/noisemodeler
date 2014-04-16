@@ -21,7 +21,7 @@ Rectangle {
     }
 
     ModuleTypeBrowser {
-        z:50
+        z: 50
         id: moduleTypeBrowser
         anchors.left: parent.left
         anchors.bottom: parent.bottom
@@ -82,6 +82,7 @@ Rectangle {
             model: typeManager.userTypes
             ModuleTypeEditorTab {
                 moduleType: modelData
+                onVisibleChanged: if(visible)currentModuleType = modelData;
             }
         }
     }
