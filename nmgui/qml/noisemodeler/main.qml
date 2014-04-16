@@ -78,7 +78,6 @@ Rectangle {
                 active: styleData.selected
             }
         }
-        Tab { title: 'Empty'; Rectangle { color: 'pink' } }
         Repeater{
             model: typeManager.userTypes
             ModuleTypeEditorTab {
