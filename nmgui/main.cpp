@@ -18,6 +18,8 @@
 
 #include <nmlib/model.hpp>
 
+#include <sstream>
+
 int main(int argc, char *argv[])
 {
     //we're setting locale to english because we want to avoid
@@ -62,8 +64,11 @@ int main(int argc, char *argv[])
         auto mockUserType = make_unique<nm::ModuleType>("MyMockUserType", "Long mock description that is very long");
         typeManager.addUserType(std::move(mockUserType));
     }
-    {
-        auto mockUserType = make_unique<nm::ModuleType>("UserType2", "Long mock description that is very long");
+    //add some more types to have some mock data
+    for(int i=0; i<2; ++i) {
+        std::stringstream ss;
+        ss << "UserType" << i;
+        auto mockUserType = make_unique<nm::ModuleType>(ss.str(), "Long mock description that is very long");
         typeManager.addUserType(std::move(mockUserType));
     }
 

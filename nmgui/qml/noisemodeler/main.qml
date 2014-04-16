@@ -30,8 +30,8 @@ Rectangle {
             currentModuleType.graph.createModule(moduleType);
         }
         onEditModuleTypeClicked: {
+            //TODO open a new tab or open an existing one
             currentModuleType = moduleType;
-            editor.reload();
             console.log(moduleType.name);
         }
     }
@@ -78,6 +78,7 @@ Rectangle {
                 active: styleData.selected
             }
         }
+        Tab { title: 'Empty'; Rectangle { color: 'pink' } }
         Repeater{
             model: typeManager.userTypes
             ModuleTypeEditorTab {
