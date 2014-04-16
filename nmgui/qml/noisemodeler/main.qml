@@ -1,6 +1,8 @@
 import QtQuick 2.2
 import QtQuick.Window 2.1
 import NoiseModeler 1.0
+import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.1
 
 Rectangle {
     id: mainWindow
@@ -8,14 +10,22 @@ Rectangle {
     Style { id: mystyle }
     width: 1024
     height: 600
-    TopBar {
-        id: menu
-        z: 100
+
+    Rectangle {
+        color: mystyle.topBar.bgColor
+        id: topBar
+        height: 40
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
     }
 
     ModuleTypeBrowser {
         z:50
         id: moduleTypeBrowser
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.top: topBar.bottom
         onAddModuleClicked: {
             currentModuleType.graph.createModule(moduleType);
         }
@@ -28,16 +38,16 @@ Rectangle {
 
     Item {
         id: mainArea
-        anchors.top: menu.bottom
+        anchors.top: parent.top
         anchors.left: moduleTypeBrowser.right
         anchors.right: inspectorArea.left
         anchors.bottom: parent.bottom
     }
 
     Item {
-        property bool active: true
         id: inspectorArea
-        anchors.top: menu.bottom
+        property bool active: true
+        anchors.top: topBar.bottom
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         width: active ? 200 : 0
@@ -53,31 +63,26 @@ Rectangle {
         id: moduleInspector
         z: 50
         anchors.fill: inspectorArea
-        module: editor.selectedModule
     }
 
-    GraphEditor {
-        id: editor
+    TabView {
+        frameVisible: false
         anchors.fill: mainArea
-        graph: currentModuleType.graph
-    }
-    Keys.onPressed: {
-        if(event.key === Qt.Key_F){
-            editor.autoArrangeWindows();
+        style: TabViewStyle {
+            frameOverlap: 0
+            tabsMovable: true
+            tab: TabButton {
+                text: styleData.title
+                implicitWidth: width
+                implicitHeight: height
+                active: styleData.selected
+            }
+        }
+        Repeater{
+            model: typeManager.userTypes
+            ModuleTypeEditorTab {
+                moduleType: modelData
+            }
         }
     }
-//    Window{
-//        title: "Heightmap terrain preview"
-//        width: 400
-//        height: 400
-//        visible:true
-//        HeightMap3DExplorer {
-//            id: heightMapExplorer
-//            heightMapFunction: HeightMapFunction{
-//                outputLink: debugOutput.outputs[0]
-//                inputLink: debugInput.inputs[0]
-//            }
-//            anchors.fill: parent
-//        }
-//    }
 }

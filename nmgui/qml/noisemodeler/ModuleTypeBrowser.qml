@@ -9,9 +9,6 @@ Rectangle {
     signal addModuleClicked(ModuleType moduleType)
     signal editModuleTypeClicked(ModuleType moduleType)
     color: mystyle.moduleTypeBrowser.bgColor
-    anchors.left: parent.left
-    anchors.bottom: parent.bottom
-    anchors.top: menu.bottom
     width: 150
 
     ScrollView {

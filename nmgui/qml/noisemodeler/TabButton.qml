@@ -2,12 +2,11 @@ import QtQuick 2.0
 
 Item {
     id: button
-    signal clicked
     property alias text: label.text
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
+    property bool active: false
+    height: 40
     width: label.width + 20
-    state: "inactive"
+    state: active ? "active" : "inactive"
     states: [
         State {
             name: "inactive"
@@ -44,15 +43,5 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         color: "powderblue"
-    }
-    MouseArea {
-        anchors.fill: parent
-        onClicked: {
-            if(button.state=="active"){
-                button.state = "inactive";
-            } else {
-                button.state = "active";
-            }
-        }
     }
 }

@@ -8,7 +8,7 @@ Rectangle {
     anchors.top: parent.top
     Row{
         anchors.fill: parent
-        TopBarButton {
+        TabButton {
             text: "Menu"
         }
 //        spacing: 95
