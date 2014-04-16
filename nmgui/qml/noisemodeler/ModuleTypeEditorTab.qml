@@ -7,15 +7,16 @@ import QtQuick.Controls.Styles 1.1
 Tab {
     id: moduleTypeEditorTab
     property ModuleType moduleType
+    property variant selectedModule
     title: moduleType.name
     GraphEditor {
-        id: editor
+        id: graphEditor
         graph: moduleType.graph
-        onSelectedModuleChanged: moduleType.module = module;
+        onSelectedModuleChanged: moduleTypeEditorTab.selectedModule = selectedModule;
     }
     Keys.onPressed: {
         if(event.key === Qt.Key_F){
-            editor.autoArrangeWindows();
+            graphEditor.autoArrangeWindows();
         }
     }
 }

@@ -83,6 +83,7 @@ Rectangle {
             ModuleTypeEditorTab {
                 moduleType: modelData
                 onVisibleChanged: if(visible)currentModuleType = modelData;
+                onSelectedModuleChanged: moduleInspector.module = selectedModule;
             }
         }
     }

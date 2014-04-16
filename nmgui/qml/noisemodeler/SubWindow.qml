@@ -13,7 +13,7 @@ Rectangle {
     property alias titleBar: titleBar
     property alias contents: contents
     property int borderThickness: 0
-    property bool selected: activeFocus
+    property bool selected: focus
     SelectionGlow {
         id:selectionGlow
         anchors.fill: parent
