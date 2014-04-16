@@ -14,6 +14,11 @@ namespace nmgui {
 
 class HeightMapTextureFboRenderer : public QQuickFramebufferObject::Renderer {
 
+public:
+    HeightMapTextureFboRenderer(bool visible):
+        QQuickFramebufferObject::Renderer(),
+        m_visible(visible)
+    {}
     // Renderer interface
 protected:
     void render() override {
@@ -27,9 +32,11 @@ protected:
     {
         HeightMapTextureExplorer* heightMapExplorer = dynamic_cast<HeightMapTextureExplorer*>(fbo);
         m_heightMapRenderer.setState(heightMapExplorer->m_state);
+        m_visible = fbo->isVisible();
     }
 private:
     HeightMapTextureRenderer m_heightMapRenderer;
+    bool m_visible;
 };
 
 
@@ -38,7 +45,10 @@ HeightMapTextureExplorer::HeightMapTextureExplorer(QQuickItem *the_parent) :
     QQuickFramebufferObject(the_parent),
     m_state()
 {
-    connect(this, SIGNAL(heightMapFunctionChanged()), this, SLOT(updateShaderSource()));
+    connect(this, &HeightMapTextureExplorer::heightMapFunctionChanged,
+            this, &HeightMapTextureExplorer::updateShaderSource);
+    connect(this, &HeightMapTextureExplorer::visibleChanged,
+            this, &HeightMapTextureExplorer::update);
 }
 
 void HeightMapTextureExplorer::updateShaderSource()
@@ -53,7 +63,7 @@ void HeightMapTextureExplorer::updateShaderSource()
 
 QQuickFramebufferObject::Renderer *HeightMapTextureExplorer::createRenderer() const
 {
-    return new HeightMapTextureFboRenderer();
+    return new HeightMapTextureFboRenderer(isVisible());
 }
 
 void HeightMapTextureExplorer::setHeightMapFunction(HeightMapFunction *heightMapFunction)

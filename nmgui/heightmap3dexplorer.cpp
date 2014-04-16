@@ -15,11 +15,18 @@ namespace nmgui {
 
 class HeightMap3DFboRenderer : public QQuickFramebufferObject::Renderer {
 
+public:
+    explicit HeightMap3DFboRenderer(bool visible):
+        QQuickFramebufferObject::Renderer(),
+        m_visible(visible)
+    {}
     // Renderer interface
 protected:
     void render() override {
-        m_heightMapRenderer.render();
-        update();
+        if(m_visible){
+            m_heightMapRenderer.render();
+            update();
+        }
     }
     QOpenGLFramebufferObject *createFramebufferObject(const QSize &size) override {
         m_heightMapRenderer.setAspectRatio(size.width(), size.height());
@@ -33,9 +40,11 @@ protected:
     {
         HeightMap3DExplorer* heightMapExplorer = dynamic_cast<HeightMap3DExplorer*>(fbo);
         m_heightMapRenderer.setState(heightMapExplorer->m_state);
+        m_visible = fbo->isVisible();
     }
 private:
     HeightMap3DRenderer m_heightMapRenderer;
+    bool m_visible;
 };
 
 
@@ -46,6 +55,8 @@ HeightMap3DExplorer::HeightMap3DExplorer(QQuickItem *the_parent) :
 {
     connect(this, &HeightMap3DExplorer::heightMapFunctionChanged,
             this, &HeightMap3DExplorer::updateShaderSource);
+    connect(this, &HeightMap3DExplorer::visibleChanged,
+            this, &HeightMap3DExplorer::update);
 }
 
 void HeightMap3DExplorer::updateShaderSource()
@@ -60,7 +71,7 @@ void HeightMap3DExplorer::updateShaderSource()
 
 QQuickFramebufferObject::Renderer *HeightMap3DExplorer::createRenderer() const
 {
-    return new HeightMap3DFboRenderer();
+    return new HeightMap3DFboRenderer(isVisible());
 }
 
 void HeightMap3DExplorer::yawCamera(float degrees)
