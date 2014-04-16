@@ -66,6 +66,20 @@ Rectangle {
     }
 
     TabView {
+        id: tabView
+        Connections{
+            target: mainWindow
+            onCurrentModuleTypeChanged: {
+                for(var i=0; i<tabView.count; ++i){
+                    if(tabView.getTab(i).moduleType===currentModuleType){
+                        tabView.currentIndex = i;
+                        return;
+                    }
+                }
+                console.error("No tab with module" + currentModuleType);
+            }
+        }
+
         frameVisible: false
         anchors.fill: mainArea
         style: TabViewStyle {
