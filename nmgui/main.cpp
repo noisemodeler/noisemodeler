@@ -49,21 +49,22 @@ int main(int argc, char *argv[])
     //create mockup data
     nm::TypeManager typeManager;
     typeManager.initBuiltinTypes();
-    auto debugInputModuleType = typeManager.getType("debug_input");
-    auto debugOutputModuleType = typeManager.getType("debug_output");
-
-    nm::Graph graph{};
-    auto debugInputModule = graph.createModule(*debugInputModuleType, "debugInput");
-    auto debugOutputModule = graph.createModule(*debugOutputModuleType, "debugOutput");
-    auto fbmModule = graph.createModule(*typeManager.getBuiltinType("fbm2"));
-    debugInputModule->getOutput("pos")->addLink(*fbmModule->getInput("pos"));
-    fbmModule->getOutput("result")->addLink(*debugOutputModule->getInput("height"));
 
     //mock user type
     {
-        auto mockUserType = make_unique<nm::ModuleType>("MyMockUserType", "Long mock description that is very long");
+        auto mockUserType = make_unique<nm::ModuleType>("Terrain", "Long mock description that is very long");
         typeManager.addUserType(std::move(mockUserType));
     }
+    //debug graph
+    auto debugInputModuleType = typeManager.getType("debug_input");
+    auto debugOutputModuleType = typeManager.getType("debug_output");
+    auto graph = typeManager.getUserType("Terrain")->getGraph();
+    auto fbmModule = graph->createModule(*typeManager.getBuiltinType("fbm2"));
+    auto debugInputModule = graph->createModule(*debugInputModuleType, "debugInput");
+    auto debugOutputModule = graph->createModule(*debugOutputModuleType, "debugOutput");
+    debugInputModule->getOutput("pos")->addLink(*fbmModule->getInput("pos"));
+    fbmModule->getOutput("result")->addLink(*debugOutputModule->getInput("height"));
+
     //add some more types to have some mock data
     for(int i=0; i<2; ++i) {
         std::stringstream ss;
@@ -75,12 +76,12 @@ int main(int argc, char *argv[])
     //wrapping into QObjects
     auto debugInputModuleQ = nmgui::ModuleQ::fromModule(*debugInputModule);
     auto debugOutputModuleQ = nmgui::ModuleQ::fromModule(*debugOutputModule);
-    auto mockGraph = nmgui::GraphQ::fromGraph(graph);
+//    auto mockGraph = nmgui::GraphQ::fromGraph(graph);
 
     QtQuick2ApplicationViewer viewer;
     viewer.rootContext()->setContextProperty("debugInput", debugInputModuleQ);
     viewer.rootContext()->setContextProperty("debugOutput", debugOutputModuleQ);
-    viewer.rootContext()->setContextProperty("mockGraph", mockGraph);
+//    viewer.rootContext()->setContextProperty("mockGraph", mockGraph);
     viewer.rootContext()->setContextProperty("typeManager", nmgui::TypeManagerQ::fromTypeManager(typeManager));
 
     viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));
