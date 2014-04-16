@@ -22,8 +22,10 @@ public:
     // Renderer interface
 protected:
     void render() override {
-        m_heightMapRenderer.render();
-        update();
+        if(m_visible){
+            m_heightMapRenderer.render();
+            update();
+        }
     }
     //QOpenGLFramebufferObject *createFramebufferObject(const QSize &size) override;
 
