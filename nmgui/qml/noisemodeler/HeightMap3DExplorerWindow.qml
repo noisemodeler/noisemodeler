@@ -51,7 +51,7 @@ SubWindow {
         MapLikeDomainController {
             domain: renderer.domain
             anchors.fill: renderer
-            onPressedChanged: renderer.focus = true;
+            onPressedChanged: renderer.forceActiveFocus(); //renderer.focus = true;
             onDoubleClicked: maximized = !maximized
         },
         GridLayout {
