@@ -14,9 +14,4 @@ Tab {
         graph: moduleType.graph
         onSelectedModuleChanged: moduleTypeEditorTab.selectedModule = selectedModule;
     }
-    Keys.onPressed: {
-        if(event.key === Qt.Key_F){
-            graphEditor.autoArrangeWindows();
-        }
-    }
 }

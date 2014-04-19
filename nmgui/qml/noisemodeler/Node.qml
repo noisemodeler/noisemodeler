@@ -7,6 +7,23 @@ SubWindow {
     windowTitle: module.name
     visible: module
 
+    function getOutputConnector(outputLink){
+        for(var i=0; i<module.outputs.length; ++i){
+            if(module.outputs[i]===outputLink){
+                return outputsColumn.children[i].connector;
+            }
+        }
+        console.error("outputlink not found");
+    }
+    function getInputConnector(inputLink){
+        for(var i=0; i<module.inputs.length; ++i){
+            if(module.inputs[i]===inputLink){
+                return inputsColumn.children[i].connector;
+            }
+        }
+        console.error("outputlink not found");
+    }
+
     contents.width: nodeContents.width
     contents.height: nodeContents.height
     contents.children: [
@@ -19,6 +36,7 @@ SubWindow {
 
             spacing: 10
             Column{
+                id: inputsColumn
                 Repeater{
                     model: module.inputs
                     NodeInput{model:modelData}
@@ -26,6 +44,7 @@ SubWindow {
             }
 
             Column{
+                id: outputsColumn
                 Repeater{
                     model: module.outputs
                     NodeOutput{model:modelData}

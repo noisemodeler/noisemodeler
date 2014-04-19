@@ -7,12 +7,12 @@ Rectangle {
     property alias contents: contents
     property Graph graph
     property variant selectedModule
+    property var moduleToItemMap: ({})
 
-    //TODO remove this
-    function reload(){
-        contents.clearContents();
-        contents.updateContents();
-        autoArrangeWindows();
+    Keys.onPressed: {
+        if(event.key === Qt.Key_F){
+            autoArrangeWindows();
+        }
     }
 
     MouseArea {
@@ -23,11 +23,10 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton
-        onPressed: graphEditor.focus = true; //remove focus from children if background in graph editor is clicked
+        onPressed: graphEditor.forceActiveFocus(); //remove focus from children if background in graph editor is clicked
     }
 
     onGraphChanged: {
-        //TODO disconnect old signal
         graph.onModulesChanged.connect(contents.updateContents);
         graph.onModuleRemoved.connect(contents.onModuleRemoved);
         graph.onModuleAdded.connect(contents.addNode);
@@ -35,6 +34,7 @@ Rectangle {
     Component.onCompleted: {
         if(graph){
             contents.updateContents();
+            reconnectConnectors();
             autoArrangeWindows();
         }
     }
@@ -50,33 +50,26 @@ Rectangle {
 
     Item {
         id: contents
-        function addNode(name, index){
-            var module = graph.modules[index];
-            nodeDelegate.createObject(contents, {"module":module});
+        function addNode(module, index){
+            console.log(module);
+            var item = nodeDelegate.createObject(contents, {"module":module});
+            moduleToItemMap[module] = item;
         }
-        function onModuleRemoved(name, index){
-            children[index].destroy();
+        function onModuleRemoved(module, index){
+            moduleToItemMap[module].destroy();
+            delete moduleToItemMap[module];
         }
-
         function clearContents(){
             for(var i=0; i<children.length; i++){
                 children[i].destroy();
             }
         }
-
         function updateContents(){
             for(var i=0; i<graph.modules.length; ++i){
                 var module = graph.modules[i];
-                if(children.length > i){
-                    if(children[i].module === module){
-//                        console.log("node exists for this object")
-                    } else {
-                        console.log("Unexpected child: "+children[i]);
-                    }
-                } else {
-                    addNode(module.name, i);
+                if(moduleToItemMap[module] === undefined){
+                    addNode(module, i);
                 }
-
             }
         }
     }
@@ -89,6 +82,25 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
     }
+
+    //TODO get rid of this hideous hack. Shame on me for doing this
+    function reconnectConnectors(){
+        for(var i=0; i<graph.modules.length; ++i){
+            var destinationModule = graph.modules[i];
+            var destinationNode = moduleToItemMap[destinationModule];
+            for(var j=0; j<destinationModule.inputs.length; ++j){
+                var inputLink = destinationModule.inputs[j];
+                var outputLink = inputLink.outputLink;
+                if(outputLink){
+                    //we have a connection to make!
+                    var sourceConnector = moduleToItemMap[outputLink.owner].getOutputConnector(outputLink);
+                    var destinationConnector = destinationNode.getInputConnector(inputLink);
+                    destinationConnector.otherConnector = sourceConnector;
+                }
+            }
+        }
+    }
+
     function autoArrangeWindows(){
         contents.x = 0;
         contents.y = 0;

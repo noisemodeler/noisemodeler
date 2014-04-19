@@ -4,11 +4,13 @@ import NoiseModeler 1.0
 Item {
     id:nodeOutput
     property InputLink model
+    property alias connector: connector
     height: mystyle.connector.height
     width: connector.width + connectorDescription.width + 5 //mystery magical number, added it because I couldn't figure out why stuff didn't align
 
     Connector {
         id: connector
+        property alias otherConnector: curve.otherConnector
         connected: model.outputLink
         dimensionality: model.dimensionality
         tipXdirection: -1
@@ -38,8 +40,8 @@ Item {
         }
 
         WeightedAngleCurve{
-            property Connector otherConnector
             id: curve
+            property Connector otherConnector
             to.x: 0
             to.y: parent.height/2
             visible: model.outputLink
