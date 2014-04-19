@@ -51,7 +51,6 @@ Rectangle {
     Item {
         id: contents
         function addNode(module, index){
-            console.log(module);
             var item = nodeDelegate.createObject(contents, {"module":module});
             moduleToItemMap[module] = item;
         }

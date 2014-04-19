@@ -30,9 +30,8 @@ Rectangle {
             currentModuleType.graph.createModule(moduleType);
         }
         onEditModuleTypeClicked: {
-            //TODO open a new tab or open an existing one
             currentModuleType = moduleType;
-            console.log(moduleType.name);
+            //TODO open a new tab if not open
         }
     }
 
