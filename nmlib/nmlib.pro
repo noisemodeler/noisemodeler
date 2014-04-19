@@ -56,7 +56,6 @@ HEADERS = \
     codegeneration/defaultsgenerator.hpp \
     codegeneration/bodygenerator.hpp \
     codegeneration/modulegenerator.hpp \
-    codegeneration/compositemodulegenerator.hpp \
     codegeneration/zerodefaultsgenerator.hpp \
     model/signalvalue.hpp \
     codegeneration/simplebodygenerator.hpp \
@@ -67,4 +66,5 @@ HEADERS = \
     model/graph.hpp \
     codegeneration/glsl/glslsourcenoise2d.hpp \
     codegeneration/glsl/glslsourcefbm.hpp \
-    codegeneration/unlinkedvaluedefaultsgenerator.hpp
+    codegeneration/unlinkedvaluedefaultsgenerator.hpp \
+    codegeneration/concretemodulegenerator.hpp

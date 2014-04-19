@@ -1,5 +1,5 @@
-#ifndef NM_COMPOSITEMODULEGENERATOR_HPP
-#define NM_COMPOSITEMODULEGENERATOR_HPP
+#ifndef NM_CONCRETEMODULEGENERATOR_HPP
+#define NM_CONCRETEMODULEGENERATOR_HPP
 
 #include <nmlib/codegeneration/modulegenerator.hpp>
 
@@ -9,10 +9,10 @@ namespace nm {
 
 class InlineGenerator;
 
-class CompositeModuleGenerator : public ModuleGenerator
+class ConcreteModuleGenerator : public ModuleGenerator
 {
 public:
-    CompositeModuleGenerator(std::unique_ptr<BodyGenerator> bodyGenerator,
+    ConcreteModuleGenerator(std::unique_ptr<BodyGenerator> bodyGenerator,
                              std::unique_ptr<DefaultsGenerator> defaultsGenerator = {}):
         m_bodyGenerator(std::move(bodyGenerator)),
         m_defaultsGenerator(std::move(defaultsGenerator))
@@ -32,4 +32,4 @@ private:
 
 } // namespace nm
 
-#endif // NM_COMPOSITEMODULEGENERATOR_HPP
+#endif // NM_CONCRETEMODULEGENERATOR_HPP

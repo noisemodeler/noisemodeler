@@ -1,7 +1,7 @@
 #include <nmlib/codegeneration/glsl/glslgenerator.hpp>
 #include <nmlib/codegeneration/unlinkedvaluedefaultsgenerator.hpp>
 #include <nmlib/codegeneration/simplebodygenerator.hpp>
-#include <nmlib/codegeneration/compositemodulegenerator.hpp>
+#include <nmlib/codegeneration/concretemodulegenerator.hpp>
 
 #include <nmlib/codegeneration/glsl/glslsourcenoise2d.hpp>
 #include <nmlib/codegeneration/glsl/glslsourcefbm.hpp>
@@ -193,7 +193,7 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
     } else {
         return InlineGenerator::getModuleGenerator(module);
     }
-    return std::unique_ptr<ModuleGenerator>{new CompositeModuleGenerator(std::move(body), std::move(defaults))};
+    return std::unique_ptr<ModuleGenerator>{new ConcreteModuleGenerator(std::move(body), std::move(defaults))};
 }
 
 GlslGenerator::GlslGenerator():

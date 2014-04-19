@@ -1,6 +1,6 @@
 #include "inlinegenerator.hpp"
 
-#include <nmlib/codegeneration/compositemodulegenerator.hpp>
+#include <nmlib/codegeneration/concretemodulegenerator.hpp>
 #include <nmlib/codegeneration/simplebodygenerator.hpp>
 #include <nmlib/codegeneration/unlinkedvaluedefaultsgenerator.hpp>
 #include <nmlib/codegeneration/functioncallbodygenerator.hpp>
@@ -141,7 +141,7 @@ std::unique_ptr<ModuleGenerator> InlineGenerator::getModuleGenerator(Module &mod
     } else {
         std::cerr << "No policy for module of type: " << moduleType.getName() << "\n";
     }
-    return std::unique_ptr<ModuleGenerator>{new CompositeModuleGenerator(std::move(body), std::move(defaults))};
+    return std::unique_ptr<ModuleGenerator>{new ConcreteModuleGenerator(std::move(body), std::move(defaults))};
 }
 
 void InlineGenerator::genDeclaration(const Declaration &variable, std::ostream &out)
