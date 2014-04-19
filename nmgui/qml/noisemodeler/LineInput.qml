@@ -19,7 +19,6 @@ Rectangle {
         font.pixelSize: 12; font.bold: true
         anchors.centerIn: parent
         width: parent.width-4
-        focus: true
         clip: true
         onEditingFinished: notifyIfChangedAndAcceptable()
         Keys.onReleased: notifyIfChangedAndAcceptable()

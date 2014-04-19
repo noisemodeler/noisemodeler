@@ -23,7 +23,7 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton
-        onPressed: graphEditor.focus = true;
+        onPressed: graphEditor.focus = true; //remove focus from children if background in graph editor is clicked
     }
 
     onGraphChanged: {

@@ -40,11 +40,10 @@ Rectangle {
         id: windowMouseArea
         anchors.fill: subWindow
         drag.target: subWindow
-        onPressed: subWindow.focus = true;
-//        drag.minimumY: subWindow.titleHeight
-//        drag.minimumX: 0
-//        drag.maximumX: subWindow.parent.width - subWindow.width
-//        drag.maximumY: subWindow.parent.height - subWindow.height
+        onPressed: {
+//            subWindow.focus = true;
+            subWindow.forceActiveFocus();
+        }
     }
     Item {
         id:contents
