@@ -55,15 +55,25 @@ int main(int argc, char *argv[])
         auto mockUserType = make_unique<nm::ModuleType>("Terrain", "Long mock description that is very long");
         typeManager.addUserType(std::move(mockUserType));
     }
-    //debug graph
+
+    //create mock inputs/outputs
+    auto terrainModule = typeManager.getUserType("Terrain");
+    terrainModule->addInput("position", nm::SignalType{2});
+    terrainModule->addOutput("height", nm::SignalType{1});
+    auto graph = terrainModule->getGraph();
+
+    //populate the mock graph with only fbm terrain
+    auto fbmModule = graph->createModule(*typeManager.getBuiltinType("fbm2"));
+    graph->getModule("inputs")->getOutput("position")->addLink(*fbmModule->getInput("pos"));
+    fbmModule->getOutput("result")->addLink(*graph->getModule("outputs")->getInput("height"));
+
+    //wire up debug modules
     auto debugInputModuleType = typeManager.getType("debug_input");
     auto debugOutputModuleType = typeManager.getType("debug_output");
-    auto graph = typeManager.getUserType("Terrain")->getGraph();
-    auto fbmModule = graph->createModule(*typeManager.getBuiltinType("fbm2"));
     auto debugInputModule = graph->createModule(*debugInputModuleType, "debugInput");
     auto debugOutputModule = graph->createModule(*debugOutputModuleType, "debugOutput");
-    debugInputModule->getOutput("pos")->addLink(*fbmModule->getInput("pos"));
-    fbmModule->getOutput("result")->addLink(*debugOutputModule->getInput("height"));
+    debugInputModule->getOutput("pos")->addLink(*graph->getModule("inputs")->getInput("position"));
+    graph->getModule("outputs")->getOutput("height")->addLink(*debugOutputModule->getInput("height"));
 
     //add some more types to have some mock data
     for(int i=0; i<2; ++i) {
