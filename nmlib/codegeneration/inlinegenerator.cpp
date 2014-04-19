@@ -2,7 +2,7 @@
 
 #include <nmlib/codegeneration/compositemodulegenerator.hpp>
 #include <nmlib/codegeneration/simplebodygenerator.hpp>
-#include <nmlib/codegeneration/zerodefaultsgenerator.hpp>
+#include <nmlib/codegeneration/unlinkedvaluedefaultsgenerator.hpp>
 #include <nmlib/codegeneration/functioncallbodygenerator.hpp>
 
 #include <nmlib/model/moduleinput.hpp>
@@ -129,25 +129,17 @@ std::string InlineGenerator::getUniqueId()
 
 std::unique_ptr<ModuleGenerator> InlineGenerator::getModuleGenerator(Module &module)
 {
-    auto moduleTypeName = module.getType().getName();
+    auto &moduleType = module.getType();
     std::unique_ptr<BodyGenerator> body;
     std::unique_ptr<DefaultsGenerator> defaults;
     body.reset(new SimpleBodyGenerator("//empty body\n"));
-    defaults.reset(new ZeroDefaultsGenerator(module));
-    if(moduleTypeName == "add"){
-        body.reset(new SimpleBodyGenerator("float result = lhs + rhs;\n"));
-//        body.reset(new SimpleBodyGenerator("float result = smoothstep(0,1,lhs);\n"));
-    } else if (moduleTypeName == "demux2") {
-        body.reset(new SimpleBodyGenerator(
-            "float x = m.x;\n"
-            "float y = m.y;\n"
-        ));
-    } else if (moduleTypeName == "mul1") {
-        body.reset(new SimpleBodyGenerator(
-            "float result = lhs * rhs;\n"
-        ));
+    defaults.reset(new UnlinkedValueDefaultsGenerator(module));
+    //TODO composite module type
+    if(moduleType.isComposite()){
+        std::cerr << "TODO: implement composite module handling.\n";
+
     } else {
-        std::cerr << "No policy for module of type: " << moduleTypeName << "\n";
+        std::cerr << "No policy for module of type: " << moduleType.getName() << "\n";
     }
     return std::unique_ptr<ModuleGenerator>{new CompositeModuleGenerator(std::move(body), std::move(defaults))};
 }
