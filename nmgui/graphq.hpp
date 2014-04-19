@@ -31,8 +31,8 @@ public:
 
 signals:
     void modulesChanged();
-    void moduleAdded(QString name, unsigned int index);
-    void moduleRemoved(QString name, unsigned int index);
+    void moduleAdded(nmgui::ModuleQ *module, unsigned int index);
+    void moduleRemoved(nmgui::ModuleQ *module, unsigned int index);
 
 private:
     nm::Graph *m_graph;

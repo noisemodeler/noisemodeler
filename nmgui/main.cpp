@@ -82,6 +82,8 @@ int main(int argc, char *argv[])
         auto mockUserType = make_unique<nm::ModuleType>(ss.str(), "Long mock description that is very long");
         typeManager.addUserType(std::move(mockUserType));
     }
+    typeManager.getUserType("UserType1")->addInput("position", nm::SignalType{2});
+    typeManager.getUserType("UserType1")->addOutput("humidity", nm::SignalType{1});
 
     //wrapping into QObjects
     auto debugInputModuleQ = nmgui::ModuleQ::fromModule(*debugInputModule);

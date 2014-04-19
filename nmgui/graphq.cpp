@@ -22,11 +22,11 @@ GraphQ::GraphQ(nm::Graph *graph, QObject *parent) :
     });
 
     m_moduleAddedConnection = m_graph->moduleAdded.connect([&](nm::Graph&, nm::Module &module, unsigned int index){
-        moduleAdded(ModuleQ::fromModule(module)->name(), index);
+        moduleAdded(ModuleQ::fromModule(module), index);
         modulesChanged();
     });
     m_moduleRemovedConnection = m_graph->moduleRemoved.connect([&](nm::Graph&, nm::Module &module, unsigned int index){
-        moduleRemoved(ModuleQ::fromModule(module)->name(), index);
+        moduleRemoved(ModuleQ::fromModule(module), index);
         modulesChanged();
     });
 }
