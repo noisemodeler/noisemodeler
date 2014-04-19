@@ -28,7 +28,6 @@ SOURCES = \
     codegeneration/defaultsgenerator.cpp \
     codegeneration/bodygenerator.cpp \
     codegeneration/modulegenerator.cpp \
-    codegeneration/compositemodulegenerator.cpp \
     codegeneration/zerodefaultsgenerator.cpp \
     model/signalvalue.cpp \
     codegeneration/simplebodygenerator.cpp \
