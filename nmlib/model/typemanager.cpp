@@ -205,6 +205,17 @@ std::unique_ptr<const ModuleType> createRidgedMultifractal(){
     return std::move(moduleType);
 }
 
+std::unique_ptr<const ModuleType> createHybridMultifractal(){
+    auto moduleType = make_unique<ModuleType>("hybridmultifractal", ModuleType::Category::Primitive, "Specialized version of fBm to create a create a terrain with rough mountains and smooth valleys");
+    moduleType->addInput("pos", SignalType{2});
+    moduleType->addInput("octaves", SignalValue{10});
+    moduleType->addInput("lacunarity", SignalValue{2.f});
+    moduleType->addInput("h", SignalValue{0.25f});
+    moduleType->addInput("offset", SignalValue{1.0f});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
 //3D modules
 
 std::unique_ptr<const ModuleType> createConstant3(){
@@ -316,6 +327,7 @@ void TypeManager::initBuiltinTypes()
     addBuiltinType(createNoise2());
     addBuiltinType(createFbm2D());
     addBuiltinType(createRidgedMultifractal());
+    addBuiltinType(createHybridMultifractal());
 
     //3D modules
     addBuiltinType(createConstant3());
