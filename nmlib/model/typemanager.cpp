@@ -193,6 +193,18 @@ std::unique_ptr<const ModuleType> createFbm2D(){
     return std::move(moduleType);
 }
 
+std::unique_ptr<const ModuleType> createRidgedMultifractal(){
+    auto moduleType = make_unique<ModuleType>("ridgedmultifractal", ModuleType::Category::Primitive, "Specialized version of fBm to create a ridge-like landscape");
+    moduleType->addInput("pos", SignalType{2});
+    moduleType->addInput("octaves", SignalValue{10});
+    moduleType->addInput("lacunarity", SignalValue{2.f});
+    moduleType->addInput("h", SignalValue{0.25f});
+    moduleType->addInput("offset", SignalValue{1.0f});
+    moduleType->addInput("gain", SignalValue{2.0f});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
 //3D modules
 
 std::unique_ptr<const ModuleType> createConstant3(){
@@ -303,6 +315,7 @@ void TypeManager::initBuiltinTypes()
     addBuiltinType(createMux2());
     addBuiltinType(createNoise2());
     addBuiltinType(createFbm2D());
+    addBuiltinType(createRidgedMultifractal());
 
     //3D modules
     addBuiltinType(createConstant3());

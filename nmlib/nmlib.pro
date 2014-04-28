@@ -67,4 +67,5 @@ HEADERS = \
     model/graph.hpp \
     codegeneration/glsl/glslsourcenoise2d.hpp \
     codegeneration/glsl/glslsourcefbm.hpp \
-    codegeneration/unlinkedvaluedefaultsgenerator.hpp
+    codegeneration/unlinkedvaluedefaultsgenerator.hpp \
+    codegeneration/glsl/glslsourceridgedmultifractal.hpp

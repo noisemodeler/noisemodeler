@@ -5,6 +5,7 @@
 
 #include <nmlib/codegeneration/glsl/glslsourcenoise2d.hpp>
 #include <nmlib/codegeneration/glsl/glslsourcefbm.hpp>
+#include <nmlib/codegeneration/glsl/glslsourceridgedmultifractal.hpp>
 
 #include <sstream>
 
@@ -18,6 +19,7 @@ std::string GlslGenerator::compileToGlslFunction(InputLink &inputLink, OutputLin
 
     sl << source_noise2d;
     sl << source_fbm2d;
+    sl << source_ridgedmultifractal; //TODO only include used functions
 
     auto posId = "pos_"+generator.getUniqueId();
     auto heightId = "height_"+generator.getUniqueId();
@@ -138,6 +140,10 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
     } else if (moduleTypeName == "fbm2") {
         body.reset(new SimpleBodyGenerator(
             "float result = fbm2d(pos, octaves, lacunarity, gain);\n"
+        ));
+    } else if (moduleTypeName == "ridgedmultifractal") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = ridgedmultifractal(pos, octaves, lacunarity, h, offset, gain);\n"
         ));
 
     //3D modules
