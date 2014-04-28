@@ -35,7 +35,7 @@ Tool for designing noise-based functions, though a flow-graph interface. Special
 
 ## Building
 
-1. Make sure you have all of the following dependencies installed:
+First, make sure you have all of the following dependencies installed:
 
  * Qt 5.2+
  * Qt-svg
@@ -44,21 +44,19 @@ Tool for designing noise-based functions, though a flow-graph interface. Special
  * gcc with C++11 support
  * googletest (for unit tests)
 
-2. Clone the repository.
+```
+# Clone the repository.
+git clone --recursive git@github.com:acelster/noise-terrain-gen.git 
 
-    git clone --recursive git@github.com:acelster/noise-terrain-gen.git 
+# Create a build directory
+mkdir build-noise-terrain-gen
+cd build-noise-terrain-gen
 
-3. Create a build directory
+# Build
+qmake ../noise-terrain-gen
+make
 
-    mkdir build-noise-terrain-gen
-    cd build-noise-terrain-gen
-
-4. Build
-
-    qmake ../noise-terrain-gen
-    make
-
-5. Run
-
-    nmgui/nmgui
+# Run
+nmgui/nmgui
+```
 
