@@ -26,22 +26,16 @@ Item{
             text: moduleType.name
             verticalAlignment: Text.AlignVCenter
         }
-        Image {
-            visible: !moduleType.builtin
-            MouseArea{
-                anchors.fill: parent
-                onClicked: editClicked()
-            }
-            Layout.alignment: Qt.AlignRight
+        ToolBarIcon {
+            onClicked: editClicked()
             source: 'qrc:///icons/edit.svg'
-        }
-        Image {
-            MouseArea{
-                anchors.fill: parent
-                onClicked: addClicked()
-            }
+            visible: !moduleType.builtin
             Layout.alignment: Qt.AlignRight
+        }
+        ToolBarIcon {
+            onClicked: addClicked()
             source: 'qrc:///icons/add.svg'
+            Layout.alignment: Qt.AlignRight
         }
     }
     ToolTipArea {

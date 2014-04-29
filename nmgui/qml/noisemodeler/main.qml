@@ -3,6 +3,8 @@ import QtQuick.Window 2.1
 import NoiseModeler 1.0
 import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
+import QtQuick.Layouts 1.1
+import QtQuick.Dialogs 1.1
 
 Rectangle {
     id: mainWindow
@@ -11,6 +13,15 @@ Rectangle {
     width: 1024
     height: 600
 
+    FileDialog {
+        id: fileDialog
+        title: "Open file"
+        onAccepted: {
+            console.log("TODO: open " + fileDialog.fileUrl);
+        }
+        nameFilters: ["Noise Modeler graphs (*.nmlang.json)", "All files (*)"]
+    }
+
     Rectangle {
         color: mystyle.topBar.bgColor
         id: topBar
@@ -18,6 +29,20 @@ Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
+        RowLayout{
+            anchors.fill: parent
+            Item{
+                width: 5
+            }
+            ToolBarIcon{
+                Layout.alignment: Qt.AlignLeft
+                source: 'qrc:///icons/open.svg'
+                onClicked: fileDialog.open();
+            }
+            Item {
+                Layout.fillWidth: true
+            }
+        }
     }
 
     ModuleTypeBrowser {

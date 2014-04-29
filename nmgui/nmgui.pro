@@ -75,3 +75,6 @@ qtcAddDeployment()
 RESOURCES += \
     nmgui.qrc
 
+OTHER_FILES += \
+    qml/noisemodeler/ToolBarIcon.qml
+
