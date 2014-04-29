@@ -11,64 +11,64 @@ QMAKE_CXXFLAGS += -std=c++11 \
 #CMAKE_CXXFLAGS += -Weffc++
 
 SOURCES = \
+    codegeneration/bodygenerator.cpp \
+    codegeneration/compositemodulegenerator.cpp \
+    codegeneration/defaultsgenerator.cpp \
+    codegeneration/functioncallbodygenerator.cpp \
+    codegeneration/glsl/glslgenerator.cpp \
+    codegeneration/idgenerator.cpp \
+    codegeneration/inlinegenerator.cpp \
+    codegeneration/modulegenerator.cpp \
+    codegeneration/simplebodygenerator.cpp \
+    codegeneration/unlinkedvaluedefaultsgenerator.cpp \
+    codegeneration/zerodefaultsgenerator.cpp \
+    model/graph.cpp \
     model/inputlink.cpp \
     model/module.cpp \
     model/moduleinput.cpp \
     model/moduleoutput.cpp \
     model/moduletype.cpp \
     model/outputlink.cpp \
-    model/signaltype.cpp \
-    model/typemanager.cpp \
-    util/userdataprovider.cpp \
-    util/noncopyable.cpp \
-    codegeneration/idgenerator.cpp \
-    codegeneration/inlinegenerator.cpp \
     model/primitivemoduletype.cpp \
-    codegeneration/defaultsgenerator.cpp \
-    codegeneration/bodygenerator.cpp \
-    codegeneration/modulegenerator.cpp \
-    codegeneration/compositemodulegenerator.cpp \
-    codegeneration/zerodefaultsgenerator.cpp \
+    model/signaltype.cpp \
     model/signalvalue.cpp \
-    codegeneration/simplebodygenerator.cpp \
-    codegeneration/functioncallbodygenerator.cpp \
-    codegeneration/glsl/glslgenerator.cpp \
-    model/graph.cpp \
-    codegeneration/unlinkedvaluedefaultsgenerator.cpp \
-    serialization/parser.cpp
+    model/typemanager.cpp \
+    serialization/parser.cpp \
+    util/noncopyable.cpp \
+    util/userdataprovider.cpp
 HEADERS = \
-    model/module.hpp \
+    codegeneration/bodygenerator.hpp \
+    codegeneration/compositemodulegenerator.hpp \
+    codegeneration/concretemodulegenerator.hpp \
+    codegeneration/defaultsgenerator.hpp \
+    codegeneration/functioncallbodygenerator.hpp \
+    codegeneration/glsl/glslgenerator.hpp \
+    codegeneration/glsl/glslsourcefbm.hpp \
+    codegeneration/glsl/glslsourcehybridmultifractal.hpp \
+    codegeneration/glsl/glslsourcenoise2d.hpp \
+    codegeneration/glsl/glslsourceridgedmultifractal.hpp \
+    codegeneration/idgenerator.hpp \
+    codegeneration/inlinegenerator.hpp \
+    codegeneration/modulegenerator.hpp \
+    codegeneration/simplebodygenerator.hpp \
+    codegeneration/unlinkedvaluedefaultsgenerator.hpp \
+    codegeneration/zerodefaultsgenerator.hpp \
+    model.hpp \
+    model/graph.hpp \
     model/inputlink.hpp \
+    model/module.hpp \
     model/moduleinput.hpp \
     model/moduleoutput.hpp \
     model/moduletype.hpp \
     model/outputlink.hpp \
+    model/primitivemoduletype.hpp \
     model/signaltype.hpp \
-    model.hpp \
+    model/signalvalue.hpp \
     model/typemanager.hpp \
-    util/userdataprovider.hpp \
+    serialization.hpp \
+    serialization/parser.hpp \
+    util.hpp \
+    util/makeunique.hpp \
     util/noncopyable.hpp \
     util/signals.hpp \
-    codegeneration/idgenerator.hpp \
-    codegeneration/inlinegenerator.hpp \
-    model/primitivemoduletype.hpp \
-    codegeneration/defaultsgenerator.hpp \
-    codegeneration/bodygenerator.hpp \
-    codegeneration/modulegenerator.hpp \
-    codegeneration/compositemodulegenerator.hpp \
-    codegeneration/zerodefaultsgenerator.hpp \
-    model/signalvalue.hpp \
-    codegeneration/simplebodygenerator.hpp \
-    util/makeunique.hpp \
-    util.hpp \
-    codegeneration/functioncallbodygenerator.hpp \
-    codegeneration/glsl/glslgenerator.hpp \
-    model/graph.hpp \
-    codegeneration/glsl/glslsourcenoise2d.hpp \
-    codegeneration/glsl/glslsourcefbm.hpp \
-    codegeneration/unlinkedvaluedefaultsgenerator.hpp \
-    codegeneration/glsl/glslsourceridgedmultifractal.hpp \
-    codegeneration/glsl/glslsourcehybridmultifractal.hpp \
-    serialization/parser.hpp \
-    serialization.hpp \
-    codegeneration/concretemodulegenerator.hpp
+    util/userdataprovider.hpp
