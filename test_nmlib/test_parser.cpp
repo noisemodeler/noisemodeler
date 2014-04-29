@@ -1,4 +1,4 @@
-#include "nmlib/parser.hpp"
+#include "nmlib/serialization/parser.hpp"
 
 #include <gtest/gtest.h>
 
@@ -34,11 +34,11 @@ TEST(ParserTest, GracefulFailure){
 
 TEST(ParserTest, BlankDocument){
     nm::Parser parser;
-    auto modules = parser.parseDocument(R"( {"moduleTypes":[]} )");
-    if(!modules){
+    auto typeManager = parser.parseDocument(R"( {"moduleTypes":[]} )");
+    if(!typeManager){
         FAIL();
     }
-    //TODO assert user modules == 0
+    EXPECT_EQ(0, (*typeManager)->numUserTypes());
 }
 
 TEST(ParserTest, OneModuleType){
