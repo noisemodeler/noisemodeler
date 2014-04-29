@@ -118,6 +118,31 @@ std::unique_ptr<const ModuleType> createAbs(){
     return std::move(moduleType);
 }
 
+std::unique_ptr<const ModuleType> createMin(){
+    auto moduleType = make_unique<ModuleType>("min", ModuleType::Category::Primitive, "minimum of two values");
+    moduleType->addInput("a", SignalType{1});
+    moduleType->addInput("b", SignalType{1});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
+std::unique_ptr<const ModuleType> createMax(){
+    auto moduleType = make_unique<ModuleType>("max", ModuleType::Category::Primitive, "maximum of two values");
+    moduleType->addInput("a", SignalType{1});
+    moduleType->addInput("b", SignalType{1});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
+std::unique_ptr<const ModuleType> createClamp(){
+    auto moduleType = make_unique<ModuleType>("clamp", ModuleType::Category::Primitive, "clamp a value between two extremes");
+    moduleType->addInput("x", SignalType{1});
+    moduleType->addInput("min", SignalValue{0.f});
+    moduleType->addInput("max", SignalValue{1.f});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
 //2D modules
 
 std::unique_ptr<const ModuleType> createConstant2(){
@@ -315,6 +340,9 @@ void TypeManager::initBuiltinTypes()
     addBuiltinType(createMul1());
     addBuiltinType(createMod());
     addBuiltinType(createAbs());
+    addBuiltinType(createMin());
+    addBuiltinType(createMax());
+    addBuiltinType(createClamp());
 
     //2D modules
     addBuiltinType(createConstant2());

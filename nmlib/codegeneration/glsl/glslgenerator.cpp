@@ -106,6 +106,18 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
         body.reset(new SimpleBodyGenerator(
             "float result = abs(source);\n"
         ));
+    } else if (moduleTypeName == "min") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = min(a, b);\n"
+        ));
+    } else if (moduleTypeName == "max") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = max(a, b);\n"
+        ));
+    } else if (moduleTypeName == "clamp") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = clamp(x, min, max);\n"
+        ));
 
     //2D modules
     } else if (moduleTypeName == "constant2") {
