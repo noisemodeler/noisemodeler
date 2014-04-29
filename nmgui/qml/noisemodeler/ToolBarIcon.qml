@@ -6,9 +6,17 @@ import QtQuick.Layouts 1.1
 
 Image {
     signal clicked
-    MouseArea{
+    property alias toolTipText: toolTipArea.text
+    MouseArea {
         anchors.fill: parent
         onClicked: parent.clicked()
     }
     source: 'qrc:///icons/edit.svg'
+    ToolTipArea {
+        id: toolTipArea
+        text: ""
+        visible: text !== ""
+        tip.x: parent.width + 5
+        tip.y: parent.height / 2 - height/2
+    }
 }
