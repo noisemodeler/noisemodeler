@@ -69,4 +69,5 @@ HEADERS = \
     codegeneration/unlinkedvaluedefaultsgenerator.hpp \
     codegeneration/glsl/glslsourceridgedmultifractal.hpp \
     codegeneration/glsl/glslsourcehybridmultifractal.hpp \
-    serialization/parser.hpp
+    serialization/parser.hpp \
+    serialization.hpp
