@@ -35,7 +35,8 @@ SOURCES = \
     model/typemanager.cpp \
     serialization/parser.cpp \
     util/noncopyable.cpp \
-    util/userdataprovider.cpp
+    util/userdataprovider.cpp \
+    serialization/serializer.cpp
 HEADERS = \
     codegeneration/bodygenerator.hpp \
     codegeneration/compositemodulegenerator.hpp \
@@ -71,4 +72,5 @@ HEADERS = \
     util/makeunique.hpp \
     util/noncopyable.hpp \
     util/signals.hpp \
-    util/userdataprovider.hpp
+    util/userdataprovider.hpp \
+    serialization/serializer.hpp

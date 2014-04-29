@@ -2,6 +2,7 @@
 #define SERIALIZATION_HPP
 
 #include <nmlib/serialization/parser.hpp>
+#include <nmlib/serialization/serializer.hpp>
 
 #endif // SERIALIZATION_HPP
 
