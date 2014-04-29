@@ -143,6 +143,23 @@ std::unique_ptr<const ModuleType> createClamp(){
     return std::move(moduleType);
 }
 
+std::unique_ptr<const ModuleType> createStep(){
+    auto moduleType = make_unique<ModuleType>("step", ModuleType::Category::Primitive, "result = 0 for x < edge, otherwise result = 1");
+    moduleType->addInput("value", SignalType{1});
+    moduleType->addInput("edge", SignalType{1});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
+std::unique_ptr<const ModuleType> createSmoothStep(){
+    auto moduleType = make_unique<ModuleType>("smoothstep", ModuleType::Category::Primitive, "Hermite interpolation between 0 and 1 when value is between minedge and maxedge");
+    moduleType->addInput("value", SignalType{1});
+    moduleType->addInput("minedge", SignalValue{0.0f});
+    moduleType->addInput("maxedge", SignalValue{1.0f});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
+
 //2D modules
 
 std::unique_ptr<const ModuleType> createConstant2(){
@@ -343,6 +360,8 @@ void TypeManager::initBuiltinTypes()
     addBuiltinType(createMin());
     addBuiltinType(createMax());
     addBuiltinType(createClamp());
+    addBuiltinType(createStep());
+    addBuiltinType(createSmoothStep());
 
     //2D modules
     addBuiltinType(createConstant2());

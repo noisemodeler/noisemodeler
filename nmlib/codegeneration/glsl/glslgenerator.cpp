@@ -118,6 +118,14 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
         body.reset(new SimpleBodyGenerator(
             "float result = clamp(x, min, max);\n"
         ));
+    } else if (moduleTypeName == "step") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = step(edge, value);\n"
+        ));
+    } else if (moduleTypeName == "smoothstep") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = smoothstep(minedge, maxedge, value);\n"
+        ));
 
     //2D modules
     } else if (moduleTypeName == "constant2") {
