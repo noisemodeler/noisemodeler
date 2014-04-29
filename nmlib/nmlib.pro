@@ -18,7 +18,6 @@ SOURCES = \
     model/moduletype.cpp \
     model/outputlink.cpp \
     model/signaltype.cpp \
-    parser.cpp \
     model/typemanager.cpp \
     util/userdataprovider.cpp \
     util/noncopyable.cpp \
@@ -35,7 +34,8 @@ SOURCES = \
     codegeneration/functioncallbodygenerator.cpp \
     codegeneration/glsl/glslgenerator.cpp \
     model/graph.cpp \
-    codegeneration/unlinkedvaluedefaultsgenerator.cpp
+    codegeneration/unlinkedvaluedefaultsgenerator.cpp \
+    serialization/parser.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -45,7 +45,6 @@ HEADERS = \
     model/outputlink.hpp \
     model/signaltype.hpp \
     model.hpp \
-    parser.hpp \
     model/typemanager.hpp \
     util/userdataprovider.hpp \
     util/noncopyable.hpp \
@@ -69,4 +68,5 @@ HEADERS = \
     codegeneration/glsl/glslsourcefbm.hpp \
     codegeneration/unlinkedvaluedefaultsgenerator.hpp \
     codegeneration/glsl/glslsourceridgedmultifractal.hpp \
-    codegeneration/glsl/glslsourcehybridmultifractal.hpp
+    codegeneration/glsl/glslsourcehybridmultifractal.hpp \
+    serialization/parser.hpp
