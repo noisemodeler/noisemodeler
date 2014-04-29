@@ -211,7 +211,7 @@ std::unique_ptr<const ModuleType> createHybridMultifractal(){
     moduleType->addInput("octaves", SignalValue{10});
     moduleType->addInput("lacunarity", SignalValue{2.f});
     moduleType->addInput("h", SignalValue{0.25f});
-    moduleType->addInput("offset", SignalValue{1.0f});
+    moduleType->addInput("offset", SignalValue{0.7f});
     moduleType->addOutput("result", SignalType{1});
     return std::move(moduleType);
 }
