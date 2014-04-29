@@ -14,11 +14,20 @@ Rectangle {
     height: 600
 
     FileDialog {
-        id: fileDialog
+        id: openDialog
         title: "Open file"
         onAccepted: {
-            console.log("TODO: open " + fileDialog.fileUrl);
+            console.log("TODO: open " + openDialog.fileUrl);
         }
+        nameFilters: ["Noise Modeler graphs (*.nmlang.json)", "All files (*)"]
+    }
+    FileDialog {
+        id: saveDialog
+        title: "Save file"
+        onAccepted: {
+            console.log("TODO: save " + saveDialog.fileUrl);
+        }
+        selectExisting: false
         nameFilters: ["Noise Modeler graphs (*.nmlang.json)", "All files (*)"]
     }
 
@@ -36,8 +45,13 @@ Rectangle {
             }
             ToolBarIcon{
                 Layout.alignment: Qt.AlignLeft
+                source: 'qrc:///icons/save.svg'
+                onClicked: saveDialog.open();
+            }
+            ToolBarIcon{
+                Layout.alignment: Qt.AlignLeft
                 source: 'qrc:///icons/open.svg'
-                onClicked: fileDialog.open();
+                onClicked: openDialog.open();
             }
             Item {
                 Layout.fillWidth: true
