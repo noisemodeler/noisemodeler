@@ -4,9 +4,9 @@
 constexpr const char * source_hybridmultifractal = R"lobotomized(
 
 //depends on snoise
-float hybridmultifractal(vec2 pos, float octaves, float lacunarity, float h, float offset){
+float hybridmultifractal(vec2 pos, float octaves, float lacunarity, float h, float offset, float seed){
     //compute first octave
-    float result = snoise(pos) + offset;
+    float result = snoise(pos, seed) + offset;
     float weight = result;
     float frequency = lacunarity;
 
@@ -16,7 +16,7 @@ float hybridmultifractal(vec2 pos, float octaves, float lacunarity, float h, flo
 
         //get next higher frequency
         float exponent = pow(pow(lacunarity, i), -h); //these may perhaps be precomputed
-        float signal = (snoise(pos*frequency) + offset) * exponent;
+        float signal = (snoise(pos*frequency, seed) + offset) * exponent;
         //add it in, weighted by previous freq's local value
         result += weight * signal;
         //update the (monotonically decreasing) weighting value
@@ -32,7 +32,7 @@ float hybridmultifractal(vec2 pos, float octaves, float lacunarity, float h, flo
     if(remainder>0){
         //spatial freq. is preset in loop above
         float exponent = pow(pow(lacunarity, octaves), -h);
-        result += remainder * snoise(pos*frequency) * exponent;
+        result += remainder * snoise(pos*frequency, seed) * exponent;
     }
     */
 

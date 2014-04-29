@@ -157,19 +157,19 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
         ));
     } else if (moduleTypeName == "noise2") {
         body.reset(new SimpleBodyGenerator(
-            "float result = snoise(pos);\n"
+            "float result = snoise(pos, seed);\n"
         ));
     } else if (moduleTypeName == "fbm2") {
         body.reset(new SimpleBodyGenerator(
-            "float result = fbm2d(pos, octaves, lacunarity, gain);\n"
+            "float result = fbm2d(pos, octaves, lacunarity, gain, seed);\n"
         ));
     } else if (moduleTypeName == "ridgedmultifractal") {
         body.reset(new SimpleBodyGenerator(
-            "float result = ridgedmultifractal(pos, octaves, lacunarity, h, offset, gain);\n"
+            "float result = ridgedmultifractal(pos, octaves, lacunarity, h, offset, gain, seed);\n"
         ));
     } else if (moduleTypeName == "hybridmultifractal") {
         body.reset(new SimpleBodyGenerator(
-            "float result = hybridmultifractal(pos, octaves, lacunarity, h, offset);\n"
+            "float result = hybridmultifractal(pos, octaves, lacunarity, h, offset, seed);\n"
         ));
 
     //3D modules

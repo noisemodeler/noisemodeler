@@ -221,6 +221,7 @@ std::unique_ptr<const ModuleType> createMux2(){
 std::unique_ptr<const ModuleType> createNoise2(){
     auto moduleType = make_unique<ModuleType>("noise2", ModuleType::Category::Primitive, "2D noise (implementation defined)");
     moduleType->addInput("pos", SignalType{2});
+    moduleType->addInput("seed", SignalType{1});
     moduleType->addOutput("result", SignalType{1});
     return std::move(moduleType);
 }
@@ -228,6 +229,7 @@ std::unique_ptr<const ModuleType> createNoise2(){
 std::unique_ptr<const ModuleType> createFbm2D(){
     auto moduleType = make_unique<ModuleType>("fbm2", ModuleType::Category::Primitive, "fractional brownian motion");
     moduleType->addInput("pos", SignalType{2});
+    moduleType->addInput("seed", SignalType{1});
     moduleType->addInput("octaves", SignalValue{10});
     moduleType->addInput("lacunarity", SignalValue{2.f});
     moduleType->addInput("gain", SignalValue{0.5f});
@@ -238,6 +240,7 @@ std::unique_ptr<const ModuleType> createFbm2D(){
 std::unique_ptr<const ModuleType> createRidgedMultifractal(){
     auto moduleType = make_unique<ModuleType>("ridgedmultifractal", ModuleType::Category::Primitive, "Specialized version of fBm to create a ridge-like landscape");
     moduleType->addInput("pos", SignalType{2});
+    moduleType->addInput("seed", SignalType{1});
     moduleType->addInput("octaves", SignalValue{10});
     moduleType->addInput("lacunarity", SignalValue{2.f});
     moduleType->addInput("h", SignalValue{0.25f});
@@ -250,6 +253,7 @@ std::unique_ptr<const ModuleType> createRidgedMultifractal(){
 std::unique_ptr<const ModuleType> createHybridMultifractal(){
     auto moduleType = make_unique<ModuleType>("hybridmultifractal", ModuleType::Category::Primitive, "Specialized version of fBm to create a create a terrain with rough mountains and smooth valleys");
     moduleType->addInput("pos", SignalType{2});
+    moduleType->addInput("seed", SignalType{1});
     moduleType->addInput("octaves", SignalValue{10});
     moduleType->addInput("lacunarity", SignalValue{2.f});
     moduleType->addInput("h", SignalValue{0.25f});

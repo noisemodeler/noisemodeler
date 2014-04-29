@@ -4,10 +4,10 @@
 constexpr const char * source_ridgedmultifractal = R"lobotomized(
 
 //depends on snoise
-float ridgedmultifractal(vec2 pos, float octaves, float lacunarity, float h, float offset, float gain){
+float ridgedmultifractal(vec2 pos, float octaves, float lacunarity, float h, float offset, float gain, float seed){
 
     //compute first octave
-    float signal = snoise(pos);
+    float signal = snoise(pos, seed);
     signal = abs(signal);
     signal = offset - signal;
     signal *= signal;
@@ -19,7 +19,7 @@ float ridgedmultifractal(vec2 pos, float octaves, float lacunarity, float h, flo
     for(int i=1; weight>0.001f && i<octaves; ++i){ //TODO get rid of magic constant
         weight = signal*gain;
         weight = clamp(weight, 0, 1);
-        signal = snoise(pos*frequency);
+        signal = snoise(pos*frequency, seed);
         signal = abs(signal);
         signal = offset - signal;
         signal *= signal;
