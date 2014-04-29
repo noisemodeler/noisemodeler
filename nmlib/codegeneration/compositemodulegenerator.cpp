@@ -1,4 +1,4 @@
-#include "compositemodulegenerator.h"
+#include "compositemodulegenerator.hpp"
 
 namespace nm {
 

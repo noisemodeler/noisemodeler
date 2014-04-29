@@ -35,8 +35,7 @@ SOURCES = \
     codegeneration/glsl/glslgenerator.cpp \
     model/graph.cpp \
     codegeneration/unlinkedvaluedefaultsgenerator.cpp \
-    serialization/parser.cpp \
-    codegeneration/compositemodulegenerator.cpp
+    serialization/parser.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -72,5 +71,4 @@ HEADERS = \
     codegeneration/glsl/glslsourcehybridmultifractal.hpp \
     serialization/parser.hpp \
     serialization.hpp \
-    codegeneration/concretemodulegenerator.hpp \
-    codegeneration/compositemodulegenerator.h
+    codegeneration/concretemodulegenerator.hpp
