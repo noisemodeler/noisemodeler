@@ -34,7 +34,8 @@ SOURCES = \
     codegeneration/functioncallbodygenerator.cpp \
     codegeneration/glsl/glslgenerator.cpp \
     model/graph.cpp \
-    codegeneration/unlinkedvaluedefaultsgenerator.cpp
+    codegeneration/unlinkedvaluedefaultsgenerator.cpp \
+    codegeneration/compositemodulegenerator.cpp
 HEADERS = \
     model/module.hpp \
     model/inputlink.hpp \
@@ -66,4 +67,5 @@ HEADERS = \
     codegeneration/glsl/glslsourcenoise2d.hpp \
     codegeneration/glsl/glslsourcefbm.hpp \
     codegeneration/unlinkedvaluedefaultsgenerator.hpp \
-    codegeneration/concretemodulegenerator.hpp
+    codegeneration/concretemodulegenerator.hpp \
+    codegeneration/compositemodulegenerator.h

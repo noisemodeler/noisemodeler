@@ -134,10 +134,9 @@ std::unique_ptr<ModuleGenerator> InlineGenerator::getModuleGenerator(Module &mod
     std::unique_ptr<DefaultsGenerator> defaults;
     body.reset(new SimpleBodyGenerator("//empty body\n"));
     defaults.reset(new UnlinkedValueDefaultsGenerator(module));
-    //TODO composite module type
     if(moduleType.isComposite()){
+        //TODO composite module type
         std::cerr << "TODO: implement composite module handling.\n";
-
     } else {
         std::cerr << "No policy for module of type: " << moduleType.getName() << "\n";
     }
