@@ -73,7 +73,7 @@ namespace {
 //1D versions
 
 std::unique_ptr<const ModuleType> createConstant1(){
-    auto moduleType = make_unique<ModuleType>("constant1", ModuleType::Category::Primitive, "result = lhs + rhs");
+    auto moduleType = make_unique<ModuleType>("constant1", ModuleType::Category::Primitive, "a constant value");
     moduleType->addInput("value", SignalType{1});
     moduleType->addOutput("value", SignalType{1});
     return std::move(moduleType);
@@ -88,7 +88,7 @@ std::unique_ptr<const ModuleType> createAdd1(){
 }
 
 std::unique_ptr<const ModuleType> createSub1(){
-    auto moduleType = make_unique<ModuleType>("sub1", ModuleType::Category::Primitive, "a constant value");
+    auto moduleType = make_unique<ModuleType>("sub1", ModuleType::Category::Primitive, "result = lhs - rhs");
     moduleType->addInput("lhs", SignalType{1});
     moduleType->addInput("rhs", SignalType{1});
     moduleType->addOutput("result", SignalType{1});
