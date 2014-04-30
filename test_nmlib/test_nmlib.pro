@@ -21,7 +21,8 @@ SOURCES += \
     test_parser.cpp \
     test_model.cpp \
     test_model_moduletype.cpp \
-    test_model_constants.cpp
+    test_model_constants.cpp \
+    test_serializer.cpp
 
 HEADERS +=
 
