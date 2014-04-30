@@ -76,6 +76,7 @@ public:
     bool removeOutput(ModuleOutput *moduleOutput);
 
     Graph* getGraph() { return m_graph.get(); }
+    const Graph* getGraph() const { return m_graph.get(); }
     ModuleOutput *exportInternalOutput(OutputLink &outputLink, std::string externalName);
 
     //TODO enum and/or constant params

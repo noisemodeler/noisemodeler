@@ -1,5 +1,7 @@
 #include "serializer.hpp"
 
+#include <nmlib/model/typemanager.hpp>
+
 //TODO get rapidjson to fix these warnings
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
@@ -36,12 +38,21 @@ Serializer::Serializer()
 {
 }
 
-std::string Serializer::serialize(const TypeManager &/*typeManager*/)
+std::string Serializer::serialize(const TypeManager &typeManager)
 {
-    //TODO
     rapidjson::Document document;
-    document.Parse<0>("{ \"hello\": \"world\" }");
-//    document.AddMember("test", "test", document.GetAllocator());
+    {
+        rapidjson::Value moduleTypesValue;
+        moduleTypesValue.SetArray();
+        for(unsigned int i=0; i<typeManager.numUserTypes(); ++i){
+            rapidjson::Value moduleTypeValue;
+            moduleTypeValue.SetObject();
+            moduleTypesValue.PushBack(moduleTypeValue, document.GetAllocator());
+        }
+        document.SetObject();
+        document.AddMember("moduleTypes", moduleTypesValue, document.GetAllocator());
+    }
+
 
     //make an std::string from the document
     StdStringStreamWrapper streamWrapper;
