@@ -7,6 +7,7 @@
 #include "texturerenderer.hpp"
 #include "heightmap3dexplorer.hpp"
 #include "heightmaptextureexplorer.hpp"
+#include "document.hpp"
 
 #include "beziercurve.hpp"
 
@@ -49,22 +50,15 @@ int main(int argc, char *argv[])
     qmlRegisterType<nmgui::TypeManagerQ>("NoiseModeler", 1, 0, "TypeManager");
 
     //open empty document template
-    nm::Parser parser;
-    QFile file(":/empty.nmlang.json");
-    if(!file.open(QFile::ReadOnly|QFile::Text)){
-        //TODO error handling
-    }
-    QTextStream in(&file);
-    QString blankDocumentString = in.readAll();
-    auto maybeTypeManager = parser.parseDocument(blankDocumentString.toStdString());
-    auto &typeManager = **maybeTypeManager;
+    nmgui::Document document(":/empty.nmlang.json");
 
     //TODO this part should be handled by GUI
     //wire up debug modules
-    auto terrainModule = typeManager.getUserType("terrain");
+    auto typeManager = document.typeManager()->typeManager();
+    auto terrainModule = typeManager->getUserType("terrain");
     auto graph = terrainModule->getGraph();
-    auto debugInputModuleType = typeManager.getType("debug_input");
-    auto debugOutputModuleType = typeManager.getType("debug_output");
+    auto debugInputModuleType = typeManager->getType("debug_input");
+    auto debugOutputModuleType = typeManager->getType("debug_output");
     auto debugInputModule = graph->createModule(*debugInputModuleType, "debugInput");
     auto debugOutputModule = graph->createModule(*debugOutputModuleType, "debugOutput");
     debugInputModule->getOutput("pos")->addLink(*graph->getModule("inputs")->getInput("pos"));
@@ -74,10 +68,12 @@ int main(int argc, char *argv[])
     auto debugInputModuleQ = nmgui::ModuleQ::fromModule(*debugInputModule);
     auto debugOutputModuleQ = nmgui::ModuleQ::fromModule(*debugOutputModule);
 
+
     QtQuick2ApplicationViewer viewer;
     viewer.rootContext()->setContextProperty("debugInput", debugInputModuleQ);
     viewer.rootContext()->setContextProperty("debugOutput", debugOutputModuleQ);
-    viewer.rootContext()->setContextProperty("typeManager", nmgui::TypeManagerQ::fromTypeManager(typeManager));
+    viewer.rootContext()->setContextProperty("typeManager", document.typeManager());
+    viewer.rootContext()->setContextProperty("document", &document);
 
     viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));
     viewer.showExpanded();

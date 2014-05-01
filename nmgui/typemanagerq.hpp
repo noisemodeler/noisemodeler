@@ -25,6 +25,7 @@ public:
 
     QQmlListProperty<ModuleTypeQ> builtinTypes();
     QQmlListProperty<ModuleTypeQ> userTypes();
+    nm::TypeManager *typeManager(){ return m_typeManager; }
 
 signals:
     void userTypesChanged();

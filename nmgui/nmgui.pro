@@ -37,7 +37,8 @@ SOURCES += main.cpp \
     heightmap3dexplorer.cpp \
     heightmaptextureexplorer.cpp \
     rendering/heightmap3drenderer.cpp \
-    rendering/heightmaptexturerenderer.cpp
+    rendering/heightmaptexturerenderer.cpp \
+    document.cpp
 
 HEADERS += \
     texturerenderer.hpp \
@@ -57,7 +58,8 @@ HEADERS += \
     heightmap3dexplorer.hpp \
     heightmaptextureexplorer.hpp \
     rendering/heightmap3drenderer.hpp \
-    rendering/heightmaptexturerenderer.hpp
+    rendering/heightmaptexturerenderer.hpp \
+    document.hpp
 
 # Installation path
 # target.path =

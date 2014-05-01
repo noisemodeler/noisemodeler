@@ -24,7 +24,8 @@ Rectangle {
         id: saveDialog
         title: "Save file"
         onAccepted: {
-            console.log("TODO: save " + saveDialog.fileUrl);
+            //TODO enforce correct extension
+            document.saveAsQmlUrl(saveDialog.fileUrl);
         }
         selectExisting: false
         nameFilters: ["Noise Modeler graphs (*.nmlang.json)", "All files (*)"]
