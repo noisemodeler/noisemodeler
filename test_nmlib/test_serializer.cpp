@@ -32,6 +32,7 @@ TEST(SerializerTest, OneModuleType) {
         moduleType->addOutput("out1", nm::SignalType{1});
         auto input = moduleType->getGraph()->getModule("inputs")->getOutput("in1");
         moduleType->getGraph()->getModule("outputs")->getInput("out1")->link(*input);
+        moduleType->getGraph()->createModule(*typeManager.getBuiltinType("abs"), "testmodule");
         typeManager.addUserType(std::move(moduleType));
     }
 
@@ -56,8 +57,6 @@ TEST(SerializerTest, OneModuleType) {
         auto moduleInput = moduleType->getInput("in1");
         ASSERT_NE(nullptr, moduleInput);
         EXPECT_EQ("in1", moduleInput->getName());
-        auto graph = moduleType->getGraph();
-        ASSERT_NE(nullptr, graph);
         EXPECT_EQ(1, moduleInput->getSignalType().dimensionality);
 
         //check that there is an output as well
@@ -65,8 +64,16 @@ TEST(SerializerTest, OneModuleType) {
         ASSERT_NE(nullptr, moduleOutput) << json;
         EXPECT_EQ(1, moduleInput->getSignalType().dimensionality);
 
-        //there should also be an inputs module
+        //check that there's a graph
+        auto graph = moduleType->getGraph();
+        ASSERT_NE(nullptr, graph);
+
+        //there should also be an inputs module in the graph
         auto inputsModule = graph->getModule("inputs");
-        ASSERT_NE(nullptr, inputsModule);
+        EXPECT_NE(nullptr, inputsModule);
+
+        //and the testModule
+        auto testModule = graph->getModule("testmodule");
+        EXPECT_NE(nullptr, testModule) << "Couldn't find testModule in document:\n" << json;
     }
 }

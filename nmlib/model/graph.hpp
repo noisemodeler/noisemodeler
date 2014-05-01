@@ -25,6 +25,7 @@ public:
     Module *getModule(unsigned int index);
     const Module *getModule(unsigned int index) const;
     unsigned int numModules() const { return m_modules.size(); }
+    void traverseModulesTopological(std::function<void(const Module&)> callback) const;
 
     //signals
     signal<void(Graph&)> destroying;

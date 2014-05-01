@@ -37,7 +37,19 @@ typedef GenericStdStringStreamWrapper<rapidjson::UTF8<> > StdStringStreamWrapper
 
 namespace nm {
 
+void jsonifyModule(const Module& module, rapidjson::Value& moduleValue, rapidjson::Document& document){
+    moduleValue.SetObject();
+    moduleValue.AddMember("name", module.getName().c_str(), document.GetAllocator());
+    moduleValue.AddMember("description", module.getDescription().c_str(), document.GetAllocator());
+    moduleValue.AddMember("type", module.getType().getName().c_str(), document.GetAllocator());
+
+    //add inputs
+    //TODO
+}
+
 void jsonifyModuleType(const ModuleType& moduleType, rapidjson::Value& moduleTypeValue, rapidjson::Document& document){
+    //TODO assert moduleType.isComposite
+
     moduleTypeValue.SetObject();
     moduleTypeValue.AddMember("name", moduleType.getName().c_str(), document.GetAllocator());
     moduleTypeValue.AddMember("description", moduleType.getDescription().c_str(), document.GetAllocator());
@@ -79,8 +91,17 @@ void jsonifyModuleType(const ModuleType& moduleType, rapidjson::Value& moduleTyp
     moduleTypeValue.AddMember("outputs", outputs, document.GetAllocator());
 
     //handle internal modules
-
-    //TODO
+    rapidjson::Value modulesValue;
+    modulesValue.SetArray();
+    auto graph = moduleType.getGraph();
+    graph->traverseModulesTopological([&](const Module& module){
+        //skip input/output modules
+        if(module.getType().isGraphInput() || module.getType().isGraphOutput())return;
+        rapidjson::Value moduleValue;
+        jsonifyModule(module, moduleValue, document);
+        modulesValue.PushBack(moduleValue, document.GetAllocator());
+    });
+    moduleTypeValue.AddMember("modules", modulesValue, document.GetAllocator());
 }
 
 Serializer::Serializer()

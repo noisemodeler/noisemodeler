@@ -2,6 +2,7 @@
 #include <nmlib/model/moduletype.hpp>
 
 #include <sstream>
+#include <vector>
 
 namespace nm {
 
@@ -73,14 +74,36 @@ const Module *Graph::getModule(const std::string &name) const
 
 Module *Graph::getModule(unsigned int index)
 {
-    //TODO bounds checking
+    if(index>=numModules())return nullptr;
     return m_modules.at(index).get();
 }
 
 const Module *Graph::getModule(unsigned int index) const
 {
-    //TODO bounds checking
+    if(index>=numModules())return nullptr;
     return m_modules.at(index).get();
+}
+
+void Graph::traverseModulesTopological(std::function<void (const Module &)> callback) const
+{
+    //TODO could be optimized if this is in a bottleneck
+
+    typedef std::pair<const nm::Module*, int> QueuePair;
+    std::vector<QueuePair> queue;
+    for(auto &module: m_modules){
+        queue.emplace_back(module.get(), module->getDepth());
+    }
+
+    //sort according to depth in graph
+    std::sort(queue.begin(), queue.end(), [](QueuePair a, QueuePair b){
+        //TODO verify that this is the correct sorting order
+        return a.second < b.second;
+    });
+
+    //traverse and call callback
+    for(auto &queuePair: queue){
+        callback(*queuePair.first);
+    }
 }
 
 } // namespace nm
