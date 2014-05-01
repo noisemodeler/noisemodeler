@@ -47,7 +47,7 @@ void jsonifyModule(const Module& module, rapidjson::Value& moduleValue, rapidjso
     rapidjson::Value inputsValue;
     inputsValue.SetObject();
     for(unsigned int i=0; i<module.getInputSize(); ++i){
-        auto inputLink = module.getInput(0);
+        auto inputLink = module.getInput(i);
         auto outputLink = inputLink->getOutputLink();
         //only add connected links
         if(outputLink){
