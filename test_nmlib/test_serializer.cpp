@@ -32,7 +32,8 @@ TEST(SerializerTest, OneModuleType) {
         moduleType->addOutput("out1", nm::SignalType{1});
         auto input = moduleType->getGraph()->getModule("inputs")->getOutput("in1");
         moduleType->getGraph()->getModule("outputs")->getInput("out1")->link(*input);
-        moduleType->getGraph()->createModule(*typeManager.getBuiltinType("abs"), "testmodule");
+        auto absModule = moduleType->getGraph()->createModule(*typeManager.getBuiltinType("abs"), "testmodule");
+        absModule->getInput(0)->link(*input); //connect abs input to the graph input
         typeManager.addUserType(std::move(moduleType));
     }
 
@@ -74,6 +75,8 @@ TEST(SerializerTest, OneModuleType) {
 
         //and the testModule
         auto testModule = graph->getModule("testmodule");
-        EXPECT_NE(nullptr, testModule) << "Couldn't find testModule in document:\n" << json;
+        ASSERT_NE(nullptr, testModule) << "Couldn't find testModule in document:\n" << json;
+        //check that it's still connected
+        EXPECT_NE(nullptr, testModule->getInput(0)->getOutputLink()) << "testModule.source was not connected: \n" << json;
     }
 }

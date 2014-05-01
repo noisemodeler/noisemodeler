@@ -44,7 +44,21 @@ void jsonifyModule(const Module& module, rapidjson::Value& moduleValue, rapidjso
     moduleValue.AddMember("type", module.getType().getName().c_str(), document.GetAllocator());
 
     //add inputs
-    //TODO
+    rapidjson::Value inputsValue;
+    inputsValue.SetObject();
+    for(unsigned int i=0; i<module.getInputSize(); ++i){
+        auto inputLink = module.getInput(0);
+        auto outputLink = inputLink->getOutputLink();
+        //only add connected links
+        if(outputLink){
+            std::string sourceString = outputLink->getOwner().getName() + "." + outputLink->getModuleOutput().getName();
+            rapidjson::Value source(sourceString.c_str(), document.GetAllocator());
+            rapidjson::Value inputName(inputLink->getModuleInput().getName().c_str(), document.GetAllocator());
+            inputsValue.AddMember(inputName, source, document.GetAllocator());
+        }
+        //TODO add custom unlinked values
+    }
+    moduleValue.AddMember("inputs", inputsValue, document.GetAllocator());
 }
 
 void jsonifyModuleType(const ModuleType& moduleType, rapidjson::Value& moduleTypeValue, rapidjson::Document& document){
