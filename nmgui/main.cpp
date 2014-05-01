@@ -49,8 +49,13 @@ int main(int argc, char *argv[])
     qmlRegisterType<nmgui::GraphQ>("NoiseModeler", 1, 0, "Graph");
     qmlRegisterType<nmgui::TypeManagerQ>("NoiseModeler", 1, 0, "TypeManager");
 
-    //open empty document template
-    nmgui::Document document(":/empty.nmlang.json");
+    QStringList cmdLineArgs = QCoreApplication::arguments();
+
+    QString docPath = ":/empty.nmlang.json";
+    if(cmdLineArgs.count()>1){
+        docPath = cmdLineArgs.at(1);
+    }
+    nmgui::Document document(docPath);
 
     //TODO this part should be handled by GUI
     //wire up debug modules

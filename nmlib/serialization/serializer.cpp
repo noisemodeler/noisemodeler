@@ -111,6 +111,11 @@ void jsonifyModuleType(const ModuleType& moduleType, rapidjson::Value& moduleTyp
     graph->traverseModulesTopological([&](const Module& module){
         //skip input/output modules
         if(module.getType().isGraphInput() || module.getType().isGraphOutput())return;
+        //skip degug modules
+        //TODO remove this check debug modules shouldn't exist
+        if(module.getType().getName() == "debug_input" ||
+           module.getType().getName() == "debug_output")return;
+
         rapidjson::Value moduleValue;
         jsonifyModule(module, moduleValue, document);
         modulesValue.PushBack(moduleValue, document.GetAllocator());
