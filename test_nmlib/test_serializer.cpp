@@ -30,6 +30,8 @@ TEST(SerializerTest, OneModuleType) {
         auto moduleType = make_unique<nm::ModuleType>("test");
         moduleType->addInput("in1", nm::SignalType{1});
         moduleType->addOutput("out1", nm::SignalType{1});
+        auto input = moduleType->getGraph()->getModule("inputs")->getOutput("in1");
+        moduleType->getGraph()->getModule("outputs")->getInput("out1")->link(*input);
         typeManager.addUserType(std::move(moduleType));
     }
 
@@ -49,12 +51,22 @@ TEST(SerializerTest, OneModuleType) {
         ASSERT_NE(nullptr, moduleType);
         ASSERT_EQ("test", moduleType->getName());
         ASSERT_TRUE(moduleType->isComposite());
+
+        //verify that there is an input
         auto moduleInput = moduleType->getInput("in1");
+        ASSERT_NE(nullptr, moduleInput);
         EXPECT_EQ("in1", moduleInput->getName());
         auto graph = moduleType->getGraph();
         ASSERT_NE(nullptr, graph);
+        EXPECT_EQ(1, moduleInput->getSignalType().dimensionality);
+
+        //check that there is an output as well
+        auto moduleOutput = moduleType->getOutput("out1");
+        ASSERT_NE(nullptr, moduleOutput) << json;
+        EXPECT_EQ(1, moduleInput->getSignalType().dimensionality);
+
+        //there should also be an inputs module
         auto inputsModule = graph->getModule("inputs");
         ASSERT_NE(nullptr, inputsModule);
-//        EXPECT_NE(nullptr, inputsModule->getInput("in1"));
     }
 }

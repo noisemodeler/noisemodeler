@@ -37,6 +37,7 @@ public:
     //inputs
     InputLink *getInput(std::string name);
     InputLink *getInput(unsigned int i);
+    const InputLink *getInput(unsigned int i) const;
     unsigned int getInputSize() const;
     std::vector<InputLink*> getInputs();
 

@@ -74,6 +74,12 @@ InputLink *Module::getInput(unsigned int i)
     return m_inputs[i].get();
 }
 
+const InputLink *Module::getInput(unsigned int i) const
+{
+    if(m_inputs.size()<=i)return nullptr;
+    return m_inputs[i].get();
+}
+
 unsigned int Module::getInputSize() const
 {
     return static_cast<unsigned int>(m_inputs.size());
