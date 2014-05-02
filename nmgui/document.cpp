@@ -12,15 +12,7 @@ Document::Document(QString filePath, QObject *parent) :
     QObject(parent),
     m_filePath(filePath)
 {
-    nm::Parser parser;
-    QFile file(filePath);
-    if(!file.open(QFile::ReadOnly|QFile::Text)){
-        //TODO error handling
-    }
-    QTextStream in(&file);
-    QString blankDocumentString = in.readAll();
-    auto maybeTypeManager = parser.parseDocument(blankDocumentString.toStdString());
-    m_typeManager = std::move(*maybeTypeManager);
+    open(filePath);
 }
 
 TypeManagerQ *Document::typeManager(){ return m_typeManager ? TypeManagerQ::fromTypeManager(*m_typeManager) : nullptr; }
@@ -58,6 +50,28 @@ void Document::saveAsQmlUrl(QString filePath)
 {
     //just remove the stupid file:// prefix
     saveAs(filePath.mid(7));
+}
+
+void Document::open(QString filePath)
+{
+    nm::Parser parser;
+    QFile file(filePath);
+    if(!file.open(QFile::ReadOnly|QFile::Text)){
+        //TODO error handling
+    }
+    QTextStream in(&file);
+    QString blankDocumentString = in.readAll();
+    auto maybeTypeManager = parser.parseDocument(blankDocumentString.toStdString());
+    if(!maybeTypeManager){
+        //TODO error handling
+    }
+    m_typeManager = std::move(*maybeTypeManager);
+    emit typeManagerChanged();
+}
+
+void Document::openQmlUrl(QString filePath)
+{
+    open(filePath.mid(7));
 }
 
 } // namespace nmgui

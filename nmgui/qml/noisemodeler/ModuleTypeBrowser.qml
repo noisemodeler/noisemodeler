@@ -34,7 +34,7 @@ Rectangle {
                 }
             }
             Repeater {
-                model: typeManager.userTypes
+                model: document.typeManager.userTypes
                 ModuleTypeListEntry {
                     moduleType: modelData
                     onAddClicked: addModuleClicked(moduleType)
@@ -57,7 +57,7 @@ Rectangle {
             }
 
             Repeater{
-                model: typeManager.builtinTypes
+                model: document.typeManager.builtinTypes
                 ModuleTypeListEntry {
                     moduleType: modelData
                     onAddClicked: addModuleClicked(modelData)

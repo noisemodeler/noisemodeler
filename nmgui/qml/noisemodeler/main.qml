@@ -7,7 +7,7 @@ import QtQuick.Dialogs 1.1
 
 Rectangle {
     id: mainWindow
-    property ModuleType currentModuleType: typeManager.userTypes[0]
+    property ModuleType currentModuleType: document.typeManager.userTypes[0]
     Style { id: mystyle }
     width: 1024
     height: 600
@@ -17,6 +17,7 @@ Rectangle {
         title: "Open file"
         onAccepted: {
             console.log("TODO: open " + openDialog.fileUrl);
+            document.openQmlUrl(openDialog.fileUrl);
         }
         nameFilters: ["Noise Modeler graphs (*.nmlang.json)", "All files (*)"]
     }
@@ -134,7 +135,7 @@ Rectangle {
             }
         }
         Repeater{
-            model: typeManager.userTypes
+            model: document.typeManager.userTypes
             ModuleTypeEditorTab {
                 moduleType: modelData
                 onVisibleChanged: if(visible)currentModuleType = modelData;
