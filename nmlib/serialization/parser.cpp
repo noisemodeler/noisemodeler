@@ -65,7 +65,7 @@ bool parseModule(const rapidjson::Value &moduleValue, const nm::TypeManager &typ
             return false;
         }
         for(auto it = inputsValue.MemberBegin(); it != inputsValue.MemberEnd(); ++it){
-            if(!it->name.IsString() || !it->value.IsString()){
+            if(!it->name.IsString()){
                 std::cerr << "Invalid member in inputs\n";
                 return false;
             }
@@ -78,25 +78,49 @@ bool parseModule(const rapidjson::Value &moduleValue, const nm::TypeManager &typ
                 return false;
             }
 
-            //find out which outputlink to connect to
-            auto sourceString = it->value.GetString();
-            auto sourcePair = parseDotPair(sourceString);
-            if(!sourcePair){
-                std::cerr << "Couldn't parse input string\n";
-                return false;
-            }
-            auto sourceModule = graph.getModule(sourcePair->first);
-            if(sourceModule==nullptr){
-                std::cerr << "No module named \"" << sourcePair->first << "\" in graph\n"; // \"" << owner.getName() << "\"\n";
-                return false;
-            }
+            //if it's a string, connect it to the correct output
+            if(it->value.IsString()){
+                //find out which outputlink to connect to
+                auto sourceString = it->value.GetString();
+                auto sourcePair = parseDotPair(sourceString);
+                if(!sourcePair){
+                    std::cerr << "Couldn't parse input string\n";
+                    return false;
+                }
+                auto sourceModule = graph.getModule(sourcePair->first);
+                if(sourceModule==nullptr){
+                    std::cerr << "No module named \"" << sourcePair->first << "\" in graph\n"; // \"" << owner.getName() << "\"\n";
+                    return false;
+                }
 
-            auto sourceOutputLink = sourceModule->getOutput(sourcePair->second);
-            if(sourceOutputLink==nullptr){
-                std::cerr << "No output named \"" << sourcePair->second << "\" in module \"" << sourceModule->getName() << "\"\n";
+                auto sourceOutputLink = sourceModule->getOutput(sourcePair->second);
+                if(sourceOutputLink==nullptr){
+                    std::cerr << "No output named \"" << sourcePair->second << "\" in module \"" << sourceModule->getName() << "\"\n";
+                    return false;
+                }
+                inputLink->link(*sourceOutputLink);
+            } else if(it->value.IsArray()){
+                std::vector<float> values;
+                if(it->value.Size() != static_cast<unsigned int>(inputLink->getModuleInput().getSignalType().dimensionality)){
+                    std::cerr << "Wrong dimensionality for input " << inputName << "\n";
+                    return false;
+                }
+                for(rapidjson::SizeType i = 0; i < it->value.Size(); ++i){
+                    auto &arrayEntry = it->value[i];
+                    if(!arrayEntry.IsNumber()){
+                        std::cerr << "Array member is not a number";
+                        return false;
+                    }
+                    values.push_back(arrayEntry.GetDouble());
+                }
+                inputLink->setUnlinkedValue(values);
+
+            } else if(it->value.IsNumber() && inputLink->getModuleInput().getSignalType().dimensionality == 1){
+                inputLink->setUnlinkedValue(it->value.GetDouble());
+            } else {
+                std::cerr << "Unexpected type value for input value " << inputName << "\n";
                 return false;
             }
-            inputLink->link(*sourceOutputLink);
         }
 
     }

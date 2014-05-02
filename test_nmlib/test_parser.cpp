@@ -98,3 +98,39 @@ TEST(ParserTest, OneModuleType){
         EXPECT_EQ(1, heightSignalType.dimensionality);
     }
 }
+
+TEST(ParserTest, VectorValues){
+    auto input = readFile("./data/constants.nm.json");
+    nm::Parser parser;
+    if(!input){
+        FAIL();
+    }
+    auto maybeTypeManager = parser.parseDocument(*input);
+    if(!maybeTypeManager){
+        FAIL() << "Couldn't parse document: " << *input;
+    }
+    nm::TypeManager &typeManager = *(*maybeTypeManager);
+
+    auto terrainModuleType = typeManager.getUserType("terrain");
+    ASSERT_NE(nullptr, terrainModuleType);
+    auto fbmModule = terrainModuleType->getGraph()->getModule("fBm");
+    ASSERT_NE(nullptr, fbmModule);
+    {
+        auto octavesInput = fbmModule->getInput("octaves");
+        auto octavesValue = octavesInput->getUnlinkedValue();
+        EXPECT_EQ(6, octavesValue[0]);
+    }
+
+    {
+        auto positionInput = fbmModule->getInput("pos");
+        auto positionValue = positionInput->getUnlinkedValue();
+        EXPECT_EQ(1, positionValue[0]);
+        EXPECT_EQ(2, positionValue[1]);
+    }
+
+    {
+        auto seedInput = fbmModule->getInput("seed");
+        auto seedValue = seedInput->getUnlinkedValue();
+        EXPECT_EQ(123, seedValue[0]);
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "moduleTypes": [
+        {
+            "name": "terrain",
+            "description": "dummy terrain module",
+            "inputs": [
+                {
+                    "name": "pos",
+                    "type": "2f"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "height",
+                    "source": "fBm.result"
+                }
+            ],
+            "modules": [
+                {
+                    "name": "fBm",
+                    "description": "",
+                    "type": "fbm2",
+                    "inputs": {
+                        "pos": [1,2],
+                        "octaves": [6],
+                        "seed": 123
+                    }
+                }
+            ]
+        }
+    ]
+}
