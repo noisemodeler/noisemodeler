@@ -60,7 +60,7 @@ void InputLink::unlink()
     linkChanged(*this);
 }
 
-SignalValue InputLink::getUnlinkedValue()
+SignalValue InputLink::getUnlinkedValue() const
 {
     return m_unlinkedValue;
 }

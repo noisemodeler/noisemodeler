@@ -27,7 +27,7 @@ public:
     const ModuleInput& getModuleInput() const {return c_moduleInput;}
     const OutputLink* getOutputLink() const {return p_outputLink;}
     OutputLink* getOutputLink() {return p_outputLink;}
-    SignalValue getUnlinkedValue();
+    SignalValue getUnlinkedValue() const;
     bool setUnlinkedValue(SignalValue newValue); //returns false if there was a type mismatch
 
     //signals

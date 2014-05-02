@@ -55,8 +55,17 @@ void jsonifyModule(const Module& module, rapidjson::Value& moduleValue, rapidjso
             rapidjson::Value source(sourceString.c_str(), document.GetAllocator());
             rapidjson::Value inputName(inputLink->getModuleInput().getName().c_str(), document.GetAllocator());
             inputsValue.AddMember(inputName, source, document.GetAllocator());
+        } else {
+            //add custom unlinked values
+            rapidjson::Value vectorValue;
+            vectorValue.SetArray();
+            auto unlinkedValue = inputLink->getUnlinkedValue();
+            for(int j=0; j<unlinkedValue.getSignalType().dimensionality; ++j){
+                vectorValue.PushBack(unlinkedValue[j], document.GetAllocator());
+            }
+            rapidjson::Value inputName(inputLink->getModuleInput().getName().c_str(), document.GetAllocator());
+            inputsValue.AddMember(inputName, vectorValue, document.GetAllocator());
         }
-        //TODO add custom unlinked values
     }
     moduleValue.AddMember("inputs", inputsValue, document.GetAllocator());
 }
@@ -137,6 +146,9 @@ std::string Serializer::serialize(const TypeManager &typeManager)
         document.AddMember("moduleTypes", moduleTypesValue, document.GetAllocator());
     }
 
+
+    //TODO remove this line when rapidjson have fixed their bug (radix separator is decided by locale, instead of set to .)
+    setlocale(LC_NUMERIC, "POSIX");
 
     //make an std::string from the document
     StdStringStreamWrapper streamWrapper;
