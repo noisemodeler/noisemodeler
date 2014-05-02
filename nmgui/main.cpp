@@ -57,26 +57,7 @@ int main(int argc, char *argv[])
     }
     nmgui::Document document(docPath);
 
-    //TODO this part should be handled by GUI
-    //wire up debug modules
-    auto typeManager = document.typeManager()->typeManager();
-    auto terrainModule = typeManager->getUserType("terrain");
-    auto graph = terrainModule->getGraph();
-    auto debugInputModuleType = typeManager->getType("debug_input");
-    auto debugOutputModuleType = typeManager->getType("debug_output");
-    auto debugInputModule = graph->createModule(*debugInputModuleType, "debugInput");
-    auto debugOutputModule = graph->createModule(*debugOutputModuleType, "debugOutput");
-    debugInputModule->getOutput("pos")->addLink(*graph->getModule("inputs")->getInput("pos"));
-    graph->getModule("outputs")->getOutput("height")->addLink(*debugOutputModule->getInput("height"));
-
-    //wrapping into QObjects
-    auto debugInputModuleQ = nmgui::ModuleQ::fromModule(*debugInputModule);
-    auto debugOutputModuleQ = nmgui::ModuleQ::fromModule(*debugOutputModule);
-
-
     QtQuick2ApplicationViewer viewer;
-    viewer.rootContext()->setContextProperty("debugInput", debugInputModuleQ);
-    viewer.rootContext()->setContextProperty("debugOutput", debugOutputModuleQ);
     viewer.rootContext()->setContextProperty("document", &document);
 
     viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));

@@ -10,8 +10,8 @@ Item{
     signal editClicked()
     signal addClicked()
     height: 30
-    anchors.left: parent.left
-    anchors.right: parent.right
+    anchors.left: parent ? parent.left : undefined //TODO this is weird, parent is undefined when loading new documents
+    anchors.right: parent ? parent.right : undefined
     RowLayout {
         height: parent.height
         anchors.left: parent.left

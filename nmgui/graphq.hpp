@@ -25,9 +25,11 @@ public:
 
     QQmlListProperty<ModuleQ> modules();
 
-    Q_INVOKABLE void createModule(nmgui::ModuleTypeQ *type, QString name);
-    Q_INVOKABLE void createModule(nmgui::ModuleTypeQ *type);
-    Q_INVOKABLE void removeModule(nmgui::ModuleQ *module);
+public slots:
+    void createModule(nmgui::ModuleTypeQ *type, QString name);
+    void createModule(nmgui::ModuleTypeQ *type);
+    void removeModule(nmgui::ModuleQ *module);
+    nmgui::ModuleQ* findModule(QString name);
 
 signals:
     void modulesChanged();

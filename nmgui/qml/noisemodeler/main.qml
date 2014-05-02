@@ -5,142 +5,164 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.1
 
-Rectangle {
-    id: mainWindow
-    property ModuleType currentModuleType: document.typeManager.userTypes[0]
-    Style { id: mystyle }
+Item {
+    id: window
     width: 1024
     height: 600
 
-    FileDialog {
-        id: openDialog
-        title: "Open file"
-        onAccepted: {
-            console.log("TODO: open " + openDialog.fileUrl);
-            document.openQmlUrl(openDialog.fileUrl);
-        }
-        nameFilters: ["Noise Modeler graphs (*.nmlang.json)", "All files (*)"]
-    }
-    FileDialog {
-        id: saveDialog
-        title: "Save file"
-        onAccepted: {
-            //TODO enforce correct extension
-            document.saveAsQmlUrl(saveDialog.fileUrl);
-        }
-        selectExisting: false
-        nameFilters: ["Noise Modeler graphs (*.nmlang.json)", "All files (*)"]
-    }
-
-    Rectangle {
-        color: mystyle.topBar.bgColor
-        id: topBar
-        height: 40
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        RowLayout{
-            anchors.fill: parent
-            Item{
-                width: 5
-            }
-            ToolBarIcon{
-                Layout.alignment: Qt.AlignLeft
-                source: 'qrc:///icons/save.svg'
-                onClicked: saveDialog.open();
-                toolTipText: "Save"
-            }
-            ToolBarIcon{
-                Layout.alignment: Qt.AlignLeft
-                source: 'qrc:///icons/open.svg'
-                onClicked: openDialog.open();
-                toolTipText: "Open"
-            }
-            Item {
-                Layout.fillWidth: true
+    //hacky way of reloading when a new document is opened
+    StackView {
+        id: stackView
+        anchors.fill: parent
+        Component.onCompleted: { push(documentEditor); }
+        Connections {
+            target: document
+            onTypeManagerChanged: {
+                stackView.clear();
+                stackView.push(documentEditor);
             }
         }
     }
 
-    ModuleTypeBrowser {
-        z: 50
-        id: moduleTypeBrowser
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        anchors.top: topBar.bottom
-        onAddModuleClicked: {
-            currentModuleType.graph.createModule(moduleType);
-        }
-        onEditModuleTypeClicked: {
-            currentModuleType = moduleType;
-            //TODO open a new tab if not open
-        }
-    }
+    Component{
+        id: documentEditor
+        Rectangle {
+            id: mainWindow
+            property ModuleType currentModuleType: document.typeManager.userTypes[0]
+            Style { id: mystyle }
 
-    Item {
-        id: mainArea
-        anchors.top: topBar.bottom
-        anchors.left: moduleTypeBrowser.right
-        anchors.right: inspectorArea.left
-        anchors.bottom: parent.bottom
-    }
+            FileDialog {
+                id: openDialog
+                title: "Open file"
+                onAccepted: {
+                    console.log("TODO: open " + openDialog.fileUrl);
+                    document.openQmlUrl(openDialog.fileUrl);
+                }
+                nameFilters: ["Noise Modeler graphs (*.nmlang.json)", "All files (*)"]
+            }
+            FileDialog {
+                id: saveDialog
+                title: "Save file"
+                onAccepted: {
+                    //TODO enforce correct extension
+                    document.saveAsQmlUrl(saveDialog.fileUrl);
+                }
+                selectExisting: false
+                nameFilters: ["Noise Modeler graphs (*.nmlang.json)", "All files (*)"]
+            }
 
-    Item {
-        id: inspectorArea
-        property bool active: true
-        anchors.top: topBar.bottom
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        width: active ? 200 : 0
-    }
-
-    Rectangle {
-        id: inspector
-        color: mystyle.inspector.bgColor
-        anchors.fill: inspectorArea
-    }
-
-    ModuleInspector {
-        id: moduleInspector
-        z: 50
-        anchors.fill: inspectorArea
-    }
-
-    TabView {
-        id: tabView
-        Connections{
-            target: mainWindow
-            onCurrentModuleTypeChanged: {
-                for(var i=0; i<tabView.count; ++i){
-                    if(tabView.getTab(i).moduleType===currentModuleType){
-                        tabView.currentIndex = i;
-                        return;
+            Rectangle {
+                color: mystyle.topBar.bgColor
+                id: topBar
+                height: 40
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                RowLayout{
+                    anchors.fill: parent
+                    Item{
+                        width: 5
+                    }
+                    ToolBarIcon{
+                        Layout.alignment: Qt.AlignLeft
+                        source: 'qrc:///icons/save.svg'
+                        onClicked: saveDialog.open();
+                        toolTipText: "Save"
+                    }
+                    ToolBarIcon{
+                        Layout.alignment: Qt.AlignLeft
+                        source: 'qrc:///icons/open.svg'
+                        onClicked: openDialog.open();
+                        toolTipText: "Open"
+                    }
+                    Item {
+                        Layout.fillWidth: true
                     }
                 }
-                console.error("No tab with module" + currentModuleType);
             }
-        }
 
-        frameVisible: false
-        anchors.fill: mainArea
-        anchors.topMargin: -topBar.height
-        style: TabViewStyle {
-            frameOverlap: 0
-            tabsMovable: true
-            tab: TabButton {
-                text: styleData.title
-                implicitWidth: width
-                implicitHeight: height
-                active: styleData.selected
+            ModuleTypeBrowser {
+                z: 50
+                id: moduleTypeBrowser
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+                anchors.top: topBar.bottom
+                onAddModuleClicked: {
+                    currentModuleType.graph.createModule(moduleType);
+                }
+                onEditModuleTypeClicked: {
+                    currentModuleType = moduleType;
+                    //TODO open a new tab if not open
+                }
             }
-        }
-        Repeater{
-            model: document.typeManager.userTypes
-            ModuleTypeEditorTab {
-                moduleType: modelData
-                onVisibleChanged: if(visible)currentModuleType = modelData;
-                onSelectedModuleChanged: moduleInspector.module = selectedModule;
+
+            Item {
+                id: mainArea
+                anchors.top: topBar.bottom
+                anchors.left: moduleTypeBrowser.right
+                anchors.right: inspectorArea.left
+                anchors.bottom: parent.bottom
+            }
+
+            Item {
+                id: inspectorArea
+                property bool active: true
+                anchors.top: topBar.bottom
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                width: active ? 200 : 0
+            }
+
+            Rectangle {
+                id: inspector
+                color: mystyle.inspector.bgColor
+                anchors.fill: inspectorArea
+            }
+
+            ModuleInspector {
+                id: moduleInspector
+                z: 50
+                anchors.fill: inspectorArea
+            }
+
+            TabView {
+                id: tabView
+                Connections{
+                    target: mainWindow
+                    onCurrentModuleTypeChanged: {
+                        for(var i=0; i<tabView.count; ++i){
+                            if(tabView.getTab(i).moduleType===currentModuleType){
+                                tabView.currentIndex = i;
+                                return;
+                            }
+                        }
+                        console.error("No tab with module" + currentModuleType);
+                    }
+                }
+
+                frameVisible: false
+                anchors.fill: mainArea
+                anchors.topMargin: -topBar.height
+                style: TabViewStyle {
+                    frameOverlap: 0
+                    tabsMovable: true
+                    tab: TabButton {
+                        text: styleData.title
+                        implicitWidth: width
+                        implicitHeight: height
+                        active: styleData.selected
+                    }
+                }
+                Repeater{
+                    model: document.typeManager.userTypes
+                    ModuleTypeEditorTab {
+                        moduleType: modelData
+                        onVisibleChanged: if(visible)currentModuleType = modelData;
+                        onSelectedModuleChanged: moduleInspector.module = selectedModule;
+                    }
+                }
             }
         }
     }
+
 }

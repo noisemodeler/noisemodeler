@@ -12,8 +12,8 @@ SubWindow {
         HeightMapTextureExplorer {
             id: textureRenderer
             heightMapFunction: HeightMapFunction {
-                inputLink: debugInput.inputs[0];
-                outputLink: debugOutput.outputs[0];
+                inputLink: document.typeManager.userTypes[0].graph.findModule("inputs").inputs[0];
+                outputLink: document.typeManager.userTypes[0].graph.findModule("outputs").outputs[0];
             }
             anchors.fill: parent
         },

@@ -58,6 +58,12 @@ void GraphQ::removeModule(ModuleQ *module)
     m_graph->removeModule(*module->module());
 }
 
+ModuleQ *GraphQ::findModule(QString name)
+{
+    auto modulePtr = m_graph->getModule(name.toStdString());
+    return modulePtr ? ModuleQ::fromModule(*modulePtr) : nullptr;
+}
+
 ModuleQ *GraphQ::moduleAt(QQmlListProperty<ModuleQ> *list, int index)
 {
     GraphQ *graph = qobject_cast<GraphQ *>(list->object);
