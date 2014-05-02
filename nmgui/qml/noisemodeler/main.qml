@@ -48,13 +48,13 @@ Rectangle {
                 Layout.alignment: Qt.AlignLeft
                 source: 'qrc:///icons/save.svg'
                 onClicked: saveDialog.open();
-                toolTipText: "Open"
+                toolTipText: "Save"
             }
             ToolBarIcon{
                 Layout.alignment: Qt.AlignLeft
                 source: 'qrc:///icons/open.svg'
                 onClicked: openDialog.open();
-                toolTipText: "Save"
+                toolTipText: "Open"
             }
             Item {
                 Layout.fillWidth: true
