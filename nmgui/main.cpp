@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
     viewer.rootContext()->setContextProperty("document", &document);
 
     viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));
-    viewer.showExpanded();
+    viewer.showMaximized();
 
     return app.exec();
 }
