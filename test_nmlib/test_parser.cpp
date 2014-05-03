@@ -43,7 +43,7 @@ TEST(ParserTest, BlankDocument){
 
 TEST(ParserTest, OneModuleType){
     nm::Parser parser;
-    auto input = readFile("./data/onemoduletype.json");
+    auto input = readFile("./data/onemoduletype.nm.json");
     if(!input){
         FAIL() << "Couldn't read file";
     }

@@ -38,7 +38,7 @@ Item {
                     console.log("TODO: open " + openDialog.fileUrl);
                     document.openQmlUrl(openDialog.fileUrl);
                 }
-                nameFilters: ["Noise Modeler graphs (*.nmlang.json)", "All files (*)"]
+                nameFilters: ["Noise Modeler graphs (*.nm.json)", "All files (*)"]
             }
             FileDialog {
                 id: saveDialog
@@ -48,7 +48,7 @@ Item {
                     document.saveAsQmlUrl(saveDialog.fileUrl);
                 }
                 selectExisting: false
-                nameFilters: ["Noise Modeler graphs (*.nmlang.json)", "All files (*)"]
+                nameFilters: ["Noise Modeler graphs (*.nm.json)", "All files (*)"]
             }
 
             Rectangle {

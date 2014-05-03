@@ -33,5 +33,5 @@ LIBS += -L../nmlib -lnmlib -lgtest -lgtest_main
 PRE_TARGETDEPS += ../nmlib/libnmlib.a
 
 OTHER_FILES += \
-    data/onemoduletype.json \
-    data/constants.nm.json
+    data/constants.nm.json \
+    data/onemoduletype.nm.json

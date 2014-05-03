@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 
     QStringList cmdLineArgs = QCoreApplication::arguments();
 
-    QString docPath = ":/empty.nmlang.json";
+    QString docPath = ":/empty.nm.json";
     if(cmdLineArgs.count()>1){
         docPath = cmdLineArgs.at(1);
     }

@@ -4,6 +4,6 @@
         <file>icons/add.svg</file>
         <file>icons/open.svg</file>
         <file>icons/save.svg</file>
-        <file>empty.nmlang.json</file>
+        <file>empty.nm.json</file>
     </qresource>
 </RCC>
