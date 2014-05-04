@@ -126,6 +126,10 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &modul
         body.reset(new SimpleBodyGenerator(
             "float result = smoothstep(minedge, maxedge, value);\n"
         ));
+    } else if (moduleTypeName == "mix") {
+        body.reset(new SimpleBodyGenerator(
+            "float result = mix(x, y, a);\n"
+        ));
 
     //2D modules
     } else if (moduleTypeName == "constant2") {

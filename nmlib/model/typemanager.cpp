@@ -160,6 +160,14 @@ std::unique_ptr<const ModuleType> createSmoothStep(){
     return std::move(moduleType);
 }
 
+std::unique_ptr<const ModuleType> createMix(){
+    auto moduleType = make_unique<ModuleType>("mix", ModuleType::Category::Primitive, "result = (1-a)*x + a*y");
+    moduleType->addInput("x", SignalType{1});
+    moduleType->addInput("y", SignalType{1});
+    moduleType->addInput("a", SignalType{1});
+    moduleType->addOutput("result", SignalType{1});
+    return std::move(moduleType);
+}
 //2D modules
 
 std::unique_ptr<const ModuleType> createConstant2(){
@@ -334,22 +342,6 @@ std::unique_ptr<const ModuleType> createScale4(){
     return std::move(moduleType);
 }
 
-//Debug modules
-
-std::unique_ptr<const ModuleType> createDebugInput(){
-    auto moduleType = make_unique<ModuleType>("debug_input", ModuleType::Category::Primitive, "preview pixel coordinates");
-    moduleType->addOutput("pos", SignalType{2});
-    moduleType->addInput("pos", SignalType{2});
-    return std::move(moduleType);
-}
-
-std::unique_ptr<const ModuleType> createDebugOutput(){
-    auto moduleType = make_unique<ModuleType>("debug_output", ModuleType::Category::Primitive, "height value for the preview");
-    moduleType->addInput("height", SignalType{1});
-    moduleType->addOutput("height", SignalType{1});
-    return std::move(moduleType);
-}
-
 }
 
 void TypeManager::initBuiltinTypes()
@@ -366,6 +358,7 @@ void TypeManager::initBuiltinTypes()
     addBuiltinType(createClamp());
     addBuiltinType(createStep());
     addBuiltinType(createSmoothStep());
+    addBuiltinType(createMix());
 
     //2D modules
     addBuiltinType(createConstant2());
@@ -391,10 +384,6 @@ void TypeManager::initBuiltinTypes()
     addBuiltinType(createDemux4());
     addBuiltinType(createMux4());
     addBuiltinType(createScale4());
-
-    //debug modules
-    addBuiltinType(createDebugInput());
-    addBuiltinType(createDebugOutput());
 }
 
 void TypeManager::addBuiltinType(std::unique_ptr<const ModuleType> moduleType)
