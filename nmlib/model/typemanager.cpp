@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <algorithm>
+#include <sstream>
 
 namespace nm {
 
@@ -36,6 +37,24 @@ bool TypeManager::addUserType(std::unique_ptr<ModuleType> moduleType)
     m_userTypes.push_back(std::move(moduleType));
     userTypesChanged(*this);
     return true;
+}
+
+ModuleType *TypeManager::createUserType(std::string desiredName)
+{
+    std::string name = desiredName;
+    for(unsigned int i = 1; getUserType(name) != nullptr; ++i){
+        std::stringstream ss;
+        ss << desiredName << "_" << i;
+        name = ss.str();
+    }
+    auto moduleType = make_unique<nm::ModuleType>(name);
+    auto normalPtr = moduleType.get();
+    if(addUserType(std::move(moduleType))){
+        return normalPtr;
+    } else {
+        std::cerr << "Couldn't create user type\n";
+        return nullptr;
+    }
 }
 
 const ModuleType *TypeManager::getType(std::string name) const

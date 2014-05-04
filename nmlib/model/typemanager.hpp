@@ -17,7 +17,8 @@ class TypeManager : public UserDataProvider
 public:
     TypeManager();
     ~TypeManager();
-    bool addUserType(std::unique_ptr<ModuleType> builder);
+    bool addUserType(std::unique_ptr<ModuleType> moduleType);
+    ModuleType* createUserType(std::string desiredName);
     const ModuleType *getType(std::string name) const;
     const ModuleType *getBuiltinType(std::string name) const;
     const ModuleType *getUserType(std::string name) const;
@@ -38,14 +39,6 @@ private:
     void addBuiltinType(std::unique_ptr<const ModuleType> moduleType);
     std::vector<std::unique_ptr<ModuleType>> m_userTypes;
     std::vector<std::unique_ptr<const ModuleType>> m_builtinTypes;
-
-    static const ModuleType
-    //1D only types
-    mod,step,smoothStep,
-    //1D modules
-    add1,sub1,mul1,perlin1,fbm1,
-    //2D modules
-    add2,sub2,mul2,perlin2,fbm2,scale2;
 };
 
 } // namespace nm
