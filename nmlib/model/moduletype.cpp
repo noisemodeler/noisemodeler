@@ -20,7 +20,7 @@ ModuleType::ModuleType(std::string name, ModuleType::Category category, std::str
     //composite only attribute intitialization
     m_graph(category==Category::Composite ? make_unique<Graph>() : std::unique_ptr<Graph>{}),
     m_inputModuleType(category==Category::Composite ? make_unique<ModuleType>("inputs", Category::GraphInput) : std::unique_ptr<ModuleType>{}),
-    m_outputModuleType(category==Category::Composite ? make_unique<ModuleType>("outputs", Category::GraphInput) : std::unique_ptr<ModuleType>{})
+    m_outputModuleType(category==Category::Composite ? make_unique<ModuleType>("outputs", Category::GraphOutput) : std::unique_ptr<ModuleType>{})
 {
     if(isComposite()){
         m_graph->addModule(make_unique<Module>(*m_inputModuleType, "inputs"));
