@@ -2,7 +2,7 @@ import QtQuick 2.2
 
 Rectangle {
     id: subWindow
-    width: anchors.fill ? undefined : Math.max(contents.childrenRect.width + borderThickness * 2, nodeLabel.width+3)
+    width: anchors.fill ? undefined : contents.childrenRect.width
     height: anchors.fill ? undefined : contents.childrenRect.height + titleBar.height + borderThickness * 2
     color: mystyle.node.bgColor
 //    property int minWidth: Math.max(50, contents.minWidth+borderThickness*2)
@@ -28,12 +28,14 @@ Rectangle {
         height: titleHeight
         color: mystyle.subWindow.bgColor
         Text {
-            x: 3
             id: nodeLabel
+            x: 3
+            width: parent.width-3
+            elide: Text.ElideRight
+            anchors.verticalCenter: titleBar.Center
             text: windowTitle
             font.pointSize: mystyle.smallTextSize
             color: mystyle.textColor
-            anchors.verticalCenter: titleBar.Center
         }
     }
     MouseArea{

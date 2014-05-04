@@ -78,6 +78,16 @@ bool ModuleTypeQ::builtin() const
     return m_moduleType->isBuiltin();
 }
 
+bool ModuleTypeQ::graphInput() const
+{
+    return m_moduleType->isGraphInput();
+}
+
+bool ModuleTypeQ::graphOutput() const
+{
+    return m_moduleType->isGraphOutput();
+}
+
 QQmlListProperty<ModuleInputQ> ModuleTypeQ::inputs()
 {
     return QQmlListProperty<ModuleInputQ>(this, 0, nullptr, &ModuleTypeQ::inputsCount, &ModuleTypeQ::inputAt, nullptr);

@@ -37,6 +37,7 @@ SubWindow {
             spacing: 10
             Column{
                 id: inputsColumn
+                visible: !module.moduleType.graphInput
                 Repeater{
                     model: module.inputs
                     NodeInput{model:modelData}
@@ -45,6 +46,7 @@ SubWindow {
 
             Column{
                 id: outputsColumn
+                visible: !module.moduleType.graphOutput
                 Repeater{
                     model: module.outputs
                     NodeOutput{model:modelData}
