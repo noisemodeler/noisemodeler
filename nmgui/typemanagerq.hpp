@@ -27,6 +27,9 @@ public:
     QQmlListProperty<ModuleTypeQ> userTypes();
     nm::TypeManager *typeManager(){ return m_typeManager; }
 
+public slots:
+    void createUserType(QString desiredName = "usertype");
+
 signals:
     void userTypesChanged();
 

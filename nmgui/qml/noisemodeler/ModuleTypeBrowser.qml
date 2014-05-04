@@ -32,6 +32,13 @@ Rectangle {
                     verticalAlignment: Text.AlignVCenter
                     x: 10
                 }
+                ToolBarIcon {
+                    source: "qrc:///icons/add.svg"
+                    onClicked: document.typeManager.createUserType();
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                }
             }
             Repeater {
                 model: document.typeManager.userTypes

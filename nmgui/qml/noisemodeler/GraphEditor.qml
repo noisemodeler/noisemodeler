@@ -30,6 +30,8 @@ Rectangle {
         graph.onModulesChanged.connect(contents.updateContents);
         graph.onModuleRemoved.connect(contents.onModuleRemoved);
         graph.onModuleAdded.connect(contents.addNode);
+        reconnectConnectors();
+        autoArrangeWindows();
     }
     Component.onCompleted: {
         if(graph){

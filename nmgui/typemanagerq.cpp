@@ -41,6 +41,11 @@ QQmlListProperty<ModuleTypeQ> TypeManagerQ::userTypes()
     return QQmlListProperty<ModuleTypeQ>(this, 0, nullptr, &TypeManagerQ::userModulesCount, &TypeManagerQ::userModuleAt, nullptr);
 }
 
+void TypeManagerQ::createUserType(QString desiredName)
+{
+    m_typeManager->createUserType(desiredName.toStdString());
+}
+
 ModuleTypeQ *TypeManagerQ::builtinModuleAt(QQmlListProperty<ModuleTypeQ> *list, int index)
 {
     TypeManagerQ *typeManager = qobject_cast<TypeManagerQ *>(list->object);
