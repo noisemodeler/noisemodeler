@@ -9,9 +9,9 @@ namespace nmgui {
 HeightMapTextureRenderer::HeightMapTextureRenderer():
     m_program(),
     m_state(),
-    m_sourceDirty(true)
+    m_sourceDirty(true),
+    m_initialized(false)
 {
-    initialize();
 }
 
 HeightMapTextureRenderer::~HeightMapTextureRenderer()
@@ -29,6 +29,9 @@ void HeightMapTextureRenderer::setState(HeightMapTextureExplorer::State &state)
 }
 
 void HeightMapTextureRenderer::render(){
+    if(!m_initialized){
+        initialize();
+    }
     glClearColor(1, 0, 1, 1);
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -37,7 +40,7 @@ void HeightMapTextureRenderer::render(){
     }
     m_program->bind();
 
-    m_program->enableAttributeArray(0); //What does this do again? is it really needed?
+//    m_program->enableAttributeArray(0); //What does this do again? is it really needed?
 
     float l = m_state.domain.left();
     float t = m_state.domain.top();
@@ -53,6 +56,8 @@ void HeightMapTextureRenderer::render(){
         QOpenGLVertexArrayObject::Binder binder(&m_vao);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4); //four verticess to draw the two triangles
     }
+
+    m_program->release();
 }
 
 void HeightMapTextureRenderer::initialize()
@@ -64,6 +69,8 @@ void HeightMapTextureRenderer::initialize()
     //prepare textures?
     prepareVertexBuffer();
     prepareVertexArrayObject();
+
+    m_initialized = true;
 }
 
 void HeightMapTextureRenderer::recompileProgram()
@@ -132,6 +139,8 @@ void HeightMapTextureRenderer::prepareVertexArrayObject()
         m_gridVerticesBuffer.bind();
         m_program->enableAttributeArray("vertices"); //TODO change "vertices" to something more descriptive
         m_program->setAttributeBuffer("vertices", GL_FLOAT, 0, 2);
+        m_gridVerticesBuffer.release();
+        m_program->release();
     }
 }
 

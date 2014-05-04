@@ -27,6 +27,7 @@ private:
     QOpenGLBuffer m_gridVerticesBuffer;
     HeightMapTextureExplorer::State m_state;
     bool m_sourceDirty;
+    bool m_initialized;
     void initialize();
     void prepareVertexBuffer();
     void prepareVertexArrayObject();

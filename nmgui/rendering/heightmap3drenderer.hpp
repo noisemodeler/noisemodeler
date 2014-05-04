@@ -31,6 +31,7 @@ private:
     bool m_sourceDirty;
     int m_vertexCount;
     float m_aspectRatio;
+    bool m_initialized;
     void initialize();
     void prepareVertexBuffer();
     void prepareVertexArrayObject();

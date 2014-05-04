@@ -78,10 +78,9 @@ HeightMap3DRenderer::HeightMap3DRenderer():
     m_program(),
     m_state(),
     m_sourceDirty(true),
-    m_aspectRatio(1)
-{
-    initialize();
-}
+    m_aspectRatio(1),
+    m_initialized(false)
+{}
 
 HeightMap3DRenderer::~HeightMap3DRenderer()
 {
@@ -98,6 +97,8 @@ void HeightMap3DRenderer::setState(HeightMap3DExplorer::State &state)
 }
 
 void HeightMap3DRenderer::render(){
+    if(!m_initialized)initialize();
+
     QMatrix4x4 modelMatrix;
     modelMatrix.rotate(-90, {1,0,0});
     const float rootSize = 50;
@@ -178,6 +179,7 @@ void HeightMap3DRenderer::render(){
             glDrawArrays(GL_TRIANGLE_STRIP, 0, m_vertexCount);
         }
     }
+    m_program->release();
 }
 
 void HeightMap3DRenderer::initialize()
@@ -189,6 +191,8 @@ void HeightMap3DRenderer::initialize()
     //prepare textures?
     prepareVertexBuffer();
     prepareVertexArrayObject();
+
+    m_initialized = true;
 }
 
 void HeightMap3DRenderer::recompileProgram()
@@ -331,6 +335,8 @@ void HeightMap3DRenderer::prepareVertexArrayObject()
         m_gridVerticesBuffer.bind();
         m_program->enableAttributeArray("vertex");
         m_program->setAttributeBuffer("vertex", GL_FLOAT, 0, 2);
+        m_gridVerticesBuffer.release();
+        m_program->release();
     }
 }
 
