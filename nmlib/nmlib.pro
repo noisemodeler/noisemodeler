@@ -21,7 +21,6 @@ SOURCES = \
     codegeneration/modulegenerator.cpp \
     codegeneration/simplebodygenerator.cpp \
     codegeneration/unlinkedvaluedefaultsgenerator.cpp \
-    codegeneration/zerodefaultsgenerator.cpp \
     model/graph.cpp \
     model/inputlink.cpp \
     model/module.cpp \
@@ -52,7 +51,6 @@ HEADERS = \
     codegeneration/modulegenerator.hpp \
     codegeneration/simplebodygenerator.hpp \
     codegeneration/unlinkedvaluedefaultsgenerator.hpp \
-    codegeneration/zerodefaultsgenerator.hpp \
     model.hpp \
     model/graph.hpp \
     model/inputlink.hpp \
