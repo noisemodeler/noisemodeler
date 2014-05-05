@@ -6,7 +6,6 @@
 
 #include <nmlib/model/inputlink.hpp>
 #include <nmlib/model/outputlink.hpp>
-#include <nmlib/model/primitivemoduletype.hpp>
 #include <nmlib/model/signalvalue.hpp>
 
 #include <nmlib/util.hpp>

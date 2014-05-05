@@ -8,6 +8,7 @@
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
 #include <nmlib/model/module.hpp>
+#include <nmlib/model/moduletype.hpp>
 #include <nmlib/model/signalvalue.hpp>
 
 #include <algorithm>

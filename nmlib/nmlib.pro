@@ -29,7 +29,6 @@ SOURCES = \
     model/moduleoutput.cpp \
     model/moduletype.cpp \
     model/outputlink.cpp \
-    model/primitivemoduletype.cpp \
     model/signaltype.cpp \
     model/signalvalue.cpp \
     model/typemanager.cpp \
@@ -62,7 +61,6 @@ HEADERS = \
     model/moduleoutput.hpp \
     model/moduletype.hpp \
     model/outputlink.hpp \
-    model/primitivemoduletype.hpp \
     model/signaltype.hpp \
     model/signalvalue.hpp \
     model/typemanager.hpp \
