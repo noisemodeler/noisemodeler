@@ -7,6 +7,10 @@
 namespace nm {
 namespace glsl {
 
+/**
+ * @brief Generates glsl code to evaluate function graphs using OpenGL 3.0 shaders
+ * @ingroup codegeneration
+ */
 class GlslGenerator : InlineGenerator
 {
 public:

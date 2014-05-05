@@ -12,12 +12,25 @@
 
 namespace nm {
 
+/**
+ * @defgroup codegeneration codegeneration
+ * @brief Code generation module
+ *
+ * InlineGenerator is the most important class. Subclass it to implement code generation for a new language.
+ *
+ * glsl::GlslGenerator implements InlineGenerator for GLSL
+ */
+
 struct Expression;
 struct Assignment;
 struct Variable;
 struct Declaration;
 struct FunctionCall;
 
+/**
+ * @brief Abstract base class for code generators
+ * @ingroup codegeneration
+ */
 class InlineGenerator {
 public:
     struct InputRemap {

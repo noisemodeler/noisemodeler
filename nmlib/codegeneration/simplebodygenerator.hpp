@@ -5,6 +5,10 @@
 
 namespace nm {
 
+/**
+ * @brief The SimpleBodyGenerator class
+ * @ingroup codegeneration
+ */
 class SimpleBodyGenerator : public BodyGenerator
 {
 public:

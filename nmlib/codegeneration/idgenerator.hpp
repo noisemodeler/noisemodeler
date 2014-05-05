@@ -5,6 +5,10 @@
 
 namespace nm {
 
+/**
+ * @brief The IdGenerator class
+ * @ingroup codegeneration
+ */
 class IdGenerator {
 public:
     explicit IdGenerator(std::string prefix="nm_id_"):

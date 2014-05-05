@@ -9,6 +9,10 @@ namespace nm {
 
 class InlineGenerator;
 
+/**
+ * @brief The ConcreteModuleGenerator class
+ * @ingroup codegeneration
+ */
 class ConcreteModuleGenerator : public ModuleGenerator
 {
 public:

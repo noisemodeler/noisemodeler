@@ -6,6 +6,10 @@
 
 namespace nm {
 
+/**
+ * @brief The FunctionCallBodyGenerator class
+ * @ingroup codegeneration
+ */
 class FunctionCallBodyGenerator : public BodyGenerator
 {
 public:

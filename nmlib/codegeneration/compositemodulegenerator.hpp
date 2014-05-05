@@ -5,6 +5,10 @@
 
 namespace nm {
 
+/**
+ * @brief The CompositeModuleGenerator class
+ * @ingroup codegeneration
+ */
 class CompositeModuleGenerator : public nm::ModuleGenerator
 {
 public:

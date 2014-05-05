@@ -7,6 +7,10 @@ namespace nm {
 
 class InlineGenerator;
 
+/**
+ * @brief Generates a module body
+ * @ingroup codegeneration
+ */
 class BodyGenerator
 {
 public:

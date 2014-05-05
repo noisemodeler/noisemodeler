@@ -6,6 +6,10 @@
 
 namespace nm {
 
+/**
+ * @brief The ModuleGenerator class
+ * @ingroup codegeneration
+ */
 class ModuleGenerator : public BodyGenerator, public DefaultsGenerator
 {
 };

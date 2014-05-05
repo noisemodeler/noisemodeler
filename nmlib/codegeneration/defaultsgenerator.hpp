@@ -7,6 +7,10 @@ namespace nm {
 
 class InlineGenerator;
 
+/**
+ * @brief Generates the definitions and default values module inputs
+ * @ingroup codegeneration
+ */
 class DefaultsGenerator
 {
 public:
