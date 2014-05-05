@@ -8,6 +8,10 @@
 
 namespace nm {
 
+/**
+ * @brief A vector of floats that can be set as the unlinked value of InputLink%s
+ * @ingroup model
+ */
 class SignalValue
 {
 public:

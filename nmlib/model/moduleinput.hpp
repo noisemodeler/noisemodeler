@@ -31,8 +31,6 @@ public:
         c_moduleType(moduleType)
     {}
     ~ModuleInput(){destroying(*this);}
-//    ModuleInput(ModuleInput&&) = default;
-//    ModuleInput(ModuleInput&) = default;
 
     std::string getName() const {return c_name;}
     SignalType getSignalType() const {return c_signalType;}

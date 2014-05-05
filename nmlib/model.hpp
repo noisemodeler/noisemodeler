@@ -13,7 +13,7 @@
 #endif // MODEL_HPP
 
 /**
- * @defgroup model model module
+ * @defgroup model model
  *
- * Graph representation of a procedural generator
+ * @brief Graph representation of a procedural generator
  */

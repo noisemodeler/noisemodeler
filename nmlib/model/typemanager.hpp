@@ -12,6 +12,10 @@ namespace nm {
 class PrimitiveModuleType;
 class CompositeTypeBuilder;
 
+/**
+ * @brief The top-level entity of a noise model. Encapsulates several user types as well as built-in types.
+ * @ingroup model
+ */
 class TypeManager : public UserDataProvider
 {
 public:

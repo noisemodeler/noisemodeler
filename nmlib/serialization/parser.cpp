@@ -247,10 +247,10 @@ Parser::Parser()
 {
 }
 
-optional<std::unique_ptr<TypeManager> > Parser::parseDocument(std::string input)
+optional<std::unique_ptr<TypeManager> > Parser::parseDocument(std::string json)
 {
     rapidjson::Document document;
-    document.Parse<0>(input.c_str());
+    document.Parse<0>(json.c_str());
 
     if(document.HasParseError()){
         std::cerr << "Couldn't parse json document\n";

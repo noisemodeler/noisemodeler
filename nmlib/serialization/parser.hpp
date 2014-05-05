@@ -11,11 +11,14 @@ namespace nm {
 
 class Module;
 
+/**
+ * @brief Converts json strings to TypeManager%s
+ */
 class Parser
 {
 public:
     explicit Parser();
-    optional<std::unique_ptr<TypeManager>> parseDocument(std::string input);
+    optional<std::unique_ptr<TypeManager>> parseDocument(std::string json);
 };
 
 } // namespace nm

@@ -8,7 +8,7 @@
 
 
 /**
- * @defgroup serialization serialization/parsing module
+ * @defgroup serialization serialization
  *
- * Everything related to converting graphs to/from strings.
+ * @brief Everything related to converting graphs to/from strings.
  */
