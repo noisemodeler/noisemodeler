@@ -8,6 +8,10 @@
 
 namespace nm {
 
+/**
+ * @brief A graph of Module%s.
+ * @ingroup model
+ */
 class Graph : public UserDataProvider, NonCopyable //TODO make copyable
 {
 public:

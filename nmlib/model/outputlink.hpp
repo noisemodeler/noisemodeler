@@ -12,9 +12,20 @@ class Module;
 class ModuleOutput;
 class InputLink;
 
+/**
+ * @brief an output of a Module
+ * @ingroup model
+ *
+ * OutputLink%s are created by the library itself when instantiation a new Module
+ */
 class OutputLink : public UserDataProvider
 {
 public:
+    /**
+     * @brief OutputLink
+     * @param owner which module this is an output of
+     * @param type which ModuleOutput this is an outputLink for
+     */
     explicit OutputLink(Module &owner, const ModuleOutput &type):
         m_owner(owner),
         c_moduleOutput(type),

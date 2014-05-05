@@ -15,7 +15,8 @@ class SignalType;
 class ModuleType;
 
 /**
- * @brief Describes one of a ModuleType's inputs.
+ * @brief Describes one of a ModuleType's inputs (name, SignalType, default value).
+ * @ingroup model
  */
 class ModuleInput : public UserDataProvider
 {

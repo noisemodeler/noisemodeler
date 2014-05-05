@@ -19,7 +19,12 @@ class ModuleInput;
 class ModuleOutput;
 
 /**
- * @brief A node in an expression tree.
+ * @brief An instantiated ModuleType.
+ * @ingroup model
+ *
+ * A function node in a Graph.
+ *
+ * Usually create by Graph::createModule
  */
 class Module : public UserDataProvider
 {

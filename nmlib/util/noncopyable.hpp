@@ -3,6 +3,10 @@
 
 namespace nm {
 
+/**
+ * @brief A super-class for non-copyable classes
+ * @ingroup util
+ */
 class NonCopyable
 {
 protected:

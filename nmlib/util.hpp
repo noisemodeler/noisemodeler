@@ -1,3 +1,12 @@
+/**
+ * @file util.hpp
+ * @brief Utility headers
+ * @ingroup util
+ *
+ * @defgroup util util
+ * @brief utility functions and classes needed by other nmlib modules.
+ */
+
 #ifndef UTIL_HPP
 #define UTIL_HPP
 

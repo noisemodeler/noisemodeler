@@ -13,7 +13,8 @@ namespace nm {
 class ModuleType;
 
 /**
- * @brief Describes one of a ModuleType's outputs
+ * @brief Describes one of a ModuleType's outputs (name, SignalType)
+ * @ingroup model
  */
 class ModuleOutput : public UserDataProvider
 {

@@ -5,6 +5,7 @@ namespace nm {
 
 /**
  * @brief Base class for stuff that needs to provide user data in form of a void* pointer
+ * @ingroup util
  */
 class UserDataProvider
 {

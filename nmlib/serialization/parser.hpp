@@ -13,6 +13,7 @@ class Module;
 
 /**
  * @brief Converts json strings to TypeManager%s
+ * @ingroup serialization
  */
 class Parser
 {

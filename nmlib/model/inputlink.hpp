@@ -14,6 +14,7 @@ class OutputLink;
 
 /**
  * @brief Describes which output of which node a ModuleInput of a specific Module is connected to.
+ * @ingroup model
  */
 class InputLink : public UserDataProvider
 {

@@ -1,3 +1,12 @@
+/**
+ * @file model.hpp
+ * @brief The model module
+ * @ingroup model
+ *
+ * @defgroup model model
+ * @brief Graph representation of a procedural generator
+ */
+
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
@@ -10,9 +19,3 @@
 #include <nmlib/model/graph.hpp>
 
 #endif // MODEL_HPP
-
-/**
- * @defgroup model model
- *
- * @brief Graph representation of a procedural generator
- */

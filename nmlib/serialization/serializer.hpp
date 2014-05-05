@@ -7,6 +7,10 @@ namespace nm {
 
 class TypeManager;
 
+/**
+ * @brief Serializes a TypeManager to a JSON string
+ * @ingroup serialization
+ */
 class Serializer
 {
 public:
