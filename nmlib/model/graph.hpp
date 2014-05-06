@@ -1,12 +1,13 @@
 #ifndef NM_GRAPH_HPP
 #define NM_GRAPH_HPP
 
-#include <nmlib/model/module.hpp>
-
 #include <nmlib/util.hpp>
 #include <nmlib/util/signals.hpp>
 
 namespace nm {
+
+class Module;
+class ModuleType;
 
 /**
  * @brief A graph of Module%s.

@@ -1,9 +1,11 @@
-#include "serializer.hpp"
+#include <nmlib/serialization/serializer.hpp>
 
 #include <nmlib/model/typemanager.hpp>
+#include <nmlib/model/typemanager.hpp>
+#include <nmlib/model/graph.hpp>
+#include <nmlib/model/module.hpp>
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
-#include <nmlib/model/graph.hpp>
 
 //TODO get rapidjson to fix these warnings
 #pragma GCC diagnostic ignored "-Wold-style-cast"

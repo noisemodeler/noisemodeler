@@ -1,5 +1,6 @@
 #include <nmlib/model/graph.hpp>
 #include <nmlib/model/moduletype.hpp>
+#include <nmlib/model/module.hpp>
 
 #include <sstream>
 #include <vector>

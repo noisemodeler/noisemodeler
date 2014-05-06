@@ -1,6 +1,7 @@
 #include "graphq.hpp"
 
 #include <nmlib/model/graph.hpp>
+#include <nmlib/model/module.hpp>
 
 #include "moduleq.hpp"
 #include "moduletypeq.hpp"
