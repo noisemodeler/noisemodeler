@@ -31,7 +31,6 @@ SOURCES += main.cpp \
     typemanagerq.cpp \
     rendering/transform3d.cpp \
     rendering/heightmapterrainmesh.cpp \
-    heightmapviewportrenderer.cpp \
     heightmapfunction.cpp \
     heightmap3dexplorer.cpp \
     heightmaptextureexplorer.cpp \
@@ -51,7 +50,6 @@ HEADERS += \
     typemanagerq.hpp \
     rendering/transform3d.hpp \
     rendering/heightmapterrainmesh.hpp \
-    heightmapviewportrenderer.hpp \
     heightmapfunction.hpp \
     heightmap3dexplorer.hpp \
     heightmaptextureexplorer.hpp \
