@@ -1,8 +1,10 @@
 #include <nmlib/model/module.hpp>
 
+#include <nmlib/model/moduletype.hpp>
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
-#include <nmlib/model/moduletype.hpp>
+#include <nmlib/model/inputlink.hpp>
+#include <nmlib/model/outputlink.hpp>
 
 #include <nmlib/util.hpp>
 

@@ -1,4 +1,11 @@
-#include "nmlib/serialization/parser.hpp"
+#include <nmlib/serialization/parser.hpp>
+#include <nmlib/model/typemanager.hpp>
+#include <nmlib/model/moduleinput.hpp>
+#include <nmlib/model/moduleoutput.hpp>
+#include <nmlib/model/inputlink.hpp>
+#include <nmlib/model/outputlink.hpp>
+#include <nmlib/model/graph.hpp>
+#include <nmlib/model/module.hpp>
 
 #include <gtest/gtest.h>
 

@@ -6,6 +6,8 @@
 #include <nmlib/model/module.hpp>
 #include <nmlib/model/moduleinput.hpp>
 #include <nmlib/model/moduleoutput.hpp>
+#include <nmlib/model/inputlink.hpp>
+#include <nmlib/model/outputlink.hpp>
 
 //TODO get rapidjson to fix these warnings
 #pragma GCC diagnostic ignored "-Wold-style-cast"

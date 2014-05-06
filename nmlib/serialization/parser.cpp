@@ -1,5 +1,11 @@
 #include "parser.hpp"
 
+#include <nmlib/model/graph.hpp>
+#include <nmlib/model/typemanager.hpp>
+#include <nmlib/model/module.hpp>
+#include <nmlib/model/moduleinput.hpp>
+#include <nmlib/model/inputlink.hpp>
+
 //TODO get rapidjson to fix these warnings
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"

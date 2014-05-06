@@ -1,6 +1,12 @@
-#include "nmlib/serialization/serializer.hpp"
-#include "nmlib/serialization/parser.hpp"
-#include "nmlib/model/typemanager.hpp"
+#include <nmlib/serialization/serializer.hpp>
+#include <nmlib/serialization/parser.hpp>
+#include <nmlib/model/typemanager.hpp>
+#include <nmlib/model/moduleinput.hpp>
+#include <nmlib/model/inputlink.hpp>
+#include <nmlib/model/graph.hpp>
+#include <nmlib/model/module.hpp>
+
+#include <nmlib/util/makeunique.hpp>
 
 #include <gtest/gtest.h>
 

@@ -1,19 +1,19 @@
 #ifndef NM_MODULE_H
 #define NM_MODULE_H
 
-#include <nmlib/model/inputlink.hpp>
-#include <nmlib/model/outputlink.hpp>
 #include <nmlib/util/signals.hpp>
+#include <nmlib/util/userdataprovider.hpp>
 
 #include <vector>
 #include <string>
 #include <memory>
 #include <functional>
-
-#include <nmlib/util/signals.hpp>
+#include <set>
 
 namespace nm {
 
+class InputLink;
+class OutputLink;
 class ModuleType;
 class ModuleInput;
 class ModuleOutput;

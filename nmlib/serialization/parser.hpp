@@ -1,7 +1,6 @@
 #ifndef NM_PARSER_HPP
 #define NM_PARSER_HPP
 
-#include <nmlib/model.hpp>
 #include <nmlib/optional.hpp>
 
 #include <map>
@@ -9,7 +8,7 @@
 
 namespace nm {
 
-class Module;
+class TypeManager;
 
 /**
  * @brief Converts json strings to TypeManager%s
