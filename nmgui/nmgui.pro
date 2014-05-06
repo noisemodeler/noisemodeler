@@ -20,7 +20,6 @@ QMAKE_CXXFLAGS += -std=c++11 \
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    texturerenderer.cpp \
     moduleq.cpp \
     outputlinkq.cpp \
     inputlinkq.cpp \
@@ -41,7 +40,6 @@ SOURCES += main.cpp \
     document.cpp
 
 HEADERS += \
-    texturerenderer.hpp \
     moduleq.hpp \
     outputlinkq.hpp \
     inputlinkq.hpp \

@@ -4,7 +4,6 @@
 #include "moduletypeq.hpp"
 #include "graphq.hpp"
 #include "typemanagerq.hpp"
-#include "texturerenderer.hpp"
 #include "heightmap3dexplorer.hpp"
 #include "heightmaptextureexplorer.hpp"
 #include "document.hpp"
@@ -38,7 +37,6 @@ int main(int argc, char *argv[])
     //could have used registeruncreatabletype instead, that would have allowed protected constructors,
     //but that makes it impossible to have strong typing of qml members, we'd have to use
     //variant instead. For that reason, we'll sacrifice the encapsulation in c++ for type safety in qml
-    qmlRegisterType<nmgui::TextureRenderer>("NoiseModeler", 1, 0, "TextureRenderer");
     qmlRegisterType<nmgui::HeightMapFunction>("NoiseModeler", 1, 0, "HeightMapFunction");
     qmlRegisterType<nmgui::HeightMap3DExplorer>("NoiseModeler", 1, 0, "HeightMap3DExplorer");
     qmlRegisterType<nmgui::HeightMapTextureExplorer>("NoiseModeler", 1, 0, "HeightMapTextureExplorer");
