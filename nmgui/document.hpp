@@ -1,13 +1,13 @@
 #ifndef NMGUI_DOCUMENT_HPP
 #define NMGUI_DOCUMENT_HPP
 
-#include "typemanagerq.hpp"
-
 #include <nmlib/model/typemanager.hpp>
 
 #include <QObject>
 
 namespace nmgui {
+
+class TypeManagerQ;
 
 class Document : public QObject
 {

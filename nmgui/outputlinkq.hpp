@@ -1,10 +1,10 @@
 #ifndef NMGUI_MODULEOUTPUT_HPP
 #define NMGUI_MODULEOUTPUT_HPP
 
+#include <nmlib/util/signals.hpp>
+
 #include <QObject>
 #include <QtQml/QQmlListProperty>
-
-#include <nmlib/util/signals.hpp>
 
 namespace nm{
 class OutputLink;

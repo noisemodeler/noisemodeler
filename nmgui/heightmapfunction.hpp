@@ -1,12 +1,12 @@
 #ifndef NMGUI_HEIGHTMAPFUNCTION_HPP
 #define NMGUI_HEIGHTMAPFUNCTION_HPP
 
-#include <inputlinkq.hpp>
-#include <outputlinkq.hpp>
-
 #include <QObject>
 
 namespace nmgui {
+
+class InputLinkQ;
+class OutputLinkQ;
 
 class HeightMapFunction : public QObject
 {

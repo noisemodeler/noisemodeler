@@ -1,6 +1,7 @@
 #include "heightmapfunction.hpp"
-
-#include <moduleq.hpp>
+#include "inputlinkq.hpp"
+#include "outputlinkq.hpp"
+#include "moduleq.hpp"
 
 namespace nmgui {
 

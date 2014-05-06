@@ -1,9 +1,6 @@
 #ifndef NMGUI_HEIGHTMAP3DEXPLORER_HPP
 #define NMGUI_HEIGHTMAP3DEXPLORER_HPP
 
-#include "inputlinkq.hpp"
-#include "outputlinkq.hpp"
-#include "heightmapfunction.hpp"
 #include "rendering/transform3d.hpp" //this inclusion looks kind of weird
 
 #include <QtQuick/QQuickFramebufferObject>

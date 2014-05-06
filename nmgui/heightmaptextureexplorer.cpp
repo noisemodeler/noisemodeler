@@ -3,6 +3,8 @@
 #include "rendering/heightmaptexturerenderer.hpp"
 
 #include "moduleq.hpp"
+#include "inputlinkq.hpp"
+#include "outputlinkq.hpp"
 
 #include <nmlib/codegeneration/glsl/glslgenerator.hpp>
 

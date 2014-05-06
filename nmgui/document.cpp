@@ -1,3 +1,4 @@
+#include "typemanagerq.hpp"
 #include "document.hpp"
 
 #include <nmlib/serialization.hpp>

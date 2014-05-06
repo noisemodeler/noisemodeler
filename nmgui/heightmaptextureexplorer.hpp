@@ -1,8 +1,6 @@
 #ifndef NMGUI_HEIGHTMAPTEXTUREEXPLORER_HPP
 #define NMGUI_HEIGHTMAPTEXTUREEXPLORER_HPP
 
-#include "inputlinkq.hpp"
-#include "outputlinkq.hpp"
 #include "heightmapfunction.hpp"
 
 #include <QtQuick/QQuickFramebufferObject>
