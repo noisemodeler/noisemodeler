@@ -84,7 +84,7 @@ const InputLink *Module::getInput(unsigned int i) const
 
 unsigned int Module::getInputSize() const
 {
-    return static_cast<unsigned int>(m_inputs.size());
+    return m_inputs.size();
 }
 
 std::vector<InputLink *> Module::getInputs()
@@ -136,7 +136,7 @@ OutputLink *Module::getOutput(unsigned int i)
 
 unsigned int Module::getOutputSize() const
 {
-    return static_cast<unsigned int>(m_outputs.size());
+    return m_outputs.size();
 }
 
 std::vector<OutputLink *> Module::getOutputs()

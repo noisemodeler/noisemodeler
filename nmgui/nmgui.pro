@@ -11,7 +11,7 @@ QT += qml svg
 
 QMAKE_CXXFLAGS += -std=c++11 \
     -Wall -Werror -Wextra \
-    -pedantic-errors -Wwrite-strings -fshort-enums \
+    -pedantic-errors -Wwrite-strings \
     -Woverloaded-virtual -Wredundant-decls \
     -Wold-style-cast
 
@@ -62,9 +62,14 @@ HEADERS += \
 
 INCLUDEPATH = . ..
 
-LIBS += -L../nmlib -lnmlib
-
-PRE_TARGETDEPS += ../nmlib/libnmlib.a
+win32{
+    LIBS += -L../nmlib/debug
+    PRE_TARGETDEPS += ../nmlib/debug/libnmlib.a
+} else {
+    LIBS += -L../nmlib
+    PRE_TARGETDEPS += ../nmlib/libnmlib.a
+}
+LIBS += -lnmlib
 
 # Please do not modify the following two lines. Required for deployment.
 include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
