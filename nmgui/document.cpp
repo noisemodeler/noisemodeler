@@ -50,7 +50,12 @@ void Document::saveAs(QString filePath)
 void Document::saveAsQmlUrl(QString filePath)
 {
     //just remove the stupid file:// prefix
+    //TODO: this is ugly, find a better fix
+#ifdef Q_OS_WIN
+    saveAs(filePath.mid(8));
+#else
     saveAs(filePath.mid(7));
+#endif
 }
 
 void Document::open(QString filePath)
@@ -72,7 +77,12 @@ void Document::open(QString filePath)
 
 void Document::openQmlUrl(QString filePath)
 {
+     //TODO: this is ugly, find a better fix
+#ifdef Q_OS_WIN
+    open(filePath.mid(8));
+#else
     open(filePath.mid(7));
+#endif
 }
 
 } // namespace nmgui
