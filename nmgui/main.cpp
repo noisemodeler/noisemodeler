@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     QtQuick2ApplicationViewer viewer;
     viewer.rootContext()->setContextProperty("document", &document);
 
-    viewer.setMainQmlFile(QStringLiteral("qml/noisemodeler/main.qml"));
+    viewer.setMainQmlFile(QUrl("qrc:/qml/noisemodeler/main.qml"));
     viewer.showMaximized();
 
     return app.exec();

@@ -1,6 +1,6 @@
 INCLUDEPATH += . .. ../dependencies
 TEMPLATE = lib
-CONFIG += staticlib
+CONFIG += staticlib static
 QMAKE_CXXFLAGS += -std=c++11 \
     -Wall -Werror -Wextra \
     -pedantic-errors -Wshadow -Wwrite-strings -fshort-enums \

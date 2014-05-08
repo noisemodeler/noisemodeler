@@ -72,6 +72,11 @@ void QtQuick2ApplicationViewer::setMainQmlFile(const QString &file)
 #endif
 }
 
+void QtQuick2ApplicationViewer::setMainQmlFile(const QUrl &url)
+{
+    setSource(url);
+}
+
 void QtQuick2ApplicationViewer::addImportPath(const QString &path)
 {
     engine()->addImportPath(QtQuick2ApplicationViewerPrivate::adjustPath(path));

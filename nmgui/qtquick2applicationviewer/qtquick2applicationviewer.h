@@ -22,6 +22,7 @@ public:
     virtual ~QtQuick2ApplicationViewer();
 
     void setMainQmlFile(const QString &file);
+    void setMainQmlFile(const QUrl &url);
     void addImportPath(const QString &path);
 
     void showExpanded();

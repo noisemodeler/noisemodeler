@@ -5,5 +5,33 @@
         <file>icons/open.svg</file>
         <file>icons/save.svg</file>
         <file>empty.nm.json</file>
+        <file>qml/noisemodeler/Connector.qml</file>
+        <file>qml/noisemodeler/ConnectorDescription.qml</file>
+        <file>qml/noisemodeler/GraphEditor.qml</file>
+        <file>qml/noisemodeler/HeightMap3DExplorerWindow.qml</file>
+        <file>qml/noisemodeler/HeightMapWindow.qml</file>
+        <file>qml/noisemodeler/InspectorLabel.qml</file>
+        <file>qml/noisemodeler/KeyMap.qml</file>
+        <file>qml/noisemodeler/LineInput.qml</file>
+        <file>qml/noisemodeler/main.qml</file>
+        <file>qml/noisemodeler/MapLikeDomainController.qml</file>
+        <file>qml/noisemodeler/ModuleInspector.qml</file>
+        <file>qml/noisemodeler/ModuleTypeBrowser.qml</file>
+        <file>qml/noisemodeler/ModuleTypeEditorTab.qml</file>
+        <file>qml/noisemodeler/ModuleTypeListEntry.qml</file>
+        <file>qml/noisemodeler/Node.qml</file>
+        <file>qml/noisemodeler/NodeInput.qml</file>
+        <file>qml/noisemodeler/NodeOutput.qml</file>
+        <file>qml/noisemodeler/SelectionGlow.qml</file>
+        <file>qml/noisemodeler/SignalValueEdit.qml</file>
+        <file>qml/noisemodeler/Style.qml</file>
+        <file>qml/noisemodeler/SubWindow.qml</file>
+        <file>qml/noisemodeler/TabButton.qml</file>
+        <file>qml/noisemodeler/TexturePreview.qml</file>
+        <file>qml/noisemodeler/ToolBarIcon.qml</file>
+        <file>qml/noisemodeler/ToolTip.qml</file>
+        <file>qml/noisemodeler/ToolTipArea.qml</file>
+        <file>qml/noisemodeler/TopBar.qml</file>
+        <file>qml/noisemodeler/WeightedAngleCurve.qml</file>
     </qresource>
 </RCC>
