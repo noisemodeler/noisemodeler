@@ -63,8 +63,14 @@ HEADERS += \
 INCLUDEPATH = . ..
 
 win32{
-    LIBS += -L../nmlib/debug
-    PRE_TARGETDEPS += ../nmlib/debug/libnmlib.a
+    Debug {
+        LIBS += -L../nmlib/debug
+        PRE_TARGETDEPS += ../nmlib/debug/libnmlib.a
+    }
+    Release {
+        LIBS += -L../nmlib/release
+        PRE_TARGETDEPS += ../nmlib/release/libnmlib.a
+    }
 } else {
     LIBS += -L../nmlib
     PRE_TARGETDEPS += ../nmlib/libnmlib.a
