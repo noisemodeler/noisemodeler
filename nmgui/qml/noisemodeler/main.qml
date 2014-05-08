@@ -157,6 +157,7 @@ Item {
                                 anchors.fill: parent
                                 graph: moduleType.graph
                                 onVisibleChanged: if(visible)currentModuleType = moduleType;
+                                onSelectedModuleChanged: moduleInspector.module = selectedModule;
                             }
                         }
                         Loader {
