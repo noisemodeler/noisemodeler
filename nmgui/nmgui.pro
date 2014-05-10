@@ -7,7 +7,7 @@
 QML_IMPORT_PATH =
 
 TARGET = nmgui
-QT += qml svg
+QT += core gui qml quick svg
 CONFIG += static
 QTPLUGIN += qsvg
 
