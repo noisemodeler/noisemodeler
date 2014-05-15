@@ -42,11 +42,12 @@ void HeightMapTextureRenderer::render(){
 
 //    m_program->enableAttributeArray(0); //What does this do again? is it really needed?
 
-    float l = m_state.domain.left();
-    float t = m_state.domain.top();
-    float w = m_state.domain.width();
-    float h = m_state.domain.height();
-    QVector4D domain{l, t, w, h};
+    QVector4D domain{
+        float(m_state.center.x()),
+        float(m_state.center.y()),
+        float(m_state.size.x())/2.0f,
+        float(m_state.size.y())/2.0f
+    };
     m_program->setUniformValue("domain", domain);
 
     glDisable(GL_DEPTH_TEST);
@@ -82,12 +83,12 @@ void HeightMapTextureRenderer::recompileProgram()
     m_program = new QOpenGLShaderProgram();
     m_program->addShaderFromSourceCode(QOpenGLShader::Vertex,
                                        "#version 130\n"
-                                       "uniform vec4 domain;\n"
-                                       "attribute highp vec2 vertices;\n"
-                                       "varying highp vec2 coords;\n"
+                                       "uniform vec4 domain; //{x, y, width/2, height/2}\n"
+                                       "in vec2 vertices;\n"
+                                       "out vec2 coords;\n"
                                        "void main() {\n"
                                        "    gl_Position = vec4(vertices.x,vertices.y,0,1);\n"
-                                       "    coords = vertices.xy*vec2(0.5,0.5)*domain.zw+vec2(0.5,0.5)+domain.xy;\n"
+                                       "    coords = vec2(vertices.x, -vertices.y)*domain.zw + domain.xy;\n"
                                        "}\n");
     std::stringstream fs;
     fs << "#version 130\n";
@@ -95,8 +96,8 @@ void HeightMapTextureRenderer::recompileProgram()
     fs << m_state.shaderSource;
 //    fs << "void elevation(in vec2 coords, out float height){height = 0.8+coords.x-mod(coords.y,1);}\n";
 
-    fs << "uniform lowp float t;\n"
-          "varying highp vec2 coords;\n"
+    fs << ""
+          "in vec2 coords;\n"
           "void main() {\n"
           "    float height;\n"
           "    elevation(coords, height);\n"

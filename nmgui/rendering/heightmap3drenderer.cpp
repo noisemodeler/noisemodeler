@@ -158,11 +158,11 @@ void HeightMap3DRenderer::render(){
     m_program->setUniformValue("normalMatrix", modelViewMatrix.normalMatrix());
     m_program->setUniformValue("projectionMatrix", projectionMatrix);
     m_program->setUniformValue("mvp", mvp);
-    m_program->setUniformValue("sampleOffset", QVector2D(m_state.domain.left(), m_state.domain.top()));
+    m_program->setUniformValue("sampleOffset", QVector2D(m_state.center.x(), m_state.center.y()));
 
     m_program->setUniformValue("scaling", QVector3D(
-                                   m_state.domain.width(),
-                                   m_state.domain.height(),
+                                   m_state.size.x(),
+                                   m_state.size.y(),
                                    1.f //height scaling
                                    )
                                );
@@ -210,10 +210,8 @@ void HeightMap3DRenderer::recompileProgram()
           "in vec2 vertex;\n"
 
           "out highp vec2 coords;\n"
-//          "out vec3 position;\n"
           "out vec3 normal;\n"
           "out vec3 vertexNormal;\n"
-          "out vec3 vertexPosition;\n"
 
           "uniform mat4 modelViewMatrix;\n"
           "uniform mat3 normalMatrix;\n"
@@ -244,7 +242,7 @@ void HeightMap3DRenderer::recompileProgram()
           "    vertexNormal = normalize(cross(rightVector, upVector));\n"
           "    normal = normalize(normalMatrix * vertexNormal);\n"
 
-          "    vertexPosition = vec3(vertexCoords,height);\n"
+          "    vec3 vertexPosition = vec3(vertexCoords,height);\n"
 //          "    vec3 position = (modelViewMatrix * vec4(vertexPosition,1)).xyz;\n"
           "    gl_Position = mvp * vec4(vertexPosition,1);\n"
           "}\n";
@@ -253,23 +251,21 @@ void HeightMap3DRenderer::recompileProgram()
     std::stringstream fs;
     fs << "#version 130\n";
 
-    fs << m_state.shaderSource;
+//    fs << m_state.shaderSource;
 //    fs << "void elevation(in vec2 coords, out float height){height = 0.8+coords.x-mod(coords.y,1);}\n";
 
     fs << ""
           "in highp vec2 coords;\n"
           "in vec3 normal;\n"
-          "in vec3 vertexPosition;\n"
           "in vec3 vertexNormal;\n"
 
           "uniform mat4 modelViewMatrix;\n"
           "uniform mat3 normalMatrix;\n"
-          "uniform lowp float t;\n"
-          "uniform vec3 scaling;\n"
 
           "void main() {\n"
           "    vec3 n = normalize(normal);\n"
-          "    vec3 s = normalize(normalMatrix * vec3(1,1,1)); //direction towards light source\n"
+          "    vec3 dirLight0 = normalize(vec3(1,1,1));\n"
+          "    vec3 s = normalize(normalMatrix * dirLight0);\n"
 
           "    float k_d = 0.7;\n"
 

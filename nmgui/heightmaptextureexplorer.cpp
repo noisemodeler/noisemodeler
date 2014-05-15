@@ -79,4 +79,17 @@ void HeightMapTextureExplorer::setHeightMapFunction(HeightMapFunction *heightMap
     emit heightMapFunctionChanged();
 }
 
+void HeightMapTextureExplorer::setCenter(QPointF center){
+    m_state.center = center;
+    update();
+    centerChanged();
+}
+
+void HeightMapTextureExplorer::setSize(QPointF size)
+{
+    m_state.size = size;
+    update();
+    sizeChanged();
+}
+
 } // namespace nmgui

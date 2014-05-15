@@ -16,24 +16,25 @@ class HeightMap3DExplorer : public QQuickFramebufferObject
 {
     Q_OBJECT
 
-
-    //TODO domainless
-    Q_PROPERTY(QRectF domain READ domain WRITE setDomain NOTIFY domainChanged)
+    Q_PROPERTY(QPointF center READ center WRITE setCenter NOTIFY centerChanged)
+    Q_PROPERTY(QPointF size READ size WRITE setSize NOTIFY sizeChanged)
     Q_PROPERTY(nmgui::HeightMapFunction* heightMapFunction READ heightMapFunction WRITE setHeightMapFunction NOTIFY heightMapFunctionChanged)
 
 public:
     struct State {
-        QRectF domain;
+        QPointF center;
+        QPointF size;
         std::string shaderSource; //might be cleaner to copy the graph into state, then generate the shader source in the renderer
         Transform3D camera;
         State():
-            domain(0,0,1,1),
+            center(0,0),
+            size(1,1),
             shaderSource("void elevation(in vec2 coords, out float height){height = 0.5;}"),
             camera()
         {
             camera.setPosition({0,100,0});
             camera.yaw(-45);
-            camera.pitch(-45);
+            camera.pitch(-30);
 //            camera.lookAt({0,0,0});
         }
     };
@@ -43,11 +44,13 @@ public:
     HeightMapFunction *heightMapFunction() {return m_heightMapFunction;}
     void setHeightMapFunction(HeightMapFunction *heightMapFunction);
 
-    QRectF domain() const {return m_state.domain;}
-    void setDomain(QRectF domain){m_state.domain = domain; update(); domainChanged();}
-
     //QQuickFrameBufferObject
     Renderer *createRenderer() const override;
+
+    void setCenter(QPointF center);
+    void setSize(QPointF size);
+    QPointF size(){ return m_state.size; }
+    QPointF center(){ return m_state.center; }
 
     Q_INVOKABLE void yawCamera(float degrees);
     Q_INVOKABLE void pitchCamera(float degrees);
@@ -55,7 +58,8 @@ public:
     Q_INVOKABLE void moveCameraRight(float distance);
 
 signals:
-    void domainChanged();
+    void centerChanged();
+    void sizeChanged();
     void heightMapFunctionChanged();
 
 private slots:

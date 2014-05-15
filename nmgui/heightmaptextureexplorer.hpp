@@ -16,17 +16,18 @@ class HeightMapTextureExplorer : public QQuickFramebufferObject
 {
     Q_OBJECT
 
-
-    //TODO domainless
-    Q_PROPERTY(QRectF domain READ domain WRITE setDomain NOTIFY domainChanged)
+    Q_PROPERTY(QPointF center READ center WRITE setCenter NOTIFY centerChanged)
+    Q_PROPERTY(QPointF size READ size WRITE setSize NOTIFY sizeChanged)
     Q_PROPERTY(nmgui::HeightMapFunction* heightMapFunction READ heightMapFunction WRITE setHeightMapFunction NOTIFY heightMapFunctionChanged)
 
 public:
     struct State {
-        QRectF domain;
+        QPointF center;
+        QPointF size;
         std::string shaderSource; //might be cleaner to copy the graph into state, then generate the shader source in the renderer
         State():
-            domain(0,0,1,1),
+            center(0,0),
+            size(1,1),
             shaderSource("void elevation(in vec2 coords, out float height){height = 0.5;}")
         {}
     };
@@ -36,14 +37,17 @@ public:
     HeightMapFunction *heightMapFunction() {return m_heightMapFunction;}
     void setHeightMapFunction(HeightMapFunction *heightMapFunction);
 
-    QRectF domain() const {return m_state.domain;}
-    void setDomain(QRectF domain){m_state.domain = domain; update(); domainChanged();}
+    void setCenter(QPointF center);
+    void setSize(QPointF size);
+    QPointF size(){ return m_state.size; }
+    QPointF center(){ return m_state.center; }
 
     //QQuickFrameBufferObject
     Renderer *createRenderer() const override;
 
 signals:
-    void domainChanged();
+    void centerChanged();
+    void sizeChanged();
     void heightMapFunctionChanged();
 
 private slots:

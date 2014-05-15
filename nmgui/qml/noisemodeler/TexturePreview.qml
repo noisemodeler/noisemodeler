@@ -18,7 +18,8 @@ SubWindow {
             anchors.fill: parent
         },
         MapLikeDomainController {
-            domain: textureRenderer.domain
+            size: textureRenderer.size
+            center: textureRenderer.center
             anchors.fill: textureRenderer
             onPressedChanged: textureRenderer.focus = true;
             onDoubleClicked: maximized = !maximized;
@@ -40,7 +41,7 @@ SubWindow {
                 }
                 Connections{
                     target: textureRenderer
-                    onDomainChanged: if(!xPosInput.textInput.focus)xPosInput.text = textureRenderer.domain.x.toFixed(3);
+                    onCenterChanged: if(!xPosInput.textInput.focus)xPosInput.text = textureRenderer.center.x.toFixed(3);
                 }
             }
             Text {
@@ -56,7 +57,7 @@ SubWindow {
                 }
                 Connections{
                     target: textureRenderer
-                    onDomainChanged: if(!widthInput.textInput.focus)widthInput.text = textureRenderer.domain.width.toFixed(3);
+                    onSizeChanged: if(!widthInput.textInput.focus)widthInput.text = textureRenderer.size.x.toFixed(3);
                 }
             }
             Text {
@@ -72,7 +73,7 @@ SubWindow {
                 }
                 Connections{
                     target: textureRenderer
-                    onDomainChanged: if(!yPosInput.textInput.focus)yPosInput.text = textureRenderer.domain.y.toFixed(3);
+                    onCenterChanged: if(!yPosInput.textInput.focus)yPosInput.text = textureRenderer.center.y.toFixed(3);
                 }
            }
             Text {
@@ -88,7 +89,7 @@ SubWindow {
                 }
                 Connections{
                     target: textureRenderer
-                    onDomainChanged: if(!heightInput.textInput.focus)heightInput.text = textureRenderer.domain.height.toFixed(3);
+                    onSizeChanged: if(!heightInput.textInput.focus)heightInput.text = textureRenderer.size.y.toFixed(3);
                 }
             }
 

@@ -49,7 +49,8 @@ SubWindow {
             }
         },
         MapLikeDomainController {
-            domain: renderer.domain
+            size: renderer.size
+            center: renderer.center
             anchors.fill: renderer
             onPressedChanged: renderer.forceActiveFocus(); //renderer.focus = true;
             onDoubleClicked: maximized = !maximized
@@ -67,11 +68,11 @@ SubWindow {
                 width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
-                    renderer.domain.x = parseFloat(text);
+                    renderer.center.x = parseFloat(text);
                 }
                 Connections{
                     target: renderer
-                    onDomainChanged: if(!xPosInput.textInput.focus)xPosInput.text = renderer.domain.x.toFixed(3);
+                    onCenterChanged: if(!xPosInput.textInput.focus)xPosInput.text = renderer.center.x.toFixed(3);
                 }
             }
             Text {
@@ -83,11 +84,11 @@ SubWindow {
                 width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
-                    renderer.domain.width = parseFloat(text);
+                    renderer.size.x = parseFloat(text);
                 }
                 Connections{
                     target: renderer
-                    onDomainChanged: if(!widthInput.textInput.focus)widthInput.text = renderer.domain.width.toFixed(3);
+                    onSizeChanged: if(!widthInput.textInput.focus)widthInput.text = renderer.size.x.toFixed(3);
                 }
             }
             Text {
@@ -99,11 +100,11 @@ SubWindow {
                 width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
-                    renderer.domain.y = parseFloat(text);
+                    renderer.center.y = parseFloat(text);
                 }
                 Connections{
                     target: renderer
-                    onDomainChanged: if(!yPosInput.textInput.focus)yPosInput.text = renderer.domain.y.toFixed(3);
+                    onCenterChanged: if(!yPosInput.textInput.focus)yPosInput.text = renderer.center.y.toFixed(3);
                 }
            }
             Text {
@@ -115,11 +116,11 @@ SubWindow {
                 width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
-                    renderer.domain.height = parseFloat(text);
+                    renderer.size.y = parseFloat(text);
                 }
                 Connections{
                     target: renderer
-                    onDomainChanged: if(!heightInput.textInput.focus)heightInput.text = renderer.domain.height.toFixed(3);
+                    onSizeChanged: if(!heightInput.textInput.focus)heightInput.text = renderer.size.y.toFixed(3);
                 }
             }
 

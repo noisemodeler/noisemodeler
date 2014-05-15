@@ -110,4 +110,17 @@ void HeightMap3DExplorer::setHeightMapFunction(HeightMapFunction *heightMapFunct
     emit heightMapFunctionChanged();
 }
 
+void HeightMap3DExplorer::setCenter(QPointF center){
+    m_state.center = center;
+    update();
+    centerChanged();
+}
+
+void HeightMap3DExplorer::setSize(QPointF size)
+{
+    m_state.size = size;
+    update();
+    sizeChanged();
+}
+
 } // namespace nmgui
