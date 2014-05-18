@@ -9,7 +9,6 @@
         <file>qml/noisemodeler/ConnectorDescription.qml</file>
         <file>qml/noisemodeler/GraphEditor.qml</file>
         <file>qml/noisemodeler/HeightMap3DExplorerWindow.qml</file>
-        <file>qml/noisemodeler/HeightMapWindow.qml</file>
         <file>qml/noisemodeler/InspectorLabel.qml</file>
         <file>qml/noisemodeler/KeyMap.qml</file>
         <file>qml/noisemodeler/LineInput.qml</file>
