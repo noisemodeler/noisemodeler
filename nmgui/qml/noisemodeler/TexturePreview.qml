@@ -31,68 +31,35 @@ SubWindow {
             Text {
                 text: "x:"
             }
-            LineInput {
-                id: xPosInput
-                text:"0"
-                width: 40
-                validator: DoubleValidator{}
-                onNewAcceptableValue: {
-                    textureRenderer.domain.x = parseFloat(text);
-                }
-                Connections{
-                    target: textureRenderer
-                    onCenterChanged: if(!xPosInput.textInput.focus)xPosInput.text = textureRenderer.center.x.toFixed(3);
-                }
+            ScrollableFloatInput {
+                monitoredValue: textureRenderer.center.x
+                width: 50
+                onNewAcceptableValue: textureRenderer.center.x = value;
             }
             Text {
                 text: "width:"
             }
-            LineInput {
-                id: widthInput
-                text:"1"
-                width: 40
-                validator: DoubleValidator{}
-                onNewAcceptableValue: {
-                    textureRenderer.domain.width = parseFloat(text);
-                }
-                Connections{
-                    target: textureRenderer
-                    onSizeChanged: if(!widthInput.textInput.focus)widthInput.text = textureRenderer.size.x.toFixed(3);
-                }
+            ScrollableFloatInput {
+                monitoredValue: textureRenderer.size.x
+                width: 50
+                onNewAcceptableValue: textureRenderer.size.x = value;
             }
             Text {
                 text: "y:"
             }
-            LineInput {
-                id: yPosInput
-                text:"0"
-                width: 40
-                validator: DoubleValidator{}
-                onNewAcceptableValue: {
-                    textureRenderer.domain.y = parseFloat(text);
-                }
-                Connections{
-                    target: textureRenderer
-                    onCenterChanged: if(!yPosInput.textInput.focus)yPosInput.text = textureRenderer.center.y.toFixed(3);
-                }
-           }
+            ScrollableFloatInput {
+                monitoredValue: textureRenderer.center.y
+                width: 50
+                onNewAcceptableValue: textureRenderer.center.y = value;
+            }
             Text {
                 text: "height:"
             }
-            LineInput {
-                id: heightInput
-                text:"1"
-                width: 40
-                validator: DoubleValidator{}
-                onNewAcceptableValue: {
-                    textureRenderer.domain.height = parseFloat(text);
-                }
-                Connections{
-                    target: textureRenderer
-                    onSizeChanged: if(!heightInput.textInput.focus)heightInput.text = textureRenderer.size.y.toFixed(3);
-                }
+            ScrollableFloatInput {
+                monitoredValue: textureRenderer.size.y
+                width: 50
+                onNewAcceptableValue: textureRenderer.size.y = value;
             }
-
         }
     ]
 }
