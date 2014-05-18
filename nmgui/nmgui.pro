@@ -20,44 +20,43 @@ QMAKE_CXXFLAGS += -std=c++11 \
 # Qt doesn't like these warnings
 #QMAKE_CXXFLAGS += -Weffc++ -Wuseless-cast -Wzero-as-null-pointer-constant -Wsign-conversion -Wctor-dtor-privacy -Wshadow
 
-# The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    moduleq.cpp \
-    outputlinkq.cpp \
-    inputlinkq.cpp \
     beziercurve.cpp \
-    moduletypeq.cpp \
+    document.cpp \
+    graphq.cpp \
+    heightmap3dexplorer.cpp \
+    heightmapfunction.cpp \
+    heightmaptextureexplorer.cpp \
+    inputlinkq.cpp \
     moduleinputq.cpp \
     moduleoutputq.cpp \
-    graphq.cpp \
-    typemanagerq.cpp \
-    rendering/transform3d.cpp \
-    rendering/heightmapterrainmesh.cpp \
-    heightmapfunction.cpp \
-    heightmap3dexplorer.cpp \
-    heightmaptextureexplorer.cpp \
+    moduleq.cpp \
+    moduletypeq.cpp \
+    outputlinkq.cpp \
     rendering/heightmap3drenderer.cpp \
+    rendering/heightmapterrainmesh.cpp \
     rendering/heightmaptexturerenderer.cpp \
-    document.cpp
+    rendering/transform3d.cpp \
+    typemanagerq.cpp
 
 HEADERS += \
-    moduleq.hpp \
-    outputlinkq.hpp \
-    inputlinkq.hpp \
     beziercurve.hpp \
-    moduletypeq.hpp \
+    document.hpp \
+    graphq.hpp \
+    heightmap3dexplorer.hpp \
+    heightmapfunction.hpp \
+    heightmaptextureexplorer.hpp \
+    inputlinkq.hpp \
     moduleinputq.hpp \
     moduleoutputq.hpp \
-    graphq.hpp \
-    typemanagerq.hpp \
-    rendering/transform3d.hpp \
-    rendering/heightmapterrainmesh.hpp \
-    heightmapfunction.hpp \
-    heightmap3dexplorer.hpp \
-    heightmaptextureexplorer.hpp \
+    moduleq.hpp \
+    moduletypeq.hpp \
+    outputlinkq.hpp \
     rendering/heightmap3drenderer.hpp \
+    rendering/heightmapterrainmesh.hpp \
     rendering/heightmaptexturerenderer.hpp \
-    document.hpp
+    rendering/transform3d.hpp \
+    typemanagerq.hpp
 
 # Installation path
 # target.path =
@@ -85,7 +84,3 @@ qtcAddDeployment()
 
 RESOURCES += \
     nmgui.qrc
-
-OTHER_FILES += \
-    qml/noisemodeler/ToolBarIcon.qml
-
