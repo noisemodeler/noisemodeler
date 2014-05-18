@@ -257,6 +257,7 @@ void Module::topologicallyTraverseDependencies(const std::vector<OutputLink *> &
 {
     std::vector<Module *> remainingModules;
     for(auto output : outputs){
+        //TODO: something about this looks wrong, what happens if there are several inputs?
         remainingModules.push_back(&output->getOwner());
     }
     std::set<Module *> satisfiedModules;

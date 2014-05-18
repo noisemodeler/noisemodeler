@@ -36,11 +36,6 @@ void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::Input
     //generate code for all dependencies
     for(auto module : dependencies){
 
-        out << "//////////////////////////////////////////\n";
-        out << "//Generating code for " <<  module->getName() << "\n";
-        out << "//////////////////////////////////////////\n";
-
-
         //get existing remaps for inputs of this module
         std::vector<InputRemap> moduleInputRemaps;
         auto moduleInputLinks = module->getInputs();
@@ -88,6 +83,10 @@ void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::Input
 
 void InlineGenerator::generateModule(Module &module, const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
 {
+    out << "//////////////////////////////////////////\n";
+    out << "//Generating code for module \"" << module.getName() << "\" of type \"" << module.getType().getName() << "\"\n";
+    out << "//////////////////////////////////////////\n";
+
     //module handler object
     std::unique_ptr<ModuleGenerator> moduleGenerator = getModuleGenerator(module);
 
@@ -101,26 +100,25 @@ void InlineGenerator::generateModule(Module &module, const std::vector<InlineGen
     generateInputDeclarations(module, out);
 
     //generate default values for inputs
+    out << "\n//assign unlinked values for inputs\n";
     moduleGenerator->generateDefaults(*this, out);
 
-    //overwrite defaults with supplied remaps
-    out << "\n//generating input reassignments\n";
-    for(auto remap : inputRemaps){
-        auto &moduleInput = remap.inputLink->getModuleInput();
-        out << " " << moduleInput.getName() << ";\n";
-    }
-
     //assign custom inputs from inputremaps
+    //this will overwrite any values set by generateDefaults
+    out << "\n//reassign any connected inputs\n";
     generateInputAssignments(inputRemaps, out);
 
     out << "\n//funtion body for module \"" << module.getName() << "\" of type \"" << module.getType().getName() << "\"\n";
     moduleGenerator->generateBody(*this, out);
-    out << "//end function body\n\n";
+    out << "//end function body\n";
 
-    out << "\n//generating postamble\n";
     //assign outputs to remapped values
     generateOutputAssignments(outputRemaps, out);
     out << "}\n";
+
+    out << "//////////////////////////////////////////\n";
+    out << "//end of module \"" << module.getName() << "\" of type \"" << module.getType().getName() << "\"\n";
+    out << "//////////////////////////////////////////\n";
 }
 
 std::string InlineGenerator::getUniqueId()
@@ -186,7 +184,7 @@ void InlineGenerator::genFunctionCall(FunctionCall &functionCall, std::ostream &
 
 void InlineGenerator::generateOutputDeclarations(const std::vector<InlineGenerator::OutputRemap> &remaps, std::ostream &out)
 {
-    out << "\n//generating output declarations\n";
+    out << "\n//output declarations\n";
     for(auto &remap : remaps){
         Declaration declaration{
             remap.outputLink->getModuleOutput().getSignalType(),
@@ -198,7 +196,7 @@ void InlineGenerator::generateOutputDeclarations(const std::vector<InlineGenerat
 
 void InlineGenerator::generateInputDeclarations(Module &module, std::ostream &out)
 {
-    out << "\n//generating input declarations\n";
+    out << "\n//input declarations\n";
     for(auto inputLink : module.getInputs()){
         auto &moduleInput = inputLink->getModuleInput();
         Declaration d{
@@ -223,7 +221,7 @@ void InlineGenerator::generateInputAssignments(const std::vector<InlineGenerator
 
 void InlineGenerator::generateOutputAssignments(const std::vector<InlineGenerator::OutputRemap> &remaps, std::ostream &out)
 {
-    out << "\n//generating outputassignments\n";
+    out << "\n//output assignments\n";
     for(auto remap : remaps){
         Assignment assignment{
             remap.externalName,
