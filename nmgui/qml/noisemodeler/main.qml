@@ -156,8 +156,13 @@ Item {
                             GraphEditor {
                                 anchors.fill: parent
                                 graph: moduleType.graph
-                                onVisibleChanged: if(visible)currentModuleType = moduleType;
-                                onSelectedModuleChanged: moduleInspector.module = selectedModule;
+                                onVisibleChanged: {
+                                    if(visible){
+                                        currentModuleType = moduleType;
+                                        if(selectedModule !== undefined)moduleInspector.module = selectedModule;
+                                    }
+                                }
+                                onSelectedModuleChanged: if(selectedModule)moduleInspector.module = selectedModule;
                             }
                         }
                         Loader {

@@ -46,6 +46,7 @@ Rectangle {
         Node {
             onSelectedChanged: {
                 if(selected)selectedModule = module;
+                else if(selectedModule === module)selectedModule = undefined;
             }
         }
     }
