@@ -48,14 +48,25 @@ SubWindow {
                 }
             }
         },
-//        MapLikeDomainController {
-//            size: renderer.size
-//            center: renderer.center
-//            anchors.fill: renderer
-//            onPressedChanged: renderer.forceActiveFocus(); //renderer.focus = true;
-//            onDoubleClicked: maximized = !maximized
-//        },
         MouseArea {
+            drag.target: offset
+            Item {
+                property real lastX
+                property real lastY
+                property real yawSensitivity: 0.2
+                property real pitchSensitivity: 0.2
+                id: offset
+                onXChanged: {
+                    var deltaX = x-lastX;
+                    renderer.yawCamera(-deltaX*yawSensitivity);
+                    lastX = x;
+                }
+                onYChanged: {
+                    var deltaY = y-lastY;
+                    renderer.pitchCamera(-deltaY*pitchSensitivity);
+                    lastY = y;
+                }
+            }
             anchors.fill: renderer
             onDoubleClicked: maximized = !maximized
             onPressedChanged: renderer.forceActiveFocus(); //renderer.focus = true;
