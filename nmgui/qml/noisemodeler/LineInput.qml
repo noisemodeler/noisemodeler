@@ -29,5 +29,7 @@ Rectangle {
             lastAcceptableString = text;
             newAcceptableValue(text);
         }
+        //this makes the start of the input visible if the box is too small
+        onTextChanged: if(!focus)cursorPosition = 0;
     }
 }

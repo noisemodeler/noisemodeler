@@ -67,68 +67,43 @@ SubWindow {
             Text {
                 text: "x:"
             }
-            LineInput {
-                id: xPosInput
-                text:"0"
-                width: 40
-                validator: DoubleValidator{}
+            ScrollableFloatInput {
+                monitoredValue: renderer.center.x
+                width: 50
                 onNewAcceptableValue: {
-                    renderer.center.x = parseFloat(text);
-                }
-                Connections{
-                    target: renderer
-                    onCenterChanged: if(!xPosInput.textInput.focus)xPosInput.text = renderer.center.x.toFixed(3);
+                    renderer.center.x = value;
                 }
             }
             Text {
                 text: "width scale:"
             }
-            LineInput {
-                id: widthInput
-                text:"1"
-                width: 40
-                validator: DoubleValidator{}
+            ScrollableFloatInput {
+                monitoredValue: renderer.widthScale
+                width: 50
                 onNewAcceptableValue: {
-                    renderer.widthScale = parseFloat(text);
-                }
-                Connections{
-                    target: renderer
-                    onWidthScaleChanged: if(!widthInput.textInput.focus)widthInput.text = renderer.widthScale.toFixed(3);
+                    renderer.widthScale = value;
                 }
             }
             Text {
                 text: "y:"
             }
-            LineInput {
-                id: yPosInput
-                text:"0"
-                width: 40
-                validator: DoubleValidator{}
+            ScrollableFloatInput {
+                monitoredValue: renderer.center.y
+                width: 50
                 onNewAcceptableValue: {
-                    renderer.center.y = parseFloat(text);
+                    renderer.center.y = value;
                 }
-                Connections{
-                    target: renderer
-                    onCenterChanged: if(!yPosInput.textInput.focus)yPosInput.text = renderer.center.y.toFixed(3);
-                }
-           }
+            }
             Text {
                 text: "height scale:"
             }
-            LineInput {
-                id: heightInput
-                text:"1"
-                width: 40
-                validator: DoubleValidator{}
+            ScrollableFloatInput {
+                monitoredValue: renderer.heightScale
+                width: 50
                 onNewAcceptableValue: {
-                    renderer.heightScale = parseFloat(text);
-                }
-                Connections{
-                    target: renderer
-                    onHeightScaleChanged: if(!heightInput.textInput.focus)heightInput.text = renderer.heightScale.toFixed(3);
+                    renderer.heightScale = value;
                 }
             }
-
         }
     ]
 }
