@@ -81,9 +81,7 @@ SubWindow {
             ScrollableFloatInput {
                 monitoredValue: renderer.center.x
                 width: 50
-                onNewAcceptableValue: {
-                    renderer.center.x = value;
-                }
+                onNewAcceptableValue: renderer.center.x = value;
             }
             Text {
                 text: "width scale:"
@@ -91,9 +89,7 @@ SubWindow {
             ScrollableFloatInput {
                 monitoredValue: renderer.widthScale
                 width: 50
-                onNewAcceptableValue: {
-                    renderer.widthScale = value;
-                }
+                onNewAcceptableValue: renderer.widthScale = value;
             }
             Text {
                 text: "y:"
@@ -101,9 +97,7 @@ SubWindow {
             ScrollableFloatInput {
                 monitoredValue: renderer.center.y
                 width: 50
-                onNewAcceptableValue: {
-                    renderer.center.y = value;
-                }
+                onNewAcceptableValue: renderer.center.y = value;
             }
             Text {
                 text: "height scale:"
@@ -111,9 +105,7 @@ SubWindow {
             ScrollableFloatInput {
                 monitoredValue: renderer.heightScale
                 width: 50
-                onNewAcceptableValue: {
-                    renderer.heightScale = value;
-                }
+                onNewAcceptableValue: renderer.heightScale = value;
             }
         }
     ]
