@@ -17,18 +17,20 @@ class HeightMap3DExplorer : public QQuickFramebufferObject
     Q_OBJECT
 
     Q_PROPERTY(QPointF center READ center WRITE setCenter NOTIFY centerChanged)
-    Q_PROPERTY(QPointF size READ size WRITE setSize NOTIFY sizeChanged)
+    Q_PROPERTY(float heightScale READ heightScale WRITE setHeightScale NOTIFY heightScaleChanged)
+    Q_PROPERTY(float widthScale READ widthScale WRITE setWidthScale NOTIFY widthScaleChanged)
     Q_PROPERTY(nmgui::HeightMapFunction* heightMapFunction READ heightMapFunction WRITE setHeightMapFunction NOTIFY heightMapFunctionChanged)
 
 public:
     struct State {
         QPointF center;
-        QPointF size;
+        float heightScale, widthScale;
         std::string shaderSource; //might be cleaner to copy the graph into state, then generate the shader source in the renderer
         Transform3D camera;
         State():
             center(0,0),
-            size(1,1),
+            heightScale(1),
+            widthScale(1),
             shaderSource("void elevation(in vec2 coords, out float height){height = 0.5;}"),
             camera()
         {
@@ -48,8 +50,10 @@ public:
     Renderer *createRenderer() const override;
 
     void setCenter(QPointF center);
-    void setSize(QPointF size);
-    QPointF size(){ return m_state.size; }
+    void setHeightScale(float scale);
+    void setWidthScale(float scale);
+    float heightScale(){ return m_state.heightScale; }
+    float widthScale(){ return m_state.widthScale; }
     QPointF center(){ return m_state.center; }
 
     Q_INVOKABLE void yawCamera(float degrees);
@@ -59,7 +63,8 @@ public:
 
 signals:
     void centerChanged();
-    void sizeChanged();
+    void heightScaleChanged();
+    void widthScaleChanged();
     void heightMapFunctionChanged();
 
 private slots:

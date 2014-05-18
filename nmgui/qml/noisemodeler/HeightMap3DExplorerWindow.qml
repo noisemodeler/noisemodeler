@@ -48,12 +48,17 @@ SubWindow {
                 }
             }
         },
-        MapLikeDomainController {
-            size: renderer.size
-            center: renderer.center
+//        MapLikeDomainController {
+//            size: renderer.size
+//            center: renderer.center
+//            anchors.fill: renderer
+//            onPressedChanged: renderer.forceActiveFocus(); //renderer.focus = true;
+//            onDoubleClicked: maximized = !maximized
+//        },
+        MouseArea {
             anchors.fill: renderer
-            onPressedChanged: renderer.forceActiveFocus(); //renderer.focus = true;
             onDoubleClicked: maximized = !maximized
+            onPressedChanged: renderer.forceActiveFocus(); //renderer.focus = true;
         },
         GridLayout {
             anchors.top: renderer.bottom
@@ -76,7 +81,7 @@ SubWindow {
                 }
             }
             Text {
-                text: "width:"
+                text: "width scale:"
             }
             LineInput {
                 id: widthInput
@@ -84,11 +89,11 @@ SubWindow {
                 width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
-                    renderer.size.x = parseFloat(text);
+                    renderer.widthScale = parseFloat(text);
                 }
                 Connections{
                     target: renderer
-                    onSizeChanged: if(!widthInput.textInput.focus)widthInput.text = renderer.size.x.toFixed(3);
+                    onWidthScaleChanged: if(!widthInput.textInput.focus)widthInput.text = renderer.widthScale.toFixed(3);
                 }
             }
             Text {
@@ -108,7 +113,7 @@ SubWindow {
                 }
            }
             Text {
-                text: "height:"
+                text: "height scale:"
             }
             LineInput {
                 id: heightInput
@@ -116,11 +121,11 @@ SubWindow {
                 width: 40
                 validator: DoubleValidator{}
                 onNewAcceptableValue: {
-                    renderer.size.y = parseFloat(text);
+                    renderer.heightScale = parseFloat(text);
                 }
                 Connections{
                     target: renderer
-                    onSizeChanged: if(!heightInput.textInput.focus)heightInput.text = renderer.size.y.toFixed(3);
+                    onHeightScaleChanged: if(!heightInput.textInput.focus)heightInput.text = renderer.heightScale.toFixed(3);
                 }
             }
 

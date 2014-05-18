@@ -116,11 +116,20 @@ void HeightMap3DExplorer::setCenter(QPointF center){
     centerChanged();
 }
 
-void HeightMap3DExplorer::setSize(QPointF size)
+void HeightMap3DExplorer::setHeightScale(float scale)
 {
-    m_state.size = size;
+    if(scale==m_state.heightScale)return;
+    m_state.heightScale = scale;
     update();
-    sizeChanged();
+    heightScaleChanged();
+}
+
+void HeightMap3DExplorer::setWidthScale(float scale)
+{
+    if(scale==m_state.widthScale)return;
+    m_state.widthScale = scale;
+    update();
+    widthScaleChanged();
 }
 
 } // namespace nmgui
