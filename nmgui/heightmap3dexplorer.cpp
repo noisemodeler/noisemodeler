@@ -132,4 +132,17 @@ void HeightMap3DExplorer::setWidthScale(float scale)
     widthScaleChanged();
 }
 
+HeightMap3DExplorer::State::State():
+    center(0,0),
+    heightScale(1),
+    widthScale(1),
+    shaderSource("void elevation(in vec2 coords, out float height){height = 0.5;}"),
+    camera()
+{
+    camera.setPosition({0,100,0});
+    camera.yaw(-45);
+    camera.pitch(-25);
+    //            camera.lookAt({0,0,0});
+}
+
 } // namespace nmgui

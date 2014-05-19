@@ -161,8 +161,8 @@ void HeightMap3DRenderer::render(){
     m_program->setUniformValue("sampleOffset", QVector2D(m_state.center.x(), m_state.center.y()));
 
     m_program->setUniformValue("scaling", QVector3D(
-                                   1.0/m_state.widthScale,
-                                   1.0/m_state.widthScale,
+                                   1.0/m_state.widthScale * 0.1, //TODO get rid of these magic constants
+                                   1.0/m_state.widthScale * 0.1,
                                    m_state.heightScale //height scaling
                                    )
                                );

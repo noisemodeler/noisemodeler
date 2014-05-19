@@ -27,18 +27,7 @@ public:
         float heightScale, widthScale;
         std::string shaderSource; //might be cleaner to copy the graph into state, then generate the shader source in the renderer
         Transform3D camera;
-        State():
-            center(0,0),
-            heightScale(1),
-            widthScale(1),
-            shaderSource("void elevation(in vec2 coords, out float height){height = 0.5;}"),
-            camera()
-        {
-            camera.setPosition({0,100,0});
-            camera.yaw(-45);
-            camera.pitch(-30);
-//            camera.lookAt({0,0,0});
-        }
+        State();
     };
 
     explicit HeightMap3DExplorer(QQuickItem *the_parent = 0);
