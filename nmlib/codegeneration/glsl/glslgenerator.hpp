@@ -14,14 +14,17 @@ namespace glsl {
 class GlslGenerator : InlineGenerator
 {
 public:
-    static std::string compileToGlslFunction(InputLink& inputLink, OutputLink &outputLink, std::string name);
+    static std::string compileToGlslFunction(const InputLink& inputLink, const OutputLink &outputLink, std::string name);
+    static std::string compileToGlslFunction(std::vector<const InputLink*> inputLinks, std::vector<const OutputLink*> outputLink, std::string name);
+    static std::string compileToGlslFunctionWithDependencies(const Module &module);
+    static std::string compileToGlslFunctionWithoutDependencies(const Module &module);
 
 private:
     GlslGenerator();
 
 protected:
     virtual void genTypeKeyword(const SignalType &signalType, std::ostream &out) override;
-    virtual std::unique_ptr<nm::ModuleGenerator> getModuleGenerator(Module &module) override;
+    virtual std::unique_ptr<nm::ModuleGenerator> getModuleGenerator(const Module &module) override;
 };
 
 } // namespace glsl

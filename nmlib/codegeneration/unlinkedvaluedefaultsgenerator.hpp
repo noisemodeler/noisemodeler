@@ -10,7 +10,7 @@ class Module;
 class UnlinkedValueDefaultsGenerator : public DefaultsGenerator
 {
 public:
-    UnlinkedValueDefaultsGenerator(Module& module):
+    UnlinkedValueDefaultsGenerator(const Module& module):
         m_module(module)
     {}
 
@@ -18,7 +18,7 @@ public:
     virtual void generateDefaults(InlineGenerator &gen, std::ostream &out) override;
 
 private:
-    Module& m_module; //TODO should be const
+    const Module& m_module;
 };
 
 } // namespace nm

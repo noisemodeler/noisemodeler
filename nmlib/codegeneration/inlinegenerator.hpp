@@ -35,17 +35,17 @@ class InlineGenerator {
 public:
     struct InputRemap {
         std::string externalName;
-        InputLink* inputLink;
+        const InputLink* inputLink;
     };
     struct OutputRemap {
         std::string externalName;
-        OutputLink* outputLink;
+        const OutputLink* outputLink;
     };
 
     void generateFromLinks(const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
-    void generateModule(Module& module, const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
+    void generateModule(const Module& module, const std::vector<InputRemap> &inputRemaps, const std::vector<OutputRemap> &outputRemaps, std::ostream &out);
     std::string getUniqueId();
-    virtual std::unique_ptr<ModuleGenerator> getModuleGenerator(Module &module);
+    virtual std::unique_ptr<ModuleGenerator> getModuleGenerator(const Module &module);
 
 protected:
     //syntax tree generation helpers
@@ -59,7 +59,7 @@ protected:
 
 private:
     void generateOutputDeclarations(const std::vector<OutputRemap> &conversions, std::ostream& out);
-    void generateInputDeclarations(Module&, std::ostream& out);
+    void generateInputDeclarations(const Module &, std::ostream& out);
     void generateInputAssignments(const std::vector<InputRemap> &conversions, std::ostream& out);
     void generateOutputAssignments(const std::vector<OutputRemap> &conversions, std::ostream& out);
 

@@ -134,6 +134,12 @@ OutputLink *Module::getOutput(unsigned int i)
     return m_outputs[i].get();
 }
 
+const OutputLink *Module::getOutput(unsigned int i) const
+{
+    if(m_outputs.size()<=i)return nullptr;
+    return m_outputs[i].get();
+}
+
 unsigned int Module::getOutputSize() const
 {
     return m_outputs.size();
@@ -252,6 +258,15 @@ std::vector<Module *> Module::getDependenciesSorted(const std::vector<OutputLink
     }, ignoreInputs);
     return modules;
 }
+
+std::vector<const Module *> Module::getDependenciesSorted(const std::vector<const OutputLink *> &outputs, const std::set<const InputLink *> &ignoreInputs)
+{
+    std::vector<const Module *> modules;
+    topologicallyTraverseDependencies(outputs, [&](const Module& module){
+        modules.push_back(&module);
+    }, ignoreInputs);
+    return modules;
+}
 //template?
 void Module::topologicallyTraverseDependencies(const std::vector<OutputLink *> &outputs, std::function<void (Module &)> visitor, const std::set<InputLink*> &ignoreInputs)
 {
@@ -261,6 +276,43 @@ void Module::topologicallyTraverseDependencies(const std::vector<OutputLink *> &
         remainingModules.push_back(&output->getOwner());
     }
     std::set<Module *> satisfiedModules;
+
+    //do a dfs-like traversal
+    while(!remainingModules.empty()){
+        auto current = remainingModules.back();
+        bool satisfied = true;
+        for(auto &inputLink : current->m_inputs){
+            if(find(ignoreInputs.begin(), ignoreInputs.end(), inputLink.get())!=ignoreInputs.end())continue; //skip input
+            auto outputLink = inputLink->getOutputLink();
+            if(outputLink==nullptr)continue; //skip disconnected inputs
+            Module& otherModule = outputLink->getOwner();
+            if(satisfiedModules.find(&otherModule)==satisfiedModules.end()){
+                //haven't seen this node before
+                remainingModules.push_back(&otherModule);
+                satisfied = false;
+            }
+        }
+        if(satisfied){
+            bool inserted = satisfiedModules.insert(current).second;
+            if(inserted){
+                visitor(*current);
+            }
+            remainingModules.pop_back();
+        }
+    }
+}
+
+void Module::topologicallyTraverseDependencies(const std::vector<const OutputLink *> &outputs, std::function<void (const Module &)> visitor, const std::set<const InputLink *> &ignoreInputs)
+{
+    //almost copy-pasted from mutable version because I don't know how to cast away constness from vectors
+    //maybe it would be better to let the mutable version depend on this version
+
+    std::vector<const Module *> remainingModules;
+    for(auto output : outputs){
+        //TODO: something about this looks wrong, what happens if there are several inputs?
+        remainingModules.push_back(&output->getOwner());
+    }
+    std::set<const Module *> satisfiedModules;
 
     //do a dfs-like traversal
     while(!remainingModules.empty()){

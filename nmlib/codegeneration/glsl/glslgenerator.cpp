@@ -13,7 +13,7 @@
 namespace nm {
 namespace glsl {
 
-std::string GlslGenerator::compileToGlslFunction(InputLink &inputLink, OutputLink &outputLink, std::string name)
+std::string GlslGenerator::compileToGlslFunction(const InputLink &inputLink, const OutputLink &outputLink, std::string name)
 {
     std::stringstream sl;
     GlslGenerator generator;
@@ -52,9 +52,43 @@ std::string GlslGenerator::compileToGlslFunction(InputLink &inputLink, OutputLin
 
     //function end
     //write to outputs
-    sl << "height" << " = " << heightId << ";\n";
+    generator.genAssignment(Assignment("height", heightId), sl);
     sl << "}\n";
     return sl.str();
+}
+
+std::string GlslGenerator::compileToGlslFunction(std::vector<const InputLink *> /*inputLinks*/, std::vector<const OutputLink *> /*outputLink*/, std::string /*name*/)
+{
+    //TODO write this function
+//    std::stringstream sl;
+//    GlslGenerator generator;
+
+    //iterate through inputLinks:
+    //create unique id for inputlink
+    //create remaps
+
+    //iterate through outputlinks:
+    //create unique id for outputlink
+    //create remaps
+
+    //write start of function
+
+    //call generatefromlinks
+
+    //write end of function
+    return "not implemented\n";
+}
+
+std::string GlslGenerator::compileToGlslFunctionWithDependencies(const Module &/*module*/)
+{
+    //TODO
+    return "not implemented\n";
+}
+
+std::string GlslGenerator::compileToGlslFunctionWithoutDependencies(const Module &/*module*/)
+{
+    //TODO
+    return "not implemented\n";
 }
 
 void GlslGenerator::genTypeKeyword(const SignalType &signalType, std::ostream &out)
@@ -73,7 +107,7 @@ void GlslGenerator::genTypeKeyword(const SignalType &signalType, std::ostream &o
     }
 }
 
-std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(Module &module)
+std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(const Module &module)
 {
     auto moduleTypeName = module.getType().getName();
     std::unique_ptr<BodyGenerator> body;

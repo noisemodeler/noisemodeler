@@ -11,7 +11,8 @@ namespace nm {
 
 void UnlinkedValueDefaultsGenerator::generateDefaults(InlineGenerator &gen, std::ostream &out)
 {
-    for(auto inputLink : m_module.getInputs()){
+    for(unsigned int i = 0; i<m_module.getInputSize(); ++i){
+        auto inputLink = m_module.getInput(i);
         auto variableName = inputLink->getModuleInput().getName();
         auto defaultValue = make_unique<SignalValue>(inputLink->getUnlinkedValue());
 
@@ -21,7 +22,6 @@ void UnlinkedValueDefaultsGenerator::generateDefaults(InlineGenerator &gen, std:
         );
         assignment.gen(gen, out);
     }
-
 }
 
 } // namespace nm

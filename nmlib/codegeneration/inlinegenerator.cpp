@@ -18,13 +18,13 @@ namespace nm {
 
 void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
 {
-    std::vector<OutputLink*> outputs;
+    std::vector<const OutputLink*> outputs;
     outputs.reserve(outputRemaps.size());
     for(auto outputRemap : outputRemaps){
         outputs.push_back(outputRemap.outputLink);
     }
 
-    std::set<InputLink*> inputs;
+    std::set<const InputLink*> inputs;
     for(auto inputRemap : inputRemaps){
         inputs.insert(inputRemap.inputLink);
     }
@@ -38,8 +38,8 @@ void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::Input
 
         //get existing remaps for inputs of this module
         std::vector<InputRemap> moduleInputRemaps;
-        auto moduleInputLinks = module->getInputs();
-        for(auto inputLink : moduleInputLinks){
+        for(unsigned int i = 0; i< module->getInputSize(); ++i){
+            auto inputLink = module->getInput(i);
             //is this the input we are going to export?
             auto myMatch = std::find_if(inputRemaps.begin(), inputRemaps.end(), [&](const InputRemap& remap){
                 return remap.inputLink == inputLink;
@@ -63,8 +63,8 @@ void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::Input
         }
         //create uniqueid outputs of this module
         std::vector<OutputRemap> moduleOutputRemaps;
-        auto moduleOutputLinks = module->getOutputs();
-        for(auto outputLink : moduleOutputLinks){
+        for(unsigned int i = 0; i<module->getOutputSize(); ++i){
+            auto outputLink = module->getOutput(i);
             auto match = std::find_if(internalOutputRemaps.begin(), internalOutputRemaps.end(), [=](OutputRemap& remap){
                 return remap.outputLink == outputLink;
             });
@@ -81,7 +81,7 @@ void InlineGenerator::generateFromLinks(const std::vector<InlineGenerator::Input
     }
 }
 
-void InlineGenerator::generateModule(Module &module, const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
+void InlineGenerator::generateModule(const Module &module, const std::vector<InlineGenerator::InputRemap> &inputRemaps, const std::vector<InlineGenerator::OutputRemap> &outputRemaps, std::ostream &out)
 {
     out << "//////////////////////////////////////////\n";
     out << "//Generating code for module \"" << module.getName() << "\" of type \"" << module.getType().getName() << "\"\n";
@@ -126,7 +126,7 @@ std::string InlineGenerator::getUniqueId()
     return m_idGenerator.getUniqueId();
 }
 
-std::unique_ptr<ModuleGenerator> InlineGenerator::getModuleGenerator(Module &module)
+std::unique_ptr<ModuleGenerator> InlineGenerator::getModuleGenerator(const Module &module)
 {
     auto &moduleType = module.getType();
     std::unique_ptr<BodyGenerator> body;
@@ -194,10 +194,11 @@ void InlineGenerator::generateOutputDeclarations(const std::vector<InlineGenerat
     }
 }
 
-void InlineGenerator::generateInputDeclarations(Module &module, std::ostream &out)
+void InlineGenerator::generateInputDeclarations(const Module &module, std::ostream &out)
 {
     out << "\n//input declarations\n";
-    for(auto inputLink : module.getInputs()){
+    for(unsigned i = 0; i<module.getInputSize(); ++i){
+        auto inputLink = module.getInput(i);
         auto &moduleInput = inputLink->getModuleInput();
         Declaration d{
             moduleInput.getSignalType(),

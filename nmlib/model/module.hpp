@@ -49,6 +49,7 @@ public:
     //outputs
     OutputLink *getOutput(std::string name);
     OutputLink *getOutput(unsigned int i);
+    const OutputLink *getOutput(unsigned int i) const;
     unsigned int getOutputSize() const;
     std::vector<OutputLink*> getOutputs();
 
@@ -85,10 +86,14 @@ public:
     signal<void (Module&)> dependenciesChanged;
 
     //static methods
-    static std::vector<Module *> getDependenciesSorted(const std::vector<OutputLink*> &outputs,
+    static std::vector<Module *> getDependenciesSorted(const std::vector<OutputLink *> &outputs,
                                                     const std::set<InputLink *> &ignoreInputs = {});
+    static std::vector<const Module *> getDependenciesSorted(const std::vector<const OutputLink *> &outputs,
+                                                    const std::set<const InputLink *> &ignoreInputs = {});
     static void topologicallyTraverseDependencies(const std::vector<OutputLink*> &outputs, std::function<void(Module&)> visitor,
                                                   const std::set<InputLink*> &ignoreInputs = {});
+    static void topologicallyTraverseDependencies(const std::vector<const OutputLink*> &outputs, std::function<void(const Module&)> visitor,
+                                                  const std::set<const InputLink*> &ignoreInputs = {});
 
 private:
     bool removeInput(const ModuleInput& moduleInput);
