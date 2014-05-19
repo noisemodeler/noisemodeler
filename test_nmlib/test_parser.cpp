@@ -110,7 +110,7 @@ TEST(ParserTest, VectorValues){
     auto input = readFile("./data/constants.nm.json");
     nm::Parser parser;
     if(!input){
-        FAIL();
+        FAIL() << "Couldn't read file";
     }
     auto maybeTypeManager = parser.parseDocument(*input);
     if(!maybeTypeManager){
