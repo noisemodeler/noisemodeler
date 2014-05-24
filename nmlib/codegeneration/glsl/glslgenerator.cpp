@@ -41,7 +41,6 @@ std::string GlslGenerator::compileToGlslFunction(const InputLink &inputLink, con
 
 
     //function body
-//    sl << "    height=pos.y;\n";
     InlineGenerator::InputRemap inputRemap{posId, &inputLink};
     InlineGenerator::OutputRemap outputRemap{heightId, &outputLink};
     std::vector<InputRemap> inputRemaps{inputRemap};
