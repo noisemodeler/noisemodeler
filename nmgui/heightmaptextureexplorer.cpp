@@ -47,6 +47,7 @@ private:
 
 HeightMapTextureExplorer::HeightMapTextureExplorer(QQuickItem *the_parent) :
     QQuickFramebufferObject(the_parent),
+    m_heightMapFunction(nullptr),
     m_state()
 {
     connect(this, &HeightMapTextureExplorer::heightMapFunctionChanged,

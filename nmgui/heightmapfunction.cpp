@@ -6,7 +6,9 @@
 namespace nmgui {
 
 HeightMapFunction::HeightMapFunction(QObject *parent) :
-    QObject(parent)
+    QObject(parent),
+    m_inputLink(nullptr),
+    m_outputLink(nullptr)
 {
     connect(this, SIGNAL(inputLinkChanged()), this, SIGNAL(functionChanged()));
     connect(this, SIGNAL(outputLinkChanged()), this, SIGNAL(functionChanged()));
