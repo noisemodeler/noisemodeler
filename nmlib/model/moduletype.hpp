@@ -30,10 +30,17 @@ public:
      * @brief Module type category
      */
     enum class Category { //couldn't call it moduletypetype, cause that would be silly
-        Primitive, /** A low-level module type, without a graph */
-        Composite, /** A high-level module type, created as a composition of modules in a graph */
-        GraphInput, /** A special module type for inputs of a graph */
-        GraphOutput /** A special module type for outputs of a graph */
+        /** A low-level module type, without a graph */
+        Primitive, 
+
+        /** A high-level module type, created as a composition of modules in a graph */
+        Composite, 
+
+        /** A special module type for inputs of a graph */
+        GraphInput, 
+
+        /** A special module type for outputs of a graph */
+        GraphOutput 
     };
 
     /**
