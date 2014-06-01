@@ -40,6 +40,10 @@ class ModuleOutput;
 class Module : public UserDataProvider
 {
 public:
+    /** @brief Constructor.
+     *
+     * Consider using Graph::createModule() instead if your goal is to add the module to a graph.
+     */
     explicit Module(const ModuleType &type, std::string name, std::string description = "");
     virtual ~Module();
     const ModuleType& getType() const {return m_type;}
