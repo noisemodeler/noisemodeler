@@ -21,6 +21,7 @@ class OutputLink;
 class SignalValue;
 
 /**
+ * @ingroup model
  * @brief Describes a recipe for a module and its inputs and outputs.
  *
  * A module type may be thought of as a blueprint for a module.

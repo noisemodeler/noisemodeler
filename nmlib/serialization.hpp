@@ -5,6 +5,9 @@
  *
  * @defgroup serialization serialization
  * @brief Everything related to converting graphs to/from strings.
+ *
+ * Each of the classes, Parser and Serializer are documented separately.
+ *
  */
 
 #ifndef SERIALIZATION_HPP
