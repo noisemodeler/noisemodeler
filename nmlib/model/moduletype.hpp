@@ -21,7 +21,17 @@ class OutputLink;
 class SignalValue;
 
 /**
- * @brief describes a recipe for a module and its inputs and outputs.
+ * @brief Describes a recipe for a module and its inputs and outputs.
+ *
+ * A module type may be thought of as a blueprint for a module.
+ * When a module is created, it is created according to a module
+ * type definition.
+ *
+ * There are two main categories of module types, primitive and composite
+ * Composite module types, are built implemented as a graph of modules
+ * of other module types. Primitive module types are the lowest level
+ * building blocks of composite module types. They are defined by the
+ * library itself.
  */
 class ModuleType : NonCopyable, public UserDataProvider
 {
@@ -104,14 +114,16 @@ public:
      */
     void setRemovable(bool removable) { m_removable = removable; }
 
-    //inputs
-    //getters
     unsigned int numInputs() const { return m_inputs.size(); }
     const ModuleInput *getInput(std::string name) const;
     ModuleInput *getInput(std::string name);
     const ModuleInput *getInput(unsigned int index) const { return m_inputs.at(index).get(); }
     ModuleInput *getInput(unsigned int index) { return m_inputs.at(index).get(); }
+
+    /** @brief Iterate over the inputs using the provided callback */
     void eachModuleInput(std::function<void(const ModuleInput&)> f) const;
+
+    /** @brief Iterate over the inputs using the provided callback */
     void eachModuleInput(std::function<void(ModuleInput&)> f);
     //mutable stuff
 
@@ -143,16 +155,25 @@ public:
      */
     bool removeInput(ModuleInput *moduleInput);
 
-    //outputs
-    //getters
     unsigned int numOutputs() const { return m_outputs.size(); }
     const ModuleOutput *getOutput(std::string name) const;
     ModuleOutput *getOutput(std::string name);
     const ModuleOutput *getOutput(unsigned int index) const { return m_outputs.at(index).get(); }
     ModuleOutput *getOutput(unsigned int index) { return m_outputs.at(index).get(); }
+
+    /** @brief Iterate over the outputs using the provided callback */
     void eachModuleOutput(std::function<void(const ModuleOutput&)> f) const;
+
+    /** @brief Iterate over the outputs using the provided callback */
     void eachModuleOutput(std::function<void(ModuleOutput&)> f);
-    //mutable stuff
+
+    /**
+     * @brief Add a new output to the module type
+     * @param name The name to give the new output
+     * @param signalType The type of the new output
+     *
+     * The default value for this output is set to zero
+     */
     ModuleOutput *addOutput(std::string name, SignalType signalType);
     /**
      * @brief Removes an output from this module type
