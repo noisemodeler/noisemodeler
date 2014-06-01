@@ -9,9 +9,6 @@
 
 namespace nm {
 
-class PrimitiveModuleType;
-class CompositeTypeBuilder;
-
 /**
  * @ingroup model
  * @brief The top-level entity of a noise model. Encapsulates several
