@@ -19,10 +19,21 @@ class ModuleInput;
 class ModuleOutput;
 
 /**
- * @brief An instantiated ModuleType.
  * @ingroup model
+ * @brief An instantiated ModuleType. A node in a function graph.
  *
- * A function node in a Graph.
+ * A module is a part of a node in a Graph.
+ * It has a corresponding ModuleType, which describes some sort
+ * of mathematical function or algorithm.
+ * A module may be thought of a configuration for a function
+ * call.
+ *
+ * A Module has a number of InputLink%s and OutputLink%s that may be
+ * connected to other Module%s InputLink%s and OutputLink%s.
+ * 
+ * Connections can be changed by using the getters for these InputLink%s
+ * and OutputLink%s. One InputLink exists for each ModuleInput in the
+ * ModuleType of the Module. The same applies for outputs.
  *
  * Usually create by Graph::createModule
  */
@@ -54,7 +65,7 @@ public:
     std::vector<OutputLink*> getOutputs();
 
     /**
-     * @brief disconnects module by unlinking all inputlinks outputlinks
+     * @brief disconnects module by unlinking all InputLink%s and OutputLink%s of this module.
      */
     void disconnect();
 
@@ -76,13 +87,21 @@ public:
     int getHeight() const;
 
     //signals
+    /** @brief This signal is emitted when the name of the Module is changed */
     signal<void (Module&, const std::string&)> nameChanged;
+    /** @brief This signal is emitted when the description of the Module is changed */
     signal<void (Module&, const std::string&)> descriptionChanged;
+    /** @brief This signal is emitted before the Module is destroyed */
     signal<void (Module&)> destroying;
+    /** @brief This signal is emitted after an input has been added */
     signal<void (Module&, InputLink&)> addedInputLink;
-    signal<void (Module&, const ModuleInput&)> removedInputLink; //TODO hook up
+    /** @brief This signal is emitted after an input has been removed */
+    signal<void (Module&, const ModuleInput&)> removedInputLink;
+    /** @brief This signal is emitted after an output has been added */
     signal<void (Module&, OutputLink&)> addedOutputLink;
-    signal<void (Module&, const ModuleOutput&)> removedOutputLink; //TODO hook up
+    /** @brief This signal is emitted after an output has been removed */
+    signal<void (Module&, const ModuleOutput&)> removedOutputLink;
+    /** @brief This signal is emitted if changes have been made to the graph that may influence this Module%'s output signals */
     signal<void (Module&)> dependenciesChanged;
 
     //static methods
