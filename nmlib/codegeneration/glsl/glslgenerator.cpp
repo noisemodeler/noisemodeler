@@ -258,6 +258,11 @@ std::unique_ptr<ModuleGenerator> GlslGenerator::getModuleGenerator(const Module 
             "vec2 result = scalar * v;\n"
         ));
 
+    } else if (module.getType().isGraphInput() || module.getType().isGraphOutput()) {
+        body.reset(new SimpleBodyGenerator(
+            ""
+        ));
+
     //lets ask superclass if it knows something useful
     } else {
         return InlineGenerator::getModuleGenerator(module);
