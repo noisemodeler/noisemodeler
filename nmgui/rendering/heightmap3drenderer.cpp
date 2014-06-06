@@ -277,7 +277,8 @@ void HeightMap3DRenderer::recompileProgram()
           "}\n"
 
           "void main() {\n"
-          "    vec3 baseColor = vec3(1,1,1);\n";
+          "    vec3 baseColor = vec3(1,1,1);\n"
+          "    vec3 n = normal;\n";
 
 
     if(m_state.texturingEnabled){
@@ -290,6 +291,9 @@ void HeightMap3DRenderer::recompileProgram()
 
           //add rocks where steep
           "    vec3 groundColor = mix(grassColor, rockColor, smoothstep(-0.9, -0.5, -vertexNormal.z));\n"
+          "    float normalPerturbX = fbm2d(vertexPosition.xy*32, 3, 2, 0.5, 9);\n"
+          "    float normalPerturbY = fbm2d(vertexPosition.xy*32, 3, 2, 0.5, 8);\n"
+          "    n = n + 0.1*vec3(normalPerturbX, normalPerturbY, 0);\n"
 
           //add beaches
           "    float beachLine = 0.03+0.05*fbm2d(vertexPosition.xy, 2, 2, 0.5, 3);\n"
@@ -301,11 +305,12 @@ void HeightMap3DRenderer::recompileProgram()
           //add snow
           "    float snowline = 0.8+0.2*fbm2d(vertexPosition.xy, 3, 2, 0.5, 3);\n"
           "    baseColor = mix(baseColor, vec3(2,2,2), smoothstep(snowline, snowline+0.2, heightUnscaled));\n";
+
     }
 
 
     fs << ""
-          "    vec3 n = normalize(normal);\n"
+          "    n = normalize(n);\n"
           "    vec3 dirLight0 = normalize(vec3(1,1,1));\n"
           "    vec3 s = normalize(normalMatrix * dirLight0);\n"
 
