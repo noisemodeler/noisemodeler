@@ -111,9 +111,18 @@ void HeightMap3DExplorer::setHeightMapFunction(HeightMapFunction *heightMapFunct
 }
 
 void HeightMap3DExplorer::setCenter(QPointF center){
+    if(m_state.center==center)return;
     m_state.center = center;
     update();
     centerChanged();
+}
+
+void HeightMap3DExplorer::setTexturingEnabled(bool enabled)
+{
+    if(m_state.texturingEnabled==enabled)return;
+    m_state.texturingEnabled = enabled;
+    update();
+    texturingEnabledChanged();
 }
 
 void HeightMap3DExplorer::setHeightScale(float scale)
@@ -137,7 +146,8 @@ HeightMap3DExplorer::State::State():
     heightScale(1),
     widthScale(1),
     shaderSource("void elevation(in vec2 coords, out float height){height = 0.5;}"),
-    camera()
+    camera(),
+    texturingEnabled(true)
 {
     camera.setPosition({0,100,0});
     camera.yaw(-45);

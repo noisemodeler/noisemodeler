@@ -93,6 +93,7 @@ HeightMap3DRenderer::~HeightMap3DRenderer()
 void HeightMap3DRenderer::setState(HeightMap3DExplorer::State &state)
 {
     m_sourceDirty |= state.shaderSource!=m_state.shaderSource;
+    m_sourceDirty |= state.texturingEnabled!=m_state.texturingEnabled;
     m_state = state;
 }
 
@@ -124,7 +125,7 @@ void HeightMap3DRenderer::render(){
     rootQuad.lodSelect(ranges,observerPosition,selections);
 
 
-    glClearColor(0.5, 0.7, 1, 1);
+    glClearColor(0.6, 0.85, 1, 1);
     glDepthMask(GL_TRUE);
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
@@ -209,9 +210,10 @@ void HeightMap3DRenderer::recompileProgram()
     vs <<
           "in vec2 vertex;\n"
 
-          "out highp vec2 coords;\n"
           "out vec3 normal;\n"
           "out vec3 vertexNormal;\n"
+          "out vec3 vertexPosition;\n"
+          "out float heightUnscaled;\n"
 
           "uniform mat4 modelViewMatrix;\n"
           "uniform mat3 normalMatrix;\n"
@@ -242,7 +244,8 @@ void HeightMap3DRenderer::recompileProgram()
           "    vertexNormal = normalize(cross(rightVector, upVector));\n"
           "    normal = normalize(normalMatrix * vertexNormal);\n"
 
-          "    vec3 vertexPosition = vec3(vertexCoords,height);\n"
+          "    vertexPosition = vec3(vertexCoords,height);\n"
+          "    heightUnscaled = height/scaling.z;\n"
 //          "    vec3 position = (modelViewMatrix * vec4(vertexPosition,1)).xyz;\n"
           "    gl_Position = mvp * vec4(vertexPosition,1);\n"
           "}\n";
@@ -251,18 +254,57 @@ void HeightMap3DRenderer::recompileProgram()
     std::stringstream fs;
     fs << "#version 130\n";
 
-//    fs << m_state.shaderSource;
+    fs << m_state.shaderSource;
 //    fs << "void elevation(in vec2 coords, out float height){height = 0.8+coords.x-mod(coords.y,1);}\n";
 
     fs << ""
-          "in highp vec2 coords;\n"
           "in vec3 normal;\n"
           "in vec3 vertexNormal;\n"
+          "in vec3 vertexPosition;\n"
+          "in float heightUnscaled;\n"
 
           "uniform mat4 modelViewMatrix;\n"
           "uniform mat3 normalMatrix;\n"
 
+          "void grassDiffuse(in vec3 pos, out vec3 color){\n"
+          "    vec3 grassBaseColor = vec3(0.56,0.74,0.35);\n"
+//          "    float noise1 = snoise(pos.xy*8, 0);\n"
+          "    float noise1 = ridgedmultifractal(pos.xy*0.5, 8, 2, 0.25, 0.1, 0.5, 0);\n"
+          "    float noise2 = fbm2d(pos.xy*4, 8, 2, 0.75, 2);\n"
+          "    vec3 colorOffset1 = noise1*vec3(0.2,0.2,0.2);\n"
+          "    vec3 colorOffset2 = noise2*vec3(0.2,0.2,0.2);\n"
+          "    color = grassBaseColor + colorOffset1 + colorOffset2;\n"
+          "}\n"
+
           "void main() {\n"
+          "    vec3 baseColor = vec3(1,1,1);\n";
+
+
+    if(m_state.texturingEnabled){
+    fs << ""
+          "    vec3 rockColor = vec3(0.9);\n"
+          "    vec3 beachColor = vec3(0.64,0.61,0.55);\n"
+          "    vec3 grassColor;\n"
+          "    grassDiffuse(vertexPosition, grassColor);\n"
+          "    vec3 waterColor = vec3(0.15,0.31,0.34);\n"
+
+          //add rocks where steep
+          "    vec3 groundColor = mix(grassColor, rockColor, smoothstep(-0.9, -0.5, -vertexNormal.z));\n"
+
+          //add beaches
+          "    float beachLine = 0.03+0.05*fbm2d(vertexPosition.xy, 2, 2, 0.5, 3);\n"
+          "    groundColor = mix(beachColor, groundColor, smoothstep(beachLine, beachLine+0.15, heightUnscaled));\n"
+
+          //add water
+          "    baseColor = mix(waterColor, groundColor, smoothstep(0.0, 0.05, heightUnscaled));\n"
+
+          //add snow
+          "    float snowline = 0.8+0.2*fbm2d(vertexPosition.xy, 3, 2, 0.5, 3);\n"
+          "    baseColor = mix(baseColor, vec3(2,2,2), smoothstep(snowline, snowline+0.2, heightUnscaled));\n";
+    }
+
+
+    fs << ""
           "    vec3 n = normalize(normal);\n"
           "    vec3 dirLight0 = normalize(vec3(1,1,1));\n"
           "    vec3 s = normalize(normalMatrix * dirLight0);\n"
@@ -271,8 +313,6 @@ void HeightMap3DRenderer::recompileProgram()
 
           "    float i_d = k_d * max(0, dot(s, n));\n"
           "    float i_a = 0.2;\n"
-
-          "    vec3 baseColor = vec3(1,1,1);\n"
 
 //          "    float grassyness = smoothstep(0.7,0.9,dot(vertexNormal,vec3(0,0,1)));\n"
 //          "    baseColor -= vec3(grassyness,0,grassyness);\n"

@@ -1,6 +1,7 @@
 import QtQuick 2.2
 import NoiseModeler 1.0
 import QtQuick.Layouts 1.1
+import QtQuick.Controls 1.2
 
 SubWindow {
     property bool maximized: false
@@ -14,6 +15,7 @@ SubWindow {
                 inputLink: document.typeManager.userTypes[0].graph.findModule("inputs").inputs[0];
                 outputLink: document.typeManager.userTypes[0].graph.findModule("outputs").outputs[0];
             }
+            texturingEnabled: true
             anchors.fill: parent
             Keys.forwardTo: keyMap
         },
@@ -74,7 +76,7 @@ SubWindow {
         GridLayout {
             anchors.top: renderer.bottom
             anchors.horizontalCenter: parent.horizontalCenter
-            columns: 4
+            columns: 6
             Text {
                 text: "x:"
             }
@@ -91,6 +93,7 @@ SubWindow {
                 width: 50
                 onNewAcceptableValue: renderer.widthScale = value;
             }
+            Item{width:1}Item{width:1}
             Text {
                 text: "y:"
             }
@@ -106,6 +109,26 @@ SubWindow {
                 monitoredValue: renderer.heightScale
                 width: 50
                 onNewAcceptableValue: renderer.heightScale = value;
+            }
+            Text {
+                text: "texturing"
+            }
+            Rectangle {
+                property bool checked: renderer.texturingEnabled
+                width: 10
+                height: 10
+                color: "white"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: renderer.texturingEnabled = !parent.checked;
+                }
+                Rectangle{
+                    visible: parent.checked
+                    color: "blue"
+                    anchors.centerIn: parent
+                    width: 8
+                    height: 8
+                }
             }
         }
     ]
