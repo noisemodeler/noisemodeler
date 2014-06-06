@@ -40,12 +40,12 @@ int main(int argc, char *argv[])
     qmlRegisterType<nmgui::HeightMapFunction>("NoiseModeler", 1, 0, "HeightMapFunction");
     qmlRegisterType<nmgui::HeightMap3DExplorer>("NoiseModeler", 1, 0, "HeightMap3DExplorer");
     qmlRegisterType<nmgui::HeightMapTextureExplorer>("NoiseModeler", 1, 0, "HeightMapTextureExplorer");
-    qmlRegisterType<nmgui::ModuleQ>("NoiseModeler", 1, 0, "Module");
-    qmlRegisterType<nmgui::InputLinkQ>("NoiseModeler", 1, 0, "InputLink");
-    qmlRegisterType<nmgui::OutputLinkQ>("NoiseModeler", 1, 0, "OutputLink");
-    qmlRegisterType<nmgui::ModuleTypeQ>("NoiseModeler", 1, 0, "ModuleType");
-    qmlRegisterType<nmgui::GraphQ>("NoiseModeler", 1, 0, "Graph");
-    qmlRegisterType<nmgui::TypeManagerQ>("NoiseModeler", 1, 0, "TypeManager");
+    qmlRegisterUncreatableType<nmgui::ModuleQ>("NoiseModeler", 1, 0, "Module","uncreatable");
+    qmlRegisterUncreatableType<nmgui::InputLinkQ>("NoiseModeler", 1, 0, "InputLink","uncreatable");
+    qmlRegisterUncreatableType<nmgui::OutputLinkQ>("NoiseModeler", 1, 0, "OutputLink","uncreatable");
+    qmlRegisterUncreatableType<nmgui::ModuleTypeQ>("NoiseModeler", 1, 0, "ModuleType","uncreatable");
+    qmlRegisterUncreatableType<nmgui::GraphQ>("NoiseModeler", 1, 0, "Graph","uncreatable");
+    qmlRegisterUncreatableType<nmgui::TypeManagerQ>("NoiseModeler", 1, 0, "TypeManager","uncreatable");
 
     QStringList cmdLineArgs = QCoreApplication::arguments();
 

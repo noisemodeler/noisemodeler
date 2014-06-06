@@ -5,7 +5,7 @@ Rectangle {
     id: graphEditor
     color: mystyle.graphEditor.bgColor
     property alias contents: contents
-    property Graph graph
+    property variant graph
     property variant selectedModule
     property var moduleToItemMap: ({})
 
@@ -30,6 +30,7 @@ Rectangle {
         graph.onModulesChanged.connect(contents.updateContents);
         graph.onModuleRemoved.connect(contents.onModuleRemoved);
         graph.onModuleAdded.connect(contents.addNode);
+        contents.updateContents();
         reconnectConnectors();
         autoArrangeWindows();
     }
@@ -46,7 +47,7 @@ Rectangle {
         Node {
             onSelectedChanged: {
                 if(selected)selectedModule = module;
-                else if(selectedModule === module)selectedModule = undefined;
+                //else if(selectedModule === module)selectedModule = undefined;
             }
         }
     }
@@ -58,6 +59,7 @@ Rectangle {
             moduleToItemMap[module] = item;
         }
         function onModuleRemoved(module, index){
+            if(selectedModule===module)selectedModule=undefined;
             moduleToItemMap[module].destroy();
             delete moduleToItemMap[module];
         }

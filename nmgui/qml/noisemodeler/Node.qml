@@ -3,7 +3,7 @@ import NoiseModeler 1.0
 
 SubWindow {
     id: node
-    property Module module
+    property variant module
     windowTitle: module.name
     visible: module
 

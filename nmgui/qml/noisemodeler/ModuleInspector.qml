@@ -4,9 +4,17 @@ import QtQuick.Layouts 1.1
 SubWindow {
     property variant module
     windowTitle: "inspector: " + (module ? module.name : "no module")
+
+    //I would use module.inputs directly, but for some reason
+    //that doesn't work. So we're using this hack
+    property variant inputs
+    onModuleChanged: { inputs = module===undefined ? undefined : module.inputs; }
+
     contents.children: [
         ColumnLayout {
-            visible: module ? true : false
+//            visible: module ? true : false
+            opacity: module ? 100 : 0 //for weird resons, it crashes with visible, but opacity is fine
+
             anchors.left:parent.left
             anchors.right:parent.right
             anchors.top: parent.top
@@ -46,7 +54,11 @@ SubWindow {
 
             ColumnLayout {
                 Repeater{
-                    model: module ? module.inputs : 0
+                    //I would use module.inputs directly, but for some reason
+                    //that doesn't work.
+                    model: inputs
+
+                    Text { text: "ble"}
                     RowLayout{
                         InspectorLabel {
                             text: modelData.name + ":"

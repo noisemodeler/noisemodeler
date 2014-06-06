@@ -28,7 +28,7 @@ Item {
         id: documentEditor
         Rectangle {
             id: mainWindow
-            property ModuleType currentModuleType: document.typeManager.userTypes[0]
+            property variant currentModuleType: document.typeManager.userTypes[0]
             Style { id: mystyle }
 
             FileDialog {
@@ -150,7 +150,7 @@ Item {
                 Component {
                     id: moduleTypeEditorTabComponent
                     Item{
-                        property ModuleType moduleType
+                        property variant moduleType
                         Component {
                             id: graphEditorWrapper
                             GraphEditor {
@@ -162,7 +162,7 @@ Item {
                                         if(selectedModule !== undefined)moduleInspector.module = selectedModule;
                                     }
                                 }
-                                onSelectedModuleChanged: if(selectedModule)moduleInspector.module = selectedModule;
+                                onSelectedModuleChanged: moduleInspector.module = selectedModule;
                             }
                         }
                         Loader {
