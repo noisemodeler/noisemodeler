@@ -1,10 +1,12 @@
-# noise-terrain-gen
+# Noise Modeler
 
-Tool for designing noise-based functions, though a flow-graph interface. Specialized for terrain generation.
+Tool for designing noise-based functions, though a flow-graph interface. Specialized for heightmap terrain generation.
+
+Generated terrain models can be stored as a procedural models consuming only a few kB of storage. Through the library a model can be  expanded by a game engine during run-time.
 
 ## Folder structure
 
- * `nmlib` a C++ library, which allows creation, editing and evaluation of flow-graphs. Used `nmgui`.
+ * `nmlib` a C++ library, which allows creation, editing and evaluation of flow-graphs. Used by `nmgui`.
  * `nmgui` a graphical flow-graph editor and terrain previewer.
  * `test_nmlib` unit tests for `nmlib`.
  * `test_nmgui` unit tests for `nmgui`.
@@ -44,7 +46,7 @@ First, make sure you have all of the following dependencies installed:
  * gcc with C++11 support
  * googletest (for unit tests)
 
-```
+```bash
 # Clone the repository.
 git clone --recursive git@github.com:acelster/noise-terrain-gen.git 
 
