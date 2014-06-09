@@ -270,7 +270,7 @@ std::unique_ptr<const ModuleType> createRidgedMultifractal(){
     moduleType->addInput("seed", SignalType{1});
     moduleType->addInput("octaves", SignalValue{10});
     moduleType->addInput("lacunarity", SignalValue{2.f});
-    moduleType->addInput("h", SignalValue{0.25f});
+    moduleType->addInput("h", SignalValue{1.0f});
     moduleType->addInput("offset", SignalValue{1.0f});
     moduleType->addInput("gain", SignalValue{2.0f});
     moduleType->addOutput("result", SignalType{1});
