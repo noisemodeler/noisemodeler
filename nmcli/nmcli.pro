@@ -1,5 +1,6 @@
 TEMPLATE = app
 TARGET = nm
+CONFIG += console
 QT -= gui core
 
 QMAKE_CXXFLAGS += -std=c++11 \
