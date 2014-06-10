@@ -58,7 +58,6 @@ SubWindow {
                     //that doesn't work.
                     model: inputs
 
-                    Text { text: "ble"}
                     RowLayout{
                         InspectorLabel {
                             text: modelData.name + ":"
