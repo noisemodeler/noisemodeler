@@ -9,6 +9,7 @@ Item{
     property var moduleType
     signal editClicked()
     signal addClicked()
+    signal inspectClicked()
     height: 30
     anchors.left: parent ? parent.left : undefined //TODO this is weird, parent is undefined when loading new documents
     anchors.right: parent ? parent.right : undefined
@@ -18,14 +19,25 @@ Item{
         anchors.right: parent.right
         anchors.leftMargin: 10
         anchors.rightMargin: 10
-        Text {
+        Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            elide: Text.ElideRight
-            height: parent.height
-            text: moduleType.name
-            verticalAlignment: Text.AlignVCenter
+            Text {
+                anchors.fill: parent
+                id: text
+                elide: Text.ElideRight
+                height: parent.height
+                text: moduleType.name
+                verticalAlignment: Text.AlignVCenter
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    inspectClicked();
+                }
+            }
         }
+
         ToolBarIcon {
             onClicked: editClicked()
             source: 'qrc:///icons/edit.svg'

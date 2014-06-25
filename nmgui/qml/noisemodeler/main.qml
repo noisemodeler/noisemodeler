@@ -94,6 +94,9 @@ Item {
                     currentModuleType = moduleType;
                     //TODO open a new tab if not open
                 }
+                onInspectModuleTypeClicked: {
+                    inspector.inspectModuleType(moduleType);
+                }
             }
 
             Item {

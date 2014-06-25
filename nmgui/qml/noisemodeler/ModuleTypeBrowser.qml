@@ -8,6 +8,7 @@ Rectangle {
     id: moduleTypeBrowser
     signal addModuleClicked(ModuleType moduleType)
     signal editModuleTypeClicked(ModuleType moduleType)
+    signal inspectModuleTypeClicked(ModuleType moduleType)
     color: mystyle.moduleTypeBrowser.bgColor
     width: 150
 
@@ -46,6 +47,7 @@ Rectangle {
                     moduleType: modelData
                     onAddClicked: addModuleClicked(moduleType)
                     onEditClicked: editModuleTypeClicked(moduleType)
+                    onInspectClicked: inspectModuleTypeClicked(moduleType)
                 }
             }
 
@@ -68,6 +70,7 @@ Rectangle {
                 ModuleTypeListEntry {
                     moduleType: modelData
                     onAddClicked: addModuleClicked(modelData)
+                    onInspectClicked: inspectModuleTypeClicked(moduleType)
                 }
             }
         }
