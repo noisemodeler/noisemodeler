@@ -27,7 +27,7 @@ public:
     explicit InputLinkQ(nm::InputLink* inputLink = nullptr, QObject *parent = nullptr);
     virtual ~InputLinkQ();
     static InputLinkQ *fromInputLink(nm::InputLink& setOutputLink);
-    nm::InputLink &inputLink();
+    nm::InputLink *inputLink();
 
     QString name() const;
     int dimensionality() const;

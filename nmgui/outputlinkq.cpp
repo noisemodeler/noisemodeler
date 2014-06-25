@@ -44,9 +44,9 @@ OutputLinkQ *OutputLinkQ::fromOutputLink(nm::OutputLink &outputLink)
     }
 }
 
-nm::OutputLink &OutputLinkQ::outputLink()
+nm::OutputLink *OutputLinkQ::outputLink()
 {
-    return *m_outputLink;
+    return m_outputLink;
 }
 
 int OutputLinkQ::dimensionality() const

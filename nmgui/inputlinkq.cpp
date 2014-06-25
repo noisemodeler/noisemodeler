@@ -43,9 +43,9 @@ InputLinkQ *InputLinkQ::fromInputLink(nm::InputLink &outputLink)
     }
 }
 
-nm::InputLink &InputLinkQ::inputLink()
+nm::InputLink *InputLinkQ::inputLink()
 {
-    return *m_inputLink;
+    return m_inputLink;
 }
 
 QString InputLinkQ::name() const
@@ -71,7 +71,7 @@ void InputLinkQ::setOutputLink(OutputLinkQ *value)
     if(value == nullptr){
         m_inputLink->unlink();
     } else {
-        m_inputLink->link(value->outputLink());
+        m_inputLink->link(*value->outputLink());
     }
     emit outputLinkChanged();
 }

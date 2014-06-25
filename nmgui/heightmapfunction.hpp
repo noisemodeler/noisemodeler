@@ -16,6 +16,8 @@ class HeightMapFunction : public QObject
 public:
     explicit HeightMapFunction(QObject *parent = 0);
 
+    bool valid() const;
+
     //getters
     InputLinkQ *inputLink() const {return m_inputLink;}
     OutputLinkQ *outputLink() const {return m_outputLink;}

@@ -14,6 +14,14 @@ HeightMapFunction::HeightMapFunction(QObject *parent) :
     connect(this, SIGNAL(outputLinkChanged()), this, SIGNAL(functionChanged()));
 }
 
+bool HeightMapFunction::valid() const
+{
+    return m_inputLink != nullptr &&
+            m_outputLink != nullptr &&
+            m_inputLink->inputLink() != nullptr &&
+            m_outputLink->outputLink() != nullptr;
+}
+
 
 void HeightMapFunction::setInputLink(InputLinkQ *newLink)
 {

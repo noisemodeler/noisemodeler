@@ -26,7 +26,7 @@ public:
     explicit OutputLinkQ(nm::OutputLink* outputLink = nullptr, QObject *parent = 0);
     virtual ~OutputLinkQ();
     static OutputLinkQ *fromOutputLink(nm::OutputLink &outputLink);
-    nm::OutputLink& outputLink();
+    nm::OutputLink *outputLink();
 
     int dimensionality() const;
     QQmlListProperty<InputLinkQ> links();
