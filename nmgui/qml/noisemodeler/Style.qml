@@ -92,6 +92,6 @@ QtObject {
     }
     property QtObject textBox: QtObject {
         property color activeBgColor: "white"
-        property color inActiveBgColor: "#aaaaaa"
+        property color inactiveBgColor: "#aaaaaa"
     }
 }
