@@ -34,5 +34,6 @@
         <file>qml/noisemodeler/WeightedAngleCurve.qml</file>
         <file>qml/noisemodeler/ScrollableFloatInput.qml</file>
         <file>qml/noisemodeler/Inspector.qml</file>
+        <file>qml/noisemodeler/ModuleTypeInspector.qml</file>
     </qresource>
 </RCC>
