@@ -30,6 +30,7 @@ Item {
             SelectionGlow {
                 anchors.fill: dropArea
                 visible: dropArea.containsDrag
+                color: Qt.lighter(connector.connectedColor, 1.2)
             }
 
             onDropped: {
@@ -39,11 +40,18 @@ Item {
             }
         }
         MouseArea {
-            anchors.fill: parent
+            id: removeClickArea
+            visible: model.outputLink !== null
+            anchors.fill: dropArea
             acceptedButtons: Qt.LeftButton
             onPressed: model.outputLink = null
+            hoverEnabled: true
+            SelectionGlow {
+                anchors.fill: parent
+                color: Qt.lighter(connector.connectedColor, 1.2)
+                visible: removeClickArea.containsMouse
+            }
         }
-
         WeightedAngleCurve{
             id: curve
             property Connector otherConnector

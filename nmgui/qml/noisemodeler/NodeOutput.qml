@@ -18,10 +18,13 @@ Item {
         MouseArea {
             id: dragArea
             anchors.fill: parent
+            anchors.margins: -connector.width/2
             drag.target: dragDummy
+            drag.threshold: 0
+            hoverEnabled: true
             onReleased: {
                 drag.target.Drag.drop();
-                drag.target.x=drag.target.y=0;
+                drag.target.x = drag.target.y = 0;
             }
             WeightedAngleCurve {
                 from.x: parent.width
@@ -31,7 +34,11 @@ Item {
                 visible: dragArea.drag.active
                 strokeColor: mystyle.linkStrokeColor
             }
-            drag.threshold: 0
+            SelectionGlow {
+                visible: parent.containsMouse
+                anchors.fill: parent
+                color: Qt.lighter(connector.connectedColor, 1.2);
+            }
         }
         Rectangle{
             id: dragDummy

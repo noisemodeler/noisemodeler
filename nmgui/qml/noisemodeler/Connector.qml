@@ -5,12 +5,14 @@ Rectangle {
     property bool connected: false
     property int dimensionality: 1
     property int tipXdirection: 1
+    property color connectedColor: mystyle.connector.connectedColors[dimensionality-1]
+    property color disconnectedColor: mystyle.connector.disconnectedColors[dimensionality-1]
     anchors.verticalCenter: parent.verticalCenter
 //    border.color: mystyle.borderColor
     border.width: 0
     height: 8
     width: 8
-    color: connected ? mystyle.connector.connectedColors[dimensionality-1] : mystyle.connector.disconnectedColors[dimensionality-1]
+    color: connected ? connectedColor : disconnectedColor
     ToolTipArea{
         text: dimensionality+"D signal"
         tip {
