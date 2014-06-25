@@ -10,7 +10,7 @@ Rectangle {
     property alias textInput: input
     property alias readOnly: input.readOnly
     signal newAcceptableValue(string newText)
-//    width: 60
+    implicitWidth: 60
     height: 18
     color: readOnly ? "#aaaaaa" : "white"
     TextInput {

@@ -4,6 +4,7 @@ Item {
     id: scrollableFloatInput
     property real monitoredValue: 0
     signal newAcceptableValue(real value)
+    implicitHeight: lineInput.implicitHeight
     height: lineInput.height
     onMonitoredValueChanged: {
         if(!lineInput.textInput.focus){
@@ -14,6 +15,7 @@ Item {
 
     LineInput {
         id: lineInput
+        anchors.fill: parent
         text: monitoredValue%1 !== 0 ? monitoredValue.toFixed(3) : monitoredValue;
         anchors.left: parent.left
         anchors.right: parent.right

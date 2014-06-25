@@ -15,8 +15,9 @@ SubWindow {
 //            visible: module ? true : false
             opacity: module ? 100 : 0 //for weird resons, it crashes with visible, but opacity is fine
 
-            anchors.left:parent.left
-            anchors.right:parent.right
+            Layout.fillWidth: true
+//            anchors.left:parent.left
+//            anchors.right:parent.right
             anchors.top: parent.top
             anchors.margins: 6
 

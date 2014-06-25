@@ -113,15 +113,8 @@ Item {
                 width: active ? 200 : 0
             }
 
-            Rectangle {
+            Inspector {
                 id: inspector
-                color: mystyle.inspector.bgColor
-                anchors.fill: inspectorArea
-            }
-
-            ModuleInspector {
-                id: moduleInspector
-                z: 50
                 anchors.fill: inspectorArea
             }
 
@@ -159,10 +152,10 @@ Item {
                                 onVisibleChanged: {
                                     if(visible){
                                         currentModuleType = moduleType;
-                                        if(selectedModule !== undefined)moduleInspector.module = selectedModule;
+                                        if(selectedModule !== undefined)inspector.inspectModule(selectedModule);
                                     }
                                 }
-                                onSelectedModuleChanged: moduleInspector.module = selectedModule;
+                                onSelectedModuleChanged: inspector.inspectModule(selectedModule);
                             }
                         }
                         Loader {

@@ -4,85 +4,105 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.1
 
 SubWindow {
+    id: heightMap3DExplorerWindow
     property bool maximized: false
+    resizeContents: maximized
     windowTitle: "heightmap 3D preview"
-    contents.width: maximized ? mainArea.width: 350
-    contents.height: maximized ? mainArea.height - topBar.height - titleHeight: 350 //TODO fix this ugly dependency
-    contents.children: [
-        HeightMap3DExplorer {
-            id: renderer
-            heightMapFunction: HeightMapFunction {
-                inputLink: document.typeManager.userTypes[0].graph.findModule("inputs").inputs[0];
-                outputLink: document.typeManager.userTypes[0].graph.findModule("outputs").outputs[0];
-            }
-            texturingEnabled: true
-            anchors.fill: parent
-            Keys.forwardTo: keyMap
-        },
-        Item {
-            id: cameraKeyboardControls
-            anchors.fill: renderer
-            KeyMap {
-                id: keyMap
-            }
-            Timer {
-                running: true; repeat: true
-                interval: 10
-                onTriggered: {
-                    //yawing/turning
-                    var yawDir = -keyMap.getAxis(Qt.Key_Right, Qt.Key_Left);
-                    var yawSpeed = 80;
-                    if(yawDir!==0)renderer.yawCamera(yawDir * yawSpeed * interval/1000);
+    width: maximized ? mainArea.width : colLayout.implicitWidth
+    height: maximized ? mainArea.height : colLayout.implicitHeight + titleBar.height
 
-                    //pitching/tilting
-                    var pitchDir = keyMap.getAxis(Qt.Key_Up, Qt.Key_Down);
-                    var pitchSpeed = 80;
-                    if(pitchDir!==0)renderer.pitchCamera(-pitchDir * pitchSpeed * interval/1000);
-
-                    //forwards/backwards
-                    var forwardDir = keyMap.getAxis(Qt.Key_W, Qt.Key_S);
-                    var forwardSpeed = 64;
-                    if(forwardDir!==0)renderer.moveCameraForward(forwardDir * forwardSpeed * interval/1000);
-
-                    var strafeDir = keyMap.getAxis(Qt.Key_D, Qt.Key_A);
-                    var strafeSpeed = 64;
-                    if(strafeDir!==0)renderer.moveCameraRight(strafeDir * strafeSpeed * interval/1000);
+    ColumnLayout{
+        spacing: 0
+        id: colLayout
+        width: maximized ? heightMap3DExplorerWindow.width : undefined
+        height: maximized ? heightMap3DExplorerWindow.height - titleBar.height: undefined
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            implicitWidth: 350
+            implicitHeight: 350
+            HeightMap3DExplorer {
+                anchors.fill: parent
+                id: renderer
+                heightMapFunction: HeightMapFunction {
+                    inputLink: document.typeManager.userTypes[0].graph.findModule("inputs").inputs[0];
+                    outputLink: document.typeManager.userTypes[0].graph.findModule("outputs").outputs[0];
                 }
+                texturingEnabled: true
+                Keys.forwardTo: keyMap
             }
-        },
-        MouseArea {
-            drag.target: offset
+
             Item {
-                property real lastX
-                property real lastY
-                property real yawSensitivity: 0.2
-                property real pitchSensitivity: 0.2
-                id: offset
-                onXChanged: {
-                    var deltaX = x-lastX;
-                    renderer.yawCamera(-deltaX*yawSensitivity);
-                    lastX = x;
+                id: cameraKeyboardControls
+                anchors.fill: renderer
+                KeyMap {
+                    id: keyMap
                 }
-                onYChanged: {
-                    var deltaY = y-lastY;
-                    renderer.pitchCamera(-deltaY*pitchSensitivity);
-                    lastY = y;
+                Timer {
+                    running: true; repeat: true
+                    interval: 10
+                    onTriggered: {
+                        //yawing/turning
+                        var yawDir = -keyMap.getAxis(Qt.Key_Right, Qt.Key_Left);
+                        var yawSpeed = 80;
+                        if(yawDir!==0)renderer.yawCamera(yawDir * yawSpeed * interval/1000);
+
+                        //pitching/tilting
+                        var pitchDir = keyMap.getAxis(Qt.Key_Up, Qt.Key_Down);
+                        var pitchSpeed = 80;
+                        if(pitchDir!==0)renderer.pitchCamera(-pitchDir * pitchSpeed * interval/1000);
+
+                        //forwards/backwards
+                        var forwardDir = keyMap.getAxis(Qt.Key_W, Qt.Key_S);
+                        var forwardSpeed = 64;
+                        if(forwardDir!==0)renderer.moveCameraForward(forwardDir * forwardSpeed * interval/1000);
+
+                        var strafeDir = keyMap.getAxis(Qt.Key_D, Qt.Key_A);
+                        var strafeSpeed = 64;
+                        if(strafeDir!==0)renderer.moveCameraRight(strafeDir * strafeSpeed * interval/1000);
+                    }
                 }
             }
-            anchors.fill: renderer
-            onDoubleClicked: maximized = !maximized
-            onPressedChanged: renderer.forceActiveFocus(); //renderer.focus = true;
-        },
+            MouseArea {
+                drag.target: offset
+                Item {
+                    property real lastX
+                    property real lastY
+                    property real yawSensitivity: 0.2
+                    property real pitchSensitivity: 0.2
+                    id: offset
+                    onXChanged: {
+                        var deltaX = x-lastX;
+                        renderer.yawCamera(-deltaX*yawSensitivity);
+                        lastX = x;
+                    }
+                    onYChanged: {
+                        var deltaY = y-lastY;
+                        renderer.pitchCamera(-deltaY*pitchSensitivity);
+                        lastY = y;
+                    }
+                }
+                anchors.fill: renderer
+                onDoubleClicked: maximized = !maximized
+                onPressedChanged: renderer.forceActiveFocus(); //renderer.focus = true;
+            }
+        }
         GridLayout {
-            anchors.top: renderer.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            columns: 6
+            Layout.fillWidth: true
+            rowSpacing: 5
+            columnSpacing: 5
+            columns: 8
+            flow: GridLayout.LeftToRight
+
+            Item{width:5}
             Text {
+                Layout.column: 1
                 text: "x:"
             }
             ScrollableFloatInput {
                 monitoredValue: renderer.center.x
-                width: 50
+                Layout.minimumWidth: 50
+                Layout.fillWidth: true
                 onNewAcceptableValue: renderer.center.x = value;
             }
             Text {
@@ -90,16 +110,18 @@ SubWindow {
             }
             ScrollableFloatInput {
                 monitoredValue: renderer.widthScale
-                width: 50
+                Layout.minimumWidth: 50
+                Layout.fillWidth: true
                 onNewAcceptableValue: renderer.widthScale = value;
             }
-            Item{width:1}Item{width:1}
+            Item{width:1} Item{width:1} Item{width:5} Item{width:5}
             Text {
                 text: "y:"
             }
             ScrollableFloatInput {
                 monitoredValue: renderer.center.y
-                width: 50
+                Layout.minimumWidth: 50
+                Layout.fillWidth: true
                 onNewAcceptableValue: renderer.center.y = value;
             }
             Text {
@@ -107,7 +129,8 @@ SubWindow {
             }
             ScrollableFloatInput {
                 monitoredValue: renderer.heightScale
-                width: 50
+                Layout.minimumWidth: 50
+                Layout.fillWidth: true
                 onNewAcceptableValue: renderer.heightScale = value;
             }
             Text {
@@ -131,5 +154,5 @@ SubWindow {
                 }
             }
         }
-    ]
+    }
 }

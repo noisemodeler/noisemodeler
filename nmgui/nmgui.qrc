@@ -33,5 +33,6 @@
         <file>qml/noisemodeler/TopBar.qml</file>
         <file>qml/noisemodeler/WeightedAngleCurve.qml</file>
         <file>qml/noisemodeler/ScrollableFloatInput.qml</file>
+        <file>qml/noisemodeler/Inspector.qml</file>
     </qresource>
 </RCC>

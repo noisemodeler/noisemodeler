@@ -1,19 +1,19 @@
 import QtQuick 2.2
+import QtQuick.Layouts 1.1
 
 Rectangle {
     id: subWindow
-    width: anchors.fill ? undefined : contents.childrenRect.width
-    height: anchors.fill ? undefined : contents.childrenRect.height + titleBar.height + borderThickness * 2
+    implicitWidth: contents.implicitWidth
+    implicitHeight: contents.implicitHeight + titleBar.height
     color: mystyle.node.bgColor
-//    property int minWidth: Math.max(50, contents.minWidth+borderThickness*2)
-//    property int minHeight: contents.minHeight + titleBar.height + borderThickness * 2
+    default property alias children: contents.children
     property int titleHeight: 13
     property string windowTitle: "Window Title"
     property alias mouseArea: windowMouseArea
     property alias titleBar: titleBar
     property alias contents: contents
-    property int borderThickness: 0
     property bool selected: focus
+    property bool resizeContents: false
     SelectionGlow {
         id:selectionGlow
         anchors.fill: parent
@@ -48,12 +48,12 @@ Rectangle {
         }
     }
     Item {
-        id:contents
+        id: contents
         anchors.top: titleBar.bottom
         anchors.left: subWindow.left
-        anchors.leftMargin: borderThickness
-        anchors.rightMargin: borderThickness
-        width: subWindow.anchors.fill ? subWindow.width : childrenRect.width
-        height: subWindow.anchors.fill ? subWindow.height-titleHeight : childrenRect.height
+        width: resizeContents ? subWindow.width : undefined
+        height: resizeContents ? subWindow.height : undefined
+        implicitWidth: childrenRect.width
+        implicitHeight: childrenRect.height
     }
 }
