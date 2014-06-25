@@ -50,13 +50,14 @@ QtObject {
     property color borderColor: "black"
     property color linkStrokeColor: fgColor
     property color toolTipBg: "#AA999999"
+    property color checkedColor: "#3333AA"
 
     property QtObject graphEditor: QtObject {
         property color bgColor: style.bgColor
     }
 
     property QtObject inspector: QtObject {
-        property color bgColor: bgColor3
+        property color bgColor: node.bgColor
     }
 
     property QtObject moduleTypeBrowser: QtObject {
@@ -66,10 +67,12 @@ QtObject {
     property QtObject topBar: QtObject {
         property color bgColor: style.bgColor2
         property color textColor: style.textColor
+        property color tabHighlightColor: style.fgColor
     }
 
     property QtObject subWindow: QtObject {
-        property color bgColor: style.bgColor
+        property color headerColor: style.bgColor
+        property color bgColor: node.bgColor
     }
 
     property QtObject node: QtObject {
@@ -86,5 +89,9 @@ QtObject {
             Qt.darker(connectedColors[2], 2.8)
         ]
         property int height: 20
+    }
+    property QtObject textBox: QtObject {
+        property color activeBgColor: "white"
+        property color inActiveBgColor: "#aaaaaa"
     }
 }

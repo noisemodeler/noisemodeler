@@ -5,7 +5,7 @@ Rectangle {
     id: subWindow
     implicitWidth: contents.implicitWidth
     implicitHeight: contents.implicitHeight + titleBar.height
-    color: mystyle.node.bgColor
+    color: mystyle.subWindow.bgColor
     default property alias contentsData: contents.data
     property int titleHeight: 13
     property string windowTitle: "Window Title"
@@ -26,7 +26,7 @@ Rectangle {
         anchors.right: subWindow.right
         anchors.top: subWindow.top
         height: titleHeight
-        color: mystyle.subWindow.bgColor
+        color: mystyle.subWindow.headerColor
         Text {
             id: nodeLabel
             x: 3

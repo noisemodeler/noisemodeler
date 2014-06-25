@@ -24,9 +24,14 @@ Item {
                 anchors.centerIn: parent
                 width: connector.width
                 height: connector.height
-                color: "blue"
+                color: mystyle.checkedColor
                 visible: dropArea.containsDrag
             }
+            SelectionGlow {
+                anchors.fill: dropArea
+                visible: dropArea.containsDrag
+            }
+
             onDropped: {
                 var nodeOutput = drag.source.parent.parent;
                 model.outputLink = nodeOutput.model;

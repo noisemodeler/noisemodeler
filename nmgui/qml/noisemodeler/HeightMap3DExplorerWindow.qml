@@ -140,14 +140,14 @@ SubWindow {
                 property bool checked: renderer.texturingEnabled
                 width: 10
                 height: 10
-                color: "white"
+                color: mystyle.textBox.activeBgColor
                 MouseArea {
                     anchors.fill: parent
                     onClicked: renderer.texturingEnabled = !parent.checked;
                 }
                 Rectangle{
                     visible: parent.checked
-                    color: "blue"
+                    color: mystyle.checkedColor
                     anchors.centerIn: parent
                     width: 8
                     height: 8

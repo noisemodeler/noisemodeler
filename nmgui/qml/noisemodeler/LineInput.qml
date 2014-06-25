@@ -12,7 +12,7 @@ Rectangle {
     signal newAcceptableValue(string newText)
     implicitWidth: 60
     height: 18
-    color: readOnly ? "#aaaaaa" : "white"
+    color: readOnly ? mystyle.textBox.inactiveBgColor : mystyle.textBox.activeBgColor
     TextInput {
         id: input
         color: "black"
