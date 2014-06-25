@@ -47,6 +47,13 @@ Module::Module(const ModuleType &type, std::string name, std::string description
 
 Module::~Module()
 {
+    //unlink if still connected
+    for(auto output : getOutputs()){
+        output->unlinkAll();
+    }
+    for(auto input : getInputs()){
+        input->unlink();
+    }
     destroying(*this);
 }
 
