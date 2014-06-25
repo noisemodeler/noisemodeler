@@ -6,7 +6,7 @@ Rectangle {
     implicitWidth: contents.implicitWidth
     implicitHeight: contents.implicitHeight + titleBar.height
     color: mystyle.node.bgColor
-    default property alias children: contents.children
+    default property alias contentsData: contents.data
     property int titleHeight: 13
     property string windowTitle: "Window Title"
     property alias mouseArea: windowMouseArea
