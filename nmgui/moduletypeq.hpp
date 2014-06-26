@@ -20,7 +20,7 @@ class ModuleTypeQ : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
-    Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
+    Q_PROPERTY(QString description READ description WRITE setDescription NOTIFY descriptionChanged)
     Q_PROPERTY(bool removable READ removable CONSTANT)
     Q_PROPERTY(bool builtin READ builtin CONSTANT)
     Q_PROPERTY(bool graphInput READ graphInput CONSTANT)
@@ -37,6 +37,7 @@ public:
     QString name() const;
     void setName(const QString &value);
     QString description() const;
+    void setDescription(const QString &value);
     bool removable() const;
     bool builtin() const;
     bool graphInput() const;

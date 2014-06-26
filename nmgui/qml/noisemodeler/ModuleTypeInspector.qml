@@ -9,7 +9,6 @@ Rectangle {
         anchors.margins: 6
         anchors.fill: parent
         RowLayout {
-            Layout.alignment: Qt.AlignTop
             InspectorLabel {
                 text: "name:"
             }
@@ -25,5 +24,27 @@ Rectangle {
                 }
             }
         }
+        RowLayout {
+            Text {
+                text: "description:"
+            }
+        }
+        RowLayout {
+            Rectangle {
+                color: moduleType.builtin ? mystyle.textBox.inactiveBgColor : mystyle.textBox.activeBgColor
+                Layout.fillWidth: true
+                height: Math.max(12+6, commentEdit.contentHeight+6)
+                TextEdit {
+                    id: commentEdit
+                    anchors.fill: parent
+                    anchors.margins: 3
+                    readOnly: moduleType.builtin
+                    text: moduleType.description
+                    wrapMode: TextEdit.WrapAtWordBoundaryOrAnywhere
+                    onTextChanged: if(moduleType && !moduleType.builtin)moduleType.description = text;
+                }
+            }
+        }
+        Item{Layout.fillHeight: true}
     }
 }

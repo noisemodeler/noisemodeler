@@ -74,6 +74,12 @@ QString ModuleTypeQ::description() const
     return QString::fromUtf8(ss.data(), ss.size());
 }
 
+void ModuleTypeQ::setDescription(const QString &value)
+{
+    if(value == description())return;
+    m_moduleType->setDescription(value.toUtf8().constData());
+}
+
 bool ModuleTypeQ::removable() const
 {
     return m_moduleType->isRemovable();
