@@ -58,8 +58,9 @@ Rectangle {
                     }
                 }
             }
+            Item{width:1} //leave this here because layouts get messed
+                          //up if sub-layouts have no children
         }
-
         Text {
             text: "outputs:"
         }
@@ -72,6 +73,8 @@ Rectangle {
                     }
                 }
             }
+            Item{width:1} //leave this here because layouts get messed
+                          //up if sub-layouts have no children
         }
 
         Item{Layout.fillHeight: true}
