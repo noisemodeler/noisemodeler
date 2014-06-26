@@ -24,6 +24,48 @@ Rectangle {
                 }
             }
         }
+        Text {
+            text: "inputs:"
+        }
+        ColumnLayout {
+            Repeater {
+                model: moduleType.inputs
+                ModuleTypeInspectorIOEntry {
+                    onRemoveClicked:  {
+                        moduleType.removeInput(modelData);
+                    }
+                }
+            }
+            Item{width:1} //leave this here because layouts get messed
+                          //up if sub-layouts have no children
+        }
+        NewIOForm {
+            onAddClicked: {
+                console.log("todo: add input: ",dimensionality,name);
+            }
+        }
+
+        Text {
+            text: "outputs:"
+        }
+        ColumnLayout {
+             Repeater {
+                model: moduleType.outputs
+                ModuleTypeInspectorIOEntry {
+                    onRemoveClicked:  {
+                        moduleType.removeOutput(modelData);
+                    }
+                }
+            }
+            Item{width:1} //leave this here because layouts get messed
+                          //up if sub-layouts have no children
+        }
+        NewIOForm {
+            onAddClicked: {
+                console.log("todo: add output: ",dimensionality,name);
+            }
+        }
+
         RowLayout {
             Text {
                 text: "description:"
@@ -44,37 +86,6 @@ Rectangle {
                     onTextChanged: if(moduleType && !moduleType.builtin)moduleType.description = text;
                 }
             }
-        }
-
-        Text {
-            text: "inputs:"
-        }
-        ColumnLayout {
-            Repeater {
-                model: moduleType.inputs
-                ModuleTypeInspectorIOEntry {
-                    onRemoveClicked:  {
-                        moduleType.removeInput(modelData);
-                    }
-                }
-            }
-            Item{width:1} //leave this here because layouts get messed
-                          //up if sub-layouts have no children
-        }
-        Text {
-            text: "outputs:"
-        }
-        ColumnLayout {
-             Repeater {
-                model: moduleType.outputs
-                ModuleTypeInspectorIOEntry {
-                    onRemoveClicked:  {
-                        moduleType.removeOutput(modelData);
-                    }
-                }
-            }
-            Item{width:1} //leave this here because layouts get messed
-                          //up if sub-layouts have no children
         }
 
         Item{Layout.fillHeight: true}

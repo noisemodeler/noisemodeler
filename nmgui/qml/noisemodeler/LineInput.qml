@@ -9,6 +9,7 @@ Rectangle {
     property alias acceptableInput: input.acceptableInput
     property alias textInput: input
     property alias readOnly: input.readOnly
+    property alias horizontalAlignment: input.horizontalAlignment
     signal newAcceptableValue(string newText)
     implicitWidth: 60
     height: 18
