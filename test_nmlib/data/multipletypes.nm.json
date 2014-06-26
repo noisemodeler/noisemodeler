@@ -1,0 +1,68 @@
+{
+    "moduleTypes": [
+        {
+            "name": "terrain",
+            "description": "dummy terrain module",
+            "inputs": [
+                {
+                    "name": "pos",
+                    "type": "2f"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "height",
+                    "source": "mountainTerrain_1.height"
+                }
+            ],
+            "modules": [
+                {
+                    "name": "mountainTerrain_1",
+                    "description": "",
+                    "type": "mountainTerrain",
+                    "inputs": {
+                        "position": "inputs.pos"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "mountainTerrain",
+            "description": "",
+            "inputs": [
+                {
+                    "name": "position",
+                    "type": "2f"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "height",
+                    "source": "fbm2_1.result"
+                }
+            ],
+            "modules": [
+                {
+                    "name": "fbm2_1",
+                    "description": "",
+                    "type": "fbm2",
+                    "inputs": {
+                        "pos": "inputs.position",
+                        "seed": [
+                            0
+                        ],
+                        "octaves": [
+                            10
+                        ],
+                        "lacunarity": [
+                            2
+                        ],
+                        "gain": [
+                            0.5
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
