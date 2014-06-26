@@ -34,4 +34,6 @@ PRE_TARGETDEPS += ../nmlib/libnmlib.a
 
 OTHER_FILES += \
     data/constants.nm.json \
-    data/onemoduletype.nm.json
+    data/onemoduletype.nm.json \
+    data/complextest.json \
+    data/multipletypes.nm.json
