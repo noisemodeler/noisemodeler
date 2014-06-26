@@ -49,6 +49,7 @@ public:
 
 public slots:
     bool removeInput(nmgui::ModuleInputQ *moduleInput);
+    bool removeOutput(nmgui::ModuleOutputQ *moduleOutput);
 
 signals:
     void inputsChanged();

@@ -32,4 +32,9 @@ QString ModuleOutputQ::name() const
     return QString::fromUtf8(ss.data(), ss.size());
 }
 
+int ModuleOutputQ::dimensionality() const
+{
+    return m_moduleOutput->getSignalType().dimensionality;
+}
+
 }

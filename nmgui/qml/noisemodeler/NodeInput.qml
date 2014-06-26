@@ -54,7 +54,7 @@ Item {
         }
         WeightedAngleCurve{
             id: curve
-            property Connector otherConnector
+            property variant otherConnector
             to.x: 0
             to.y: parent.height/2
             visible: model.outputLink

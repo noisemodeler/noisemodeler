@@ -121,6 +121,11 @@ bool ModuleTypeQ::removeInput(ModuleInputQ *moduleInput)
     return m_moduleType->removeInput(moduleInput->moduleInput());
 }
 
+bool ModuleTypeQ::removeOutput(ModuleOutputQ *moduleOutput)
+{
+    return m_moduleType->removeOutput(moduleOutput->moduleOutput());
+}
+
 ModuleInputQ *ModuleTypeQ::inputAt(QQmlListProperty<ModuleInputQ> *list, int index)
 {
     ModuleTypeQ *moduleType = qobject_cast<ModuleTypeQ *>(list->object);

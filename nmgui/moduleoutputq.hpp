@@ -15,11 +15,14 @@ class ModuleOutputQ : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(int dimensionality READ dimensionality CONSTANT)
 public:
     explicit ModuleOutputQ(nm::ModuleOutput *moduleOutput = nullptr, QObject *parent = 0);
     static ModuleOutputQ* fromModuleOutput(nm::ModuleOutput &moduleOutput);
 
     QString name() const;
+    int dimensionality() const;
+    nm::ModuleOutput *moduleOutput(){return m_moduleOutput;}
 
 private:
     nm::ModuleOutput* m_moduleOutput;

@@ -45,32 +45,30 @@ Rectangle {
                 }
             }
         }
+
+        Text {
+            text: "inputs:"
+        }
         ColumnLayout {
             Repeater {
                 model: moduleType.inputs
-                RowLayout {
-                    Rectangle {
-                        height: 18
-                        width: height
-                        color: mystyle.connector.connectedColors[modelData.dimensionality-1]
-                        Text {
-                            font.pixelSize: 12
-                            font.bold: true
-                            text: modelData.dimensionality
-                            anchors.centerIn: parent
-                        }
+                ModuleTypeInspectorIOEntry {
+                    onRemoveClicked:  {
+                        moduleType.removeInput(modelData);
                     }
-                    Text {
-                        text: modelData.name
-                        Layout.fillWidth: true
-                    }
-                    ToolBarIcon {
-                        visible: !moduleType.builtin
-                        onClicked: {
-                            moduleType.removeInput(modelData);
-                        }
-                        source: 'qrc:///icons/delete.svg'
-                        Layout.alignment: Qt.AlignRight
+                }
+            }
+        }
+
+        Text {
+            text: "outputs:"
+        }
+        ColumnLayout {
+             Repeater {
+                model: moduleType.outputs
+                ModuleTypeInspectorIOEntry {
+                    onRemoveClicked:  {
+                        moduleType.removeOutput(modelData);
                     }
                 }
             }

@@ -36,5 +36,6 @@
         <file>qml/noisemodeler/Inspector.qml</file>
         <file>qml/noisemodeler/ModuleTypeInspector.qml</file>
         <file>icons/delete.svg</file>
+        <file>qml/noisemodeler/ModuleTypeInspectorIOEntry.qml</file>
     </qresource>
 </RCC>
