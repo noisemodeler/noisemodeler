@@ -229,8 +229,8 @@ optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &t
 bool parseModuleTypeArray(const rapidjson::Value &array, TypeManager &typeManager)
 {
     if(!array.IsArray()){
-        std::cerr << "Tried to parse an array that wasn't an array";
-        return {};
+        std::cerr << "Tried to parse an array that wasn't an array.\n";
+        return false;
     }
     for(rapidjson::SizeType i = 0; i < array.Size(); i++){
         auto maybeModuleType = parseModuleType(array[i], typeManager);
