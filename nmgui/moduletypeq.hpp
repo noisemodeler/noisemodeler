@@ -50,6 +50,8 @@ public:
 public slots:
     bool removeInput(nmgui::ModuleInputQ *moduleInput);
     bool removeOutput(nmgui::ModuleOutputQ *moduleOutput);
+    bool addInput(QString name, int dimensionality);
+    bool addOutput(QString name, int dimensionality);
 
 signals:
     void inputsChanged();

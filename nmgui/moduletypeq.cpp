@@ -126,6 +126,16 @@ bool ModuleTypeQ::removeOutput(ModuleOutputQ *moduleOutput)
     return m_moduleType->removeOutput(moduleOutput->moduleOutput());
 }
 
+bool ModuleTypeQ::addInput(QString name, int dimensionality)
+{
+    return m_moduleType->addInput(name.toUtf8().constData(), nm::SignalType{dimensionality});
+}
+
+bool ModuleTypeQ::addOutput(QString name, int dimensionality)
+{
+    return m_moduleType->addOutput(name.toUtf8().constData(), nm::SignalType{dimensionality});
+}
+
 ModuleInputQ *ModuleTypeQ::inputAt(QQmlListProperty<ModuleInputQ> *list, int index)
 {
     ModuleTypeQ *moduleType = qobject_cast<ModuleTypeQ *>(list->object);

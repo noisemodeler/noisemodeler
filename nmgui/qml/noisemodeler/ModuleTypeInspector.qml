@@ -41,7 +41,7 @@ Rectangle {
         }
         NewIOForm {
             onAddClicked: {
-                console.log("todo: add input: ",dimensionality,name);
+                moduleType.addInput(name, dimensionality);
             }
         }
 
@@ -62,7 +62,7 @@ Rectangle {
         }
         NewIOForm {
             onAddClicked: {
-                console.log("todo: add output: ",dimensionality,name);
+                moduleType.addOutput(name, dimensionality);
             }
         }
 
