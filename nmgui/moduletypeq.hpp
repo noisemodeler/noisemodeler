@@ -19,7 +19,7 @@ class GraphQ;
 class ModuleTypeQ : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(bool removable READ removable CONSTANT)
     Q_PROPERTY(bool builtin READ builtin CONSTANT)
@@ -35,6 +35,7 @@ public:
     static ModuleTypeQ *fromModuleType(const nm::ModuleType &moduleType);
 
     QString name() const;
+    void setName(const QString &value);
     QString description() const;
     bool removable() const;
     bool builtin() const;

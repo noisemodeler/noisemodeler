@@ -62,6 +62,12 @@ QString ModuleTypeQ::name() const
     return QString::fromUtf8(ss.data(), ss.size());
 }
 
+void ModuleTypeQ::setName(const QString &value)
+{
+    if(value == name())return;
+    m_moduleType->setName(value.toUtf8().constData());
+}
+
 QString ModuleTypeQ::description() const
 {
     auto ss = m_moduleType->getDescription();

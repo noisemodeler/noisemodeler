@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.1
 Rectangle {
     id: moduleInspector
     property variant module
-    property string windowTitle: "inspector: " + (module ? module.name : "no module")
+//    property string windowTitle: "inspector: " + (module ? module.name : "no module")
     color: mystyle.inspector.bgColor
 
     //I would use module.inputs directly, but for some reason
