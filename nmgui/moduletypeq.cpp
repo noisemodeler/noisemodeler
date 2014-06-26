@@ -116,6 +116,11 @@ GraphQ *ModuleTypeQ::graph()
     return g == nullptr ? nullptr : GraphQ::fromGraph(*g);
 }
 
+bool ModuleTypeQ::removeInput(ModuleInputQ *moduleInput)
+{
+    return m_moduleType->removeInput(moduleInput->moduleInput());
+}
+
 ModuleInputQ *ModuleTypeQ::inputAt(QQmlListProperty<ModuleInputQ> *list, int index)
 {
     ModuleTypeQ *moduleType = qobject_cast<ModuleTypeQ *>(list->object);

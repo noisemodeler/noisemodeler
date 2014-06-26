@@ -32,4 +32,9 @@ QString ModuleInputQ::name() const
     return QString::fromUtf8(ss.data(), ss.size());
 }
 
+int ModuleInputQ::dimensionality() const
+{
+    return m_moduleInput->getSignalType().dimensionality;
+}
+
 } // namespace nmgui

@@ -47,6 +47,9 @@ public:
     GraphQ *graph();
     nm::ModuleType* moduleType() const {return m_moduleType;}
 
+public slots:
+    bool removeInput(nmgui::ModuleInputQ *moduleInput);
+
 signals:
     void inputsChanged();
     void outputsChanged();

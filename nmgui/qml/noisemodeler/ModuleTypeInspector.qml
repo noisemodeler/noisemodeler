@@ -6,8 +6,8 @@ Rectangle {
     property variant moduleType: moduleType
     color: mystyle.inspector.bgColor
     ColumnLayout {
-        anchors.margins: 6
         anchors.fill: parent
+        anchors.margins: 6
         RowLayout {
             InspectorLabel {
                 text: "name:"
@@ -45,6 +45,37 @@ Rectangle {
                 }
             }
         }
+        ColumnLayout {
+            Repeater {
+                model: moduleType.inputs
+                RowLayout {
+                    Rectangle {
+                        height: 18
+                        width: height
+                        color: mystyle.connector.connectedColors[modelData.dimensionality-1]
+                        Text {
+                            font.pixelSize: 12
+                            font.bold: true
+                            text: modelData.dimensionality
+                            anchors.centerIn: parent
+                        }
+                    }
+                    Text {
+                        text: modelData.name
+                        Layout.fillWidth: true
+                    }
+                    ToolBarIcon {
+                        visible: !moduleType.builtin
+                        onClicked: {
+                            moduleType.removeInput(modelData);
+                        }
+                        source: 'qrc:///icons/delete.svg'
+                        Layout.alignment: Qt.AlignRight
+                    }
+                }
+            }
+        }
+
         Item{Layout.fillHeight: true}
     }
 }

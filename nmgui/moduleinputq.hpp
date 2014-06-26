@@ -15,11 +15,14 @@ class ModuleInputQ : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ name CONSTANT)
+    Q_PROPERTY(int dimensionality READ dimensionality CONSTANT)
 public:
     explicit ModuleInputQ(nm::ModuleInput *moduleInput = nullptr, QObject *parent = 0);
     static ModuleInputQ* fromModuleInput(nm::ModuleInput &moduleInput);
 
     QString name() const;
+    int dimensionality() const;
+    nm::ModuleInput *moduleInput(){return m_moduleInput;}
 
 private:
     nm::ModuleInput* m_moduleInput;

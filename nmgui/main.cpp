@@ -2,6 +2,8 @@
 #include "inputlinkq.hpp"
 #include "outputlinkq.hpp"
 #include "moduletypeq.hpp"
+#include "moduleinputq.hpp"
+#include "moduleoutputq.hpp"
 #include "graphq.hpp"
 #include "typemanagerq.hpp"
 #include "heightmap3dexplorer.hpp"
@@ -43,6 +45,8 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<nmgui::ModuleQ>("NoiseModeler", 1, 0, "Module","uncreatable");
     qmlRegisterUncreatableType<nmgui::InputLinkQ>("NoiseModeler", 1, 0, "InputLink","uncreatable");
     qmlRegisterUncreatableType<nmgui::OutputLinkQ>("NoiseModeler", 1, 0, "OutputLink","uncreatable");
+    qmlRegisterUncreatableType<nmgui::ModuleInputQ>("NoiseModeler", 1, 0, "ModuleInput","uncreatable");
+    qmlRegisterUncreatableType<nmgui::ModuleOutputQ>("NoiseModeler", 1, 0, "ModuleOutput","uncreatable");
     qmlRegisterUncreatableType<nmgui::ModuleTypeQ>("NoiseModeler", 1, 0, "ModuleType","uncreatable");
     qmlRegisterUncreatableType<nmgui::GraphQ>("NoiseModeler", 1, 0, "Graph","uncreatable");
     qmlRegisterUncreatableType<nmgui::TypeManagerQ>("NoiseModeler", 1, 0, "TypeManager","uncreatable");
