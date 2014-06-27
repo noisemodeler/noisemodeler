@@ -26,7 +26,6 @@ TEST(ModelModuleTypeTest, BuiltinModuleType){
 }
 
 TEST(ModelModuleTypeTest, PrimitiveModuleTypeBasic){
-    //TODO why doesn't it work with a simple stack allocation?
     nm::ModuleType moduleType{"test", nm::ModuleType::Category::Primitive, "testdescription"};
     EXPECT_EQ("test", moduleType.getName());
     EXPECT_EQ("testdescription", moduleType.getDescription());
@@ -35,7 +34,6 @@ TEST(ModelModuleTypeTest, PrimitiveModuleTypeBasic){
 }
 
 TEST(ModelModuleTypeTest, CompositeModuleTypeBasic){
-    //TODO why doesn't it work with a simple stack allocation?
     nm::ModuleType moduleType{"test", "testdescription"};
     EXPECT_EQ("test", moduleType.getName());
     EXPECT_EQ("testdescription", moduleType.getDescription());
@@ -43,8 +41,7 @@ TEST(ModelModuleTypeTest, CompositeModuleTypeBasic){
     EXPECT_FALSE(moduleType.isPrimitive());
 }
 
-TEST(ModelModuleTypeTest, CompositeModuleTypeInputAdding){
-    //TODO why doesn't it work with a simple stack allocation?
+TEST(ModelModuleTypeTest, CompositeModuleTypeInputAddingAndRemoving){
     nm::ModuleType moduleType{"test"};
     ASSERT_TRUE(moduleType.isComposite());
     moduleType.addInput("in1", nm::SignalType{1});
@@ -55,5 +52,9 @@ TEST(ModelModuleTypeTest, CompositeModuleTypeInputAdding){
     auto inputsModule = graph->getModule("inputs");
     ASSERT_NE(nullptr, inputsModule);
     EXPECT_NE(nullptr, inputsModule->getInput("in1"));
-}
 
+    //remove again
+    EXPECT_EQ(true, moduleType.removeInput(moduleInput));
+    EXPECT_EQ(nullptr, moduleType.getInput("in1"));
+    EXPECT_EQ(nullptr, inputsModule->getInput("in1"));
+}
