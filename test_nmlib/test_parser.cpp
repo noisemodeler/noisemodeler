@@ -7,22 +7,11 @@
 #include <nmlib/model/graph.hpp>
 #include <nmlib/model/module.hpp>
 
+#include "readfile.hpp"
+
 #include <gtest/gtest.h>
 
-#include <fstream>
-
 namespace {
-
-nm::optional<std::string> readFile(std::string path)
-{
-    std::ifstream t(path);
-    if(!t || !t.good()){
-        return {};
-    }
-    std::stringstream buffer;
-    buffer << t.rdbuf();
-    return buffer.str();
-}
 
 } // namespace
 

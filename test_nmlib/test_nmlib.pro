@@ -23,9 +23,11 @@ SOURCES += \
     test_model_moduletype.cpp \
     test_model_constants.cpp \
     test_serializer.cpp \
-    test_codegeneration_glsl.cpp
+    test_codegeneration_glsl.cpp \
+    readfile.cpp
 
-HEADERS +=
+HEADERS += \
+    readfile.hpp
 
 INCLUDEPATH = . ..
 

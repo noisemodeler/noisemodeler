@@ -1,8 +1,11 @@
 #include <nmlib/codegeneration/glsl/glslgenerator.hpp>
 
+#include "readfile.hpp"
+
 #include <gtest/gtest.h>
 
 namespace {
+
 TEST(GLSLCodeGenerationTest, compileWithoutErrors){
     //create a simple fbm terrain
     nm::TypeManager typeManager;
@@ -25,4 +28,18 @@ TEST(GLSLCodeGenerationTest, compileWithoutErrors){
     EXPECT_NE("", glslSource);
     //TODO more tests for generated source code
 }
+
+//TEST(GLSLCodeGenerationTest, compileNestedWithoutErrors){
+//    //create a simple fbm terrain
+//
+//    //TODO, create a simpler function
+//    std::string glslSource = nm::glsl::GlslGenerator::compileToGlslFunction(
+//                *terrainType->getInputModule()->getInput("pos"),
+//                *terrainType->getOutputModule()->getOutput("height"),
+//                "terrainFunction");
+//
+//    EXPECT_NE("", glslSource);
+//    //TODO more tests for generated source code
+//}
+
 }
