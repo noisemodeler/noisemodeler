@@ -22,7 +22,8 @@ SOURCES += \
     test_model.cpp \
     test_model_moduletype.cpp \
     test_model_constants.cpp \
-    test_serializer.cpp
+    test_serializer.cpp \
+    test_codegeneration_glsl.cpp
 
 HEADERS +=
 
