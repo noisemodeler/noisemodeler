@@ -166,6 +166,26 @@ bool ModuleType::removeOutput(ModuleOutput *moduleOutput)
     return true;
 }
 
+Module *ModuleType::getInputModule() {
+    return const_cast<Module*>(static_cast<const ModuleType&>(*this).getInputModule());
+}
+
+const Module *ModuleType::getInputModule() const {
+    assert(isComposite());
+    return m_graph->findModule([](const Module& m) -> bool { return m.getType().isGraphInput(); });
+}
+
+Module *ModuleType::getOutputModule()
+{
+    return const_cast<Module*>(static_cast<const ModuleType&>(*this).getOutputModule());
+}
+
+const Module *ModuleType::getOutputModule() const
+{
+    assert(isComposite());
+    return m_graph->findModule([](const Module& m){ return m.getType().isGraphOutput(); });
+}
+
 ModuleOutput *ModuleType::exportInternalOutput(OutputLink &outputLink, std::string externalName)
 {
     assert(isComposite());

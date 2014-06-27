@@ -29,6 +29,8 @@ public:
     const Module* getModule(const std::string &name) const;
     Module *getModule(unsigned int index);
     const Module *getModule(unsigned int index) const;
+    Module *findModule(std::function<bool(Module&)> predicative);
+    const Module *findModule(std::function<bool(const Module&)> predicative) const;
     unsigned int numModules() const { return m_modules.size(); }
     void traverseModulesTopological(std::function<void(const Module&)> callback) const;
 

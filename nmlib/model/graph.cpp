@@ -85,6 +85,22 @@ const Module *Graph::getModule(unsigned int index) const
     return m_modules.at(index).get();
 }
 
+Module *Graph::findModule(std::function<bool (Module &)> predicative)
+{
+    auto it = std::find_if(m_modules.begin(), m_modules.end(), [&](std::unique_ptr<Module> &module){
+        return predicative(*module);
+    });
+    return it != m_modules.end() ? it->get() : nullptr;
+}
+
+const Module *Graph::findModule(std::function<bool (const Module &)> predicative) const
+{
+    auto it = std::find_if(m_modules.begin(), m_modules.end(), [&](const std::unique_ptr<Module> &module){
+        return predicative(*module);
+    });
+    return it != m_modules.end() ? it->get() : nullptr;
+}
+
 void Graph::traverseModulesTopological(std::function<void (const Module &)> callback) const
 {
     //TODO could be optimized if this is in a bottleneck

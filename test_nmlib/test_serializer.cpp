@@ -36,8 +36,8 @@ TEST(SerializerTest, OneModuleType) {
         auto moduleType = make_unique<nm::ModuleType>("test");
         moduleType->addInput("in1", nm::SignalType{1});
         moduleType->addOutput("out1", nm::SignalType{1});
-        auto input = moduleType->getGraph()->getModule("inputs")->getOutput("in1");
-        moduleType->getGraph()->getModule("outputs")->getInput("out1")->link(*input);
+        auto input = moduleType->getInputModule()->getOutput("in1");
+        moduleType->getOutputModule()->getInput("out1")->link(*input);
         auto absModule = moduleType->getGraph()->createModule(*typeManager.getBuiltinType("abs"), "testmodule");
         absModule->getInput(0)->link(*input); //connect abs input to the graph input
         typeManager.addUserType(std::move(moduleType));
@@ -78,6 +78,7 @@ TEST(SerializerTest, OneModuleType) {
         //there should also be an inputs module in the graph
         auto inputsModule = graph->getModule("inputs");
         EXPECT_NE(nullptr, inputsModule);
+        EXPECT_EQ(inputsModule, moduleType->getInputModule());
 
         //and the testModule
         auto testModule = graph->getModule("testmodule");

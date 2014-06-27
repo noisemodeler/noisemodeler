@@ -193,10 +193,25 @@ public:
      */
     Graph* getGraph() { return m_graph.get(); }
 
-    /** 
-     * @brief Immutable version of getGraph
-     */
+    /** @copydoc getGraph() */
     const Graph* getGraph() const { return m_graph.get(); }
+
+    /**
+     * @brief Accessor for the input module of a composite module type
+     */
+    Module* getInputModule();
+
+    /** @copydoc getInputModule() */
+    const Module* getInputModule() const;
+
+     /**
+     * @brief Accessor for the output module of a composite module type
+     */
+    Module* getOutputModule();
+
+    /** @copydoc getOutputModule() */
+    const Module* getOutputModule() const;
+
     /**
      * @brief Convenience method for exposing a part of the module graph as a new external output.
      *
