@@ -1,4 +1,5 @@
 #include <nmlib/codegeneration/glsl/glslgenerator.hpp>
+#include <nmlib/serialization/parser.hpp>
 
 #include "readfile.hpp"
 
@@ -29,17 +30,29 @@ TEST(GLSLCodeGenerationTest, compileWithoutErrors){
     //TODO more tests for generated source code
 }
 
-//TEST(GLSLCodeGenerationTest, compileNestedWithoutErrors){
-//    //create a simple fbm terrain
-//
-//    //TODO, create a simpler function
-//    std::string glslSource = nm::glsl::GlslGenerator::compileToGlslFunction(
-//                *terrainType->getInputModule()->getInput("pos"),
-//                *terrainType->getOutputModule()->getOutput("height"),
-//                "terrainFunction");
-//
-//    EXPECT_NE("", glslSource);
-//    //TODO more tests for generated source code
-//}
+TEST(GLSLCodeGenerationTest, compileNestedWithoutErrors){
+    //load terrain with multiple user types
+    auto input = readFile("./data/multipletypes.nm.json");
+    if(!input){
+        FAIL() << "Couldn't read file";
+    }
+    nm::Parser parser;
+    auto maybeTypeManager = parser.parseDocument(*input);
+    if(!maybeTypeManager){
+        FAIL() << "Parser didn't return a type manager";
+    }
+
+    nm::TypeManager &typeManager = *(*maybeTypeManager);
+    nm::ModuleType* terrainType = typeManager.getUserType("terrain");
+
+    //TODO, create a simpler function
+    std::string glslSource = nm::glsl::GlslGenerator::compileToGlslFunction(
+                *terrainType->getInputModule()->getInput("pos"),
+                *terrainType->getOutputModule()->getOutput("height"),
+                "terrainFunction");
+
+    EXPECT_NE("", glslSource);
+    //TODO more tests for generated source code
+}
 
 }
