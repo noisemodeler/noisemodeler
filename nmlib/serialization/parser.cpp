@@ -37,11 +37,12 @@ optional<std::pair<std::string, std::string> > parseDotPair(const std::string &s
 optional<SignalType> parseSignalType(const rapidjson::Value &signalTypeValue)
 {
     if(!signalTypeValue.IsString()){
+        std::cerr << "Signal type is not a string\n";
         return{};
     }
     int dimensionality{-1};
     if(sscanf(signalTypeValue.GetString(), "%df", &dimensionality) == EOF){
-        std::cerr << "Couldn't parse signal type";
+        std::cerr << "Couldn't parse signal type\n";
         return {};
     }
     return {SignalType{dimensionality}};
@@ -162,6 +163,7 @@ optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &t
             std::string name = inputValue["name"].GetString();
             auto maybeSignalType = parseSignalType(inputValue["type"]);
             if(!maybeSignalType){
+                std::cerr << "Error parsing signal type";
                 return {};
             }
             moduleType->addInput(name, *maybeSignalType);
@@ -232,14 +234,75 @@ bool parseModuleTypeArray(const rapidjson::Value &array, TypeManager &typeManage
         std::cerr << "Tried to parse an array that wasn't an array.\n";
         return false;
     }
+
+    //we want to use indices instead of names, this makes it easier
+    std::map<std::string, int> nameToIndexMap;
     for(rapidjson::SizeType i = 0; i < array.Size(); i++){
-        auto maybeModuleType = parseModuleType(array[i], typeManager);
-        if(!maybeModuleType){
-            return false;
+        //TODO verify types
+        nameToIndexMap[array[i]["name"].GetString()] = i;
+    }
+
+    //create a list of dependencies
+    struct Node {
+        int id;
+        std::vector<int> edges;
+        bool visited;
+        bool finished;
+        Node():id(-1), edges(), visited(false), finished(false){}
+    };
+
+    std::vector<Node> dependencies(array.Size());
+    for(rapidjson::SizeType i = 0; i < array.Size(); i++){
+        dependencies[i].id = i;
+        //TODO verify types
+        const rapidjson::Value &moduleArray = array[i]["modules"];
+        for(rapidjson::SizeType i = 0; i < moduleArray.Size(); ++i){
+            //TODO verify types
+            std::string typeName = moduleArray[i]["type"].GetString();
+            if(typeName == "inputs" || typeName == "outputs")continue;
+            //TODO verify types
+            if(typeManager.getBuiltinType(typeName) != nullptr)continue;
+            auto it = nameToIndexMap.find(typeName);
+            if(it == nameToIndexMap.end()){
+                std::cerr << "Unknown module type: " << typeName << "\n";
+                return false;
+            }
+            dependencies[i].edges.push_back(nameToIndexMap[typeName]);
         }
-        std::unique_ptr<ModuleType> &moduleTypePtr = *maybeModuleType;
-        if(!typeManager.addUserType(std::move(moduleTypePtr))){
-            std::cerr << "Couldn't add type to typeManager.\n";
+    }
+
+    std::function<bool(Node&, std::function<void(Node&)>)> traverseTopological = [&](Node& node, std::function<void(Node&)> visitor) -> bool {
+        if(node.finished)return true; //we've already been here
+        if(node.visited)return false; //means there is a cycle
+        node.visited = true; //mark this node, so we now if there's a cycle
+        for(int edge : node.edges){
+            //traverse children
+            if(!traverseTopological(dependencies[edge], visitor)){
+                std::cerr << "Error traversing topologically loop at " << node.id << "\n";
+                return false;
+            }
+        }
+        visitor(node);
+        node.finished = true;
+        return true;
+    };
+
+    for(auto dep : dependencies){
+        auto success = traverseTopological(dep, [&](Node& node){
+            auto maybeModuleType = parseModuleType(array[node.id], typeManager);
+            if(!maybeModuleType){
+                std::cerr << "Error parsing module type " << node.id << "\n";
+                return false;
+            }
+            std::unique_ptr<ModuleType> &moduleTypePtr = *maybeModuleType;
+            if(!typeManager.addUserType(std::move(moduleTypePtr))){
+                std::cerr << "Couldn't add type to typeManager.\n";
+                return false;
+            }
+            return true;
+        });
+        if(!success){
+            std::cerr << "Error parsing module types\n";
             return false;
         }
     }
