@@ -70,8 +70,13 @@ void Module::setDescription(std::string description)
 
 InputLink *Module::getInput(std::string name)
 {
+    return const_cast<InputLink*>(const_cast<const Module*>(this)->getInput(name));
+}
+
+const InputLink *Module::getInput(std::string name) const
+{
     using namespace std;
-    auto it = find_if(begin(m_inputs), end(m_inputs),
+    auto it = find_if(m_inputs.begin(), m_inputs.end(),
                       [&](const std::unique_ptr<InputLink> &inputLink){return inputLink->getModuleInput().getName() == name;}
     );
     return it != end(m_inputs) ? it->get() : nullptr;
@@ -127,6 +132,11 @@ bool Module::removeOutput(const ModuleOutput &moduleOutput)
 }
 
 OutputLink *Module::getOutput(std::string name)
+{
+    return const_cast<OutputLink*>(const_cast<const Module*>(this)->getOutput(name));
+}
+
+const OutputLink *Module::getOutput(std::string name) const
 {
     using namespace std;
     auto it = find_if(begin(m_outputs), end(m_outputs),

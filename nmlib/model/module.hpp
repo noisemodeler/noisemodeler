@@ -56,6 +56,7 @@ public:
 
     //inputs
     InputLink *getInput(std::string name);
+    const InputLink *getInput(std::string name) const;
     InputLink *getInput(unsigned int i);
     const InputLink *getInput(unsigned int i) const;
     unsigned int getInputSize() const;
@@ -63,6 +64,7 @@ public:
 
     //outputs
     OutputLink *getOutput(std::string name);
+    const OutputLink *getOutput(std::string name) const;
     OutputLink *getOutput(unsigned int i);
     const OutputLink *getOutput(unsigned int i) const;
     unsigned int getOutputSize() const;

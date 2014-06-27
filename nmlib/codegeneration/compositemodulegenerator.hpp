@@ -2,17 +2,18 @@
 #define NM_COMPOSITEMODULEGENERATOR_H
 
 #include <nmlib/codegeneration/modulegenerator.hpp>
+#include <nmlib/codegeneration/unlinkedvaluedefaultsgenerator.hpp>
 
 namespace nm {
 
 /**
- * @brief The CompositeModuleGenerator class
+ * @brief Generator for modules having composite module types
  * @ingroup codegeneration
  */
 class CompositeModuleGenerator : public nm::ModuleGenerator
 {
 public:
-    CompositeModuleGenerator();
+    CompositeModuleGenerator(const Module& module);
 
     // DefaultsGenerator interface
 public:
@@ -21,6 +22,10 @@ public:
     // BodyGenerator interface
 public:
     void generateBody(InlineGenerator &gen, std::ostream &out) override;
+
+private:
+    const Module& m_module;
+
 };
 
 } // namespace nm
