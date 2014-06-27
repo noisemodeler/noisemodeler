@@ -87,3 +87,28 @@ TEST(SerializerTest, OneModuleType) {
         EXPECT_NE(nullptr, testModule->getInput(0)->getOutputLink()) << "testModule.source was not connected: \n" << json;
     }
 }
+
+TEST(SerializerTest, DisconnectedOutput) {
+    nm::TypeManager typeManager;
+    typeManager.initBuiltinTypes();
+    nm::ModuleType *terrainType = typeManager.createUserType("terrain");
+    terrainType->addOutput("bongo", nm::SignalType{2});
+    nm::Serializer serializer;
+    std::string json = serializer.serialize(typeManager);
+
+    std::cout << json << "\n";
+
+    nm::Parser parser;
+    auto maybeTypeManager = parser.parseDocument(json);
+    if(!maybeTypeManager){
+        FAIL() << "Couldn't parse document:\n" << json;
+    }
+    nm::TypeManager &typeManager2 = **maybeTypeManager;
+    EXPECT_EQ(1, typeManager2.numUserTypes());
+
+    nm::ModuleType *terrainTypeParsed = typeManager2.getUserType("terrain");
+    ASSERT_NE(nullptr, terrainTypeParsed);
+    nm::ModuleOutput *bongoOutput = terrainTypeParsed->getOutput("bongo");
+    EXPECT_NE(nullptr, bongoOutput);
+}
+

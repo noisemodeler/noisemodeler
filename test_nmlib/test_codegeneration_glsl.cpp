@@ -52,6 +52,7 @@ TEST(GLSLCodeGenerationTest, compileNestedWithoutErrors){
                 "terrainFunction");
 
     EXPECT_NE("", glslSource);
+//    std::cout << glslSource;
     //TODO more tests for generated source code
 }
 

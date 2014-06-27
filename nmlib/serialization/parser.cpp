@@ -196,31 +196,41 @@ optional<std::unique_ptr<ModuleType> > parseModuleType(const rapidjson::Value &t
         }
         for(rapidjson::SizeType i = 0; i < outputsValue.Size(); i++){
             auto &outputValue = outputsValue[i];
-            if(!outputValue["name"].IsString() || !outputValue["source"].IsString()){
-                std::cerr << "Missing required field name or string";
+            if(
+                    !outputValue["name"].IsString() ||
+                    (!outputValue["source"].IsString() && !outputValue["source"].IsArray())
+                    ){
+                std::cerr << "Missing required field name or source\n";
                 return {};
             }
             std::string externalName = outputValue["name"].GetString();
-            std::string sourceString = outputValue["source"].GetString();
-            //dotpos stufff
-            auto sourcePair = parseDotPair(sourceString);
-            if(!sourcePair){
-                std::cerr << "Couldn't parse source string: " << sourceString << "\n";
-                return {};
-            }
-            Module* module = moduleType->getGraph()->getModule(sourcePair->first);
-            if(module==nullptr){
-                std::cerr << "Couldn't find the output node for: " << sourceString << "\n";
-                return {};
-            }
-            OutputLink* outputLink = module->getOutput(sourcePair->second);
-            if(outputLink==nullptr){
-                std::cerr << "Couldn't find an output named: " << sourcePair->second << "\n";
-                return {};
-            }
-            if(moduleType->exportInternalOutput(*outputLink, externalName) == nullptr){
-                std::cerr << "Error exporting output: " << sourcePair->second << "\n";
-                return {};
+            if(outputValue["source"].IsString()){
+                std::string sourceString = outputValue["source"].GetString();
+                //dotpos stuff
+                auto sourcePair = parseDotPair(sourceString);
+                if(!sourcePair){
+                    std::cerr << "Couldn't parse source string: " << sourceString << "\n";
+                    return {};
+                }
+                Module* module = moduleType->getGraph()->getModule(sourcePair->first);
+                if(module==nullptr){
+                    std::cerr << "Couldn't find the output node for: " << sourceString << "\n";
+                    return {};
+                }
+                OutputLink* outputLink = module->getOutput(sourcePair->second);
+                if(outputLink==nullptr){
+                    std::cerr << "Couldn't find an output named: " << sourcePair->second << "\n";
+                    return {};
+                }
+                if(moduleType->exportInternalOutput(*outputLink, externalName) == nullptr){
+                    std::cerr << "Error exporting output: " << sourcePair->second << "\n";
+                    return {};
+                }
+            } else if(outputValue["source"].IsArray()){
+                std::cerr << "TODO: implement parsing of constant outputs of module types.\n";
+                //TODO parse and use signalValue instead
+                SignalType signalType{static_cast<int>(outputValue["source"].Size())};
+                moduleType->addOutput(externalName, signalType);
             }
         }
     }

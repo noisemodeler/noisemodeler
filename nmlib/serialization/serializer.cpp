@@ -109,10 +109,21 @@ void jsonifyModuleType(const ModuleType& moduleType, rapidjson::Value& moduleTyp
         rapidjson::Value outputValue;
         outputValue.SetObject();
         outputValue.AddMember("name", output->getName().c_str(), document.GetAllocator());
-        auto outputLink = outputsModule->getInput(0)->getOutputLink();
-        std::string sourceString = outputLink->getOwner().getName() + "." + outputLink->getModuleOutput().getName();
-        rapidjson::Value sourceStringValue(sourceString.c_str(),document.GetAllocator());
-        outputValue.AddMember("source", sourceStringValue, document.GetAllocator());
+        auto inputLink = outputsModule->getInput(i);
+        auto outputLink = outputsModule->getInput(i)->getOutputLink();
+        if(outputLink!=nullptr){
+            std::string sourceString = outputLink->getOwner().getName() + "." + outputLink->getModuleOutput().getName();
+            rapidjson::Value sourceStringValue(sourceString.c_str(),document.GetAllocator());
+            outputValue.AddMember("source", sourceStringValue, document.GetAllocator());
+        } else {
+            rapidjson::Value vectorValue;
+            vectorValue.SetArray();
+            auto unlinkedValue = inputLink->getUnlinkedValue();
+            for(int j=0; j<unlinkedValue.getSignalType().dimensionality; ++j){
+                vectorValue.PushBack(unlinkedValue[j], document.GetAllocator());
+            }
+            outputValue.AddMember("source", vectorValue, document.GetAllocator());
+        }
         outputs.PushBack(outputValue, document.GetAllocator());
     }
     moduleTypeValue.AddMember("outputs", outputs, document.GetAllocator());
