@@ -2,6 +2,7 @@
 #include <nmlib/serialization/parser.hpp>
 #include <nmlib/model/typemanager.hpp>
 #include <nmlib/model/moduleinput.hpp>
+#include <nmlib/model/moduleoutput.hpp>
 #include <nmlib/model/inputlink.hpp>
 #include <nmlib/model/graph.hpp>
 #include <nmlib/model/module.hpp>
@@ -109,6 +110,6 @@ TEST(SerializerTest, DisconnectedOutput) {
     nm::ModuleType *terrainTypeParsed = typeManager2.getUserType("terrain");
     ASSERT_NE(nullptr, terrainTypeParsed);
     nm::ModuleOutput *bongoOutput = terrainTypeParsed->getOutput("bongo");
-    EXPECT_NE(nullptr, bongoOutput);
+    ASSERT_NE(nullptr, bongoOutput);
+    EXPECT_EQ(2, bongoOutput->getSignalType().dimensionality);
 }
-
