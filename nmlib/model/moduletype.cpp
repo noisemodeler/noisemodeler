@@ -99,6 +99,10 @@ bool ModuleType::removeInput(ModuleInput *moduleInput)
     });
     if(it==m_inputs.end())return false;
     removingInput(**it);
+    if(isComposite()){
+        m_inputModuleType->removeOutput(m_inputModuleType->getOutput(moduleInput->getName()));
+        m_inputModuleType->removeInput(m_inputModuleType->getInput(moduleInput->getName()));
+    }
     m_inputs.erase(it);
     inputRemoved(*this);
     return true;
@@ -153,6 +157,10 @@ bool ModuleType::removeOutput(ModuleOutput *moduleOutput)
     });
     if(it==m_outputs.end())return false;
     removingOutput(**it);
+    if(isComposite()){
+        m_outputModuleType->removeOutput(m_outputModuleType->getOutput(moduleOutput->getName()));
+        m_outputModuleType->removeInput(m_outputModuleType->getInput(moduleOutput->getName()));
+    }
     m_outputs.erase(it);
     outputRemoved(*this);
     return true;
