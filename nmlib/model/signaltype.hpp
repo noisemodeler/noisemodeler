@@ -6,9 +6,8 @@
 namespace nm {
 
 /**
- * @brief Describes a the dimensionality of a signal
  * @ingroup model
- *
+ * @brief Describes a the dimensionality of a signal
  * Can be extended to include other type information such as distinctions between doubles, flots and ints as well.
  */
 class SignalType

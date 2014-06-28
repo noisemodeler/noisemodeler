@@ -13,8 +13,8 @@ class ModuleOutput;
 class InputLink;
 
 /**
- * @brief an output of a Module
  * @ingroup model
+ * @brief an output of a Module
  *
  * OutputLink%s are created by the library itself when instantiation a new Module
  */

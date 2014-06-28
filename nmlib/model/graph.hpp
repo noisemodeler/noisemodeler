@@ -10,8 +10,8 @@ class Module;
 class ModuleType;
 
 /**
- * @brief A graph of Module%s.
  * @ingroup model
+ * @brief A graph of Module%s.
  */
 class Graph : public UserDataProvider, NonCopyable //TODO make copyable
 {

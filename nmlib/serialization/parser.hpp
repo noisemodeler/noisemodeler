@@ -11,8 +11,8 @@ namespace nm {
 class TypeManager;
 
 /**
- * @brief Converts json strings to TypeManager%s
  * @ingroup serialization
+ * @brief Converts json strings to TypeManager%s
  *
  * A parser is typically used like this:
  *
