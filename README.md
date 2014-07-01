@@ -54,7 +54,9 @@ There are several places to find documentation about Noise Modeler:
 
  * googletest (only required for unit tests)
 
-## Building
+## Build instructions
+
+This is a brief guide for experienced developers. In-depth build instructions from Windows, Ubuntu 14.04+ and Arch Linux can be found in the user's guide.
 
 First, make sure you have all of the following dependencies installed:
 
@@ -81,7 +83,7 @@ make
 nmgui/nmgui
 ```
 
-## Contribution
+## Contribute
 
 Noise Modeler is an open source project and needs your help growing and improving. Don't hesitate to contact us with suggestions or bug reports (https://github.com/noisemodeler/noisemodeler/issues).
 
