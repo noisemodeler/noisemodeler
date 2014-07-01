@@ -91,3 +91,7 @@ Noise Modeler is an open source project and needs your help growing and improvin
 If you have made any improvements, we will happily accept any pull requests submitted through GitHub.
 
 Even if you are perfectly happy with the project and don't have any issues with it, we would appreciate to hear about it.
+
+## License
+
+Noise Modeler is released under the zlib license, see LICENSE.md for more information.
