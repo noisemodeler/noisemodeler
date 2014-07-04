@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
     //we're setting locale to english because we want to avoid
     //weird settings for commas etc messing up parsing of numbers
     QLocale::setDefault(QLocale(QLocale::English));
+    QCoreApplication::setApplicationName("Noise Modeler");
 
     QApplication app(argc, argv);
 
