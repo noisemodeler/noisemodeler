@@ -12,7 +12,7 @@
 
 #include "beziercurve.hpp"
 
-#include <QApplication>
+#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
 #include <QQmlContext>
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     QLocale::setDefault(QLocale(QLocale::English));
     QCoreApplication::setApplicationName("Noise Modeler");
 
-    QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
 
     //qt-licensed types
     qmlRegisterType<BezierCurve>("CustomGeometry", 1, 0, "QtBezierCurve");
