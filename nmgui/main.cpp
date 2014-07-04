@@ -12,8 +12,8 @@
 
 #include "beziercurve.hpp"
 
-#include <QtGui/QGuiApplication>
-#include "qtquick2applicationviewer.h"
+#include <QApplication>
+#include <QQmlApplicationEngine>
 
 #include <QQmlContext>
 #include <QtQml>
@@ -29,8 +29,7 @@ int main(int argc, char *argv[])
     //weird settings for commas etc messing up parsing of numbers
     QLocale::setDefault(QLocale(QLocale::English));
 
-    QGuiApplication app(argc, argv);
-    Q_INIT_RESOURCE(nmgui);
+    QApplication app(argc, argv);
 
     //qt-licensed types
     qmlRegisterType<BezierCurve>("CustomGeometry", 1, 0, "QtBezierCurve");
@@ -59,11 +58,9 @@ int main(int argc, char *argv[])
     }
     nmgui::Document document(docPath);
 
-    QtQuick2ApplicationViewer viewer;
-    viewer.rootContext()->setContextProperty("document", &document);
-
-    viewer.setMainQmlFile(QUrl("qrc:/qml/noisemodeler/main.qml"));
-    viewer.showMaximized();
+    QQmlApplicationEngine engine;
+    engine.rootContext()->setContextProperty("document", &document);
+    engine.load(QUrl("qrc:/qml/noisemodeler/main.qml"));
 
     return app.exec();
 }

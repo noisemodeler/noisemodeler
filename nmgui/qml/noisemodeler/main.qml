@@ -5,10 +5,12 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.1
 
-Item {
+ApplicationWindow {
+    visible: true
     id: window
     width: 1024
     height: 600
+    title: "Noise Modeler"
 
     //hacky way of reloading when a new document is opened
     StackView {
@@ -77,6 +79,15 @@ Item {
                     }
                     Item {
                         Layout.fillWidth: true
+                    }
+                    ToolBarIcon{
+                        Layout.alignment: Qt.AlignRight
+                        source: 'qrc:///icons/open.svg'
+                        onClicked: openDialog.open();
+                        toolTipText: "Open"
+                    }
+                    Item{
+                        width: 5
                     }
                 }
             }

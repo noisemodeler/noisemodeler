@@ -3,11 +3,10 @@
 #folder_01.target = qml
 #DEPLOYMENTFOLDERS = folder_01
 
-# Additional import path used to resolve QML modules in Creators code model
-QML_IMPORT_PATH =
+TEMPLATE = app
 
 TARGET = nmgui
-QT += core gui qml quick svg
+QT += core gui qml quick svg widgets
 CONFIG += static
 QTPLUGIN += qsvg
 
@@ -78,9 +77,10 @@ win32{
 }
 LIBS += -lnmlib
 
-# Please do not modify the following two lines. Required for deployment.
-include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
-qtcAddDeployment()
+include(deployment.pri)
 
 RESOURCES += \
     nmgui.qrc
+
+# Additional import path used to resolve QML modules in Creators code model
+QML_IMPORT_PATH =
