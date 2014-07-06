@@ -21,7 +21,6 @@ SOURCES += test_transform.cpp
 SOURCES += ../nmgui/rendering/transform3d.cpp
 HEADERS += ../nmgui/rendering/transform3d.hpp
 
-LIBS += -L../nmlib -lnmlib -lgtest -lgtest_main
-
-PRE_TARGETDEPS += ../nmlib/libnmlib.a
+LIBS += -L../lib -lnmlib -lgtest -lgtest_main
+PRE_TARGETDEPS += ../lib/libnmlib.a
 

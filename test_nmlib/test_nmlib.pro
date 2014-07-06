@@ -31,9 +31,8 @@ HEADERS += \
 
 INCLUDEPATH = . ..
 
-LIBS += -L../nmlib -lnmlib -lgtest -lgtest_main
-
-PRE_TARGETDEPS += ../nmlib/libnmlib.a
+LIBS += -L../lib -lnmlib -lgtest -lgtest_main
+PRE_TARGETDEPS += ../lib/libnmlib.a
 
 OTHER_FILES += \
     data/constants.nm.json \
