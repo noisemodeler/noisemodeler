@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET = nm
+TARGET = noisemodeler-cli
 CONFIG += console
 QT -= gui core
 
@@ -18,18 +18,11 @@ HEADERS +=
 
 INCLUDEPATH = . ..
 
-win32{
-    Debug {
-        LIBS += -L../nmlib/debug
-        PRE_TARGETDEPS += ../nmlib/debug/libnmlib.a
-    }
-    Release {
-        LIBS += -L../nmlib/release
-        PRE_TARGETDEPS += ../nmlib/release/libnmlib.a
-    }
-} else {
-    LIBS += -L../nmlib
-    PRE_TARGETDEPS += ../nmlib/libnmlib.a
-}
+LIBS += -L../lib
+PRE_TARGETDEPS += ../lib/libnmlib.a
 LIBS += -lnmlib
+
+# Installation path
+target.path = /usr/bin
+INSTALLS += target
 

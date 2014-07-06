@@ -1,4 +1,4 @@
-# Add more folders to ship with the application, here
+j# Add more folders to ship with the application, here
 #folder_01.source = qml/noisemodeler
 #folder_01.target = qml
 #DEPLOYMENTFOLDERS = folder_01
@@ -58,23 +58,13 @@ HEADERS += \
     typemanagerq.hpp
 
 # Installation path
-# target.path =
+target.path = /usr/bin
+INSTALLS += target
 
 INCLUDEPATH = . ..
 
-win32{
-    Debug {
-        LIBS += -L../nmlib/debug
-        PRE_TARGETDEPS += ../nmlib/debug/libnmlib.a
-    }
-    Release {
-        LIBS += -L../nmlib/release
-        PRE_TARGETDEPS += ../nmlib/release/libnmlib.a
-    }
-} else {
-    LIBS += -L../nmlib
-    PRE_TARGETDEPS += ../nmlib/libnmlib.a
-}
+LIBS += -L../lib
+PRE_TARGETDEPS += ../lib/libnmlib.a
 LIBS += -lnmlib
 
 include(deployment.pri)

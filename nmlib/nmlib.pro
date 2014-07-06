@@ -1,6 +1,8 @@
 INCLUDEPATH += . .. ../dependencies
 TEMPLATE = lib
 CONFIG += staticlib static
+VERSION = 0.1.0
+
 QMAKE_CXXFLAGS += -std=c++11 \
     -Wall -Werror -Wextra \
     -pedantic-errors -Wshadow -Wwrite-strings -fshort-enums \
@@ -70,3 +72,16 @@ HEADERS = \
     util/signals.hpp \
     util/userdataprovider.hpp \
     serialization/serializer.hpp
+
+headerfiles.path = /usr/include/
+#TODO omit source .cpp files from installation
+headerfiles.files = .
+INSTALLS += headerfiles
+
+DESTDIR = ../lib
+
+#TODO: this doesn't work! Find a way to copy binaries to /usr/libs folder
+# Installation path
+#libraryfiles.path = /usr/libs/
+#libraryfiles.files += $$DESTDIR/nmlib.a
+#INSTALLS += libraryfiles
