@@ -16,7 +16,7 @@ Window {
     id: aboutDialog
     width: 520
     height: 390
-    modality: Qt.WindowModal //doesn't work correctly on gnome
+    modality: Qt.WindowModal
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.CustomizeWindowHint | Qt.WindowTitleHint
     title: "About Noise Modeler"
 
@@ -63,7 +63,6 @@ Window {
             color: mystyle.inspector.bgColor
             implicitWidth: buttonText.implicitWidth + 12
             implicitHeight: buttonText.implicitHeight + 8
-//            Layout.alignment: Qt.AlignRight
             Layout.fillWidth: true
             Text{
                 id: buttonText

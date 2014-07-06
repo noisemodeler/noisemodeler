@@ -15,10 +15,6 @@ public:
     QString licenseText() const;
     QString versionString() const;
 
-signals:
-
-public slots:
-
 private:
     QString m_licenseString;
 };

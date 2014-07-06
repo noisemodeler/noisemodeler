@@ -21,7 +21,6 @@ QString Core::licenseText() const
 
 QString Core::versionString() const
 {
-    //TODO replace with defined variable
     return NMVER;
 }
 
