@@ -15,6 +15,7 @@ QTPLUGIN += qsvg
 #perhaps put the build number/version in a file, then add that file to a qrc?
 #It might be a good idea to keep the major and minor version numbers as defines,
 #but the build number as something that doesn't trigger recompilation.
+#This might be a good place to start: http://qtcreator.blogspot.no/2009/10/generating-automatic-version-numbers.html
 VERSION = $$system("git describe --long --tags | sed -r 's/([^-]*-g)/\1/;s/-g.*//;s/-/./'")
 VERSTR = '\\"$${VERSION}\\"'  # place quotes around the version string
 DEFINES += NMVER=\"$${VERSTR}\" # create a VER macro containing the version string
