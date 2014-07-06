@@ -4,6 +4,7 @@ import QtQuick.Controls 1.1
 import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.1
+import QtQuick.Window 2.1
 
 ApplicationWindow {
     visible: true
@@ -32,6 +33,10 @@ ApplicationWindow {
             id: mainWindow
             property variant currentModuleType: document.typeManager.userTypes[0]
             Style { id: mystyle }
+
+            AboutDialog {
+                id: aboutDialog
+            }
 
             FileDialog {
                 id: openDialog
@@ -82,9 +87,9 @@ ApplicationWindow {
                     }
                     ToolBarIcon{
                         Layout.alignment: Qt.AlignRight
-                        source: 'qrc:///icons/open.svg'
-                        onClicked: openDialog.open();
-                        toolTipText: "Open"
+                        source: 'qrc:///icons/about.svg'
+                        onClicked: aboutDialog.open();
+                        toolTipText: "About Noise Modeler"
                     }
                     Item{
                         width: 5
