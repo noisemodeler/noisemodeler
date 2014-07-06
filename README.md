@@ -18,8 +18,9 @@ You can get the current development version from the git repository (https://git
 
 There are several places to find documentation about Noise Modeler:
 
+ * [Project web site](http://www.noisemodeler.org)
  * [The Noise Modeler Library documentation](http://docs.noisemodeler.org)
- * [The Noise Modeler user's guide](http://docs.noisemodeler.org/usersguide.pdf)
+ * [The Noise Modeler user's guide](http://www.noisemodeler.org/userguide/noisemodeler-usersguide-0.1.0.pdf)
  * Master's thesis about Noise Modeler (will include link once it's available)
  * This readme (contains brief build instructions and project overview)
  * Commented example usage of the library may also be found in the `test_nmlib` and `nmcli` directories.
@@ -61,27 +62,29 @@ This is a brief guide for experienced developers. In-depth build instructions fr
 
 First, make sure you have all of the following dependencies installed:
 
- * Qt 5.2+
- * Qt-svg
- * QtQuick Controls
+ * Qt 5.2+ (including base, declarative, qtquick-controls and svg modules)
  * Boost
  * gcc with C++11 support
  * googletest (if building unit tests)
 
 ```bash
-# Clone the repository.
+# 1. Clone the repository.
 git clone --recursive git@github.com:acelster/noise-terrain-gen.git 
 
-# Create a build directory
+# 2. Create a build directory
 mkdir build-noise-terrain-gen
 cd build-noise-terrain-gen
 
-# Build
+# 3. Build
 qmake ../noise-terrain-gen
 make
 
-# Run
+# 4a. Run
 nmgui/nmgui
+
+# 4b. Install and run (unix only, this will install noisemodeler in /usr/)
+sudo make install
+nmgui
 ```
 
 ## Contribute
