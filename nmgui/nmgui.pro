@@ -10,6 +10,8 @@ QT += core gui qml quick svg widgets
 CONFIG += static
 QTPLUGIN += qsvg
 
+VERSION = $$system("git describe --long --tags | sed -r 's/([^-]*-g)/\1/;s/-g.*//;s/-/./'")
+
 QMAKE_CXXFLAGS += -std=c++11 \
     -Wall -Werror -Wextra \
     -pedantic-errors -Wwrite-strings \
