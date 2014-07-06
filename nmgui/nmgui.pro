@@ -1,4 +1,4 @@
-j# Add more folders to ship with the application, here
+# Add more folders to ship with the application, here
 #folder_01.source = qml/noisemodeler
 #folder_01.target = qml
 #DEPLOYMENTFOLDERS = folder_01
