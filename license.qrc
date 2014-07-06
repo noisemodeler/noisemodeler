@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>LICENSE.md</file>
+    </qresource>
+</RCC>

@@ -9,6 +9,7 @@
 #include "heightmap3dexplorer.hpp"
 #include "heightmaptextureexplorer.hpp"
 #include "document.hpp"
+#include "core.hpp"
 
 #include "beziercurve.hpp"
 
@@ -58,9 +59,11 @@ int main(int argc, char *argv[])
         docPath = cmdLineArgs.at(1);
     }
     nmgui::Document document(docPath);
+    nmgui::Core core;
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("document", &document);
+    engine.rootContext()->setContextProperty("core", &core);
     engine.load(QUrl("qrc:/qml/noisemodeler/main.qml"));
 
     return app.exec();

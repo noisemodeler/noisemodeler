@@ -11,6 +11,8 @@ CONFIG += static
 QTPLUGIN += qsvg
 
 VERSION = $$system("git describe --long --tags | sed -r 's/([^-]*-g)/\1/;s/-g.*//;s/-/./'")
+VERSTR = '\\"$${VERSION}\\"'  # place quotes around the version string
+DEFINES += NMVER=\"$${VERSTR}\" # create a VER macro containing the version string
 
 QMAKE_CXXFLAGS += -std=c++11 \
     -Wall -Werror -Wextra \
@@ -38,7 +40,8 @@ SOURCES += main.cpp \
     rendering/heightmapterrainmesh.cpp \
     rendering/heightmaptexturerenderer.cpp \
     rendering/transform3d.cpp \
-    typemanagerq.cpp
+    typemanagerq.cpp \
+    core.cpp
 
 HEADERS += \
     beziercurve.hpp \
@@ -57,7 +60,8 @@ HEADERS += \
     rendering/heightmapterrainmesh.hpp \
     rendering/heightmaptexturerenderer.hpp \
     rendering/transform3d.hpp \
-    typemanagerq.hpp
+    typemanagerq.hpp \
+    core.hpp
 
 # Installation path
 target.path = /usr/bin
@@ -72,7 +76,8 @@ LIBS += -lnmlib
 include(deployment.pri)
 
 RESOURCES += \
-    nmgui.qrc
+    nmgui.qrc \
+    ../license.qrc
 
 # Additional import path used to resolve QML modules in Creators code model
 QML_IMPORT_PATH =
