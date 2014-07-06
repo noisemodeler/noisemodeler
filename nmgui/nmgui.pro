@@ -10,6 +10,11 @@ QT += core gui qml quick svg widgets
 CONFIG += static
 QTPLUGIN += qsvg
 
+#TODO a change in version number does not cause recompilation in the affected source files
+#find a way to trigger this and/or don't use a define to specify the patch number.
+#perhaps put the build number/version in a file, then add that file to a qrc?
+#It might be a good idea to keep the major and minor version numbers as defines,
+#but the build number as something that doesn't trigger recompilation.
 VERSION = $$system("git describe --long --tags | sed -r 's/([^-]*-g)/\1/;s/-g.*//;s/-/./'")
 VERSTR = '\\"$${VERSION}\\"'  # place quotes around the version string
 DEFINES += NMVER=\"$${VERSTR}\" # create a VER macro containing the version string
