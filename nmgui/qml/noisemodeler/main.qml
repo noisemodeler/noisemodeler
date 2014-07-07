@@ -135,6 +135,7 @@ ApplicationWindow {
             Inspector {
                 id: inspector
                 anchors.fill: inspectorArea
+                z: 50
             }
 
             TabView {
