@@ -2,7 +2,7 @@ INCLUDEPATH += . .. ../dependencies
 TEMPLATE = lib
 CONFIG += staticlib static
 
-VERSION = $$system("git describe --long --tags | sed -r 's/([^-]*-g)/\1/;s/-g.*//;s/-/./'")
+#VERSION = $$system("git describe --long --tags | sed -r 's/([^-]*-g)/\1/;s/-g.*//;s/-/./'")
 
 QMAKE_CXXFLAGS += -std=c++11 \
     -Wall -Werror -Wextra \

@@ -16,7 +16,8 @@ QTPLUGIN += qsvg
 #It might be a good idea to keep the major and minor version numbers as defines,
 #but the build number as something that doesn't trigger recompilation.
 #This might be a good place to start: http://qtcreator.blogspot.no/2009/10/generating-automatic-version-numbers.html
-VERSION = $$system("git describe --long --tags | sed -r 's/([^-]*-g)/\1/;s/-g.*//;s/-/./'")
+win32:VERSION = $$system("..\version.bat")
+else:VERSION = $$system("git describe --long --tags | sed -r 's/([^-]*-g)/\1/;s/-g.*//;s/-/./'")
 VERSTR = '\\"$${VERSION}\\"'  # place quotes around the version string
 DEFINES += NMVER=\"$${VERSTR}\" # create a VER macro containing the version string
 
@@ -102,5 +103,10 @@ RESOURCES += \
     nmgui.qrc \
     ../license.qrc
 
+RC_FILE = nmgui.rc
+
 # Additional import path used to resolve QML modules in Creators code model
 QML_IMPORT_PATH =
+
+OTHER_FILES += \
+    nmgui.rc
