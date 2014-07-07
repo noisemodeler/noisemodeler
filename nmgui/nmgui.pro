@@ -69,9 +69,26 @@ HEADERS += \
     typemanagerq.hpp \
     core.hpp
 
-# Installation path
-target.path = /usr/bin
-INSTALLS += target
+unix {
+    # Installation path
+    target.path = /usr/bin
+    INSTALLS += target
+
+    # mime-type for nm.json files
+    mimeinfo.path = /usr/share/mime/packages
+    mimeinfo.files = icons/noisemodeler.xml
+    INSTALLS += mimeinfo
+
+    # icon
+    iconfiles.path = /usr/share/icons/hicolor/scalable/apps
+    iconfiles.files = icons/noisemodeler.svg
+    INSTALLS += iconfiles
+
+    # desktop file
+    desktopfiles.path = /usr/share/applications/
+    desktopfiles.files = icons/noisemodeler.desktop
+    INSTALLS += desktopfiles
+}
 
 INCLUDEPATH = . ..
 

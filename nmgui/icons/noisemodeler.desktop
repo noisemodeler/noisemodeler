@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Noise Modeler
+GenericName=Procedural terrain editor
+Comment=View and edit terrain and other procedurally generated content
+Icon=noisemodeler
+Categories=Graphics;3DGraphics;VectorGraphics;Viewer;
+Exec=nmgui %U
+#MimeType=application/x-bittorrent;x-scheme-handler/magnet;
+Terminal=false
+StartupNotify=false
+#StartupWMClass=Noise Modeler
