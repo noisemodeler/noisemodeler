@@ -77,7 +77,7 @@ unix {
 
     # mime-type for nm.json files
     mimeinfo.path = /usr/share/mime/applications
-    mimeinfo.files = icons/noisemodeler-nmsjon.xml
+    mimeinfo.files = icons/noisemodeler-nmjson.xml
     INSTALLS += mimeinfo
 
     # icon
