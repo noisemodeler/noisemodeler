@@ -32,5 +32,5 @@ The following license applies to all parts of this software except as documented
 
 # Exceptions (local source code derived from other projects)
 
- * `./nmgui/beziercurve.cpp` and `./nmgui/beziercurve.hpp` are derived from Qt examples and re under the LGPL and GPLv3 licenses, copyright by Digia Plc and/or its subsidiary(-ies).
+ * `./nmgui/beziercurve.cpp` and `./nmgui/beziercurve.hpp` are derived from Qt examples and are under the LGPL and GPLv3 licenses, copyright by Digia Plc and/or its subsidiary(-ies).
  * `./nmlib/codegeneration/glsl/glslsourcenoise2d.hpp` is under the MIT license, copyright by Ashima Arts.
