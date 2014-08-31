@@ -7,10 +7,11 @@ import QtQuick.Dialogs 1.1
 import QtQuick.Window 2.1
 
 ApplicationWindow {
+    Style { id: mystyle }
     visible: true
     id: window
-    width: 1024
-    height: 600
+    width: Screen.desktopAvailableWidth * 0.8
+    height: Screen.desktopAvailableHeight * 0.8
     title: "Noise Modeler"
 
     //hacky way of reloading when a new document is opened
@@ -32,7 +33,6 @@ ApplicationWindow {
         Rectangle {
             id: mainWindow
             property variant currentModuleType: document.typeManager.userTypes[0]
-            Style { id: mystyle }
 
             AboutDialog {
                 id: aboutDialog
