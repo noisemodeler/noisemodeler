@@ -41,15 +41,8 @@ ApplicationWindow {
             OpenDialog {
                 id: openDialog
             }
-            FileDialog {
+            SaveDialog {
                 id: saveDialog
-                title: "Save file"
-                onAccepted: {
-                    //TODO enforce correct extension
-                    document.saveAsQmlUrl(saveDialog.fileUrl);
-                }
-                selectExisting: false
-                nameFilters: ["Noise Modeler graphs (*.nm.json)", "All files (*)"]
             }
 
             Rectangle {

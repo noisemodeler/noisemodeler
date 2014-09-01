@@ -41,5 +41,6 @@
         <file>icons/about.svg</file>
         <file>qml/noisemodeler/AboutDialog.qml</file>
         <file>qml/noisemodeler/OpenDialog.qml</file>
+        <file>qml/noisemodeler/SaveDialog.qml</file>
     </qresource>
 </RCC>
