@@ -38,14 +38,8 @@ ApplicationWindow {
                 id: aboutDialog
             }
 
-            FileDialog {
+            OpenDialog {
                 id: openDialog
-                title: "Open file"
-                onAccepted: {
-                    console.log("TODO: open " + openDialog.fileUrl);
-                    document.openQmlUrl(openDialog.fileUrl);
-                }
-                nameFilters: ["Noise Modeler graphs (*.nm.json)", "All files (*)"]
             }
             FileDialog {
                 id: saveDialog
