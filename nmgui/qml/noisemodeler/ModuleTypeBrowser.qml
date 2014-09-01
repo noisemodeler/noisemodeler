@@ -10,7 +10,7 @@ Rectangle {
     signal editModuleTypeClicked(ModuleType moduleType)
     signal inspectModuleTypeClicked(ModuleType moduleType)
     color: mystyle.moduleTypeBrowser.bgColor
-    width: 150
+    width: mystyle.moduleTypeBrowser.width
 
     ScrollView {
         id: scrollView
@@ -30,6 +30,7 @@ Rectangle {
                     anchors.bottom: parent.bottom
                     text: "user types:"
                     font.bold: true
+                    font.pixelSize: mystyle.textSize
                     verticalAlignment: Text.AlignVCenter
                     x: 10
                 }
@@ -60,6 +61,7 @@ Rectangle {
                     anchors.bottom: parent.bottom
                     text: "built-in types:"
                     font.bold: true
+                    font.pixelSize: mystyle.textSize
                     verticalAlignment: Text.AlignVCenter
                     x: 10
                 }

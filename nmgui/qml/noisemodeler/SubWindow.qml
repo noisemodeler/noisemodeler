@@ -7,7 +7,7 @@ Rectangle {
     implicitHeight: contents.implicitHeight + titleBar.height
     color: mystyle.subWindow.bgColor
     default property alias contentsData: contents.data
-    property int titleHeight: 13
+    property int titleHeight: mystyle.subWindow.titleHeight
     property string windowTitle: "Window Title"
     property alias mouseArea: windowMouseArea
     property alias titleBar: titleBar
@@ -29,12 +29,12 @@ Rectangle {
         color: mystyle.subWindow.headerColor
         Text {
             id: nodeLabel
-            x: 3
-            width: parent.width-3
+            x: 3 * mystyle.dp
+            width: parent.width-3 * mystyle.dp
             elide: Text.ElideRight
             anchors.verticalCenter: titleBar.Center
             text: windowTitle
-            font.pointSize: mystyle.smallTextSize
+            font.pixelSize: mystyle.smallTextSize
             color: mystyle.textColor
         }
     }

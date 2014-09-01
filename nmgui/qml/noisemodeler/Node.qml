@@ -34,7 +34,7 @@ SubWindow {
             width: childrenRect.width
             height: childrenRect.height
 
-            spacing: 10
+            spacing: 10 * mystyle.dp
             Column{
                 id: inputsColumn
                 visible: !module.moduleType.graphInput

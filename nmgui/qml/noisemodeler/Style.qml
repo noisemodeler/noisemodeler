@@ -2,45 +2,12 @@ import QtQuick 2.2
 QtObject {
     id:style
 
-    property color molokaiwhite         : "#ffffff"
-    property color molokaifg            : "#f8f8f0"
-    property color molokaired           : "#ff0000"
-    property color molokaipink          : "#f92672"
-    property color molokaiorangeplus5   : "#ef5939"
-    property color molokaiorange        : "#fd971f"
-    property color molokaiyellow        : "#ffff00"
-    property color molokaidarkgoldenrod : "#e6db74"
-    property color molokaiwheat         : "#c4be89"
-    property color molokaiolive         : "#808000"
-    property color molokaichartreuse    : "#a6e22e"
-    property color molokailime          : "#00ff00"
-    property color molokaigreen         : "#008000"
-    property color molokaidarkwine      : "#1e0010"
-    property color molokaimaroon        : "#800000"
-    property color molokaiwine          : "#960050"
-    property color molokaiteal          : "#008080"
-    property color molokaiaqua          : "#00ffff"
-    property color molokaiblue          : "#66d9ef"
-    property color molokaislateblue     : "#7070f0"
-    property color molokaipurple        : "#ae81ff"
-    property color molokaipalevioletred : "#d33682"
-    property color molokaigreyminus2    : "#bcbcbc"
-    property color molokaigreyminus1    : "#8f8f8f"
-    property color molokaigrey          : "#808080"
-    property color molokaigreyplus2     : "#403d3d"
-    property color molokaigreyplus3     : "#4c4745"
-    property color molokaigreyplus5     : "#232526"
-    property color molokaibg            : "#1b1d1e"
-    property color molokaigreyplus10    : "#080808"
-    property color molokaidark          : "#000000"
-    property color molokaibase01        : "#465457"
-    property color molokaibase02        : "#455354"
-    property color molokaibase03        : "#293739"
-    property color molokaidodgerblue    : "#13354a"
+    //sizes
+    property real dp: 1 //device pixel ratio
+    property real textSize: 14 * dp
+    property real smallTextSize: 10 * dp
 
-    property int textSize: 20
-    property int smallTextSize: 8
-
+    //colors
     property color bgColor: "#444444"
     property color bgColor2: "#525252"
     property color bgColor3: "#666666"
@@ -58,10 +25,12 @@ QtObject {
 
     property QtObject inspector: QtObject {
         property color bgColor: node.bgColor
+        property real width: 200 * dp
     }
 
     property QtObject moduleTypeBrowser: QtObject {
         property color bgColor: bgColor3
+        property real width: 150 * dp
     }
 
     property QtObject topBar: QtObject {
@@ -73,6 +42,7 @@ QtObject {
     property QtObject subWindow: QtObject {
         property color headerColor: style.bgColor
         property color bgColor: node.bgColor
+        property real titleHeight: 13 * dp
     }
 
     property QtObject node: QtObject {
@@ -88,7 +58,7 @@ QtObject {
             Qt.darker(connectedColors[1], 2.8),
             Qt.darker(connectedColors[2], 2.8)
         ]
-        property int height: 20
+        property real height: 20 * dp
     }
     property QtObject textBox: QtObject {
         property color activeBgColor: "white"

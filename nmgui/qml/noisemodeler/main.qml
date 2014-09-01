@@ -74,7 +74,7 @@ ApplicationWindow {
                 anchors.top: topBar.bottom
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                width: active ? 200 : 0
+                width: active ? mystyle.inspector.width : 0
             }
 
             Inspector {

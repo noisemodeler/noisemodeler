@@ -22,7 +22,7 @@ Rectangle {
             elide: Text.ElideRight
             anchors.verticalCenter: titleBar.Center
             text: windowTitle
-            font.pointSize: mystyle.smallTextSize
+            font.pixelSize: mystyle.smallTextSize
             color: mystyle.textColor
         }
     }

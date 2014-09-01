@@ -52,6 +52,7 @@ Rectangle {
                 Layout.fillWidth: true
                 text: module ? module.moduleType.description : "error"
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                font.pixelSize: mystyle.textSize
             }
         }
 
@@ -87,6 +88,7 @@ Rectangle {
             Text {
                 text: "comments:"
                 Layout.fillWidth: true
+                font.pixelSize: mystyle.textSize
             }
         }
         RowLayout {

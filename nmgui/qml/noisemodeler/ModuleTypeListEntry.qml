@@ -29,6 +29,7 @@ Item{
                 height: parent.height
                 text: moduleType.name
                 verticalAlignment: Text.AlignVCenter
+                font.pixelSize: mystyle.textSize
             }
             MouseArea{
                 anchors.fill: parent
