@@ -22,7 +22,7 @@ Rectangle {
         Column {
             width: scrollView.width
             Item {
-                height: 30
+                height: 30 * mystyle.dp
                 anchors.left: parent.left
                 anchors.right: parent.right
                 Text {
@@ -32,13 +32,13 @@ Rectangle {
                     font.bold: true
                     font.pixelSize: mystyle.textSize
                     verticalAlignment: Text.AlignVCenter
-                    x: 10
+                    x: 10 * mystyle.dp
                 }
                 ToolBarIcon {
                     source: "qrc:///icons/add.svg"
                     onClicked: document.typeManager.createUserType();
                     anchors.right: parent.right
-                    anchors.rightMargin: 10
+                    anchors.rightMargin: 10 * mystyle.dp
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -53,17 +53,17 @@ Rectangle {
             }
 
             Item {
-                height: 40
+                height: 40 * mystyle.dp
                 anchors.left: parent.left
                 anchors.right: parent.right
                 Text {
-                    height: 30
+                    height: 30 * mystyle.dp
                     anchors.bottom: parent.bottom
                     text: "built-in types:"
                     font.bold: true
                     font.pixelSize: mystyle.textSize
                     verticalAlignment: Text.AlignVCenter
-                    x: 10
+                    x: 10 * mystyle.dp
                 }
             }
 

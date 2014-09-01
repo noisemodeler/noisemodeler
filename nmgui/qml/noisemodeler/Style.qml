@@ -37,6 +37,7 @@ QtObject {
         property color bgColor: style.bgColor2
         property color textColor: style.textColor
         property color tabHighlightColor: style.fgColor
+        property real height: 40 * dp
     }
 
     property QtObject subWindow: QtObject {

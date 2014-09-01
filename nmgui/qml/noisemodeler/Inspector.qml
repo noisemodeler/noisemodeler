@@ -6,7 +6,7 @@ Rectangle {
     id: inspector
     color: mystyle.inspector.bgColor
     property string windowTitle: "inspector"
-    property real titleHeight: 13
+    property real titleHeight: mystyle.subWindow.titleHeight
 
     Rectangle{
         id: titleBar

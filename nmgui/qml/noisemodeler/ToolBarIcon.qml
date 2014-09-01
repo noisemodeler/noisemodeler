@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 
 Image {
+    scale: mystyle.dp
     property bool enabled: true
     signal clicked
     property alias toolTipText: toolTipArea.text
@@ -18,7 +19,7 @@ Image {
         id: toolTipArea
         text: ""
         visible: text !== ""
-        tip.x: parent.width + 5
+        tip.x: parent.width + 5 * mystyle.dp
         tip.y: parent.height / 2 - height/2
     }
 }

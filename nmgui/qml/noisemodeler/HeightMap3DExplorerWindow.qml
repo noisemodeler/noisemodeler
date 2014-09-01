@@ -19,8 +19,8 @@ SubWindow {
         Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            implicitWidth: 350
-            implicitHeight: 350
+            implicitWidth: 350 * mystyle.dp
+            implicitHeight: 350 * mystyle.dp
             HeightMap3DExplorer {
                 anchors.fill: parent
                 id: renderer

@@ -5,8 +5,8 @@ import QtQuick.Layouts 1.1
 SubWindow {
     property bool maximized: false
     windowTitle: "texture preview"
-    contents.width: maximized ? mainArea.width : 350
-    contents.height: maximized ? mainArea.height - topBar.height - titleHeight: 350 //TODO fix this ugly dependency
+    contents.width: maximized ? mainArea.width : 350 * mystyle.dp
+    contents.height: maximized ? mainArea.height - topBar.height - titleHeight: 350 * mystyle.dp //TODO fix this ugly dependency
     z: maximized ? 20 : 0
     contents.children: [
         HeightMapTextureExplorer {

@@ -11,13 +11,14 @@ Rectangle {
     property alias readOnly: input.readOnly
     property alias horizontalAlignment: input.horizontalAlignment
     signal newAcceptableValue(string newText)
-    implicitWidth: 60
-    height: 18
+    implicitWidth: 60 * mystyle.dp
+    height: 18 * mystyle.dp
     color: readOnly ? mystyle.textBox.inactiveBgColor : mystyle.textBox.activeBgColor
     TextInput {
         id: input
         color: "black"
-        font.pixelSize: 12; font.bold: true
+        font.pixelSize: 12 * mystyle.dp
+        font.bold: true
         anchors.centerIn: parent
         width: parent.width-4
         clip: true

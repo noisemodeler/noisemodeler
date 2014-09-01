@@ -9,14 +9,14 @@ import QtQuick.Window 2.1
 Rectangle {
     color: mystyle.topBar.bgColor
     id: topBar
-    height: 40
+    height: mystyle.topBar.height
     anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: parent.right
-    RowLayout{
+    RowLayout {
         anchors.fill: parent
         Item{
-            width: 5
+            width: 5 * mystyle.dp
         }
         ToolBarIcon{
             Layout.alignment: Qt.AlignLeft
@@ -40,7 +40,7 @@ Rectangle {
             toolTipText: "About Noise Modeler"
         }
         Item{
-            width: 5
+            width: 5 * mystyle.dp
         }
     }
 }

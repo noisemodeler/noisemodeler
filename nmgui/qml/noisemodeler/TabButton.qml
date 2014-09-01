@@ -4,8 +4,8 @@ Item {
     id: button
     property alias text: label.text
     property bool active: false
-    height: 40
-    width: label.width + 20
+    height: mystyle.topBar.height
+    width: label.width + 20 * mystyle.dp
     state: active ? "active" : "inactive"
     states: [
         State {
@@ -19,7 +19,7 @@ Item {
             name: "active"
             PropertyChanges {
                 target: highlight
-                height: 5
+                height: 5 * mystyle.dp
             }
         }
     ]
@@ -34,7 +34,7 @@ Item {
         id: label
         color: mystyle.topBar.textColor
         text: "TopBarButton"
-        font.pixelSize: 14
+        font.pixelSize: mystyle.textSize
         verticalAlignment: Text.AlignVCenter
     }
     Rectangle {
