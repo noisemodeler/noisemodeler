@@ -34,55 +34,13 @@ ApplicationWindow {
             id: mainWindow
             property variant currentModuleType: document.typeManager.userTypes[0]
 
-            AboutDialog {
-                id: aboutDialog
-            }
+            AboutDialog { id: aboutDialog }
 
-            OpenDialog {
-                id: openDialog
-            }
-            SaveDialog {
-                id: saveDialog
-            }
+            OpenDialog { id: openDialog }
 
-            Rectangle {
-                color: mystyle.topBar.bgColor
-                id: topBar
-                height: 40
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                RowLayout{
-                    anchors.fill: parent
-                    Item{
-                        width: 5
-                    }
-                    ToolBarIcon{
-                        Layout.alignment: Qt.AlignLeft
-                        source: 'qrc:///icons/save.svg'
-                        onClicked: saveDialog.open();
-                        toolTipText: "Save"
-                    }
-                    ToolBarIcon{
-                        Layout.alignment: Qt.AlignLeft
-                        source: 'qrc:///icons/open.svg'
-                        onClicked: openDialog.open();
-                        toolTipText: "Open"
-                    }
-                    Item {
-                        Layout.fillWidth: true
-                    }
-                    ToolBarIcon{
-                        Layout.alignment: Qt.AlignRight
-                        source: 'qrc:///icons/about.svg'
-                        onClicked: aboutDialog.open();
-                        toolTipText: "About Noise Modeler"
-                    }
-                    Item{
-                        width: 5
-                    }
-                }
-            }
+            SaveDialog { id: saveDialog }
+
+            TopBar { id: topBar }
 
             ModuleTypeBrowser {
                 z: 50

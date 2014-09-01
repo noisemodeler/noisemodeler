@@ -1,41 +1,46 @@
 import QtQuick 2.2
+import NoiseModeler 1.0
+import QtQuick.Controls 1.1
+import QtQuick.Controls.Styles 1.1
+import QtQuick.Layouts 1.1
+import QtQuick.Dialogs 1.1
+import QtQuick.Window 2.1
 
 Rectangle {
     color: mystyle.topBar.bgColor
+    id: topBar
     height: 40
+    anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.top: parent.top
-    Row{
+    RowLayout{
         anchors.fill: parent
-        TabButton {
-            text: "Menu"
+        Item{
+            width: 5
         }
-//        spacing: 95
-//        Item {
-//            anchors.bottom: parent.bottom
-//            anchors.top:parent.top
-////            height: 20
-//            width: text.width + 20
-//            Text{
-//                x:10
-//                anchors.top: parent.top
-//                anchors.bottom: parent.bottom
-//                horizontalAlignment: Text.AlignHCenter
-//                verticalAlignment: Text.AlignVCenter
-//                id: text
-//                font.pixelSize: 14
-//                text: "Height"
-//            }
-//            Rectangle {
-//                color: mystyle.graphEditor.bgColor
-//                anchors.bottom: parent.bottom
-//                height: parent.height - 3
-//                anchors.right: parent.right
-//                anchors.left: parent.left
-//                z: -100
-//            }
-//        }
-
+        ToolBarIcon{
+            Layout.alignment: Qt.AlignLeft
+            source: 'qrc:///icons/save.svg'
+            onClicked: saveDialog.open();
+            toolTipText: "Save"
+        }
+        ToolBarIcon{
+            Layout.alignment: Qt.AlignLeft
+            source: 'qrc:///icons/open.svg'
+            onClicked: openDialog.open();
+            toolTipText: "Open"
+        }
+        Item {
+            Layout.fillWidth: true
+        }
+        ToolBarIcon{
+            Layout.alignment: Qt.AlignRight
+            source: 'qrc:///icons/about.svg'
+            onClicked: aboutDialog.open();
+            toolTipText: "About Noise Modeler"
+        }
+        Item{
+            width: 5
+        }
     }
 }
