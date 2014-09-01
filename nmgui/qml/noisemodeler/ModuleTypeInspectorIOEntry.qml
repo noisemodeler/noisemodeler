@@ -5,11 +5,11 @@ RowLayout {
     id: moduleTypeInspectorIOEntry
     signal removeClicked()
     Rectangle {
-        height: 18
+        height: 18 * mystyle.dp
         width: height
         color: mystyle.connector.connectedColors[modelData.dimensionality-1]
         Text {
-            font.pixelSize: 12
+            font.pixelSize: 12 * mystyle.dp
             font.bold: true
             text: modelData.dimensionality
             anchors.centerIn: parent
@@ -17,6 +17,7 @@ RowLayout {
     }
     Text {
         text: modelData.name
+        font.pixelSize: mystyle.textSize
         Layout.fillWidth: true
     }
     ToolBarIcon {

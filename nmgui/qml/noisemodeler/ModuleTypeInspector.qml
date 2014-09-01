@@ -7,7 +7,7 @@ Rectangle {
     color: mystyle.inspector.bgColor
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 6
+        anchors.margins: 6 * mystyle.dp
         RowLayout {
             InspectorLabel {
                 text: "name:"
@@ -26,6 +26,7 @@ Rectangle {
         }
         Text {
             text: "inputs:"
+            font.pixelSize: mystyle.textSize
         }
         ColumnLayout {
             Repeater {
@@ -47,6 +48,7 @@ Rectangle {
 
         Text {
             text: "outputs:"
+            font.pixelSize: mystyle.textSize
         }
         ColumnLayout {
              Repeater {
@@ -69,21 +71,23 @@ Rectangle {
         RowLayout {
             Text {
                 text: "description:"
+                font.pixelSize: mystyle.textSize
             }
         }
         RowLayout {
             Rectangle {
                 color: moduleType.builtin ? mystyle.textBox.inactiveBgColor : mystyle.textBox.activeBgColor
                 Layout.fillWidth: true
-                height: Math.max(12+6, commentEdit.contentHeight+6)
+                height: Math.max((12+6)*mystyle.dp, commentEdit.contentHeight+6*mystyle.dp)
                 TextEdit {
                     id: commentEdit
                     anchors.fill: parent
-                    anchors.margins: 3
+                    anchors.margins: 3 * mystyle.dp
                     readOnly: moduleType.builtin
                     text: moduleType.description
                     wrapMode: TextEdit.WrapAtWordBoundaryOrAnywhere
                     onTextChanged: if(moduleType && !moduleType.builtin)moduleType.description = text;
+                    font.pixelSize: mystyle.textSize
                 }
             }
         }

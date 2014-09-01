@@ -8,7 +8,7 @@ RowLayout {
     signal addClicked(int dimensionality, string name)
     LineInput {
         id: dimensionalityInput
-        Layout.maximumWidth: 18
+        Layout.maximumWidth: 18 * mystyle.dp
         validator: IntValidator{bottom: 1; top: 4;}
         horizontalAlignment: Qt.AlignHCenter
     }

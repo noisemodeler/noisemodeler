@@ -14,9 +14,10 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     RowLayout {
+        spacing: 15 * mystyle.dp
         anchors.fill: parent
         Item{
-            width: 5 * mystyle.dp
+            width: 1 * mystyle.dp
         }
         ToolBarIcon{
             Layout.alignment: Qt.AlignLeft

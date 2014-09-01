@@ -10,15 +10,15 @@ Item{
     signal editClicked()
     signal addClicked()
     signal inspectClicked()
-    height: 30
+    height: 30 * mystyle.dp
     anchors.left: parent ? parent.left : undefined //TODO this is weird, parent is undefined when loading new documents
     anchors.right: parent ? parent.right : undefined
     RowLayout {
         height: parent.height
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: 10
-        anchors.rightMargin: 10
+        anchors.leftMargin: 10 * mystyle.dp
+        anchors.rightMargin: 10 * mystyle.dp
         Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
