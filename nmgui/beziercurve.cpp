@@ -50,6 +50,7 @@ BezierCurve::BezierCurve(QQuickItem *parent)
     , m_p2(1, 0)
     , m_p3(0, 1)
     , m_p4(1, 1)
+    , m_lineWidth(2)
     , m_strokeColor(0,0,0)
     , m_segmentCount(32)
 {
@@ -100,6 +101,16 @@ void BezierCurve::setP4(const QPointF &p)
     update();
 }
 
+void BezierCurve::setLineWidth(float width)
+{
+    if (width == m_lineWidth)
+        return;
+
+    m_lineWidth = width;
+    emit lineWidthChanged(m_lineWidth);
+    update();
+}
+
 void BezierCurve::setStrokeColor(const QColor &color)
 {
     if(m_strokeColor == color)return;
@@ -135,7 +146,6 @@ QSGNode *BezierCurve::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *)
     if (!oldNode) {
         node = new QSGGeometryNode;
         geometry = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), m_segmentCount);
-        geometry->setLineWidth(2);
         geometry->setDrawingMode(GL_LINE_STRIP);
         node->setGeometry(geometry);
         node->setFlag(QSGNode::OwnsGeometry);
@@ -148,6 +158,7 @@ QSGNode *BezierCurve::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *)
         geometry = node->geometry();
         geometry->allocate(m_segmentCount);
     }
+    geometry->setLineWidth(m_lineWidth);
     auto material = new QSGFlatColorMaterial;
     material->setColor(m_strokeColor);
     node->setMaterial(material);

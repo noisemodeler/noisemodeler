@@ -9,6 +9,7 @@ Item {
     property real weight: 100 * mystyle.dp
     property alias strokeColor: curve.strokeColor
     QtBezierCurve{
+        lineWidth: 2 * mystyle.dp
         id:curve
         p2.x: from.x + Math.cos(fromAngle) * weight
         p2.y: from.y + Math.sin(fromAngle) * weight

@@ -52,6 +52,7 @@ class BezierCurve : public QQuickItem
     Q_PROPERTY(QPointF p2 READ p2 WRITE setP2 NOTIFY p2Changed)
     Q_PROPERTY(QPointF p3 READ p3 WRITE setP3 NOTIFY p3Changed)
     Q_PROPERTY(QPointF p4 READ p4 WRITE setP4 NOTIFY p4Changed)
+    Q_PROPERTY(float lineWidth READ lineWidth WRITE setLineWidth NOTIFY lineWidthChanged)
 
     Q_PROPERTY(int segmentCount READ segmentCount WRITE setSegmentCount NOTIFY segmentCountChanged)
     Q_PROPERTY(QColor strokeColor READ strokeColor WRITE setStrokeColor NOTIFY colorChanged)
@@ -67,6 +68,8 @@ public:
     QPointF p3() const { return m_p3; }
     QPointF p4() const { return m_p4; }
 
+    float lineWidth() const { return m_lineWidth; }
+
     QColor strokeColor() const { return m_strokeColor; }
 
     int segmentCount() const { return m_segmentCount; }
@@ -75,6 +78,8 @@ public:
     void setP2(const QPointF &p);
     void setP3(const QPointF &p);
     void setP4(const QPointF &p);
+
+    void setLineWidth(float width);
 
     void setStrokeColor(const QColor &strokeColor);
 
@@ -86,6 +91,8 @@ signals:
     void p3Changed(const QPointF &p);
     void p4Changed(const QPointF &p);
 
+    void lineWidthChanged(float width);
+
     void colorChanged(const QColor &strokeColor);
 
     void segmentCountChanged(int count);
@@ -95,6 +102,8 @@ private:
     QPointF m_p2;
     QPointF m_p3;
     QPointF m_p4;
+
+    float m_lineWidth;
 
     QColor m_strokeColor;
 
