@@ -14,8 +14,8 @@ Window {
 
     color: mystyle.bgColor
     id: aboutDialog
-    width: 520
-    height: 390
+    width: 520 * mystyle.dp
+    height: 390 * mystyle.dp
     modality: Qt.WindowModal
     flags: Qt.Dialog | Qt.WindowCloseButtonHint | Qt.CustomizeWindowHint | Qt.WindowTitleHint
     title: "About Noise Modeler"
@@ -27,15 +27,15 @@ Window {
         Rectangle{
             color: mystyle.inspector.bgColor
             Layout.fillWidth: true
-            implicitHeight: aboutText.implicitHeight + 8
+            implicitHeight: aboutText.implicitHeight + 8 * mystyle.dp
             implicitWidth: aboutText.implicitWidth
             Text {
                 anchors.centerIn: parent
                 id: aboutText
-                width: parent.width - 8
+                width: parent.width - 8 * mystyle.dp
                 wrapMode: Text.WordWrap
                 text: "Noise Modeler "+version+"\nCopyright (c) 2014 Johan Klokkhammer Helsing (johanhelsing@gmail.com)"
-                font.pixelSize: 14
+                font.pixelSize: mystyle.textSize
                 font.bold: true
             }
         }
@@ -53,7 +53,7 @@ Window {
                     wrapMode: Text.WordWrap
                     text: core.licenseText
                     font.family: "monospace"
-                    font.pixelSize: 10
+                    font.pixelSize: mystyle.smallTextSize
                 }
             }
         }
@@ -61,14 +61,15 @@ Window {
         Rectangle {
             id: nmButton
             color: mystyle.inspector.bgColor
-            implicitWidth: buttonText.implicitWidth + 12
-            implicitHeight: buttonText.implicitHeight + 8
+            implicitWidth: buttonText.implicitWidth + 12 * mystyle.dp
+            implicitHeight: buttonText.implicitHeight + 8 * mystyle.dp
             Layout.fillWidth: true
             Text{
                 id: buttonText
                 anchors.centerIn: parent
                 text: "close"
                 color: "black"
+                font.pixelSize: mystyle.textSize
             }
             MouseArea {
                 anchors.fill: parent
