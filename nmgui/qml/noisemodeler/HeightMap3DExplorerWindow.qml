@@ -96,6 +96,7 @@ SubWindow {
 
             Item{width:5}
             Text {
+                font.pixelSize: mystyle.textSize
                 Layout.column: 1
                 text: "x:"
             }
@@ -106,6 +107,7 @@ SubWindow {
                 onNewAcceptableValue: renderer.center.x = value;
             }
             Text {
+                font.pixelSize: mystyle.textSize
                 text: "width scale:"
             }
             ScrollableFloatInput {
@@ -116,6 +118,7 @@ SubWindow {
             }
             Item{width:1} Item{width:1} Item{width:5} Item{width:5}
             Text {
+                font.pixelSize: mystyle.textSize
                 text: "y:"
             }
             ScrollableFloatInput {
@@ -125,6 +128,7 @@ SubWindow {
                 onNewAcceptableValue: renderer.center.y = value;
             }
             Text {
+                font.pixelSize: mystyle.textSize
                 text: "height scale:"
             }
             ScrollableFloatInput {
@@ -134,6 +138,7 @@ SubWindow {
                 onNewAcceptableValue: renderer.heightScale = value;
             }
             Text {
+                font.pixelSize: mystyle.textSize
                 text: "texturing"
             }
             Rectangle {

@@ -6,7 +6,7 @@ Item {
     property alias to: curve.p4
     property real fromAngle: 0
     property real toAngle: Math.PI
-    property real weight: 100
+    property real weight: 100 * mystyle.dp
     property alias strokeColor: curve.strokeColor
     QtBezierCurve{
         id:curve

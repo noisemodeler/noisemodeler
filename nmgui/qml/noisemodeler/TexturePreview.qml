@@ -29,6 +29,7 @@ SubWindow {
             anchors.horizontalCenter: parent.horizontalCenter
             columns: 4
             Text {
+                font.pixelSize: mystyle.textSize
                 text: "x:"
             }
             ScrollableFloatInput {
@@ -37,6 +38,7 @@ SubWindow {
                 onNewAcceptableValue: textureRenderer.center.x = value;
             }
             Text {
+                font.pixelSize: mystyle.textSize
                 text: "width:"
             }
             ScrollableFloatInput {
@@ -45,6 +47,7 @@ SubWindow {
                 onNewAcceptableValue: textureRenderer.size.x = value;
             }
             Text {
+                font.pixelSize: mystyle.textSize
                 text: "y:"
             }
             ScrollableFloatInput {
@@ -53,6 +56,7 @@ SubWindow {
                 onNewAcceptableValue: textureRenderer.center.y = value;
             }
             Text {
+                font.pixelSize: mystyle.textSize
                 text: "height:"
             }
             ScrollableFloatInput {
