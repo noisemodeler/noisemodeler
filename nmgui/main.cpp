@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("document", &document);
     engine.rootContext()->setContextProperty("core", &core);
-    engine.load(QUrl("qrc:/qml/noisemodeler/main.qml"));
+    engine.load(QUrl("qrc:/qml/main.qml"));
 
     return app.exec();
 }
