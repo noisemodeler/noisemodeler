@@ -42,5 +42,6 @@
         <file>qml/OpenDialog.qml</file>
         <file>qml/SaveDialog.qml</file>
         <file>qml/TopBar.qml</file>
+        <file>qml/ModuleTypeTabView.qml</file>
     </qresource>
 </RCC>
