@@ -66,7 +66,9 @@ Rectangle {
     ModuleTypeTabView {
         id: moduleTypeTabView
         anchors.fill: mainArea
-        onModuleSelected: inspector.inspectModule
+        onModuleSelected: {
+            inspector.inspectModule(module)
+        }
     }
     
     //eventhandlers
