@@ -27,7 +27,6 @@ TabView {
     }
     
     frameVisible: false
-    anchors.fill: mainArea
     anchors.topMargin: -topBar.height
     style: TabViewStyle {
         frameOverlap: 0

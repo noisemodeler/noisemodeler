@@ -42,7 +42,6 @@ Rectangle {
     SaveDialog { id: saveDialog }
     
     
-    
     TopBar { id: topBar }
     ModuleTypeBrowser {
         id: moduleTypeBrowser
@@ -66,6 +65,7 @@ Rectangle {
     
     ModuleTypeTabView {
         id: moduleTypeTabView
+        anchors.fill: mainArea
         onModuleSelected: inspector.inspectModule
     }
     

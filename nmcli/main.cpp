@@ -6,6 +6,9 @@
 #include <fstream>
 #include <sstream>
 
+//TODO remove
+#include <iostream>
+
 nm::optional<std::string> readFile(std::string path)
 {
     std::ifstream t(path);

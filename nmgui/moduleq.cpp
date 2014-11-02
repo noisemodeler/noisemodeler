@@ -5,6 +5,9 @@
 
 #include <nmlib/model/module.hpp>
 
+//TODO: remove
+#include <iostream>
+
 namespace nmgui {
 
 ModuleQ::ModuleQ(nm::Module *module, QObject *p) :
