@@ -45,8 +45,8 @@ Window {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Rectangle {
-                implicitHeight: Math.max(licenseText.implicitHeight, scrollView.viewport.height)
-                implicitWidth: scrollView.viewport.width
+//                implicitHeight: Math.max(licenseText.implicitHeight, scrollView.viewport.height)
+//                implicitWidth: scrollView.viewport.width
                 Text {
                     id: licenseText
                     anchors.fill: parent

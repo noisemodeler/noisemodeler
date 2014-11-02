@@ -8,7 +8,7 @@ import QtQuick.Window 2.1
 
 TabView {
     id: tabView
-    signal moduleSelected(moduleType)
+    signal moduleSelected(var moduleType)
 
     function openTabForModuleType(moduleType){
         for(var i = 0; i < tabView.count; ++i){

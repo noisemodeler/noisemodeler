@@ -43,5 +43,6 @@
         <file>qml/SaveDialog.qml</file>
         <file>qml/TopBar.qml</file>
         <file>qml/ModuleTypeTabView.qml</file>
+        <file>qml/NoiseModelerApp.qml</file>
     </qresource>
 </RCC>
