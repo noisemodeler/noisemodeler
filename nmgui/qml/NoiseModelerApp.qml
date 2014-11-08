@@ -20,11 +20,10 @@ Rectangle {
     
     Item {
         id: inspectorArea
-        property bool active: true
         anchors.top: topBar.bottom
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        width: active ? mystyle.inspector.width : 0
+        width: inspector.visible ? mystyle.inspector.width : 0;
     }
     
     Item {
