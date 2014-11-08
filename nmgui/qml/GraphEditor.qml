@@ -120,19 +120,19 @@ Rectangle {
         }
 
         //place each depth into its own column
-        var curX = 50;
+        var curX = 50 * mystyle.dp;
         for(var depth = 0; depth<columns.length; ++depth){
-            var curY = 50;
+            var curY = 50 * mystyle.dp;
             //adjust column width according to the biggest node
             var maxWidth = 0;
             for(var moduleName in columns[depth]){
                 var node = columns[depth][moduleName];
                 node.x = curX;
                 node.y = curY;
-                curY += node.height + 50;
+                curY += node.height + 50 * mystyle.dp;
                 maxWidth = Math.max(maxWidth, node.width);
             }
-            curX+= maxWidth + 70;
+            curX += maxWidth + 70 * mystyle.dp;
         }
     }
 }
