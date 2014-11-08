@@ -72,5 +72,7 @@ Rectangle {
     }
     
     //eventhandlers
-    onCurrentModuleTypeChanged: moduleTypeTabView.openTabForModuleType
+    onCurrentModuleTypeChanged: {
+        moduleTypeTabView.openTabForModuleType(currentModuleType);
+    }
 }
