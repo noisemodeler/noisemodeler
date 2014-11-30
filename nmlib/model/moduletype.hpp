@@ -240,9 +240,6 @@ public:
     signal<void(ModuleType&)> outputRemoved;
     /** @brief This signal is emitted before the type is destroyed */
     signal<void(ModuleType&)> destroying;
-    //TODO more signals
-//    signal<void(ModuleType&)> nameChanged;
-
 
     //implementation
 private:
