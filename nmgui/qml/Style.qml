@@ -3,7 +3,7 @@ QtObject {
     id:style
 
     //sizes
-    property real dp: 2 //device pixel ratio
+    property real dp: 1 //device pixel ratio
     property real textSize: 14 * dp
     property real smallTextSize: 10 * dp
 
