@@ -72,11 +72,11 @@ First, make sure you have all of the following dependencies installed:
 git clone --recursive git@github.com:acelster/noise-terrain-gen.git 
 
 # 2. Create a build directory
-mkdir build-noise-terrain-gen
-cd build-noise-terrain-gen
+mkdir build-noisemodeler
+cd build-noisemodeler
 
 # 3. Build
-qmake ../noise-terrain-gen
+qmake ../noisemodeler
 make
 
 # 4a. Run
