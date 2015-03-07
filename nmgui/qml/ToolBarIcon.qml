@@ -5,16 +5,19 @@ import QtQuick.Controls.Styles 1.1
 import QtQuick.Layouts 1.1
 
 Image {
-    scale: mystyle.dp
+    width: 16 * mystyle.dp
+    height: 16 * mystyle.dp
     property bool enabled: true
     signal clicked
     property alias toolTipText: toolTipArea.text
     opacity: enabled ? 1 : 0.5
+    source: 'qrc:///icons/edit.svg'
+    sourceSize.width: width
+    sourceSize.height: height
     MouseArea {
         anchors.fill: parent
         onClicked: if(parent.enabled)parent.clicked()
     }
-    source: 'qrc:///icons/edit.svg'
     ToolTipArea {
         id: toolTipArea
         text: ""
