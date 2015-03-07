@@ -44,5 +44,7 @@
         <file>qml/TopBar.qml</file>
         <file>qml/ModuleTypeTabView.qml</file>
         <file>qml/NoiseModelerApp.qml</file>
+        <file>qml/SettingsDialog.qml</file>
+        <file>icons/settings.svg</file>
     </qresource>
 </RCC>

@@ -8,7 +8,6 @@ import QtQuick.Window 2.1
 
 Rectangle {
     color: mystyle.topBar.bgColor
-    id: topBar
     height: mystyle.topBar.height
     anchors.top: parent.top
     anchors.left: parent.left
@@ -31,6 +30,11 @@ Rectangle {
         }
         Item {
             Layout.fillWidth: true
+        }
+        ToolBarIcon {
+            source: 'qrc:///icons/settings.svg'
+            onClicked: settingsDialog.open();
+            toolTipText: "Settings"
         }
         ToolBarIcon {
             source: 'qrc:///icons/about.svg'

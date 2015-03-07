@@ -39,7 +39,7 @@ Rectangle {
     AboutDialog { id: aboutDialog }
     OpenDialog { id: openDialog }
     SaveDialog { id: saveDialog }
-    
+    SettingsDialog { id: settingsDialog }
     
     TopBar { id: topBar }
     ModuleTypeBrowser {
