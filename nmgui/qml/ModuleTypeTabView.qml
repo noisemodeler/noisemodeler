@@ -20,8 +20,11 @@ TabView {
         openNewTabForModuleType(moduleType);
         tabView.currentIndex = tabView.count-1;
     }
+    property bool first: true
     function openNewTabForModuleType(moduleType){
+        if(!first)return;
         var newTab = tabView.addTab(moduleType.name, moduleTypeEditorTabComponent);
+        first = false;
         newTab.active = true;
         newTab.item.moduleType = moduleType;
     }

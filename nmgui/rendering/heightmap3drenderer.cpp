@@ -205,7 +205,7 @@ void HeightMap3DRenderer::recompileProgram()
     m_program = new QOpenGLShaderProgram();
     std::stringstream vs;
 
-    vs << "#version 130\n";
+    vs << "#version 150\n";
     vs << m_state.shaderSource;
     vs <<
           "in vec2 vertex;\n"
@@ -252,7 +252,7 @@ void HeightMap3DRenderer::recompileProgram()
 
     m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vs.str().c_str());
     std::stringstream fs;
-    fs << "#version 130\n";
+    fs << "#version 150\n";
 
     fs << m_state.shaderSource;
 //    fs << "void elevation(in vec2 coords, out float height){height = 0.8+coords.x-mod(coords.y,1);}\n";
@@ -262,6 +262,7 @@ void HeightMap3DRenderer::recompileProgram()
           "in vec3 vertexNormal;\n"
           "in vec3 vertexPosition;\n"
           "in float heightUnscaled;\n"
+          "out vec4 fragColor;\n"
 
           "uniform mat4 modelViewMatrix;\n"
           "uniform mat3 normalMatrix;\n"
@@ -322,7 +323,7 @@ void HeightMap3DRenderer::recompileProgram()
 //          "    float grassyness = smoothstep(0.7,0.9,dot(vertexNormal,vec3(0,0,1)));\n"
 //          "    baseColor -= vec3(grassyness,0,grassyness);\n"
           "    float i_total = i_d + i_a;// + i_height;\n"
-          "    gl_FragColor = vec4(i_total*baseColor, 1);\n"
+          "    fragColor = vec4(i_total*baseColor, 1);\n"
           "}\n";
 
     m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fs.str().c_str());

@@ -77,10 +77,10 @@ Rectangle {
         }
     }
 
-    TexturePreview {
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-    }
+//    TexturePreview {
+//        anchors.bottom: parent.bottom
+//        anchors.right: parent.right
+//    }
     HeightMap3DExplorerWindow {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
