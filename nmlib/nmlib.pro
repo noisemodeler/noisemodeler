@@ -5,7 +5,7 @@ CONFIG += staticlib static
 #VERSION = $$system("git describe --long --tags | sed -r 's/([^-]*-g)/\1/;s/-g.*//;s/-/./'")
 
 QMAKE_CXXFLAGS += -std=c++11 \
-    -Wall -Werror -Wextra \
+    -Wall -Wextra \
     -pedantic-errors -Wshadow -Wwrite-strings -fshort-enums \
     -Wctor-dtor-privacy -Wzero-as-null-pointer-constant -Wuseless-cast \
     -Woverloaded-virtual -Wredundant-decls -Wsign-conversion \
@@ -86,3 +86,9 @@ DESTDIR = ../lib
 #libraryfiles.path = /usr/libs/
 #libraryfiles.files += $$DESTDIR/nmlib.a
 #INSTALLS += libraryfiles
+
+macx {
+    INCLUDEPATH += /usr/local/include
+    QMAKE_CXXFLAGS += -stdlib=libc++
+}
+

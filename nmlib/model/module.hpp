@@ -112,13 +112,13 @@ public:
 
     //static methods
     static std::vector<Module *> getDependenciesSorted(const std::vector<OutputLink *> &outputs,
-                                                    const std::set<InputLink *> &ignoreInputs = {});
+                                                    const std::set<InputLink *> &ignoreInputs = decltype(ignoreInputs){});
     static std::vector<const Module *> getDependenciesSorted(const std::vector<const OutputLink *> &outputs,
-                                                    const std::set<const InputLink *> &ignoreInputs = {});
+                                                    const std::set<const InputLink *> &ignoreInputs = decltype(ignoreInputs){});
     static void topologicallyTraverseDependencies(const std::vector<OutputLink*> &outputs, std::function<void(Module&)> visitor,
-                                                  const std::set<InputLink*> &ignoreInputs = {});
+                                                  const std::set<InputLink*> &ignoreInputs = decltype(ignoreInputs){});
     static void topologicallyTraverseDependencies(const std::vector<const OutputLink*> &outputs, std::function<void(const Module&)> visitor,
-                                                  const std::set<const InputLink*> &ignoreInputs = {});
+                                                  const std::set<const InputLink*> &ignoreInputs = decltype(ignoreInputs){});
 
 private:
     bool removeInput(const ModuleInput& moduleInput);

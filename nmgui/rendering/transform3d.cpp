@@ -1,6 +1,7 @@
 #include "transform3d.hpp"
 
 #include <QMatrix4x4>
+#include <cmath>
 
 namespace nmgui {
 

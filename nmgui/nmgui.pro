@@ -22,7 +22,7 @@ VERSTR = '\\"$${VERSION}\\"'  # place quotes around the version string
 DEFINES += NMVER=\"$${VERSTR}\" # create a VER macro containing the version string
 
 QMAKE_CXXFLAGS += -std=c++11 \
-    -Wall -Werror -Wextra \
+    -Wall -Wextra \
     -pedantic-errors -Wwrite-strings \
     -Woverloaded-virtual -Wredundant-decls \
     -Wold-style-cast
@@ -110,3 +110,8 @@ QML_IMPORT_PATH =
 
 OTHER_FILES += \
     nmgui.rc
+
+macx {
+    INCLUDEPATH += /usr/local/include
+    QMAKE_CXXFLAGS += -stdlib=libc++
+}

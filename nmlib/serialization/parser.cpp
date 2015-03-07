@@ -298,20 +298,23 @@ bool parseModuleTypeArray(const rapidjson::Value &array, TypeManager &typeManage
     };
 
     for(auto dep : dependencies){
-        auto success = traverseTopological(dep, [&](Node& node){
+        bool fail = false;
+        std::function<void(Node&)> v = [&](Node& node) {
             auto maybeModuleType = parseModuleType(array[node.id], typeManager);
             if(!maybeModuleType){
                 std::cerr << "Error parsing module type " << node.id << "\n";
-                return false;
+                fail = true;
+                return;
             }
             std::unique_ptr<ModuleType> &moduleTypePtr = *maybeModuleType;
             if(!typeManager.addUserType(std::move(moduleTypePtr))){
                 std::cerr << "Couldn't add type to typeManager.\n";
-                return false;
+                fail = true;
+                return;
             }
-            return true;
-        });
-        if(!success){
+        };
+        traverseTopological(dep, v);
+        if(fail){
             std::cerr << "Error parsing module types\n";
             return false;
         }
