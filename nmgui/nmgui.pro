@@ -106,7 +106,7 @@ RESOURCES += \
 RC_FILE = nmgui.rc
 
 # Additional import path used to resolve QML modules in Creators code model
-QML_IMPORT_PATH =
+QML_IMPORT_PATH = qml
 
 OTHER_FILES += \
     nmgui.rc
@@ -114,4 +114,5 @@ OTHER_FILES += \
 macx {
     INCLUDEPATH += /usr/local/include
     QMAKE_CXXFLAGS += -stdlib=libc++
+    QMAKE_LFLAGS += -stdlib=libc++
 }

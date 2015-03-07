@@ -4,7 +4,7 @@ CONFIG += console
 QT -= gui core
 
 QMAKE_CXXFLAGS += -std=c++11 \
-    -Wall -Werror -Wextra \
+    -Wall -Wextra \
     -pedantic-errors -Wshadow -Wwrite-strings -fshort-enums \
     -Wctor-dtor-privacy -Wzero-as-null-pointer-constant -Wuseless-cast \
     -Woverloaded-virtual -Wredundant-decls -Wsign-conversion \
@@ -26,3 +26,9 @@ LIBS += -lnmlib
 target.path = /usr/bin
 INSTALLS += target
 
+macx {
+    CONFIG += -stdlib=libc++
+    INCLUDEPATH += /usr/local/include
+    QMAKE_CXXFLAGS += -stdlib=libc++
+    QMAKE_LFLAGS += -stdlib=libc++
+}
