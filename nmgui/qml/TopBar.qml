@@ -16,17 +16,15 @@ Rectangle {
     RowLayout {
         spacing: 15 * mystyle.dp
         anchors.fill: parent
-        Item{
+        Item {
             width: 1 * mystyle.dp
         }
-        ToolBarIcon{
-            Layout.alignment: Qt.AlignLeft
+        ToolBarIcon {
             source: 'qrc:///icons/save.svg'
             onClicked: saveDialog.open();
             toolTipText: "Save"
         }
-        ToolBarIcon{
-            Layout.alignment: Qt.AlignLeft
+        ToolBarIcon {
             source: 'qrc:///icons/open.svg'
             onClicked: openDialog.open();
             toolTipText: "Open"
@@ -34,13 +32,12 @@ Rectangle {
         Item {
             Layout.fillWidth: true
         }
-        ToolBarIcon{
-            Layout.alignment: Qt.AlignRight
+        ToolBarIcon {
             source: 'qrc:///icons/about.svg'
             onClicked: aboutDialog.open();
             toolTipText: "About Noise Modeler"
         }
-        Item{
+        Item {
             width: 5 * mystyle.dp
         }
     }

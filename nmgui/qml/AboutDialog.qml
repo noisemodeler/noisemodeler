@@ -24,7 +24,7 @@ Window {
         spacing: 0
         anchors.fill: parent
 
-        Rectangle{
+        Rectangle {
             color: mystyle.inspector.bgColor
             Layout.fillWidth: true
             implicitHeight: aboutText.implicitHeight + 8 * mystyle.dp
@@ -45,8 +45,6 @@ Window {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Rectangle {
-//                implicitHeight: Math.max(licenseText.implicitHeight, scrollView.viewport.height)
-//                implicitWidth: scrollView.viewport.width
                 Text {
                     id: licenseText
                     anchors.fill: parent
@@ -64,7 +62,7 @@ Window {
             implicitWidth: buttonText.implicitWidth + 12 * mystyle.dp
             implicitHeight: buttonText.implicitHeight + 8 * mystyle.dp
             Layout.fillWidth: true
-            Text{
+            Text {
                 id: buttonText
                 anchors.centerIn: parent
                 text: "close"

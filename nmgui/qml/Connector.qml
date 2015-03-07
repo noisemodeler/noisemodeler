@@ -8,7 +8,6 @@ Rectangle {
     property color connectedColor: mystyle.connector.connectedColors[dimensionality-1]
     property color disconnectedColor: mystyle.connector.disconnectedColors[dimensionality-1]
     anchors.verticalCenter: parent.verticalCenter
-//    border.color: mystyle.borderColor
     border.width: 0
     height: 8 * mystyle.dp
     width: 8 * mystyle.dp
