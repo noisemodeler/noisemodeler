@@ -15,9 +15,11 @@
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-
 #include <QQmlContext>
 #include <QtQml>
+#include <QtOpenGL/QGLWidget>
+#include <QSurfaceFormat>
+#include <QQuickView>
 
 #include <nmlib/model.hpp>
 #include <nmlib/serialization.hpp>
@@ -61,10 +63,17 @@ int main(int argc, char *argv[])
     nmgui::Document document(docPath);
     nmgui::Core core;
 
-    QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("document", &document);
-    engine.rootContext()->setContextProperty("core", &core);
-    engine.load(QUrl("qrc:/qml/main.qml"));
+    QSurfaceFormat fmt;
+    fmt.setVersion(3,2);
+    fmt.setProfile(QSurfaceFormat::CoreProfile);
+    fmt.setDepthBufferSize(32);
+    fmt.setStencilBufferSize(8);
+    QQuickView view;
+    view.setFormat(fmt);
+    view.rootContext()->setContextProperty("document", &document);
+    view.rootContext()->setContextProperty("core", &core);
+    view.setSource(QUrl("qrc:/qml/main.qml"));
+    view.show();
 
     return app.exec();
 }
