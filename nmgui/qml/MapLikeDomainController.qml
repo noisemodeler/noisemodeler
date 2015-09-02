@@ -1,6 +1,4 @@
 import QtQuick 2.2
-import QtQuick.Window 2.1
-import NoiseModeler 1.0
 
 Item {
     id: mapLikeDomainController
