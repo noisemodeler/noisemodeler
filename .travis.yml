@@ -1,0 +1,14 @@
+language: cpp
+
+addons:
+    apt:
+        packages:
+            - qt5-qmake
+            - qtbase5-dev
+            - qtdeclarative5-dev
+            - libqt5webkit5-dev
+            - libsqlite3-dev
+
+script:
+    - qmake -qt=qt5 -v .
+    - make
