@@ -2,6 +2,8 @@
 
 An in-game procedural terrain and content generation framework.
 
+![screenshot](http://www.noisemodeler.org/images/noisemodelerfullscreenshot.png)
+
 Noise Modeler is a tool for designing noise-based functions through a flow-graph interface. The GUI application specializes in designing noise-based procedural heightmap terrains, but can be used to model other content as well, such as terrain for 2D games. A high-resolution real-time preview of the terrain is updated instantly as the terrain is edited.
 
 Generated terrain models can be stored as procedural models consuming only a few kB of storage. Through the nmlib library library, models can be expanded by a game engine during run-time.
