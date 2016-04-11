@@ -71,7 +71,7 @@ First, make sure you have all of the following dependencies installed:
 
 ```bash
 # 1. Clone the repository.
-git clone --recursive git@github.com:acelster/noise-terrain-gen.git 
+git clone --recursive git@github.com:noisemodeler/noisemodeler.git 
 
 # 2. Create a build directory
 mkdir build-noisemodeler
