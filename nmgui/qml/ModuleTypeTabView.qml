@@ -1,67 +1,69 @@
 import QtQuick 2.2
-import QtQuick.Controls 1.1
-import QtQuick.Controls.Styles 1.1
+import QtQuick.Controls 2.1
+import QtQuick.Layouts 1.3
 
-TabView {
-    id: tabView
+Page {
+    id: page
+
     signal moduleSelected(var module)
 
     function openTabForModuleType(moduleType){
-        for(var i = 0; i < tabView.count; ++i){
-            if(tabView.getTab(i).item.moduleType === moduleType){
-                tabView.currentIndex = i;
+        for(var i = 0; i < swipeView.count; ++i){
+            if(swipeView.itemAt(i).moduleType === moduleType){
+                swipeView.currentIndex = i;
                 return;
             }
         }
         openNewTabForModuleType(moduleType);
-        tabView.currentIndex = tabView.count-1;
+        //TODO: switch to tab
     }
+
     function openNewTabForModuleType(moduleType){
-        var newTab = tabView.addTab(moduleType.name, moduleTypeEditorTabComponent);
-        newTab.active = true;
-        newTab.item.moduleType = moduleType;
+        swipeView.addItem(moduleTypeEditorTabComponent.createObject(swipeView, {moduleType: moduleType}));
+        //TODO: switch to tab
     }
-    
-    frameVisible: false
-    anchors.topMargin: -topBar.height
-    style: TabViewStyle {
-        frameOverlap: 0
-        tabsMovable: true
-        tab: TabButton {
-            text: styleData.title
-            implicitWidth: width
-            implicitHeight: height
-            active: styleData.selected
+
+    header: TabBar {
+        id: tabBar
+        currentIndex: swipeView.currentIndex
+        Repeater {
+            model: swipeView.count
+            TabButton {
+                text: swipeView.itemAt(index).moduleType.name
+            }
         }
     }
 
-    Component {
-        id: moduleTypeEditorTabComponent
-        Item {
-            property variant moduleType
-            Component {
-                id: graphEditorWrapper
-                GraphEditor {
-                    anchors.fill: parent
-                    graph: moduleType.graph
-                    onVisibleChanged: {
-                        if(visible){
-                            currentModuleType = moduleType;
-                            if(selectedModule !== undefined)inspector.inspectModule(selectedModule);
+    SwipeView {
+        id: swipeView
+        anchors.fill: parent
+        currentIndex: tabBar.currentIndex
+
+        Component {
+            id: moduleTypeEditorTabComponent
+            Item {
+                property variant moduleType
+                Component {
+                    id: graphEditorComponent
+                    GraphEditor {
+                        graph: moduleType.graph
+                        onVisibleChanged: {
+                            if(visible){
+                                currentModuleType = moduleType;
+                                if(selectedModule !== undefined)inspector.inspectModule(selectedModule);
+                            }
+                        }
+                        onSelectedModuleChanged: {
+                            moduleSelected(selectedModule);
                         }
                     }
-                    onSelectedModuleChanged: {
-                        moduleSelected(selectedModule);
-                    }
                 }
-            }
-            Loader {
-                anchors.fill: parent
-                sourceComponent: graphEditorWrapper
-                active: moduleType
+                Loader {
+                    anchors.fill: parent
+                    sourceComponent: graphEditorComponent
+                    active: moduleType
+                }
             }
         }
     }
-
-    Component.onCompleted: openNewTabForModuleType(document.typeManager.userTypes[0]);
 }

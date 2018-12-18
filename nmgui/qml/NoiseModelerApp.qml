@@ -11,7 +11,7 @@ Rectangle {
         anchors.right: inspectorArea.left
         anchors.bottom: parent.bottom
     }
-    
+
     Item {
         id: inspectorArea
         anchors.top: topBar.bottom
@@ -19,7 +19,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         width: inspector.visible ? mystyle.inspector.width : 0;
     }
-    
+
     Item {
         id: browserArea
         z: 50
@@ -28,13 +28,21 @@ Rectangle {
         anchors.top: topBar.bottom
         width: mystyle.dp * 200
     }
-    
+
     //dialogs
     AboutDialog { id: aboutDialog }
     OpenDialog { id: openDialog }
     SaveDialog { id: saveDialog }
     SettingsDialog { id: settingsDialog }
     
+    ModuleTypeTabView {
+        id: moduleTypeTabView
+        anchors.fill: mainArea
+        onModuleSelected: {
+            inspector.inspectModule(module);
+        }
+    }
+
     TopBar { id: topBar }
     ModuleTypeBrowser {
         id: moduleTypeBrowser
@@ -54,14 +62,6 @@ Rectangle {
         id: inspector
         anchors.fill: inspectorArea
         z: 50
-    }
-    
-    ModuleTypeTabView {
-        id: moduleTypeTabView
-        anchors.fill: mainArea
-        onModuleSelected: {
-            inspector.inspectModule(module);
-        }
     }
     
     //eventhandlers
