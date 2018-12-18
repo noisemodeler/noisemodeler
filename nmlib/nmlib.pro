@@ -4,12 +4,12 @@ CONFIG += staticlib static
 
 #VERSION = $$system("git describe --long --tags | sed -r 's/([^-]*-g)/\1/;s/-g.*//;s/-/./'")
 
-QMAKE_CXXFLAGS += -std=c++11 \
+QMAKE_CXXFLAGS += -std=c++17 \
     -Wall -Werror -Wextra \
     -pedantic-errors -Wshadow -Wwrite-strings -fshort-enums \
-    -Wctor-dtor-privacy -Wzero-as-null-pointer-constant -Wuseless-cast \
+    -Wctor-dtor-privacy -Wzero-as-null-pointer-constant \
     -Woverloaded-virtual -Wredundant-decls -Wsign-conversion \
-    -Wold-style-cast
+    -Wold-style-cast -Wno-unknown-warning-option
 #flags that should probably be added again later:
 #CMAKE_CXXFLAGS += -Weffc++
 
@@ -68,7 +68,6 @@ HEADERS = \
     serialization.hpp \
     serialization/parser.hpp \
     util.hpp \
-    util/makeunique.hpp \
     util/noncopyable.hpp \
     util/signals.hpp \
     util/userdataprovider.hpp \

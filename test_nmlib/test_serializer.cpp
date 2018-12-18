@@ -7,8 +7,6 @@
 #include <nmlib/model/graph.hpp>
 #include <nmlib/model/module.hpp>
 
-#include <nmlib/util/makeunique.hpp>
-
 #include <gtest/gtest.h>
 
 TEST(SerializerTest, Constructor) {

@@ -1,10 +1,9 @@
 #ifndef NM_PARSER_HPP
 #define NM_PARSER_HPP
 
-#include <nmlib/optional.hpp>
-
 #include <map>
 #include <memory>
+#include <optional>
 
 namespace nm {
 
@@ -34,7 +33,7 @@ class Parser
 {
 public:
     explicit Parser();
-    optional<std::unique_ptr<TypeManager>> parseDocument(std::string json);
+    std::optional<std::unique_ptr<TypeManager>> parseDocument(std::string json);
 };
 
 } // namespace nm

@@ -21,14 +21,14 @@ else:VERSION = $$system("git describe --long --tags | sed -r 's/([^-]*-g)/\1/;s/
 VERSTR = '\\"$${VERSION}\\"'  # place quotes around the version string
 DEFINES += NMVER=\"$${VERSTR}\" # create a VER macro containing the version string
 
-QMAKE_CXXFLAGS += -std=c++11 \
+QMAKE_CXXFLAGS += -std=c++17 \
     -Wall -Werror -Wextra \
     -pedantic-errors -Wwrite-strings \
     -Woverloaded-virtual -Wredundant-decls \
     -Wold-style-cast
 
 # Qt doesn't like these warnings
-#QMAKE_CXXFLAGS += -Weffc++ -Wuseless-cast -Wzero-as-null-pointer-constant -Wsign-conversion -Wctor-dtor-privacy -Wshadow
+#QMAKE_CXXFLAGS += -Weffc++ -Wzero-as-null-pointer-constant -Wsign-conversion -Wctor-dtor-privacy -Wshadow
 
 SOURCES += main.cpp \
     beziercurve.cpp \

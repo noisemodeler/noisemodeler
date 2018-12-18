@@ -3,10 +3,10 @@ TARGET = noisemodeler-cli
 CONFIG += console
 QT -= gui core
 
-QMAKE_CXXFLAGS += -std=c++11 \
+QMAKE_CXXFLAGS += -std=c++17 \
     -Wall -Werror -Wextra \
     -pedantic-errors -Wshadow -Wwrite-strings -fshort-enums \
-    -Wctor-dtor-privacy -Wzero-as-null-pointer-constant -Wuseless-cast \
+    -Wctor-dtor-privacy -Wzero-as-null-pointer-constant \
     -Woverloaded-virtual -Wredundant-decls -Wsign-conversion \
     -Wold-style-cast
 # -Weffc++

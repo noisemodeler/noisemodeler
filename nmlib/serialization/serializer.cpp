@@ -13,6 +13,7 @@
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 #include <rapidsjon/prettywriter.h>
 #include <rapidsjon/document.h>
 #include <rapidsjon/stringbuffer.h>

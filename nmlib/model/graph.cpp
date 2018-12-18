@@ -51,7 +51,7 @@ std::unique_ptr<Module> Graph::removeModule(Module &module)
     auto modulePtr = std::move(*it);
     m_modules.erase(it);
     moduleRemoved(*this, *modulePtr, it - m_modules.begin());
-    return std::move(modulePtr);
+    return modulePtr;
 }
 
 void Graph::clearModules()

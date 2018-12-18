@@ -8,8 +8,9 @@
 
 //TODO remove
 #include <iostream>
+#include <optional>
 
-nm::optional<std::string> readFile(std::string path)
+std::optional<std::string> readFile(std::string path)
 {
     std::ifstream t(path);
     if(!t || !t.good()){

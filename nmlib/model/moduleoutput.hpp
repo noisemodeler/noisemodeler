@@ -19,10 +19,9 @@ class ModuleType;
 class ModuleOutput : public UserDataProvider
 {
 public:
-    explicit ModuleOutput(std::string name, SignalType signalType, const ModuleType& moduleType):
+    explicit ModuleOutput(std::string name, SignalType signalType, const ModuleType&) :
         c_name(name),
-        c_signalType(signalType),
-        c_moduleType(moduleType)
+        c_signalType(signalType)
     {}
     ~ModuleOutput(){destroying(*this);}
 //    ModuleOutput(ModuleOutput&&) = default;
@@ -36,7 +35,6 @@ public:
 private:
     const std::string c_name;
     const SignalType c_signalType;
-    const ModuleType &c_moduleType;
 };
 
 } // namespace nm
