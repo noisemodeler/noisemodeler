@@ -13,7 +13,7 @@
 
 #include "beziercurve.hpp"
 
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 
 #include <QQmlContext>
@@ -31,7 +31,8 @@ int main(int argc, char *argv[])
     QLocale::setDefault(QLocale(QLocale::English));
     QCoreApplication::setApplicationName("Noise Modeler");
 
-    QGuiApplication app(argc, argv);
+    //Need QApplication instead of QGuiApplicaiton to get file dialogs
+    QApplication app(argc, argv);
 
     //qt-licensed types
     qmlRegisterType<BezierCurve>("CustomGeometry", 1, 0, "QtBezierCurve");
