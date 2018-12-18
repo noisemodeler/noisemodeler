@@ -30,7 +30,7 @@ class ModuleTypeQ : public QObject
     Q_PROPERTY(nmgui::GraphQ* graph READ graph CONSTANT)
 public:
     //should have been protected, but not allowed by qt
-    explicit ModuleTypeQ(nm::ModuleType *moduleType = nullptr, QObject *parent = 0);
+    explicit ModuleTypeQ(nm::ModuleType *moduleType = nullptr, QObject *parent = nullptr);
     static ModuleTypeQ *fromModuleType(nm::ModuleType &moduleType);
     static ModuleTypeQ *fromModuleType(const nm::ModuleType &moduleType);
 

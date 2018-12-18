@@ -140,8 +140,8 @@ void BezierCurve::setSegmentCount(int count)
 
 QSGNode *BezierCurve::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *)
 {
-    QSGGeometryNode *node = 0;
-    QSGGeometry *geometry = 0;
+    QSGGeometryNode *node = nullptr;
+    QSGGeometry *geometry = nullptr;
 
     if (!oldNode) {
         node = new QSGGeometryNode;

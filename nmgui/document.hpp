@@ -14,7 +14,7 @@ class Document : public QObject
     Q_OBJECT
     Q_PROPERTY(nmgui::TypeManagerQ *typeManager READ typeManager NOTIFY typeManagerChanged)
 public:
-    explicit Document(QString filePath, QObject *parent = 0);
+    explicit Document(QString filePath, QObject *parent = nullptr);
     TypeManagerQ* typeManager();
 
 signals:

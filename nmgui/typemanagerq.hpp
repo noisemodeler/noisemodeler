@@ -20,7 +20,7 @@ class TypeManagerQ : public QObject
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleTypeQ> builtinTypes READ builtinTypes CONSTANT)
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleTypeQ> userTypes READ userTypes NOTIFY userTypesChanged)
 public:
-    explicit TypeManagerQ(nm::TypeManager *typeManager = nullptr, QObject *parent = 0);
+    explicit TypeManagerQ(nm::TypeManager *typeManager = nullptr, QObject *parent = nullptr);
     static TypeManagerQ *fromTypeManager(nm::TypeManager &typeManager);
 
     QQmlListProperty<ModuleTypeQ> builtinTypes();

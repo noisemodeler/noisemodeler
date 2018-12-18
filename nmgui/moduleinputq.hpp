@@ -17,7 +17,7 @@ class ModuleInputQ : public QObject
     Q_PROPERTY(QString name READ name CONSTANT)
     Q_PROPERTY(int dimensionality READ dimensionality CONSTANT)
 public:
-    explicit ModuleInputQ(nm::ModuleInput *moduleInput = nullptr, QObject *parent = 0);
+    explicit ModuleInputQ(nm::ModuleInput *moduleInput = nullptr, QObject *parent = nullptr);
     static ModuleInputQ* fromModuleInput(nm::ModuleInput &moduleInput);
 
     QString name() const;

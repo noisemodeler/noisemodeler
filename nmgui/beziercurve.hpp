@@ -58,7 +58,7 @@ class BezierCurve : public QQuickItem
     Q_PROPERTY(QColor strokeColor READ strokeColor WRITE setStrokeColor NOTIFY colorChanged)
 
 public:
-    BezierCurve(QQuickItem *parent = 0);
+    BezierCurve(QQuickItem *parent = nullptr);
     ~BezierCurve();
 
     QSGNode *updatePaintNode(QSGNode *, UpdatePaintNodeData *);

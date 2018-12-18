@@ -23,7 +23,7 @@ class OutputLinkQ : public QObject
     Q_PROPERTY(int dimensionality READ dimensionality CONSTANT)
     Q_PROPERTY(QQmlListProperty<nmgui::InputLinkQ> links READ links NOTIFY linksChanged)
 public:
-    explicit OutputLinkQ(nm::OutputLink* outputLink = nullptr, QObject *parent = 0);
+    explicit OutputLinkQ(nm::OutputLink* outputLink = nullptr, QObject *parent = nullptr);
     virtual ~OutputLinkQ();
     static OutputLinkQ *fromOutputLink(nm::OutputLink &outputLink);
     nm::OutputLink *outputLink();

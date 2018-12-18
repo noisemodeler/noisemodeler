@@ -32,7 +32,7 @@ public:
         {}
     };
 
-    explicit HeightMapTextureExplorer(QQuickItem *the_parent = 0);
+    explicit HeightMapTextureExplorer(QQuickItem *the_parent = nullptr);
 
     HeightMapFunction *heightMapFunction() {return m_heightMapFunction;}
     void setHeightMapFunction(HeightMapFunction *heightMapFunction);

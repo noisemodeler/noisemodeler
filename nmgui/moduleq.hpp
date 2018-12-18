@@ -24,8 +24,8 @@ class ModuleQ : public QObject
     Q_PROPERTY(QQmlListProperty<nmgui::OutputLinkQ> outputs READ outputs NOTIFY outputsChanged)
     Q_PROPERTY(nmgui::ModuleTypeQ *moduleType READ moduleType CONSTANT)
 public:
-    explicit ModuleQ(nm::Module* module = nullptr, QObject *parent = 0);
-    explicit ModuleQ(ModuleTypeQ& type, QObject *parent = 0);
+    explicit ModuleQ(nm::Module* module = nullptr, QObject *parent = nullptr);
+    explicit ModuleQ(ModuleTypeQ& type, QObject *parent = nullptr);
     virtual ~ModuleQ();
     static ModuleQ* fromModule(nm::Module &module);
 

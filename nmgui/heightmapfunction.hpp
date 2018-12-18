@@ -14,7 +14,7 @@ class HeightMapFunction : public QObject
     Q_PROPERTY(nmgui::InputLinkQ* inputLink READ inputLink WRITE setInputLink NOTIFY inputLinkChanged)
     Q_PROPERTY(nmgui::OutputLinkQ* outputLink READ outputLink WRITE setOutputLink NOTIFY outputLinkChanged)
 public:
-    explicit HeightMapFunction(QObject *parent = 0);
+    explicit HeightMapFunction(QObject *parent = nullptr);
 
     bool valid() const;
 

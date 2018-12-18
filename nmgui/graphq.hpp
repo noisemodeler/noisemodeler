@@ -20,7 +20,7 @@ class GraphQ : public QObject
     Q_OBJECT
     Q_PROPERTY(QQmlListProperty<nmgui::ModuleQ> modules READ modules NOTIFY modulesChanged)
 public:
-    explicit GraphQ(nm::Graph *graph = nullptr, QObject *parent = 0);
+    explicit GraphQ(nm::Graph *graph = nullptr, QObject *parent = nullptr);
     static GraphQ *fromGraph(nm::Graph &graph);
 
     QQmlListProperty<ModuleQ> modules();
