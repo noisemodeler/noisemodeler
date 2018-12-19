@@ -27,7 +27,7 @@
         <file>qml/SignalValueEdit.qml</file>
         <file>qml/Style.qml</file>
         <file>qml/SubWindow.qml</file>
-        <file>qml/TabButton.qml</file>
+        <file>qml/NmTabButton.qml</file>
         <file>qml/TexturePreview.qml</file>
         <file>qml/ToolBarIcon.qml</file>
         <file>qml/ToolTip.qml</file>

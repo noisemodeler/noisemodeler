@@ -35,6 +35,8 @@ Rectangle {
     SaveDialog { id: saveDialog }
     SettingsDialog { id: settingsDialog }
     
+    TopBar { id: topBar }
+
     ModuleTypeTabView {
         id: moduleTypeTabView
         anchors.fill: mainArea
@@ -43,7 +45,6 @@ Rectangle {
         }
     }
 
-    TopBar { id: topBar }
     ModuleTypeBrowser {
         id: moduleTypeBrowser
         anchors.fill: browserArea

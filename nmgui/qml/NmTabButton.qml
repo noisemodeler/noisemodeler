@@ -1,10 +1,9 @@
 import QtQuick 2.2
+import QtQuick.Controls 2.1
 
-Item {
+TabButton {
     id: button
-    property alias text: label.text
     property bool active: false
-    height: mystyle.topBar.height
     width: label.width + 20 * mystyle.dp
     state: active ? "active" : "inactive"
     states: [
@@ -29,19 +28,22 @@ Item {
             NumberAnimation { target: highlight; property: "height"; duration: 200; easing.type: Easing.OutBack; easing.overshoot: 5 }
         }
     ]
-    Text {
-        anchors.centerIn: parent
+    contentItem: Text {
         id: label
         color: mystyle.topBar.textColor
-        text: "TopBarButton"
+        text: button.text
         font.pixelSize: mystyle.textSize
         verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
     }
-    Rectangle {
-        id: highlight
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        color: mystyle.topBar.tabHighlightColor
+    background: Item {
+        implicitWidth: label.width + 80 * mystyle.dp
+        Rectangle {
+            id: highlight
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            color: mystyle.topBar.tabHighlightColor
+        }
     }
 }

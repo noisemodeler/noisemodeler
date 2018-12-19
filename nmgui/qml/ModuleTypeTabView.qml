@@ -2,9 +2,7 @@ import QtQuick 2.2
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 
-Page {
-    id: page
-
+Item {
     signal moduleSelected(var module)
 
     function openTabForModuleType(moduleType){
@@ -23,13 +21,20 @@ Page {
         //TODO: switch to tab
     }
 
-    header: TabBar {
+    TabBar {
         id: tabBar
+        height: mystyle.topBar.height
+        anchors.top: parent.top
+        anchors.topMargin: -mystyle.topBar.height
         currentIndex: swipeView.currentIndex
+        background: Item {}
         Repeater {
             model: swipeView.count
-            TabButton {
+            NmTabButton {
                 text: swipeView.itemAt(index).moduleType.name
+                active: swipeView.currentIndex === index
+                anchors.bottom: parent.bottom
+                anchors.top: parent.top
             }
         }
     }
@@ -38,6 +43,7 @@ Page {
         id: swipeView
         anchors.fill: parent
         currentIndex: tabBar.currentIndex
+        interactive: false
 
         Component {
             id: moduleTypeEditorTabComponent
@@ -66,4 +72,5 @@ Page {
             }
         }
     }
+
 }
