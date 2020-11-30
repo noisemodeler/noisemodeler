@@ -23,7 +23,7 @@ There are several places to find documentation about Noise Modeler:
  * [Project web site](http://www.noisemodeler.org)
  * [The Noise Modeler Library documentation](http://docs.noisemodeler.org)
  * [The Noise Modeler user's guide](http://www.noisemodeler.org/usersguide/noisemodeler-usersguide-0.1.5.pdf)
- * Master's thesis about Noise Modeler (will include link once it's available)
+ * [Master's thesis about Noise Modeler](https://ntnuopen.ntnu.no/ntnu-xmlui/handle/11250/2352231?show=full)
  * This readme (contains brief build instructions and project overview)
  * Commented example usage of the library may also be found in the `test_nmlib` and `nmcli` directories.
 
